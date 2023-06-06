@@ -34,17 +34,13 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::update() {
-	getSceneManager()->update();
+	_sceneManager->update();
 }
 
 void ViciClient::render() {
 	SDL_RenderClear(_renderer);
 	// do rendering here
-	getSceneManager()->render();
+	_sceneManager->render();
 	
 	SDL_RenderPresent(_renderer);
-}
-
-Scenes::SceneManager* ViciClient::getSceneManager() {
-	return _sceneManager.get();
 }

@@ -14,8 +14,6 @@ public:
 	void render();
 
 	bool isRunning() { return _isRunning; }
-
-	Scenes::SceneManager* getSceneManager();
 	
 private:
 	std::unique_ptr<Scenes::SceneManager> _sceneManager;

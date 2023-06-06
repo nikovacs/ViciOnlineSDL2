@@ -173,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="ViciClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
