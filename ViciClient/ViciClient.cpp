@@ -1,4 +1,5 @@
 #include "ViciClient.h"
+#include "Scene.h"
 
 ViciClient::ViciClient() : _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr } {}
 
@@ -17,6 +18,8 @@ void ViciClient::initialize(const char* title, int xpos, int ypos, int width, in
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	_isRunning = true;
+
+	Scenes::SceneManager::initialize();
 	
 }
 
@@ -33,17 +36,19 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::update() {
-
+	Scenes::SceneManager::update();
 }
 
 void ViciClient::render() {
 	SDL_RenderClear(_renderer);
 	// do rendering here
+	Scenes::SceneManager::render();
 	
 	SDL_RenderPresent(_renderer);
 }
 
 void ViciClient::unitialize() {
+	Scenes::SceneManager::uninitialize();
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
