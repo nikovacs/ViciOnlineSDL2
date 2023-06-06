@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <string>
+#include <memory>
 #include "Scene.h"
 
 class ViciClient {
@@ -17,7 +18,7 @@ public:
 	Scenes::SceneManager* getSceneManager();
 	
 private:
-	Scenes::SceneManager* _sceneManager;
+	std::unique_ptr<Scenes::SceneManager> _sceneManager;
 	bool _isRunning;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
