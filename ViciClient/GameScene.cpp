@@ -9,19 +9,11 @@ namespace Scenes {
 
 	}
 
-	void Scenes::GameScene::initialize() {
-
-	}
-
 	void Scenes::GameScene::update() {
 
 	}
 
 	void Scenes::GameScene::render() {
-
-	}
-
-	void Scenes::GameScene::uninitialize() {
 
 	}
 }

@@ -5,14 +5,12 @@
 
 class ViciClient {
 public:
-	ViciClient();
+	ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 	virtual ~ViciClient();
 
-	void initialize(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 	void handleEvents();
 	void update();
 	void render();
-	void unitialize();
 
 	bool isRunning() { return _isRunning; }
 

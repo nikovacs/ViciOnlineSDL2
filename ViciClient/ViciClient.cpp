@@ -1,13 +1,8 @@
 #include "ViciClient.h"
 #include "Scene.h"
 
-ViciClient::ViciClient() : _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ new Scenes::SceneManager() } {}
-
-ViciClient::~ViciClient() {
-
-}
-
-void ViciClient::initialize(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
+	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ new Scenes::SceneManager() } {
 	int flags{ 0 };
 	if (fullscreen) {
 		flags = SDL_WINDOW_FULLSCREEN;
@@ -18,9 +13,12 @@ void ViciClient::initialize(const char* title, int xpos, int ypos, int width, in
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 	_isRunning = true;
+}
 
-	getSceneManager()->initialize();
-	
+ViciClient::~ViciClient() {
+	SDL_DestroyWindow(_window);
+	SDL_DestroyRenderer(_renderer);
+	SDL_Quit();
 }
 
 void ViciClient::handleEvents() {
@@ -45,13 +43,6 @@ void ViciClient::render() {
 	getSceneManager()->render();
 	
 	SDL_RenderPresent(_renderer);
-}
-
-void ViciClient::unitialize() {
-	getSceneManager()->uninitialize();
-	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
-	SDL_Quit();
 }
 
 Scenes::SceneManager* ViciClient::getSceneManager() {

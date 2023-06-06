@@ -8,21 +8,17 @@ namespace Scenes {
 	public:
 		Scene() {};
 		virtual ~Scene() {};
-		virtual void initialize() = 0;
 		virtual void update() = 0;
 		virtual void render() = 0;
-		virtual void uninitialize() = 0;
 	};
 
 	class SceneManager {
 	public:
-		void initialize();
+		SceneManager();
+		virtual ~SceneManager();
 		void update();
 		void render();
-		void uninitialize();
-
 		void setScene(std::string_view name);
-		void resetScene(std::string_view name);
 
 	private:
 		Scene* _currentScene;
