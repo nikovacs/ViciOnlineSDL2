@@ -1,32 +1,31 @@
 #pragma once
 #include <map>
 #include <string>
+#include <memory>
 
 namespace Scenes {
 	class Scene {
 	public:
-		Scene();
-		virtual ~Scene();
-		
+		Scene() {};
+		virtual ~Scene() {};
 		virtual void initialize() = 0;
 		virtual void update() = 0;
 		virtual void render() = 0;
 		virtual void uninitialize() = 0;
-		
 	};
 
-	static class SceneManager {
+	class SceneManager {
 	public:
-		static void initialize();
-		static void update();
-		static void render();
-		static void uninitialize();
+		void initialize();
+		void update();
+		void render();
+		void uninitialize();
 
-		static void setScene(std::string_view name);
-		static void resetScene(std::string_view name);
+		void setScene(std::string_view name);
+		void resetScene(std::string_view name);
 
 	private:
-		static std::reference_wrapper<Scene> _currentScene;
-		static std::map<std::string_view, Scene> _scenes;
+		Scene* _currentScene;
+		std::map<std::string_view, std::unique_ptr<Scene>> _scenes;
 	};
 }

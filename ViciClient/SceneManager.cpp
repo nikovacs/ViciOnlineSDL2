@@ -1,36 +1,40 @@
 #include "GameScene.h"
+#include "Scene.h"
 #include <string>
+#include <memory>
 
 using namespace std::string_view_literals;
 
-void Scenes::SceneManager::initialize() {
-	_scenes = std::map<std::string_view, Scene>();
-	
-	// TODO add other scenes
-	_scenes.emplace("game"sv, GameScene());
+namespace Scenes {
+	void SceneManager::initialize() {
+		_scenes = std::map<std::string_view, std::unique_ptr<Scene>>();
 
-	// TODO make the default scene the login scene when ready
-	_currentScene = _scenes.at("game"sv);
-}
+		// TODO add other scenes
+		_scenes.emplace("game"sv, std::unique_ptr<Scene>(new GameScene()));
 
-void Scenes::SceneManager::update() {
-	_currentScene.get().update();
-}
+		// TODO make the default scene the login scene when ready
+		_currentScene = _scenes.at("game"sv).get();
+	}
 
-void Scenes::SceneManager::render() {
-	_currentScene.get().render();
-}
+	void SceneManager::update() {
+		_currentScene->update();
+	}
 
-void Scenes::SceneManager::uninitialize() {
-	_currentScene.get().uninitialize();
-}
+	void SceneManager::render() {
+		_currentScene->render();
+	}
 
-void Scenes::SceneManager::setScene(std::string_view name) {
-	_currentScene = _scenes.at(name);
-}
+	void SceneManager::uninitialize() {
+		_currentScene->uninitialize();
+	}
 
-void Scenes::SceneManager::resetScene(std::string_view name) {
-	_scenes.at(name).uninitialize();
-	_scenes.at(name).initialize();
+	void SceneManager::setScene(std::string_view name) {
+		_currentScene = _scenes.at(name).get();
+	}
+
+	void SceneManager::resetScene(std::string_view name) {
+		_scenes.at(name)->uninitialize();
+		_scenes.at(name)->initialize();
+	}
 }
 

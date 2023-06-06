@@ -1,21 +1,27 @@
 #include "GameScene.h"
 
-scenes::GameScene::GameScene() {
+namespace Scenes {
+	Scenes::GameScene::GameScene() {
 
-}
+	}
 
-void scenes::GameScene::initialize() {
+	Scenes::GameScene::~GameScene() {
 
-}
+	}
 
-void scenes::GameScene::update() {
+	void Scenes::GameScene::initialize() {
 
-}
+	}
 
-void scenes::GameScene::render() {
+	void Scenes::GameScene::update() {
 
-}
+	}
 
-void scenes::GameScene::uninitialize() {
+	void Scenes::GameScene::render() {
 
+	}
+
+	void Scenes::GameScene::uninitialize() {
+
+	}
 }
