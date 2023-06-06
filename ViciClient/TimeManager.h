@@ -1,6 +1,6 @@
 #pragma once
 class TimeManager {
 public:
-	inline static double delta;
-	static void setDelta(double val) { delta = val; }
+	inline static Uint32 delta; // time delta in milliseconds
+	static void setDelta(Uint32 val) { delta = val; }
 };
