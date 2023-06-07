@@ -19,6 +19,12 @@
     <Filter Include="Source Files\scenes">
       <UniqueIdentifier>{8cd2cd15-f6fa-442f-830f-80aa26b07497}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\entities">
+      <UniqueIdentifier>{fdfcf3bb-ebe4-4448-b99f-7ff2538db5d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entities">
+      <UniqueIdentifier>{d0e01d55-cc1c-4388-920b-b7d08d593cd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,9 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entities.cpp">
+      <Filter>Source Files\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.h">
@@ -52,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities.h">
+      <Filter>Header Files\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
