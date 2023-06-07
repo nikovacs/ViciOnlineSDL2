@@ -6,6 +6,8 @@
 
 class ViciClient {
 public:
+	inline static ViciClient* instance;
+	
 	ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 	virtual ~ViciClient();
 
@@ -14,6 +16,8 @@ public:
 	void render();
 
 	bool isRunning() { return _isRunning; }
+	SDL_Renderer* getRenderer() { return _renderer; }
+	SDL_Window* getWdinow() { return _window; }
 	
 private:
 	std::unique_ptr<Scenes::SceneManager> _sceneManager;

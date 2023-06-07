@@ -1,5 +1,6 @@
 #include "ViciClient.h"
 #include "Scene.h"
+#include <SDL2/SDL.h>
 
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {

@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include <string>
 #include <memory>
+#include <SDL2/sdl.h>
 
 using namespace std::string_view_literals;
 

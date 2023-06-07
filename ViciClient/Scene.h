@@ -15,7 +15,7 @@ namespace Scenes {
 	class SceneManager {
 	public:
 		SceneManager();
-		virtual ~SceneManager();
+		~SceneManager();
 		void update();
 		void render();
 		void setScene(std::string_view name);

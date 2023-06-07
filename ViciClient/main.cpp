@@ -10,10 +10,11 @@ int main() {
 	Uint32 frameStart{ 0 };
 	Uint32 frameEnd{ 0 };
 	int frameTime{ 0 };
-	TimeManager::setDelta(0.0);
+	TimeManager::setDelta(0);
 	
 	
 	ViciClient client = ViciClient("Vici Online", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	client.instance = &client;
 
 	while (client.isRunning()) {
 		Uint32 previousFrameStart{ frameStart };
