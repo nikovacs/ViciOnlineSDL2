@@ -8,7 +8,7 @@ namespace Scenes {
 
 	Scenes::GameScene::~GameScene() {
 		if (_playerTexture)
-			free(_playerTexture);
+			SDL_DestroyTexture(_playerTexture);
 	}
 
 	void Scenes::GameScene::update() {
