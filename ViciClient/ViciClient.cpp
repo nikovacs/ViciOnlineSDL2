@@ -41,7 +41,7 @@ void ViciClient::update() {
 void ViciClient::render() {
 	SDL_RenderClear(_renderer);
 	// do rendering here
-	_sceneManager->render();
+	_sceneManager->render(_renderer);
 	
 	SDL_RenderPresent(_renderer);
 }

@@ -9,7 +9,7 @@ namespace Scenes {
 		GameScene();
 		~GameScene() override;
 		void update() override;
-		void render() override;
+		void render(SDL_Renderer* renderer) override;
 	private:
 		SDL_Texture* _playerTexture;
 	};

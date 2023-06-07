@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include "ViciClient.h"
+#include <SDL2/SDL.h>
 
 namespace Scenes {
 	Scenes::GameScene::GameScene() {
@@ -17,7 +18,7 @@ namespace Scenes {
 			_playerTexture = Textures::loadTexture("C:/Users/kovac/Desktop/images/nik1.png");
 	}
 
-	void Scenes::GameScene::render() {
+	void Scenes::GameScene::render(SDL_Renderer* renderer) {
 		//TEMP
 		SDL_Rect src;
 		src.x = 0;
@@ -26,6 +27,6 @@ namespace Scenes {
 		src.h = 64;
 
 		SDL_Rect dest{ src };
-		SDL_RenderCopy(ViciClient::instance->getRenderer(), _playerTexture, &src, &dest);
+		SDL_RenderCopy(renderer, _playerTexture, &src, &dest);
 	}
 }

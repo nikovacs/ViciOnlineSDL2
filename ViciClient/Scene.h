@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <SDL2/SDL.h>
 
 namespace Scenes {
 	class Scene {
@@ -9,7 +10,7 @@ namespace Scenes {
 		Scene() {};
 		virtual ~Scene() {};
 		virtual void update() = 0;
-		virtual void render() = 0;
+		virtual void render(SDL_Renderer* renderer) = 0;
 	};
 
 	class SceneManager {
@@ -17,7 +18,7 @@ namespace Scenes {
 		SceneManager();
 		~SceneManager();
 		void update();
-		void render();
+		void render(SDL_Renderer* renderer);
 		void setScene(std::string_view name);
 
 	private:

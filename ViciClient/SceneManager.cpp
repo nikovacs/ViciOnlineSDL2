@@ -25,8 +25,8 @@ namespace Scenes {
 		_currentScene->update();
 	}
 
-	void SceneManager::render() {
-		_currentScene->render();
+	void SceneManager::render(SDL_Renderer* renderer) {
+		_currentScene->render(renderer);
 	}
 
 	void SceneManager::setScene(std::string_view name) {
