@@ -2,17 +2,24 @@
 #include <enet/enet.h>
 #include <atomic>
 
+#ifdef _WIN32
+// Windows-specfic requirements for enet
+#pragma comment(lib, "WS2_32")
+#pragma comment(lib, "winmm")
+#endif // _WIN32
+
 namespace Networking {
 	class UdpHost {
 	public:
-		UdpHost(int maxConnections, int port, int numChannels);
+		static inline UdpHost* instance;
+		UdpHost(bool isServer, int maxConnections, int port, int numChannels);
 		virtual ~UdpHost();
-		void static start();
-		void static stop();
-	private:
-		void static hostLoop();
-		static inline std::atomic_bool _isRunning;
-		static inline ENetHost* _host;
-		static inline ENetAddress _address;
+		void start();
+		void stop();
+	protected:
+		virtual void doNetworkLoop(ENetHost* host) = 0;
+		std::atomic_bool _isRunning;
+		ENetHost* _host;
+		ENetAddress _address;
 	};
 }

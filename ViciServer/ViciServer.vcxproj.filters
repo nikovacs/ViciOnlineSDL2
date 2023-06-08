@@ -21,9 +21,15 @@
     <ClCompile Include="ViciServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UdpServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UdpServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

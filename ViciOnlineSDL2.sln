@@ -5,10 +5,15 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ViciClient", "ViciClient\ViciClient.vcxproj", "{F6628DD3-1C7B-4CB8-80C4-6B6A6695FADE}"
 	ProjectSection(ProjectDependencies) = postProject
-		{467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57} = {467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57}
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA} = {E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ViciServer", "ViciServer\ViciServer.vcxproj", "{467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA} = {E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ViciEngine", "ViciEngine\ViciEngine.vcxproj", "{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +39,14 @@ Global
 		{467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57}.Release|x64.Build.0 = Release|x64
 		{467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57}.Release|x86.ActiveCfg = Release|Win32
 		{467FBF9D-DBD8-41F8-A6FA-3B6EB5765A57}.Release|x86.Build.0 = Release|Win32
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Debug|x64.ActiveCfg = Debug|x64
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Debug|x64.Build.0 = Debug|x64
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Debug|x86.ActiveCfg = Debug|Win32
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Debug|x86.Build.0 = Debug|Win32
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Release|x64.ActiveCfg = Release|x64
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Release|x64.Build.0 = Release|x64
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Release|x86.ActiveCfg = Release|Win32
+		{E87E7DAE-B0B1-4E95-B810-72EE6DFA52BA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

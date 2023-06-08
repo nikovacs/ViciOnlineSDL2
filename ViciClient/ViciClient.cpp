@@ -1,6 +1,9 @@
 #include "ViciClient.h"
 #include "Scene.h"
 #include <SDL2/SDL.h>
+#include "UdpClient.h"
+#include <iostream>
+#include <thread>
 
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {
@@ -13,7 +16,10 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	_window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-	_isRunning = true;
+
+	_udpClient = std::make_unique<Networking::UdpClient>("localhost", 8424);
+
+	instance = this;
 }
 
 ViciClient::~ViciClient() {
@@ -27,7 +33,7 @@ void ViciClient::handleEvents() {
 	SDL_PollEvent(&event);
 	switch (event.type) {
 	case SDL_QUIT:
-		_isRunning = false;
+		stop();
 		break;
 	default:
 		break;
@@ -44,4 +50,14 @@ void ViciClient::render() {
 	_sceneManager->render(_renderer);
 	
 	SDL_RenderPresent(_renderer);
+}
+
+void ViciClient::start() {
+	_isRunning = true;
+	_networkThread = std::make_unique<std::thread>(&Networking::UdpClient::start, _udpClient.get());
+}
+
+void ViciClient::stop() {
+	_isRunning = false;
+	_udpClient->stop();
 }

@@ -45,6 +45,9 @@
     <ClCompile Include="Entities.cpp">
       <Filter>Source Files\entities</Filter>
     </ClCompile>
+    <ClCompile Include="UdpClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="Entities.h">
       <Filter>Header Files\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="UdpClient.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

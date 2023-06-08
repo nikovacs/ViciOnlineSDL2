@@ -1,17 +1,20 @@
 #pragma once
 #include <enet/enet.h>
+#include <memory>
+#include "UdpServer.h"
+#include <thread>
 
 class ViciServer {
 private:
-	static inline ENetHost* host;
-	static inline ENetAddress address;
+	std::unique_ptr<std::thread> _networkThread;
+	std::unique_ptr<Networking::UdpServer> _udpServer;
 	static const int TICKS_PER_SECOND{ 20 };
-	static inline bool _running;
+	bool _running;
 public:
+	static inline ViciServer* instance{ nullptr };
 	ViciServer();
 	virtual ~ViciServer();
-	static void start();
-	static void stop();
-	static void serverLoop();
-	static void setupNetworking();
+	void start();
+	void stop();
+	void serverLoop();
 };
