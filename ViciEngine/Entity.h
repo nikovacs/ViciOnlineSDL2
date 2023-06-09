@@ -6,6 +6,5 @@ namespace Entities {
 		double _x, _y;
 	public:
 		void setPosition(double x, double y);
-		virtual ~Entity() = 0;
 	};
 }
