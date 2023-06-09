@@ -60,4 +60,5 @@ void ViciClient::start() {
 void ViciClient::stop() {
 	_isRunning = false;
 	_udpClient->stop();
+	_networkThread->join();
 }

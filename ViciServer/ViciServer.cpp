@@ -23,6 +23,8 @@ void ViciServer::start() {
 
 void ViciServer::stop() {
 	_running = false;
+	_udpServer->stop();
+	_networkThread->join();
 }
 
 void ViciServer::serverLoop() {
