@@ -7,9 +7,4 @@ namespace Entities {
 	public:
 		void setPosition(double x, double y);
 	};
-
-	class EntityDrawable : public Entity {
-	public:
-		virtual void render() = 0;
-	};
 }

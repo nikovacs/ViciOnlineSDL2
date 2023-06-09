@@ -165,9 +165,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="UdpChannels.h" />
     <ClInclude Include="UdpHost.h" />
   </ItemGroup>

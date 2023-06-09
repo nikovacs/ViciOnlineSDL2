@@ -19,17 +19,14 @@
     <Filter Include="Source Files\scenes">
       <UniqueIdentifier>{8cd2cd15-f6fa-442f-830f-80aa26b07497}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\entities">
-      <UniqueIdentifier>{fdfcf3bb-ebe4-4448-b99f-7ff2538db5d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\entities">
-      <UniqueIdentifier>{d0e01d55-cc1c-4388-920b-b7d08d593cd6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\handlers">
       <UniqueIdentifier>{e3d86b1e-0700-439c-88e6-1c4ba1627c96}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\handlers">
       <UniqueIdentifier>{b6684435-e22c-47f0-820d-180a0b349413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entities">
+      <UniqueIdentifier>{3d63c301-48f2-4bd5-98f3-e9c5bd9cdf15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entities.cpp">
-      <Filter>Source Files\entities</Filter>
     </ClCompile>
     <ClCompile Include="UdpClient.cpp">
       <Filter>Source Files</Filter>
@@ -77,9 +71,6 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entities.h">
-      <Filter>Header Files\entities</Filter>
-    </ClInclude>
     <ClInclude Include="UdpClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="MouseInputHandler.h">
       <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityDrawable.h">
+      <Filter>Header Files\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

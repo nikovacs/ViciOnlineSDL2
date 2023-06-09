@@ -168,7 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Entities.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
@@ -179,7 +178,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entities.h" />
+    <ClInclude Include="EntityDrawable.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInputHandler.h" />
     <ClInclude Include="MouseInputHandler.h" />
