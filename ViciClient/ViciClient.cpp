@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include "UdpClient.h"
 #include "KeyboardInputHandler.h"
+#include "MouseInputHandler.h"
 #include <iostream>
 #include <thread>
 
@@ -41,6 +42,12 @@ void ViciClient::handleEvents() {
 		break;
 	case SDL_KEYUP:
 		Handlers::KeyboardInputHandler::handleKeyUp(event);
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		Handlers::MouseInputHandler::handleMouseDown(event);
+		break;
+	case SDL_MOUSEBUTTONUP:
+		Handlers::MouseInputHandler::handleMouseUp(event);
 		break;
 	default:
 		break;

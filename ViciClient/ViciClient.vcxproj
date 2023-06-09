@@ -171,6 +171,7 @@
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
+    <ClCompile Include="MouseInputHandler.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="UdpClient.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Entities.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInputHandler.h" />
+    <ClInclude Include="MouseInputHandler.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />

@@ -57,6 +57,9 @@
     <ClCompile Include="KeyboardInputHandler.cpp">
       <Filter>Source Files\handlers</Filter>
     </ClCompile>
+    <ClCompile Include="MouseInputHandler.cpp">
+      <Filter>Source Files\handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputHandler.h">
+      <Filter>Header Files\handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInputHandler.h">
       <Filter>Header Files\handlers</Filter>
     </ClInclude>
   </ItemGroup>
