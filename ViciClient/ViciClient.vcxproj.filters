@@ -25,6 +25,12 @@
     <Filter Include="Source Files\entities">
       <UniqueIdentifier>{d0e01d55-cc1c-4388-920b-b7d08d593cd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\handlers">
+      <UniqueIdentifier>{e3d86b1e-0700-439c-88e6-1c4ba1627c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\handlers">
+      <UniqueIdentifier>{b6684435-e22c-47f0-820d-180a0b349413}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,6 +54,9 @@
     <ClCompile Include="UdpClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KeyboardInputHandler.cpp">
+      <Filter>Source Files\handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.h">
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="UdpClient.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputHandler.h">
+      <Filter>Header Files\handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

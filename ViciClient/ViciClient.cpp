@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include <SDL2/SDL.h>
 #include "UdpClient.h"
+#include "KeyboardInputHandler.h"
 #include <iostream>
 #include <thread>
 
@@ -34,6 +35,12 @@ void ViciClient::handleEvents() {
 	switch (event.type) {
 	case SDL_QUIT:
 		stop();
+		break;
+	case SDL_KEYDOWN:
+		Handlers::KeyboardInputHandler::handleKeyDown(event);
+		break;
+	case SDL_KEYUP:
+		Handlers::KeyboardInputHandler::handleKeyUp(event);
 		break;
 	default:
 		break;
