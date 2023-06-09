@@ -10,3 +10,8 @@ void Handlers::KeyboardInputHandler::handleKeyDown(SDL_Event& e) {
 void Handlers::KeyboardInputHandler::handleKeyUp(SDL_Event& e) {
 	_keysDown.erase(SDL_GetKeyName(e.key.keysym.sym));
 }
+
+bool Handlers::KeyboardInputHandler::isKeyDown(std::string_view key) {
+	auto it = _keysDown.find(key.data());
+	return it != _keysDown.end();
+}

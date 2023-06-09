@@ -12,6 +12,11 @@ void Handlers::MouseInputHandler::handleMouseUp(SDL_Event& e) {
 	_mouseButtonsDown.erase(_getMouseBtnLabel(e.button.button));
 }
 
+bool Handlers::MouseInputHandler::isMouseButtonDown(std::string_view button) {
+	auto it = _mouseButtonsDown.find(button.data());
+	return it != _mouseButtonsDown.end();
+}
+
 std::string Handlers::MouseInputHandler::_getMouseBtnLabel(Uint8 e) {
 	switch (e) {
 	case SDL_BUTTON_LEFT:
