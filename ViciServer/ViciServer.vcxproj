@@ -167,11 +167,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetBroker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UdpServer.cpp" />
     <ClCompile Include="ViciServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetBroker.h" />
     <ClInclude Include="UdpServer.h" />
     <ClInclude Include="ViciServer.h" />
   </ItemGroup>

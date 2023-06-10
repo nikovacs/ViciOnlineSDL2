@@ -1,9 +1,11 @@
 #include "UdpServer.h"
+#include "AssetBroker.h"
 #include "../ViciEngine/UdpChannels.h"
 #include <enet/enet.h>
 #include <iostream>
 
 Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPlayers, port, UdpChannels::MAX_CHANNELS) {
+	AssetBroker::initializeIndex();
 }
 
 Networking::UdpServer::~UdpServer() {
@@ -27,6 +29,14 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 << " containing " << event.packet->data 
                 << " was received from " << event.peer->data 
                 << " on channel " << event.channelID << '\n';
+
+            switch (event.channelID) {
+            case UdpChannels::Animation:
+            case UdpChannels::Image:
+                AssetBroker::sendFileAsBytes(event);
+                break;
+            }
+            
             /* Clean up the packet now that we're done using it. */
             enet_packet_destroy(event.packet);
             break;
