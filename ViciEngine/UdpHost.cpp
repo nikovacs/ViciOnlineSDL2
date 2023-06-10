@@ -1,6 +1,7 @@
 #include "UdpHost.h"
 #include "UdpChannels.h"
 #include <iostream>
+#include <enet/enet.h>
 
 Networking::UdpHost::UdpHost(bool isServer, int maxConnections, int port, int numChannels) {
 	// implementation taken from tutorial at enet.bespin.org/Tutorial.html
@@ -29,4 +30,8 @@ void Networking::UdpHost::start() {
 
 void Networking::UdpHost::stop() {
 	_isRunning = false;
+}
+
+ENetHost* Networking::UdpHost::getHost() {
+	return _host;
 }

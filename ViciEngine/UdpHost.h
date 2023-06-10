@@ -16,6 +16,7 @@ namespace Networking {
 		virtual ~UdpHost();
 		void start();
 		void stop();
+		ENetHost* getHost();
 	protected:
 		virtual void doNetworkLoop(ENetHost* host) = 0;
 		std::atomic_bool _isRunning;
