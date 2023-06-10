@@ -168,9 +168,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
+    <ClCompile Include="NetworkAsset.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="UdpClient.cpp" />
@@ -178,10 +180,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="EntityDrawable.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInputHandler.h" />
     <ClInclude Include="MouseInputHandler.h" />
+    <ClInclude Include="NetworkAsset.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimeManager.h" />

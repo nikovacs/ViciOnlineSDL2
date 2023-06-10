@@ -1,4 +1,5 @@
 #include "UdpClient.h"
+#include "AssetManager.h"
 #include "../ViciEngine/UdpChannels.h"
 #include <enet/enet.h>
 #include <string>
@@ -6,11 +7,15 @@
 
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
-	enet_host_connect(_host, &_address, UdpChannels::MAX_CHANNELS, 0);
+	_gameServer = enet_host_connect(_host, &_address, UdpChannels::MAX_CHANNELS, 0);
     std::cout << "udpclient created\n";
 }
 
 Networking::UdpClient::~UdpClient() {
+}
+
+ENetPeer* Networking::UdpClient::getGameServer() {
+	return _gameServer;
 }
 
 void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
@@ -31,7 +36,15 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 << " containing " << event.packet->data
                 << " was received from " << event.peer->data
                 << " on channel " << event.channelID << '\n';
-            /* Clean up the packet now that we're done using it. */
+            
+            switch (event.channelID) {
+            case UdpChannels::Animation:
+			case UdpChannels::Image:
+                AssetManager::onBytesReceived(event);
+				break;
+            }
+
+            
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
