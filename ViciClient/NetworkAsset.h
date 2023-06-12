@@ -17,7 +17,6 @@ namespace Networking {
 	class NetworkAsset : public AbstractNetworkAsset {
 	public:
 		NetworkAsset(std::string_view assetName);
-		NetworkAsset(std::string_view assetName, T val);
 		T* getValue();
 		std::string_view getFileName();
 		void finish(std::shared_ptr<T> val);

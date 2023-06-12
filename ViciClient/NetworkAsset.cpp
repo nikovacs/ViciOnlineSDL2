@@ -1,15 +1,12 @@
 #include "NetworkAsset.h"
 #include "AssetManager.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 namespace Networking {
 	template <typename T>
-	NetworkAsset<T>::NetworkAsset(std::string_view assetName) : _fileName{ assetName }, _value{ nullptr }, _resolved { false } {
-		//AssetManager::requestFileAsBytes<sizeof(T)>(assetName);
-	}
+	NetworkAsset<T>::NetworkAsset(std::string_view assetName) : _fileName{ assetName }, _value{ nullptr }, _resolved{ false } {
 
-	template <typename T>
-	NetworkAsset<T>::NetworkAsset(std::string_view assetName, T val) : _fileName{ assetName }, _value{ val }, _resolved{ true } {
-		//AssetManager::writeFile(assetName, val);
 	}
 
 	template <typename T>
