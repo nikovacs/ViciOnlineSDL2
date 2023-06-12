@@ -6,7 +6,7 @@
 #include "../ViciEngine/UdpChannels.h"
 
 namespace Networking {
-	class TypeChannelMap {
+	class UdpTypeChannelMap {
 	private:
 		static inline const std::map<std::type_index, int> _typeToNumberMap{
 			{ std::type_index(typeid(AssetTypes::Texture)), Texture},
