@@ -25,12 +25,6 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{f16eeff9-354a-4974-abcb-d88ef9f0a7df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\AssetTypes">
-      <UniqueIdentifier>{3986aae0-5b8b-4a2d-995e-019a97be6376}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AssetTypes">
-      <UniqueIdentifier>{c3efd16e-17af-4293-9828-614b1b491ea7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp">
@@ -38,9 +32,6 @@
     </ClCompile>
     <ClCompile Include="UdpHost.cpp">
       <Filter>Source Files\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\AssetTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +43,6 @@
     </ClInclude>
     <ClInclude Include="UdpHost.h">
       <Filter>Header Files\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\AssetTypes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
