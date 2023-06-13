@@ -169,10 +169,10 @@
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="base64.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="UdpChannels.h" />
-    <ClInclude Include="UdpHost.h" />
+    <ClInclude Include="base64.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="UdpChannels.hpp" />
+    <ClInclude Include="UdpHost.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,13 +35,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ViciServer.h">
+    <ClInclude Include="ViciServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AssetBroker.h">
+    <ClInclude Include="AssetBroker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UdpServer.h">
+    <ClInclude Include="UdpServer.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>

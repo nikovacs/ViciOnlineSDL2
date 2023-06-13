@@ -1,8 +1,8 @@
-#include "AssetManager.h"
-#include "UdpClient.h"
-#include "../ViciEngine/UdpChannels.h"
-#include "../ViciEngine/base64.h"
-#include "UdpChannelMap.h"
+#include "AssetManager.hpp"
+#include "UdpClient.hpp"
+#include "../ViciEngine/UdpChannels.hpp"
+#include "../ViciEngine/base64.hpp"
+#include "UdpChannelMap.hpp"
 #include <enet/enet.h>
 #include <filesystem>
 #include <string>

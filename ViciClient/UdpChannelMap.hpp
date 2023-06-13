@@ -2,8 +2,8 @@
 
 #include <map>
 #include <typeindex>
-#include "Texture.h"
-#include "../ViciEngine/UdpChannels.h"
+#include "Texture.hpp"
+#include "../ViciEngine/UdpChannels.hpp"
 
 namespace Networking {
 	class UdpTypeChannelMap {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "../ViciEngine/Entity.h"
+#include "../ViciEngine/Entity.hpp"
 
 namespace Entities {
 	class EntityDrawable : public Entity {

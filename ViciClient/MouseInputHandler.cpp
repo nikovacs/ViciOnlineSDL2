@@ -1,4 +1,4 @@
-#include "MouseInputHandler.h"
+#include "MouseInputHandler.hpp"
 #include <set>
 #include <string>
 

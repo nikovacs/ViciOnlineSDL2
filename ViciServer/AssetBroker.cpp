@@ -1,5 +1,5 @@
-#include "AssetBroker.h"
-#include "UdpServer.h"
+#include "AssetBroker.hpp"
+#include "UdpServer.hpp"
 #include <string>
 #include <unordered_map>
 #include <filesystem>
@@ -10,7 +10,7 @@
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cctype>
-#include "../ViciEngine/base64.h"
+#include "../ViciEngine/base64.hpp"
 
 namespace fs = std::filesystem;
 

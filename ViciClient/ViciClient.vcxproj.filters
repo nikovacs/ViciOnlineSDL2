@@ -71,40 +71,40 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ViciClient.h">
+    <ClInclude Include="ViciClient.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="Scene.hpp">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
+    <ClInclude Include="GameScene.hpp">
       <Filter>Header Files\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="TimeManager.h">
+    <ClInclude Include="TimeManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardInputHandler.h">
+    <ClInclude Include="KeyboardInputHandler.hpp">
       <Filter>Header Files\handlers</Filter>
     </ClInclude>
-    <ClInclude Include="MouseInputHandler.h">
+    <ClInclude Include="MouseInputHandler.hpp">
       <Filter>Header Files\handlers</Filter>
     </ClInclude>
-    <ClInclude Include="EntityDrawable.h">
+    <ClInclude Include="EntityDrawable.hpp">
       <Filter>Header Files\entities</Filter>
     </ClInclude>
-    <ClInclude Include="UdpClient.h">
+    <ClInclude Include="UdpClient.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkAsset.h">
+    <ClInclude Include="NetworkAsset.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="UdpChannelMap.h">
+    <ClInclude Include="UdpChannelMap.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="Texture.hpp">
       <Filter>Header Files\AssetTypes</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h">
+    <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>

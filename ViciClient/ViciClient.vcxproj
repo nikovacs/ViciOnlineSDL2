@@ -179,18 +179,18 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="EntityDrawable.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="KeyboardInputHandler.h" />
-    <ClInclude Include="MouseInputHandler.h" />
-    <ClInclude Include="NetworkAsset.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TimeManager.h" />
-    <ClInclude Include="UdpChannelMap.h" />
-    <ClInclude Include="UdpClient.h" />
-    <ClInclude Include="ViciClient.h" />
+    <ClInclude Include="AssetManager.hpp" />
+    <ClInclude Include="EntityDrawable.hpp" />
+    <ClInclude Include="GameScene.hpp" />
+    <ClInclude Include="KeyboardInputHandler.hpp" />
+    <ClInclude Include="MouseInputHandler.hpp" />
+    <ClInclude Include="NetworkAsset.hpp" />
+    <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="TimeManager.hpp" />
+    <ClInclude Include="UdpChannelMap.hpp" />
+    <ClInclude Include="UdpClient.hpp" />
+    <ClInclude Include="ViciClient.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
-#include "Scene.h"
-#include "NetworkAsset.h"
-#include "Texture.h"
+#include "Scene.hpp"
+#include "NetworkAsset.hpp"
+#include "Texture.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <memory>

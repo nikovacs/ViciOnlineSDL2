@@ -1,5 +1,5 @@
-#include "texture.h"
-#include "ViciClient.h"
+#include "texture.hpp"
+#include "ViciClient.hpp"
 #include <SDL2/SDL_image.h>
 #include <string>
 

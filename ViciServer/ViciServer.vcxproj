@@ -173,9 +173,9 @@
     <ClCompile Include="ViciServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetBroker.h" />
-    <ClInclude Include="UdpServer.h" />
-    <ClInclude Include="ViciServer.h" />
+    <ClInclude Include="AssetBroker.hpp" />
+    <ClInclude Include="UdpServer.hpp" />
+    <ClInclude Include="ViciServer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

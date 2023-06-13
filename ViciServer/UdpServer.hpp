@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ViciEngine/UdpHost.h"
+#include "../ViciEngine/UdpHost.hpp"
 #include <string>
 
 namespace Networking {

@@ -1,7 +1,7 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
-#include "ViciClient.h"
-#include "TimeManager.h"
+#include "ViciClient.hpp"
+#include "TimeManager.hpp"
 #include <iostream>
 
 int main() {

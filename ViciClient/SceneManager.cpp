@@ -1,5 +1,5 @@
-#include "GameScene.h"
-#include "Scene.h"
+#include "GameScene.hpp"
+#include "Scene.hpp"
 #include <string>
 #include <memory>
 #include <SDL2/sdl.h>

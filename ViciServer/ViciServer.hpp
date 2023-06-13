@@ -1,7 +1,7 @@
 #pragma once
 #include <enet/enet.h>
 #include <memory>
-#include "UdpServer.h"
+#include "UdpServer.hpp"
 #include <thread>
 
 class ViciServer {

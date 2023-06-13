@@ -2,8 +2,8 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <memory>
-#include "Scene.h"
-#include "UdpClient.h"
+#include "Scene.hpp"
+#include "UdpClient.hpp"
 #include <atomic>
 #include <thread>
 

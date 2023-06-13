@@ -1,9 +1,9 @@
-#include "ViciClient.h"
-#include "Scene.h"
+#include "ViciClient.hpp"
+#include "Scene.hpp"
 #include <SDL2/SDL.h>
-#include "UdpClient.h"
-#include "KeyboardInputHandler.h"
-#include "MouseInputHandler.h"
+#include "UdpClient.hpp"
+#include "KeyboardInputHandler.hpp"
+#include "MouseInputHandler.hpp"
 #include <iostream>
 #include <thread>
 

@@ -1,5 +1,5 @@
-#include "ViciServer.h"
-#include "UdpServer.h"
+#include "ViciServer.hpp"
+#include "UdpServer.hpp"
 #include <chrono>
 #include <thread>
 #include <iostream>

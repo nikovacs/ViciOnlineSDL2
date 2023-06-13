@@ -1,5 +1,5 @@
-#include "UdpHost.h"
-#include "UdpChannels.h"
+#include "UdpHost.hpp"
+#include "UdpChannels.hpp"
 #include <iostream>
 #include <enet/enet.h>
 

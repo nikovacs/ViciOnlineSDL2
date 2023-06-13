@@ -1,7 +1,7 @@
-#include "GameScene.h"
-#include "ViciClient.h"
-#include "NetworkAsset.h"
-#include "Texture.h"
+#include "GameScene.hpp"
+#include "ViciClient.hpp"
+#include "NetworkAsset.hpp"
+#include "Texture.hpp"
 #include <SDL2/SDL.h>
 #include <memory>
 

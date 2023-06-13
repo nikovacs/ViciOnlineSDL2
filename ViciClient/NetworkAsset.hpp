@@ -1,5 +1,5 @@
 #pragma once
-#include "AssetManager.h"
+#include "AssetManager.hpp"
 #include <memory>
 #include <atomic>
 #include <iostream>

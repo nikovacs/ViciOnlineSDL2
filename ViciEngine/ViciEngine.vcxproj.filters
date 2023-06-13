@@ -38,16 +38,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="Entity.hpp">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="UdpChannels.h">
+    <ClInclude Include="UdpChannels.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="UdpHost.h">
+    <ClInclude Include="UdpHost.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="base64.h">
+    <ClInclude Include="base64.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

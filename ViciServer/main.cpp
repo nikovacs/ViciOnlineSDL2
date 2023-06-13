@@ -1,4 +1,4 @@
-#include "ViciServer.h"
+#include "ViciServer.hpp"
 
 int main()
 {

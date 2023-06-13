@@ -1,6 +1,6 @@
-#include "UdpClient.h"
-#include "AssetManager.h"
-#include "../ViciEngine/UdpChannels.h"
+#include "UdpClient.hpp"
+#include "AssetManager.hpp"
+#include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
 #include <string>
 #include <iostream>
