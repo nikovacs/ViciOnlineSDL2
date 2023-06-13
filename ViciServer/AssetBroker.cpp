@@ -8,6 +8,9 @@
 #include <fstream>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <cctype>
+#include "../ViciEngine/base64.h"
 
 namespace fs = std::filesystem;
 
@@ -20,13 +23,11 @@ void AssetBroker::initializeIndex() {
 	for (const auto& entry : fs::recursive_directory_iterator("Assets")) {
 		const auto& path = entry.path();
 		if (fs::is_regular_file(path)) {
-			assetIndex.insert(std::make_pair(path.filename().string(), path.string())); // make key always lowercase?
+			auto filename_str = path.filename().string();
+			std::transform(filename_str.begin(), filename_str.end(), filename_str.begin(),
+				[](unsigned char c) { return std::tolower(c); });
+			assetIndex.insert(std::make_pair( filename_str, path.string()));
 		}
-	}
-	
-	// TODO delete
-	for (const auto& pair : assetIndex) {
-		std::cout << pair.first << " " << pair.second << '\n';
 	}
 }
 
@@ -40,7 +41,7 @@ void AssetBroker::sendFileAsBytes(ENetEvent& event) {
 	auto fileName = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
 	if (assetIndex.count(fileName.data()) > 0) {
 		std::string path = assetIndex[fileName.data()];
-		std::string fileData = readFile(path);
+		std::string fileData = base64::read_file(path);
 
 		if (fileData.empty()) {
 			return;
@@ -60,16 +61,5 @@ void AssetBroker::sendFileAsBytes(ENetEvent& event) {
 		enet_peer_send(event.peer, event.channelID, packet);
 		enet_host_flush(Networking::UdpServer::instance->getHost());
 	}
-}
-
-std::string AssetBroker::readFile(std::string_view filePath) noexcept {
-	std::ifstream file(filePath.data(), std::ios::binary);
-	
-	if (!file) return "";
-
-	std::string fileData((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-	file.close();
-
-	return fileData;
 }
 

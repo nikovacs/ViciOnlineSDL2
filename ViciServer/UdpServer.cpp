@@ -28,9 +28,9 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 << event.packet->dataLength 
                 << " containing " << event.packet->data 
                 << " was received from " << event.peer->data 
-                << " on channel " << event.channelID << '\n';
+                << " on channel " << int(event.channelID) << '\n';
 
-            switch (event.channelID) {
+            switch (static_cast<int>(event.channelID)) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
                 AssetBroker::sendFileAsBytes(event);
