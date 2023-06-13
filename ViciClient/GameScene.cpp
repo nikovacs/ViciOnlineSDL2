@@ -1,21 +1,22 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 #include "ViciClient.h"
+#include "NetworkAsset.h"
+#include "Texture.h"
 #include <SDL2/SDL.h>
+#include <memory>
 
 namespace Scenes {
 	Scenes::GameScene::GameScene() {
 	}
 
 	Scenes::GameScene::~GameScene() {
-		if (_playerTexture)
-			SDL_DestroyTexture(_playerTexture);
+
 	}
 
 	void Scenes::GameScene::update() {
 		//TEMP
 		if (!_playerTexture)
-			_playerTexture = Textures::loadTexture("C:/Users/kovac/Desktop/images/nik1.png");
+			_playerTexture.reset(new Networking::NetworkAsset<AssetTypes::Texture>("nik1.png"));
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {
@@ -27,6 +28,7 @@ namespace Scenes {
 		src.h = 64;
 
 		SDL_Rect dest{ src };
-		SDL_RenderCopy(renderer, _playerTexture, &src, &dest);
+		if (_playerTexture->getValue())
+			SDL_RenderCopy(renderer, _playerTexture->getValue()->getUnderlyingTexture(), &src, &dest);
 	}
 }

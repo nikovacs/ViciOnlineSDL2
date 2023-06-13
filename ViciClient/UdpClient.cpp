@@ -8,7 +8,7 @@
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
 	_gameServer = enet_host_connect(_host, &_address, UdpChannels::MAX_CHANNELS, 0);
-    std::cout << "udpclient created\n";
+	AssetManager::initializeIndex();
 }
 
 Networking::UdpClient::~UdpClient() {
@@ -35,7 +35,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 << event.packet->dataLength
                 << " containing " << event.packet->data
                 << " was received from " << event.peer->data
-                << " on channel " << event.channelID << '\n';
+                << " on channel " << int(event.channelID) << '\n';
             
             switch (event.channelID) {
             case UdpChannels::Animation:

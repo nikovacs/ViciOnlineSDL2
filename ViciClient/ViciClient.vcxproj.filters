@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{9c5b30be-07f3-473b-adac-5a767544d269}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AssetTypes">
+      <UniqueIdentifier>{2bc247c0-b7d3-4a5c-a20a-9c297e40afb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetTypes">
+      <UniqueIdentifier>{cc32f4fb-5162-410b-8526-8e01d5c110a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,9 +54,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Source Files\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyboardInputHandler.cpp">
       <Filter>Source Files\handlers</Filter>
     </ClCompile>
@@ -63,8 +66,8 @@
     <ClCompile Include="UdpClient.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkAsset.cpp">
-      <Filter>Source Files\Networking</Filter>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\AssetTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +83,6 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KeyboardInputHandler.h">
       <Filter>Header Files\handlers</Filter>
     </ClInclude>
@@ -92,13 +92,19 @@
     <ClInclude Include="EntityDrawable.h">
       <Filter>Header Files\entities</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UdpClient.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="NetworkAsset.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="UdpChannelMap.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\AssetTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>

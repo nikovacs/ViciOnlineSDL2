@@ -172,9 +172,8 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
-    <ClCompile Include="NetworkAsset.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UdpClient.cpp" />
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
@@ -187,8 +186,9 @@
     <ClInclude Include="MouseInputHandler.h" />
     <ClInclude Include="NetworkAsset.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UdpChannelMap.h" />
     <ClInclude Include="UdpClient.h" />
     <ClInclude Include="ViciClient.h" />
   </ItemGroup>

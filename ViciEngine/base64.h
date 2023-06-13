@@ -29,6 +29,7 @@ SOFTWARE.
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 namespace base64 {
 
@@ -117,7 +118,7 @@ namespace base64 {
     }
 
     inline bool write_file(std::string_view file_path, std::string_view file_data_b64) {
-        
+        std::cout << "write " << file_path << '\n';
         std::ofstream file(file_path.data(), std::ios::binary);
 
         if (!file) {
