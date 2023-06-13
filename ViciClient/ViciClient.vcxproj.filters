@@ -16,18 +16,6 @@
     <Filter Include="Header Files\scenes">
       <UniqueIdentifier>{1830b9d3-1a47-4cf4-9b7b-67835cf53b9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\scenes">
-      <UniqueIdentifier>{8cd2cd15-f6fa-442f-830f-80aa26b07497}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\handlers">
-      <UniqueIdentifier>{e3d86b1e-0700-439c-88e6-1c4ba1627c96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\handlers">
-      <UniqueIdentifier>{b6684435-e22c-47f0-820d-180a0b349413}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\entities">
-      <UniqueIdentifier>{3d63c301-48f2-4bd5-98f3-e9c5bd9cdf15}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Networking">
       <UniqueIdentifier>{146e07b0-581c-4c1a-8a0a-4fd499899a48}</UniqueIdentifier>
     </Filter>
@@ -40,6 +28,18 @@
     <Filter Include="Source Files\AssetTypes">
       <UniqueIdentifier>{cc32f4fb-5162-410b-8526-8e01d5c110a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Handlers">
+      <UniqueIdentifier>{e3d86b1e-0700-439c-88e6-1c4ba1627c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{3d63c301-48f2-4bd5-98f3-e9c5bd9cdf15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handlers">
+      <UniqueIdentifier>{b6684435-e22c-47f0-820d-180a0b349413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{8cd2cd15-f6fa-442f-830f-80aa26b07497}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,16 +49,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files\scenes</Filter>
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
-      <Filter>Source Files\scenes</Filter>
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardInputHandler.cpp">
-      <Filter>Source Files\handlers</Filter>
+      <Filter>Source Files\Handlers</Filter>
     </ClCompile>
     <ClCompile Include="MouseInputHandler.cpp">
-      <Filter>Source Files\handlers</Filter>
+      <Filter>Source Files\Handlers</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>Source Files</Filter>
@@ -84,13 +84,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInputHandler.hpp">
-      <Filter>Header Files\handlers</Filter>
+      <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="MouseInputHandler.hpp">
-      <Filter>Header Files\handlers</Filter>
+      <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="EntityDrawable.hpp">
-      <Filter>Header Files\entities</Filter>
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="UdpClient.hpp">
       <Filter>Header Files\Networking</Filter>
