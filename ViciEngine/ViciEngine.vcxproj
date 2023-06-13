@@ -169,6 +169,7 @@
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base64.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="UdpChannels.h" />
     <ClInclude Include="UdpHost.h" />
