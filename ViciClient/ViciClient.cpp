@@ -10,10 +10,8 @@
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {
 	int flags{ 0 };
-	if (fullscreen) {
-		flags = SDL_WINDOW_FULLSCREEN;
-	}
-
+	flags |= fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
+	
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) { return; }
 	_window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
