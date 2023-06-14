@@ -10,7 +10,6 @@ namespace fs = std::filesystem;
 std::unordered_map<std::string, std::string> Networking::AssetTransfer::_assetIndex = std::unordered_map<std::string, std::string>();
 
 void Networking::AssetTransfer::initializeIndex() {
-	//createFileStructure("Assets/ViciDefaults");
 	if (!fs::exists("Assets"))
 		return;
 	for (const auto& entry : fs::recursive_directory_iterator("Assets")) {
@@ -25,9 +24,7 @@ void Networking::AssetTransfer::initializeIndex() {
 }
 
 void Networking::AssetTransfer::createFileStructure(std::string_view path) {
-	std::cout << path << std::endl;
 	fs::path dirPath{ path };
 	dirPath.remove_filename();
-	std::cout << dirPath << std::endl;
 	fs::create_directories(dirPath);
 }
