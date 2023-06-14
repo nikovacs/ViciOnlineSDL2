@@ -40,7 +40,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             switch (event.channelID) {
             case UdpChannels::Animation:
 			case UdpChannels::Texture:
-                AssetManager::onBytesReceived(event);
+                AssetManager::onReceived(event);
 				break;
             }
 

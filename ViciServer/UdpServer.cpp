@@ -33,7 +33,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             switch (static_cast<int>(event.channelID)) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
-                AssetBroker::sendFileAsBytes(event);
+                AssetBroker::sendFile(event);
                 break;
             }
             

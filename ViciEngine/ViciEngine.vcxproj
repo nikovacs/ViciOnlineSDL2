@@ -165,10 +165,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetTransfer.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetTransfer.hpp" />
     <ClInclude Include="base64.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="UdpChannels.hpp" />

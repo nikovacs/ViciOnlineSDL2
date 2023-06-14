@@ -103,35 +103,6 @@ namespace base64 {
         }
         return decoded;
     }
-
-    inline std::string read_file(std::string_view file_path) {
-        std::ifstream file(file_path.data(), std::ios::binary);
-
-        if (!file) {
-            return "";
-        }
-
-        std::string fileData((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-        file.close();
-        
-        return to_base64(fileData);
-    }
-
-    inline bool write_file(std::string_view file_path, std::string_view file_data_b64) {
-        std::cout << "write " << file_path << '\n';
-        std::ofstream file(file_path.data(), std::ios::binary);
-
-        if (!file) {
-            return false;
-        }
-        
-        std::string file_data{ from_base64(file_data_b64.data()) };
-
-        file.write(file_data.data(), file_data.length());
-        file.close();
-        
-        return true;
-    }
 }
 
 #endif // BASE_64_HPP

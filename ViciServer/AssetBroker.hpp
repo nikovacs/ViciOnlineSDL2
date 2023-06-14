@@ -3,12 +3,14 @@
 #include <unordered_map>
 #include <string>
 #include <enet/enet.h>
+#include <nlohmann/json.hpp>
+#include "../ViciEngine/AssetTransfer.hpp"
 
-class AssetBroker {
-public:
-	static void initializeIndex();
-	static void sendFileAsBytes(ENetEvent& event);
-private:
-	static std::unordered_map<std::string, std::string> assetIndex; // <assetName, assetPath>
-	static void createStructure(); // create file structure if it is not already there
-};
+namespace Networking {
+	class AssetBroker : public AssetTransfer {
+	public:
+		static void sendFile(ENetEvent& event);
+	private:
+		static void send(nlohmann::json& json, ENetEvent& event);
+	};
+}
