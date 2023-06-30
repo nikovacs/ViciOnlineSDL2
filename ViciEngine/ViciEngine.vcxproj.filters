@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{22a4f8f2-1f00-468a-bd75-dbf28441c48d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\JSRuntime">
+      <UniqueIdentifier>{8704ad38-01f5-45af-b81f-33a7835322c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JSRuntime">
+      <UniqueIdentifier>{403ea76a-6d7b-4554-aeb4-e46209412251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp">
@@ -38,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="AssetTransfer.cpp">
       <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptLoader.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="AssetTransfer.hpp">
       <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptLoader.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
