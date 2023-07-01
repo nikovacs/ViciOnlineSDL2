@@ -9,7 +9,11 @@ namespace JS {
 		
 		for (int i = 0; i < args.Length(); i++) {
 			v8::String::Utf8Value str(isolate, args[i]);
-			std::cout << *str << " ";
+			std::cout << *str << "\n";
+		}
+		
+		if (args.Length() == 0) {
+			std::cout << "\n";
 		}
 	}
 }

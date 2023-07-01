@@ -52,6 +52,10 @@ void ViciClient::handleEvents() {
 	}
 }
 
+void ViciClient::initialize() {
+	_scriptLoader.loadScript("testscript.js");
+}
+
 void ViciClient::update() {
 	_scriptLoader.update();
 	_sceneManager->update();

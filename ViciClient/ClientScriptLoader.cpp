@@ -2,9 +2,9 @@
 #include "NetworkAsset.hpp"
 #include <string_view>
 #include <string>
+#include <memory>
 #include <set>
-
-#include <iostream>
+#include <vector>
 
 JS::ClientScriptLoader::ClientScriptLoader() : _scriptsInProgress{}, _scripts{} {}
 
@@ -16,18 +16,23 @@ void JS::ClientScriptLoader::update() {
 }
 
 void JS::ClientScriptLoader::attemptResolveInProgress() {
+	std::vector<std::string> toRemove{};
 	for (auto& script : _scriptsInProgress) {
 		auto scriptPtr = script.second->getValue();
 		if (scriptPtr) {
 			_scripts[script.first] = std::move(script.second);
-			_scriptsInProgress.erase(script.first);
+			toRemove.push_back(script.first);
+			scriptPtr->run();
 			scriptPtr->trigger("onLoad");
 		}
+	}
+	for (auto& script : toRemove) {
+		_scriptsInProgress.erase(script);
 	}
 }
 
 void JS::ClientScriptLoader::loadScript(std::string_view fileName) {
-	_scriptsInProgress.emplace(fileName, std::make_unique<Networking::NetworkAsset<Script>>(fileName));
+	_scriptsInProgress.emplace(fileName, std::make_unique<Networking::NetworkAsset<JS::Script>>(fileName));
 }
 
 void JS::ClientScriptLoader::unloadScript(std::string_view fileName) {

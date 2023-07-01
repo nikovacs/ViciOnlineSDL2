@@ -16,6 +16,8 @@ int main() {
 	ViciClient client = ViciClient("Vici Online", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 	client.start();
 
+	client.initialize();
+
 	while (client.isRunning()) {
 		Uint32 previousFrameStart{ frameStart };
 		frameStart = SDL_GetTicks();

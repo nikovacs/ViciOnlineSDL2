@@ -18,6 +18,8 @@ public:
 	void start();
 	void stop();
 
+	void initialize();
+
 	void handleEvents();
 	void update();
 	void render();

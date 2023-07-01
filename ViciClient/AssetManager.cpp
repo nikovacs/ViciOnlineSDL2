@@ -35,6 +35,7 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 	// TODO: FIX BAD IMPLEMENTATION. AFTER SO MANY FAILED ATTEMPTS, THE CLIENT SHOULD TIME OUT AND DISCONNECT.
 	// TODO: IT IS POSSIBLE THAT THIS IS DUE TO VISUAL STUDIO STARTING THE SERVER ONLY IMMEDIATELY BEFORE THE CLIENT AND THE SERVER DOES NOT HAVE ENOUGH TIME TO START
 	do {
+		std::cout << "attempting peer send\n";
 		ret = enet_peer_send(static_cast<Networking::UdpClient*>(Networking::UdpClient::instance)->getGameServer(), channelID, packet);
 	} while (ret < 0);
 	
