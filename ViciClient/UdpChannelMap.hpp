@@ -3,6 +3,7 @@
 #include <map>
 #include <typeindex>
 #include "Texture.hpp"
+#include "../ViciEngine/Script.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
 
 namespace Networking {
@@ -10,9 +11,11 @@ namespace Networking {
 	private:
 		static inline const std::map<std::type_index, int> _typeToNumberMap{
 			{ std::type_index(typeid(AssetTypes::Texture)), Texture},
+			{ std::type_index(typeid(JS::Script)), Script},
 		};
 		static inline const std::map<int, std::string> _numberToNameMap{
 			{ Texture, "Texture" },
+			{ Script, "Script" },
 		};
 	public:
 		template <typename T>

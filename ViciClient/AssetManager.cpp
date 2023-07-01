@@ -3,6 +3,8 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include "../ViciEngine/base64.hpp"
 #include "../ViciEngine/AssetTransfer.hpp"
+#include "../ViciEngine/Script.hpp"
+#include "ClientScriptLoader.hpp"
 #include "UdpChannelMap.hpp"
 #include <enet/enet.h>
 #include <filesystem>
@@ -56,6 +58,9 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	std::shared_ptr<void>& assetInProgress = _assetsInProgress.at(fileName);
 	if (typeName == "Texture") {
 		assetInProgress = std::make_shared<AssetTypes::Texture>(path);
+	}
+	else if (typeName == "Script") {
+		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
 	}
 
 	// put it into the cache

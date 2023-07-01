@@ -23,7 +23,7 @@ Networking::UdpHost::~UdpHost() {
 }
 
 void Networking::UdpHost::start() {
-	std::cout << "starting udphost";
+	std::cout << "starting udphost\n";
 	_isRunning = true;
 	doNetworkLoop(_host);
 }

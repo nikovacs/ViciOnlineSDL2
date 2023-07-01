@@ -179,6 +179,8 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptLoader.cpp" />
+    <ClCompile Include="StandardFuncs.cpp" />
+    <ClCompile Include="StandardFuncs.hpp" />
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>

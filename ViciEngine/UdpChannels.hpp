@@ -5,6 +5,7 @@ namespace Networking {
 		Texture,
 		Animation,
 		Level,
+		Script,
 		MAX_CHANNELS
 	};
 }

@@ -21,7 +21,7 @@ ENetPeer* Networking::UdpClient::getGameServer() {
 void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
     ENetEvent event;
     while (_isRunning) {
-        std::cout << "udpclient running\n";
+        //std::cout << "udpclient running\n";
         enet_host_service(client, &event, 1000);
         switch (event.type)
         {
@@ -31,15 +31,16 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             //event.peer->data = "Client information";
             break;
         case ENET_EVENT_TYPE_RECEIVE:
-            std::cout << "A packet of length "
+            /*std::cout << "A packet of length "
                 << event.packet->dataLength
                 << " containing " << event.packet->data
                 << " was received from " << event.peer->data
-                << " on channel " << int(event.channelID) << '\n';
+                << " on channel " << int(event.channelID) << '\n';*/
             
             switch (event.channelID) {
             case UdpChannels::Animation:
 			case UdpChannels::Texture:
+            case UdpChannels::Script:
                 AssetManager::onReceived(event);
 				break;
             }

@@ -51,6 +51,12 @@
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="StandardFuncs.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardFuncs.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.hpp">

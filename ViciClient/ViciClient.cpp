@@ -53,6 +53,7 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::update() {
+	_scriptLoader.update();
 	_sceneManager->update();
 }
 

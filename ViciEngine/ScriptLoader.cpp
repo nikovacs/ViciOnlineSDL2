@@ -6,9 +6,9 @@
 
 using namespace std::literals;
 
-JS::ScriptLoader::ScriptLoader() {
-	_scripts = std::map<std::string, std::unique_ptr<Script>>();
+JS::ScriptLoader* JS::ScriptLoader::instance = nullptr;
 
+JS::ScriptLoader::ScriptLoader() {
 	_platform = v8::platform::NewDefaultPlatform();
     v8::V8::InitializePlatform(_platform.get());
     v8::V8::Initialize();
@@ -16,6 +16,8 @@ JS::ScriptLoader::ScriptLoader() {
     createParams.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
 
     _isolate = v8::Isolate::New(createParams);
+
+	instance = this;
 }
 
 JS::ScriptLoader::~ScriptLoader() {
@@ -25,13 +27,6 @@ JS::ScriptLoader::~ScriptLoader() {
 	delete createParams.array_buffer_allocator;
 }
 
-void JS::ScriptLoader::trigger(std::string_view functionName, std::string_view fileName) {
-	if (fileName.empty()) {
-		for (auto& script : _scripts) {
-			script.second->trigger(functionName);
-		}
-	}
-	else {
-		_scripts[fileName.data()]->trigger(functionName);
-	}
+v8::Isolate* JS::ScriptLoader::getIsolate() {
+	return _isolate;
 }
