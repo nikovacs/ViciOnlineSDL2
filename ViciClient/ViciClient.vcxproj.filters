@@ -40,6 +40,12 @@
     <Filter Include="Source Files\Scenes">
       <UniqueIdentifier>{8cd2cd15-f6fa-442f-830f-80aa26b07497}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JSRuntime">
+      <UniqueIdentifier>{4db6be13-7d63-4945-a1ce-43da0755337e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JSRuntime">
+      <UniqueIdentifier>{d6086892-83ca-43b4-9a63-2408b2fa9103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,14 +66,17 @@
     <ClCompile Include="MouseInputHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UdpClient.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\AssetTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientScriptLoader.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files\Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="AssetManager.hpp">
       <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientScriptLoader.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

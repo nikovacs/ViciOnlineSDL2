@@ -6,6 +6,7 @@
 #include "UdpClient.hpp"
 #include <atomic>
 #include <thread>
+#include "ClientScriptLoader.hpp"
 
 class ViciClient {
 public:
@@ -32,4 +33,5 @@ private:
 	std::atomic_bool _isRunning;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
+	JS::ClientScriptLoader _scriptLoader;
 };

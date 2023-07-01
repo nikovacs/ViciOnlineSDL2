@@ -8,7 +8,7 @@
 #include <thread>
 
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
-	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {
+	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() }, _scriptLoader{} {
 	int flags{ 0 };
 	flags |= fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
 	

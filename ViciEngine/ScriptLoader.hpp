@@ -20,5 +20,6 @@ namespace JS {
 		std::map<std::string, std::unique_ptr<Script>> _scripts;
 		std::unique_ptr<v8::Platform> _platform;
 		v8::Isolate* _isolate;
+		v8::Isolate::CreateParams createParams;
 	};
 }
