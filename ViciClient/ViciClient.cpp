@@ -78,6 +78,7 @@ void ViciClient::start() {
 }
 
 void ViciClient::stop() {
+	std::cout << "Stopping client..." << std::endl;
 	_isRunning = false;
 	_udpClient->stop();
 	_networkThread->join();

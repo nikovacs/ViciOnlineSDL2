@@ -33,7 +33,5 @@ int main() {
 		}
 	}
 
-	client.stop();
-
 	return 0;
 }
