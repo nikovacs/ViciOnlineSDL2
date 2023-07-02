@@ -9,6 +9,7 @@ namespace Scenes {
 	public:
 		Scene() {};
 		virtual ~Scene() {};
+		virtual void initialize() = 0;
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
 	};
@@ -17,6 +18,7 @@ namespace Scenes {
 	public:
 		SceneManager();
 		~SceneManager();
+		void initialize();
 		void update();
 		void render(SDL_Renderer* renderer);
 		void setScene(std::string_view name);

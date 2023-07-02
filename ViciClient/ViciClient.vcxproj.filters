@@ -46,6 +46,9 @@
     <Filter Include="Source Files\JSRuntime">
       <UniqueIdentifier>{d6086892-83ca-43b4-9a63-2408b2fa9103}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{6470631c-6b0a-4a77-bbb0-e4669731b959}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityTexture.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +123,10 @@
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="ClientScriptLoader.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityTexture.hpp">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

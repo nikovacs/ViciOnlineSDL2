@@ -17,6 +17,8 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
 
+	SDL_RenderSetScale(_renderer, 1, 1);
+
 	_udpClient = std::make_unique<Networking::UdpClient>("localhost", 8424);
 
 	instance = this;
@@ -53,6 +55,7 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::initialize() {
+	_sceneManager->initialize();
 	_scriptLoader.loadScript("testscript.js");
 }
 

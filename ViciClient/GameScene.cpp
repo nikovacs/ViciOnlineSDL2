@@ -13,22 +13,17 @@ namespace Scenes {
 
 	}
 
+	void Scenes::GameScene::initialize() {
+		_playerTexture = std::make_unique<Entities::EntityTexture>("nik1.png", 0, 0, 48, 64);
+	}
+
 	void Scenes::GameScene::update() {
-		//TEMP
-		if (!_playerTexture)
-			_playerTexture.reset(new Networking::NetworkAsset<AssetTypes::Texture>("nik1.png"));
+
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {
-		//TEMP
-		SDL_Rect src;
-		src.x = 0;
-		src.y = 0;
-		src.w = 48;
-		src.h = 64;
-
-		SDL_Rect dest{ src };
-		if (_playerTexture->getValue())
-			SDL_RenderCopy(renderer, _playerTexture->getValue()->getUnderlyingTexture(), &src, &dest);
+		if (_playerTexture) {
+			_playerTexture->render(renderer);
+		}
 	}
 }

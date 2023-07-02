@@ -21,6 +21,10 @@ namespace Scenes {
 
 	}
 
+	void SceneManager::initialize() {
+		_currentScene->initialize();
+	}
+
 	void SceneManager::update() {
 		_currentScene->update();
 	}

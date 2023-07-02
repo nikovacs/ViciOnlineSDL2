@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
+    <ClCompile Include="EntityTexture.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="ClientScriptLoader.hpp" />
     <ClInclude Include="EntityDrawable.hpp" />
+    <ClInclude Include="EntityTexture.hpp" />
     <ClInclude Include="GameScene.hpp" />
     <ClInclude Include="KeyboardInputHandler.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />
