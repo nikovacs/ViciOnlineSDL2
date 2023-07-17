@@ -1,5 +1,6 @@
 #include "AssetManager.hpp"
 #include "UdpClient.hpp"
+#include "Animation.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
 #include "../ViciEngine/base64.hpp"
 #include "../ViciEngine/AssetTransfer.hpp"
@@ -62,6 +63,9 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	}
 	else if (typeName == "Script") {
 		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
+	}
+	else if (typeName == "Animation") {
+		assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
 	}
 
 	// put it into the cache

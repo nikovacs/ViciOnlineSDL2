@@ -131,7 +131,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;V8_COMPRESS_POINTERS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>V8_COMPRESS_POINTERS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -170,9 +170,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="EntityTexture.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameDirection.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
@@ -188,6 +191,8 @@
     <ClInclude Include="ClientScriptLoader.hpp" />
     <ClInclude Include="EntityDrawable.hpp" />
     <ClInclude Include="EntityTexture.hpp" />
+    <ClInclude Include="Frame.hpp" />
+    <ClInclude Include="FrameDirection.hpp" />
     <ClInclude Include="GameScene.hpp" />
     <ClInclude Include="KeyboardInputHandler.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />

@@ -1,9 +1,9 @@
 #include "GameScene.hpp"
 #include "ViciClient.hpp"
 #include "NetworkAsset.hpp"
-#include "Texture.hpp"
 #include <SDL2/SDL.h>
 #include <memory>
+#include "Animation.hpp"
 
 namespace Scenes {
 	Scenes::GameScene::GameScene() {
@@ -14,16 +14,19 @@ namespace Scenes {
 	}
 
 	void Scenes::GameScene::initialize() {
-		_playerTexture = std::make_unique<Entities::EntityTexture>("nik1.png", 0, 0, 48, 64);
+		_playerAnimation = std::make_unique<Networking::NetworkAsset<Animations::Animation>>("player_walk.vani");
 	}
 
 	void Scenes::GameScene::update() {
+		if (_playerAnimation->getValue()) {
+			_playerAnimation->getValue()->update();
+		}
 
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {
-		if (_playerTexture) {
-			_playerTexture->render(renderer);
+		if (_playerAnimation->getValue()) {
+			_playerAnimation->getValue()->render(renderer, 0);
 		}
 	}
 }

@@ -56,7 +56,7 @@ void ViciClient::handleEvents() {
 
 void ViciClient::initialize() {
 	_sceneManager->initialize();
-	_scriptLoader.loadScript("testscript.js");
+	_scriptLoader.loadScript("testscript.js"); // TODO remove temporary
 }
 
 void ViciClient::update() {

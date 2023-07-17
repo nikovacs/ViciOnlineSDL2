@@ -90,6 +90,15 @@
     <ClCompile Include="EntityTexture.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameDirection.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -135,7 +144,13 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Animation.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameDirection.hpp">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.hpp">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

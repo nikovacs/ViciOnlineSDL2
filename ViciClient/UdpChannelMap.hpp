@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Animation.hpp"
 #include <map>
 #include <typeindex>
 #include "Texture.hpp"
@@ -10,12 +10,14 @@ namespace Networking {
 	class UdpTypeChannelMap {
 	private:
 		static inline const std::map<std::type_index, int> _typeToNumberMap{
-			{ std::type_index(typeid(AssetTypes::Texture)), Texture},
-			{ std::type_index(typeid(JS::Script)), Script},
+			{ std::type_index(typeid(AssetTypes::Texture)), Texture },
+			{ std::type_index(typeid(JS::Script)), Script },
+			{ std::type_index(typeid(Animations::Animation)), Animation },
 		};
 		static inline const std::map<int, std::string> _numberToNameMap{
 			{ Texture, "Texture" },
 			{ Script, "Script" },
+			{ Animation, "Animation" },
 		};
 	public:
 		template <typename T>
