@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
 Animations::Frame::Frame() : _durationSeconds{ 0.05 } {}
 
 Animations::Frame::~Frame() {}
@@ -11,6 +13,7 @@ void Animations::Frame::pushFrameDirection(std::string& line) {
 }
 
 void Animations::Frame::setDuration(double durationSeconds) {
+	std::cout << "SETTING DURATION TO " << durationSeconds << std::endl;
 	_durationSeconds = durationSeconds;
 }
 

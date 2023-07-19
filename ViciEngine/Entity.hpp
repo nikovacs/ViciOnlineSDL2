@@ -5,6 +5,6 @@ namespace Entities {
 	protected:
 		double _x{}, _y{};
 	public:
-		void setPosition(double x, double y);
+		virtual void setPosition(double x, double y);
 	};
 }

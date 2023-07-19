@@ -47,7 +47,7 @@ void Animations::Animation::update() {
 	}
 }
 
-void Animations::Animation::render(SDL_Renderer* renderer, int direction) {
+void Animations::Animation::render(SDL_Renderer* renderer, double x, double y, int direction) {
 	if (_currentFrameIndex == -1) return;
 	if (direction < 0 || direction > 3) return;
 	if (_currentFrameIndex >= 0 && _frames.size() <= _currentFrameIndex) return;
@@ -171,7 +171,7 @@ void Animations::Animation::parseAniFragment(std::string& line) {
 		_frames.back().pushFrameDirection(line);
 	}
 	else if (line.starts_with("wait")) {
-		_frames.back().setDuration(std::stoi(line.substr(5)));
+		_frames.back().setDuration(std::stod(line.substr(5)));
 	}
 	else if (line.starts_with("audio")) {
 		// todo

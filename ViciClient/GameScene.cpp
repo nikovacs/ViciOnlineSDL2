@@ -14,19 +14,16 @@ namespace Scenes {
 	}
 
 	void Scenes::GameScene::initialize() {
-		_playerAnimation = std::make_unique<Networking::NetworkAsset<Animations::Animation>>("player_walk.vani");
+		_clientPlayer = std::make_unique<Entities::ClientPlayer>("player_idle.vani", 0, 0, 3);
 	}
 
 	void Scenes::GameScene::update() {
-		if (_playerAnimation->getValue()) {
-			_playerAnimation->getValue()->update();
-		}
-
+		if (_clientPlayer)
+			_clientPlayer->update();
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {
-		if (_playerAnimation->getValue()) {
-			_playerAnimation->getValue()->render(renderer, 0);
-		}
+		if (_clientPlayer)
+			_clientPlayer->render(renderer);
 	}
 }

@@ -21,7 +21,7 @@ namespace Animations {
 		Animation(std::string_view name, std::string_view source);
 		virtual ~Animation();
 		void update();
-		void render(SDL_Renderer* renderer, int direction);
+		void render(SDL_Renderer* renderer, double x, double y, int direction);
 	private:
 		void parseSource(std::string& source);
 		void parseSprite(std::string& line);

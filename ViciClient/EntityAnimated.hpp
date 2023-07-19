@@ -1,0 +1,27 @@
+#pragma once
+
+#include "EntityDrawable.hpp"
+#include "Animation.hpp"
+#include "NetworkAsset.hpp" // circular inclusion?
+#include <memory>
+#include <string>
+#include <string_view>
+
+namespace Entities {
+	class EntityAnimated : public EntityDrawable {
+	public:
+		EntityAnimated(std::string_view aniName, double x, double y, int direction);
+		void render(SDL_Renderer* renderer) override;
+		void update();
+		virtual void setDir(int dir);
+		int getDir();
+		void setAniSoft(std::string_view aniName);
+		virtual void setAniHard(std::string_view aniName);
+		inline std::string getAni() { return _animationName; };
+	protected:
+		int _direction{};
+		std::string _animationName{};
+		std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _animation{};
+	
+	};
+}

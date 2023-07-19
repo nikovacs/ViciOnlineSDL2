@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <memory>
-#include "Animation.hpp"
+#include "ClientPlayer.hpp"
 
 namespace Scenes {
 	class GameScene : public Scene {
@@ -14,6 +14,7 @@ namespace Scenes {
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
 	private:
-		std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _playerAnimation{ nullptr };
+		//std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _playerAnimation{ nullptr };
+		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };
 	};
 }
