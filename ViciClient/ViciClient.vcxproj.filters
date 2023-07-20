@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Players">
       <UniqueIdentifier>{6c6cfb4a-cc6f-4fb1-acf2-1cfe94cf9139}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Levels">
+      <UniqueIdentifier>{28831e96-56cb-4a47-a1d0-7ef5f4dc8f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Levels">
+      <UniqueIdentifier>{74877cc1-3f2b-4ae5-8ddd-8f7c7b616470}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="ClientPlayer.cpp">
       <Filter>Source Files\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleLevel.cpp">
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="ClientPlayer.hpp">
       <Filter>Header Files\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.hpp">
+      <Filter>Header Files\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleLevel.hpp">
+      <Filter>Header Files\Levels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

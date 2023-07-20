@@ -182,12 +182,14 @@
     <ClCompile Include="KeyboardInputHandler.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SingleLevel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UdpClient.cpp" />
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Level.hpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="ClientPlayer.hpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="FrameDirection.hpp" />
     <ClInclude Include="GameScene.hpp" />
     <ClInclude Include="KeyboardInputHandler.hpp" />
+    <ClInclude Include="SingleLevel.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />
     <ClInclude Include="NetworkAsset.hpp" />
     <ClInclude Include="Scene.hpp" />
