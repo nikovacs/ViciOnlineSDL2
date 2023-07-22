@@ -11,8 +11,6 @@
 #include <ctre.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <iostream>
-
 Animations::Animation::Animation(std::string_view name, std::string_view source) : _name{ name } {
 	std::string sourceString{ source };
 	parseSource(sourceString);
