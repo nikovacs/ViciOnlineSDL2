@@ -27,9 +27,9 @@ namespace Scenes {
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {
-		if (_clientPlayer)
-			_clientPlayer->render(renderer);
 		if (_level->getValue())
 			_level->getValue()->render(renderer);
+		if (_clientPlayer)
+			_clientPlayer->render(renderer);
 	}
 }
