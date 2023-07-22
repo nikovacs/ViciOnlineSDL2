@@ -4,8 +4,6 @@
 #include <enet/enet.h>
 #include <nlohmann/json.hpp>
 
-#include <iostream>
-
 namespace fs = std::filesystem;
 
 void Networking::AssetBroker::sendFile(ENetEvent& event) {

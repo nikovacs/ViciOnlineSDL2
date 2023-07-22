@@ -41,6 +41,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::Animation:
 			case UdpChannels::Texture:
             case UdpChannels::Script:
+            case UdpChannels::Level:
                 AssetManager::onReceived(event);
 				break;
             }
