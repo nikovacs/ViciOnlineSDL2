@@ -4,6 +4,8 @@
 #include <SDL2/SDL_image.h>
 #include <memory>
 #include "ClientPlayer.hpp"
+#include "Level.hpp"
+#include "NetworkAsset.hpp"
 
 namespace Scenes {
 	class GameScene : public Scene {
@@ -16,5 +18,6 @@ namespace Scenes {
 	private:
 		//std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _playerAnimation{ nullptr };
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };
+		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _level{ nullptr };
 	};
 }

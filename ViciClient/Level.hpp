@@ -23,6 +23,7 @@ namespace Levels {
 				if (!i) total += 64 * static_cast<int>(b64Chars.find(input.at(i)));
 				else total += static_cast<int>(b64Chars.find(input.at(i)));
 			}
+			return total;
 		}
 	};
 }

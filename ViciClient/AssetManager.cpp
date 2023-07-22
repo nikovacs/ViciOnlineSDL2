@@ -14,6 +14,8 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <memory>
+#include "Level.hpp"
+#include "SingleLevel.hpp"
 
 #include <iostream>
 
@@ -66,6 +68,15 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	}
 	else if (typeName == "Animation") {
 		assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
+	}
+	else if (typeName == "Level") {
+		int dotIndex{ static_cast<int>(fileName.find_last_of('.')) };
+		std::string extension{ fileName.substr(dotIndex + 1) };
+		if (extension == "vlvl")
+			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
+		else if (extension == "vmap") {
+			// TODO
+		}
 	}
 
 	// put it into the cache

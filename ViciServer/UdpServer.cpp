@@ -14,7 +14,7 @@ Networking::UdpServer::~UdpServer() {
 void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
     ENetEvent event;
     while (_isRunning) {
-        std::cout << "udpserver running\n";
+        //std::cout << "udpserver running\n";
         enet_host_service(server, &event, 1000);
         switch (event.type)
         {
@@ -34,6 +34,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
             case UdpChannels::Script:
+            case UdpChannels::Level:
                 AssetBroker::sendFile(event);
                 break;
             }
