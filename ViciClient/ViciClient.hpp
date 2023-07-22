@@ -26,7 +26,7 @@ public:
 
 	bool isRunning() { return _isRunning; }
 	SDL_Renderer* getRenderer() { return _renderer; }
-	SDL_Window* getWdinow() { return _window; }
+	SDL_Window* getWindow() { return _window; }
 	
 private:
 	std::unique_ptr<std::thread> _networkThread;
