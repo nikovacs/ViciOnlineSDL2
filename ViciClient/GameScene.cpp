@@ -24,7 +24,7 @@ namespace Scenes {
 	void Scenes::GameScene::update() {
 		if (_clientPlayer) {
 			_clientPlayer->update();
-			//_clientPlayer->setPosition(_clientPlayer->getX() + 1, _clientPlayer->getY() + 1); // TEMPORARY
+			// the below four if statements are temporary
 			if (Handlers::KeyboardInputHandler::isKeyDown("Down"))
 				_clientPlayer->setPosition(_clientPlayer->getX(), _clientPlayer->getY() + 3);
 			if (Handlers::KeyboardInputHandler::isKeyDown("Up"))
