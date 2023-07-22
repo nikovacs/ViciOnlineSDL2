@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="FrameDirection.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInputHandler.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SingleLevel.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Level.hpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />

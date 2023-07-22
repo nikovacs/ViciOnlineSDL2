@@ -1,5 +1,6 @@
 #include "KeyboardInputHandler.hpp"
 #include <string>
+#include <iostream>
 
 std::set<std::string> Handlers::KeyboardInputHandler::_keysDown = std::set<std::string>();
 

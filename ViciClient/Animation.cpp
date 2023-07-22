@@ -45,7 +45,7 @@ void Animations::Animation::update() {
 	}
 }
 
-void Animations::Animation::render(SDL_Renderer* renderer, double x, double y, int direction) {
+void Animations::Animation::render(SDL_Renderer* renderer, int x, int y, int direction) {
 	if (_currentFrameIndex == -1) return;
 	if (direction < 0 || direction > 3) return;
 	if (_currentFrameIndex >= 0 && _frames.size() <= _currentFrameIndex) return;
@@ -66,7 +66,7 @@ void Animations::Animation::render(SDL_Renderer* renderer, double x, double y, i
 		int spriteY = spriteYs[i];
 
 		SDL_Rect& src{ _spriteIndexRectMap[spriteIndex] };
-		SDL_Rect dst{ spriteX, spriteY, src.w, src.h };
+		SDL_Rect dst{ spriteX + x, spriteY + y, src.w, src.h };
 
 		SDL_RenderCopy(renderer, texture->getUnderlyingTexture(), &src, &dst);
 	}

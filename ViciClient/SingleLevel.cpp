@@ -7,7 +7,8 @@
 #include <SDL2/SDL.h>
 
 namespace Levels {
-	SingleLevel::SingleLevel(std::string_view name, std::string_view source) : _name{name} {
+	SingleLevel::SingleLevel(std::string_view name, std::string_view source) {
+		_name = name;
 		std::istringstream iss{ source.data() };
 		std::string line;
 

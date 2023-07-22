@@ -9,7 +9,16 @@ namespace Levels {
 	public:
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
+		int getRenderDistance();
+		int getTileSize();
+		int getLevelHeight();
+		int getLevelWidth();
 	protected:
+		int _renderDistance{ 0 };
+		int _tileSize{};
+		std::pair<int, int> _levelDimensions{};
+		std::string _name{};
+		
 		inline std::string intToB64(int input) {
 			std::string b64Chars{ base64::get_base64_chars() };
 			char first{ b64Chars[input / 64] };

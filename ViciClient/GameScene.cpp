@@ -6,6 +6,8 @@
 #include "Animation.hpp"
 #include "SingleLevel.hpp"
 
+#include "KeyboardInputHandler.hpp" // TEMPORARY
+
 namespace Scenes {
 	Scenes::GameScene::GameScene() {
 	}
@@ -20,10 +22,23 @@ namespace Scenes {
 	}
 
 	void Scenes::GameScene::update() {
-		if (_clientPlayer)
+		if (_clientPlayer) {
 			_clientPlayer->update();
-		if (_level->getValue())
+			//_clientPlayer->setPosition(_clientPlayer->getX() + 1, _clientPlayer->getY() + 1); // TEMPORARY
+			if (Handlers::KeyboardInputHandler::isKeyDown("Down"))
+				_clientPlayer->setPosition(_clientPlayer->getX(), _clientPlayer->getY() + 3);
+			if (Handlers::KeyboardInputHandler::isKeyDown("Up"))
+				_clientPlayer->setPosition(_clientPlayer->getX(), _clientPlayer->getY() - 3);
+			if (Handlers::KeyboardInputHandler::isKeyDown("Left"))
+				_clientPlayer->setPosition(_clientPlayer->getX() - 3, _clientPlayer->getY());
+			if (Handlers::KeyboardInputHandler::isKeyDown("Right"))
+				_clientPlayer->setPosition(_clientPlayer->getX() + 3, _clientPlayer->getY());
+		}
+		if (_level->getValue()) {
 			_level->getValue()->update();
+			_camera.update(*(_level->getValue()));
+		}
+		
 	}
 
 	void Scenes::GameScene::render(SDL_Renderer* renderer) {

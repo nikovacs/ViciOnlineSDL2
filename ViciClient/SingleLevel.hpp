@@ -18,9 +18,6 @@ namespace Levels {
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
 	private:
-		int _tileSize{};
-		std::pair<int, int> _levelDimensions;
-		std::string _name{};
 		std::unordered_map<int, std::unique_ptr<Networking::NetworkAsset<AssetTypes::Texture>>> _layerTilesetMap{};
 		//std::vector<std::pair<SDL_Rect, SDL_Rect>> _tilesSrcDest;
 		std::vector<std::unordered_map<int, std::vector<SDL_Rect>>> _tileRects{};
