@@ -64,10 +64,7 @@ namespace Levels {
 					SDL_Rect& srcRect = tileRectsVec.at(levelWidth);
 					
 					if (srcRect.w == 0) continue; // blank
-					
-					int destX{ _tileSize * levelWidth };
-					int destY{ _tileSize * levelHeight };
-					SDL_Rect dstRect{ destX, destY, _tileSize, _tileSize };
+					SDL_Rect dstRect{ _tileSize * levelWidth, _tileSize * levelHeight, _tileSize, _tileSize };
 
 					SDL_RenderCopy(renderer, tilesetTexture->getValue()->getUnderlyingTexture(), &srcRect, &dstRect);
 				}
