@@ -10,7 +10,7 @@
 namespace Entities {
 	class EntityAnimated : public EntityDrawable {
 	public:
-		EntityAnimated(std::string_view aniName, double x, double y, int direction);
+		EntityAnimated(std::string_view aniName, int x, int y, int direction);
 		void render(SDL_Renderer* renderer) override;
 		void update();
 		virtual void setDir(int dir);

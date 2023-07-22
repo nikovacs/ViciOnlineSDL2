@@ -1,7 +1,7 @@
 #include "EntityAnimated.hpp"
 #include <string>
 
-Entities::EntityAnimated::EntityAnimated(std::string_view aniName, double x, double y, int direction) :
+Entities::EntityAnimated::EntityAnimated(std::string_view aniName, int x, int y, int direction) :
 	_animation{ std::make_unique<Networking::NetworkAsset<Animations::Animation>>(aniName) },
 	_direction{ direction }, _animationName{ aniName } {
 	_x = x;

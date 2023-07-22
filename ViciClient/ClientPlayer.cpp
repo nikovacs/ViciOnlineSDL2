@@ -10,7 +10,7 @@ void Entities::ClientPlayer::setAniHard(std::string_view aniName) {
 	// TODO send packet to server
 }
 
-void Entities::ClientPlayer::setPosition(double x, double y) {
+void Entities::ClientPlayer::setPosition(int x, int y) {
 	EntityAnimated::setPosition(x, y);
 	// TODO send packet to server
 }
