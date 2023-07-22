@@ -16,8 +16,8 @@ namespace Scenes {
 		void initialize() override;
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
+		static GameScene* instance;
 	private:
-		//std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _playerAnimation{ nullptr };
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };
 		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _level{ nullptr };
 		Client::Camera _camera{};

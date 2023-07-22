@@ -9,19 +9,22 @@
 #include "KeyboardInputHandler.hpp" // TEMPORARY
 
 namespace Scenes {
-	Scenes::GameScene::GameScene() {
+	GameScene* GameScene::instance = nullptr;
+	
+	GameScene::GameScene() {
+		instance = this;
 	}
 
-	Scenes::GameScene::~GameScene() {
+	GameScene::~GameScene() {
 
 	}
 
-	void Scenes::GameScene::initialize() {
+	void GameScene::initialize() {
 		_clientPlayer = std::make_unique<Entities::ClientPlayer>("player_idle.vani", 0, 0, 3);
 		_level = std::make_unique<Networking::NetworkAsset<Levels::Level>>("newlevel.vlvl");
 	}
 
-	void Scenes::GameScene::update() {
+	void GameScene::update() {
 		if (_clientPlayer) {
 			_clientPlayer->update();
 			// the below four if statements are temporary
@@ -34,14 +37,17 @@ namespace Scenes {
 			if (Handlers::KeyboardInputHandler::isKeyDown("Right"))
 				_clientPlayer->setPosition(_clientPlayer->getX() + 3, _clientPlayer->getY());
 		}
+		
 		if (_level->getValue()) {
 			_level->getValue()->update();
-			_camera.update(*(_level->getValue()));
 		}
 		
+		if (_level->getValue() && _clientPlayer) {
+			_camera.update(*_level->getValue(), *_clientPlayer);
+		}
 	}
 
-	void Scenes::GameScene::render(SDL_Renderer* renderer) {
+	void GameScene::render(SDL_Renderer* renderer) {
 		if (_level->getValue())
 			_level->getValue()->render(renderer);
 		if (_clientPlayer)
