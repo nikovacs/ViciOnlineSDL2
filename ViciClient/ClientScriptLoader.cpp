@@ -6,7 +6,7 @@
 #include <set>
 #include <vector>
 
-JS::ClientScriptLoader::ClientScriptLoader() : _scriptsInProgress{}, _scripts{} {}
+JS::ClientScriptLoader::ClientScriptLoader() {}
 
 void JS::ClientScriptLoader::update() {
 	attemptResolveInProgress();

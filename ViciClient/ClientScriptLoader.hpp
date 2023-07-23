@@ -20,7 +20,7 @@ namespace JS {
 		void update();
 	private:
 		void attemptResolveInProgress();
-		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts;
-		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress;
+		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts{};
+		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress{};
 	};
 }
