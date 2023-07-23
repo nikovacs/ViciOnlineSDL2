@@ -16,6 +16,8 @@ void JS::ClientScriptLoader::update() {
 }
 
 void JS::ClientScriptLoader::attemptResolveInProgress() {
+	if (_scriptsInProgress.size() == 0) return;
+	
 	std::vector<std::string> toRemove{};
 	for (auto& script : _scriptsInProgress) {
 		auto scriptPtr = script.second->getValue();
