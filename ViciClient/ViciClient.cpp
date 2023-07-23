@@ -15,9 +15,9 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) { return; }
 	_window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
-	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
-	SDL_RenderSetScale(_renderer, 1, 1);
+	//SDL_RenderSetScale(_renderer, 2, 2);
 
 	_udpClient = std::make_unique<Networking::UdpClient>("localhost", 8424);
 

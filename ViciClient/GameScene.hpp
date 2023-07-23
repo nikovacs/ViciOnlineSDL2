@@ -16,6 +16,7 @@ namespace Scenes {
 		void initialize() override;
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
+		Client::Camera& getCamera();
 		static GameScene* instance;
 	private:
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };

@@ -5,6 +5,7 @@
 #include <istream>
 #include <boost/algorithm/string.hpp>
 #include <SDL2/SDL.h>
+#include "GameScene.hpp"
 
 namespace Levels {
 	SingleLevel::SingleLevel(std::string_view name, std::string_view source) {
@@ -62,10 +63,12 @@ namespace Levels {
 				
 				auto& tileRectsVec = tileRectMap[levelHeight];
 				for (int levelWidth{ 0 }; levelWidth < _levelDimensions.first; levelWidth++) {
+					Client::Camera& camera{ Scenes::GameScene::instance->getCamera() };
+					
 					SDL_Rect& srcRect = tileRectsVec.at(levelWidth);
 					
 					if (srcRect.w == 0) continue; // blank
-					SDL_Rect dstRect{ _tileSize * levelWidth, _tileSize * levelHeight, _tileSize, _tileSize };
+					SDL_Rect dstRect{ _tileSize * levelWidth - camera.getX() + camera.getOffsetX(), _tileSize * levelHeight - camera.getY() + camera.getOffsetY(), _tileSize, _tileSize};
 
 					SDL_RenderCopy(renderer, tilesetTexture->getValue()->getUnderlyingTexture(), &srcRect, &dstRect);
 				}

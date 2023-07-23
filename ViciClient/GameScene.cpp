@@ -5,6 +5,7 @@
 #include <memory>
 #include "Animation.hpp"
 #include "SingleLevel.hpp"
+#include "Camera.hpp"
 
 #include "KeyboardInputHandler.hpp" // TEMPORARY
 
@@ -20,7 +21,10 @@ namespace Scenes {
 	}
 
 	void GameScene::initialize() {
+		_camera.initialize();
 		_clientPlayer = std::make_unique<Entities::ClientPlayer>("player_idle.vani", 0, 0, 3);
+		_clientPlayer->setWidth(13);
+		_clientPlayer->setHeight(23);
 		_level = std::make_unique<Networking::NetworkAsset<Levels::Level>>("newlevel.vlvl");
 	}
 
@@ -52,5 +56,9 @@ namespace Scenes {
 			_level->getValue()->render(renderer);
 		if (_clientPlayer)
 			_clientPlayer->render(renderer);
+	}
+
+	Client::Camera& GameScene::getCamera() {
+		return _camera;
 	}
 }

@@ -10,6 +10,7 @@
 #include "Frame.hpp"
 #include <ctre.hpp>
 #include <boost/algorithm/string.hpp>
+#include "GameScene.hpp"
 
 Animations::Animation::Animation(std::string_view name, std::string_view source) : _name{ name } {
 	std::string sourceString{ source };
@@ -61,12 +62,14 @@ void Animations::Animation::render(SDL_Renderer* renderer, int x, int y, int dir
 
 		AssetTypes::Texture* texture{ _fileTextureMap[textureFile]->getValue() };
 		if (!texture) continue;
+
+		Client::Camera& camera{ Scenes::GameScene::instance->getCamera() };
 		
 		int spriteX = spriteXs[i];
 		int spriteY = spriteYs[i];
 
 		SDL_Rect& src{ _spriteIndexRectMap[spriteIndex] };
-		SDL_Rect dst{ spriteX + x, spriteY + y, src.w, src.h };
+		SDL_Rect dst{ spriteX + x - camera.getX() + camera.getOffsetX(), spriteY + y - camera.getY() + camera.getOffsetY(), src.w, src.h};
 
 		SDL_RenderCopy(renderer, texture->getUnderlyingTexture(), &src, &dst);
 	}
