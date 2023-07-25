@@ -15,20 +15,4 @@ namespace Entities {
 		EntityAnimated::setPosition(x, y);
 		// TODO send packet to server
 	}
-
-	int ClientPlayer::getWidth() {
-		return _width;
-	}
-
-	void ClientPlayer::setWidth(int w) {
-		_width = w;
-	}
-
-	int ClientPlayer::getHeight() {
-		return _height;
-	}
-	
-	void ClientPlayer::setHeight(int h) {
-		_height = h;
-	}
 }

@@ -1,7 +1,6 @@
 #include "Camera.hpp"
 #include "ViciClient.hpp"
 #include <SDL2/SDL.h>
-#include "ClientPlayer.hpp"
 
 #include <iostream>
 
@@ -17,7 +16,9 @@ namespace Client {
 		setScale(1); // pass this in from server settings
 	}
 
-	void Camera::update(Levels::Level& level, Entities::ClientPlayer& player) {
+	void Camera::update(Levels::Level& level) {
+		if (!_target) return;
+		
 		int renderDistance{ level.getRenderDistance() };
 		int tileSize{ level.getTileSize() };
 		int levelWidth{ level.getLevelWidth() };
@@ -40,8 +41,8 @@ namespace Client {
 		bool levelFitsHorizontally{ levelWidthPixels * _scale <= screenWidth };
 		bool levelFitsVertically{ levelHeightPixels * _scale <= screenHeight };
 
-		_camera.w = static_cast<int>(screenWidth / 2 / _scale) - player.getWidth() / 2;
-		_camera.h = static_cast<int>(screenHeight / 2 / _scale) - player.getHeight() / 2;
+		_camera.w = static_cast<int>(screenWidth / 2 / _scale) - _target->getWidth() / 2;
+		_camera.h = static_cast<int>(screenHeight / 2 / _scale) - _target->getHeight() / 2;
 
 		if (levelFitsHorizontally) {
 			_camera.x = 0;
@@ -49,7 +50,7 @@ namespace Client {
 		}
 		else {
 			_offsetX = 0;
-			_camera.x = max(player.getX() - _camera.w, 0);
+			_camera.x = max(_target->getX() - _camera.w, 0);
 			if (_camera.x + screenWidth / _scale > levelWidthPixels) {
 				_camera.x = levelWidthPixels - static_cast<int>(screenWidth / _scale);
 			}
@@ -61,7 +62,7 @@ namespace Client {
 		}
 		else {
 			_offsetY = 0;
-			_camera.y = max(player.getY() - _camera.h, 0);
+			_camera.y = max(_target->getY() - _camera.h, 0);
 			if (_camera.y + screenHeight / _scale > levelHeightPixels) {
 				_camera.y = levelHeightPixels - static_cast<int>(screenHeight / _scale);
 			}
@@ -99,5 +100,9 @@ namespace Client {
 
 	int Camera::getOffsetY() {
 		return _offsetY;
+	}
+
+	void Camera::setFocusObject(Entities::Entity* target) {
+		_target = target;
 	}
 }
