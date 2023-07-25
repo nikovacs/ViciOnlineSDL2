@@ -8,8 +8,7 @@
 #include "GameScene.hpp"
 
 namespace Levels {
-	SingleLevel::SingleLevel(std::string_view name, std::string_view source) {
-		_name = name;
+	SingleLevel::SingleLevel(std::string_view name, std::string_view source) : Level{ name } {
 		std::istringstream iss{ source.data() };
 		std::string line;
 

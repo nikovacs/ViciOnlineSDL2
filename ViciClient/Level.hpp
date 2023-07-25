@@ -3,16 +3,18 @@
 #include <SDL2/SDL.h>
 #include "../ViciEngine/base64.hpp"
 #include <string>
+#include <string_view>
 
 namespace Levels {
 	class Level {
 	public:
+		Level(std::string_view name);
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
 		int getRenderDistance();
 		int getTileSize();
-		int getLevelHeight();
-		int getLevelWidth();
+		virtual int getLevelHeight();
+		virtual int getLevelWidth();
 	protected:
 		int _renderDistance{ 0 };
 		int _tileSize{};

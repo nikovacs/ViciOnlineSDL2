@@ -1,6 +1,9 @@
 #include "Level.hpp"
+#include <string_view>
 
 namespace Levels {
+	Level::Level(std::string_view name) : _name{ name } {}
+	
 	int Level::getRenderDistance() {
 		return _renderDistance;
 	}
