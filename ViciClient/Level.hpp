@@ -13,8 +13,8 @@ namespace Levels {
 		virtual void render(SDL_Renderer* renderer) = 0;
 		int getRenderDistance();
 		int getTileSize();
-		virtual int getLevelHeight();
-		virtual int getLevelWidth();
+		int getLevelHeight();
+		int getLevelWidth();
 	protected:
 		int _renderDistance{ 0 };
 		int _tileSize{};

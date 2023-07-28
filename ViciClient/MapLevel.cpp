@@ -80,14 +80,6 @@ namespace Levels {
 		}
 	}
 
-	int MapLevel::getLevelHeight() {
-		return _levelDimensions.second * _mapDimensions.second;
-	}
-
-	int MapLevel::getLevelWidth() {
-		return _levelDimensions.first * _mapDimensions.first;
-	}
-
 	void MapLevel::updateFocusLevel() {
 		if (!Client::Camera::instance) return;
 		int focusX, focusY;
