@@ -5,7 +5,10 @@
 #include <iostream>
 
 namespace Client {
+	Camera* Camera::instance = nullptr;
+
 	Camera::Camera() {
+		instance = this;
 	}
 
 	Camera::~Camera() {
@@ -18,6 +21,8 @@ namespace Client {
 
 	void Camera::update(Levels::Level& level) {
 		if (!_target) return;
+		_focusX = _target->getX() + _target->getWidth() / 2;
+		_focusY = _target->getY() + _target->getHeight() / 2;
 		
 		int renderDistance{ level.getRenderDistance() };
 		int tileSize{ level.getTileSize() };

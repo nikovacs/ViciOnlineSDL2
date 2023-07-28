@@ -21,6 +21,7 @@ namespace Client {
 		int getOffsetY();
 		void setFocusObject(Entities::Entity* target);
 		inline std::pair<int, int> getFocusPoint() { return std::make_pair(_focusX, _focusY); }
+		static Camera* instance;
 		
 	private:
 		SDL_Rect _camera{};
