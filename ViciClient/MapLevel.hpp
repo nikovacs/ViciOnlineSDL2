@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include "NetworkAsset.hpp"
+#include <memory>
 
 namespace Levels {
 	class MapLevel : Level {
@@ -18,8 +19,11 @@ namespace Levels {
 		virtual int getLevelHeight() override;
 		virtual int getLevelWidth() override;
 	private:
+		void updateFocusLevel();
+		void verifyAndUpdateLevelAssets();
 		std::pair<int, int> _mapDimensions{};
 		std::vector<std::vector<std::string>> _mapLevels{};
-		std::unordered_map<std::string, Networking::NetworkAsset<Levels::Level>> _levelNameAssetMap{};
+		std::unordered_map<std::string, std::unique_ptr<Networking::NetworkAsset<Levels::Level>>> _levelNameAssetMap{};
+		std::pair<int, int> _focusLevel{};
 	};
 }

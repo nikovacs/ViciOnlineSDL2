@@ -4,6 +4,9 @@
 #include <istream>
 #include <boost/algorithm/string.hpp>
 #include "Camera.hpp"
+#include "SingleLevel.hpp"
+#include <memory>
+#include "NetworkAsset.hpp"
 
 namespace Levels {
 	MapLevel::MapLevel(std::string_view name, std::string_view source) : Level{ name } {
@@ -18,7 +21,7 @@ namespace Levels {
 
 		std::getline(iss, line); // first line (level dimensions)
 		boost::trim(line);
-		line = line.substr(line.size() - 4); // Necessary if the file begins with BOM denoting utf-8
+		//line = line.substr(line.size() - 4); // Necessary if the file begins with BOM denoting utf-8
 		_levelDimensions.first = b64ToInt(line.substr(0, 2));
 		_levelDimensions.second = b64ToInt(line.substr(2));
 
@@ -28,10 +31,10 @@ namespace Levels {
 		std::getline(iss, line);
 		_renderDistance = std::stoi(line);
 		
-		_mapLevels.resize(_mapDimensions.second);
+		_mapLevels.reserve(_mapDimensions.second);
 		for (int i{ 0 }; i < _mapDimensions.second; i++) {
 			_mapLevels.emplace_back();
-			_mapLevels.back().resize(_mapDimensions.first);
+			_mapLevels.back().reserve(_mapDimensions.first);
 		}
 		bool recordLevels{ false };
 		int i{ 0 }, j{ 0 };
@@ -45,7 +48,7 @@ namespace Levels {
 				recordLevels = false;
 			}
 			else if (recordLevels) {
-				_mapLevels[i][j] = line;
+				_mapLevels.at(i).emplace_back(line + ".vlvl");
 				j++;
 				if (j == _mapDimensions.first) {
 					j = 0;
@@ -58,10 +61,24 @@ namespace Levels {
 	MapLevel::~MapLevel() {}
 	
 	void MapLevel::update() {
-		
+		updateFocusLevel();
+		verifyAndUpdateLevelAssets();
 	}
 
-	void MapLevel::render(SDL_Renderer* renderer) {}
+	void MapLevel::render(SDL_Renderer* renderer) {
+		for (int i{ _focusLevel.first - _renderDistance }; i <= _focusLevel.first + _renderDistance; i++) {
+			if (i < 0 || i >= _mapDimensions.first) continue;
+			int xOffset{ _levelDimensions.second * _tileSize * i };
+			
+			for (int j{ _focusLevel.second - _renderDistance }; j <= _focusLevel.second + _renderDistance; j++) {
+				if (j < 0 || j >= _mapDimensions.second) continue;
+				if (!_levelNameAssetMap[_mapLevels[j][i]]->getValue()) continue;
+				int yOffset{ _levelDimensions.first * _tileSize * j };
+
+				reinterpret_cast<Levels::SingleLevel*>(_levelNameAssetMap[_mapLevels[j][i]]->getValue())->renderWithOffsets(renderer, xOffset, yOffset);
+			}
+		}
+	}
 
 	int MapLevel::getLevelHeight() {
 		return _levelDimensions.second * _mapDimensions.second;
@@ -69,5 +86,34 @@ namespace Levels {
 
 	int MapLevel::getLevelWidth() {
 		return _levelDimensions.first * _mapDimensions.first;
+	}
+
+	void MapLevel::updateFocusLevel() {
+		if (!Client::Camera::instance) return;
+		int focusX, focusY;
+		std::tie(focusX, focusY) = Client::Camera::instance->getFocusPoint();
+		int levelWidthPixels = _levelDimensions.first * _tileSize;
+		int levelHeightPixels = _levelDimensions.second * _tileSize;
+		_focusLevel.first = focusX / levelWidthPixels;
+		_focusLevel.second = focusY / levelHeightPixels;
+	}
+
+	void MapLevel::verifyAndUpdateLevelAssets() {
+		for (int i{ _focusLevel.first - _renderDistance }; i <= _focusLevel.first + _renderDistance; i++) {
+			if (i < 0 || i >= _mapDimensions.first) continue;
+			
+			for (int j{ _focusLevel.second - _renderDistance }; j <= _focusLevel.second + _renderDistance; j++) {
+				if (j < 0 || j >= _mapDimensions.second) continue;
+				
+				std::string& levelName = _mapLevels.at(j).at(i);
+				
+				if (!_levelNameAssetMap.contains(levelName)) {
+					_levelNameAssetMap.emplace(levelName, std::make_unique<Networking::NetworkAsset<Levels::Level>>(levelName));
+				}
+				else if (_levelNameAssetMap[levelName]->getValue()) {
+					_levelNameAssetMap[levelName]->getValue()->update();
+				}
+			}
+		}
 	}
 }
