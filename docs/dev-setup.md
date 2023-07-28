@@ -10,3 +10,5 @@
 * v8 (build for non-windows, contact Nik for pre-built windows lib)
 
 *NOTE*: If developing on Windows, just ask Nik for his lib folder instead of doing the non-vcpkg steps above.
+
+Lib and Include folders should be in the root directory of the project.
