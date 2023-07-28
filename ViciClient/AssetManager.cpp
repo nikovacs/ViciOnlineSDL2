@@ -16,6 +16,7 @@
 #include <memory>
 #include "Level.hpp"
 #include "SingleLevel.hpp"
+#include "MapLevel.hpp"
 
 namespace fs = std::filesystem;
 
@@ -72,7 +73,7 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 		if (extension == "vlvl")
 			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
 		else if (extension == "vmap") {
-			// TODO
+			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
 		}
 	}
 

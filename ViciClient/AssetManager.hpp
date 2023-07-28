@@ -15,7 +15,7 @@ namespace Networking {
 
 		template <typename T>
 		static std::shared_ptr<T> resolve(std::string_view fileName) {
-			if (_assetCache.count(fileName.data())) {
+			if (_assetCache.contains(fileName.data())) {
 				if (!_assetCache[fileName.data()].expired()) {
 					std::shared_ptr<T> return_ptr = static_pointer_cast<T>(_assetCache[fileName.data()].lock());
 					_assetsInProgress.erase(fileName.data());
@@ -28,7 +28,7 @@ namespace Networking {
 
 		template <typename T>
 		static void retrieveAsset(std::string_view fileName) {
-			if (_assetsInProgress.count(fileName.data())) {
+			if (_assetsInProgress.contains(fileName.data()) || _assetCache.contains(fileName.data())) {
 				// asset is already in progress, just wait for it to finish.
 				return;
 			}
