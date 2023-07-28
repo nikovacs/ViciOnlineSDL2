@@ -22,11 +22,11 @@ namespace Scenes {
 
 	void GameScene::initialize() {
 		_camera.initialize();
-		_clientPlayer = std::make_unique<Entities::ClientPlayer>("player_idle.vani", 0, 0, 3);
+		_clientPlayer = std::make_unique<Entities::ClientPlayer>("player_idle.vani", 0, 0, 0);
 		_camera.setFocusObject(_clientPlayer.get());
 		_clientPlayer->setWidth(13);
 		_clientPlayer->setHeight(23);
-		_level = std::make_unique<Networking::NetworkAsset<Levels::Level>>("newlevel.vlvl");
+		_level = std::make_unique<Networking::NetworkAsset<Levels::Level>>("firstmap.vmap");
 	}
 
 	void GameScene::update() {
