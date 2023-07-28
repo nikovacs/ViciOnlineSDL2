@@ -16,7 +16,7 @@ namespace Client {
 	}
 
 	void Camera::initialize() {
-		setScale(1); // pass this in from server settings
+		setScale(.5f); // pass this in from server settings
 	}
 
 	void Camera::update(Levels::Level& level) {
@@ -31,8 +31,8 @@ namespace Client {
 
 		int levelWidthPixels{ levelWidth * tileSize };
 		int levelHeightPixels{ levelHeight * tileSize };
-		levelWidthPixels += levelWidthPixels * renderDistance * 2;
-		levelHeightPixels += levelHeightPixels * renderDistance * 2;
+		//levelWidthPixels += levelWidthPixels * renderDistance * 2;
+		//levelHeightPixels += levelHeightPixels * renderDistance * 2;
 
 		int screenWidth, screenHeight;
 		SDL_GetWindowSize(ViciClient::instance->getWindow(), &screenWidth, &screenHeight);

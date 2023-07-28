@@ -16,6 +16,8 @@ namespace Levels {
 		virtual ~MapLevel();
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
+		virtual int getLevelHeight() override;
+		virtual int getLevelWidth() override;
 	private:
 		void updateFocusLevel();
 		void verifyAndUpdateLevelAssets();
