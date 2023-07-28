@@ -51,23 +51,27 @@ namespace Levels {
 	}
 
 	void SingleLevel::render(SDL_Renderer* renderer) {
+		renderWithOffsets(renderer, 0, 0);
+	}
+
+	void SingleLevel::renderWithOffsets(SDL_Renderer* renderer, int xOffset, int yOffset) {
 		for (int layerNum{ 0 }; layerNum < _tileRects.size(); layerNum++) {
 			auto& tilesetTexture = _layerTilesetMap[layerNum];
 			if (!tilesetTexture->getValue()) continue;
-			
+
 			auto& tileRectMap = _tileRects[layerNum];
-			
+
 			for (int levelHeight{ 0 }; levelHeight < _levelDimensions.second; levelHeight++) {
 				if (!tileRectMap.count(levelHeight)) continue;
-				
+
 				auto& tileRectsVec = tileRectMap[levelHeight];
 				for (int levelWidth{ 0 }; levelWidth < _levelDimensions.first; levelWidth++) {
 					Client::Camera& camera{ Scenes::GameScene::instance->getCamera() };
-					
+
 					SDL_Rect& srcRect = tileRectsVec.at(levelWidth);
-					
+
 					if (srcRect.w == 0) continue; // blank
-					SDL_Rect dstRect{ _tileSize * levelWidth - camera.getX() + camera.getOffsetX(), _tileSize * levelHeight - camera.getY() + camera.getOffsetY(), _tileSize, _tileSize};
+					SDL_Rect dstRect{ _tileSize * levelWidth + xOffset - camera.getX() + camera.getOffsetX(), _tileSize * levelHeight + yOffset - camera.getY() + camera.getOffsetY(), _tileSize, _tileSize };
 
 					SDL_RenderCopy(renderer, tilesetTexture->getValue()->getUnderlyingTexture(), &srcRect, &dstRect);
 				}

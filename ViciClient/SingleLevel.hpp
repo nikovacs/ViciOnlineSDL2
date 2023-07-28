@@ -17,6 +17,7 @@ namespace Levels {
 		virtual ~SingleLevel();
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
+		void renderWithOffsets(SDL_Renderer* renderer, int xOffset, int yOffset);
 	private:
 		std::unordered_map<int, std::unique_ptr<Networking::NetworkAsset<AssetTypes::Texture>>> _layerTilesetMap{};
 		//std::vector<std::pair<SDL_Rect, SDL_Rect>> _tilesSrcDest;
