@@ -200,5 +200,8 @@
     <ClInclude Include="MapLevel.hpp">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkedPlayer.hpp">
+      <Filter>Header Files\Players</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
