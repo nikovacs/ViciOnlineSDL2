@@ -129,6 +129,12 @@
     <ClCompile Include="MapLevel.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkedPlayer.cpp">
+      <Filter>Source Files\Players</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -202,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="NetworkedPlayer.hpp">
       <Filter>Header Files\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.hpp">
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

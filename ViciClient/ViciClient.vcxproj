@@ -184,6 +184,8 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MapLevel.cpp" />
     <ClCompile Include="MouseInputHandler.cpp" />
+    <ClCompile Include="NetworkedPlayer.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SingleLevel.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -207,6 +209,7 @@
     <ClInclude Include="KeyboardInputHandler.hpp" />
     <ClInclude Include="MapLevel.hpp" />
     <ClInclude Include="NetworkedPlayer.hpp" />
+    <ClInclude Include="PlayerManager.hpp" />
     <ClInclude Include="SingleLevel.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />
     <ClInclude Include="NetworkAsset.hpp" />
