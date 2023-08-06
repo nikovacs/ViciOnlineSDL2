@@ -6,6 +6,14 @@ namespace Networking {
 		Animation,
 		Level,
 		Script,
+		
+		SpawnPlayer,
+		DespawnPlayer,
+		UpdatePlayerPos,
+		UpdatePlayerAniHard,
+		UpdatePlayerAniSoft,
+		UpdatePlayerDir,
+		
 		MAX_CHANNELS
 	};
 }
