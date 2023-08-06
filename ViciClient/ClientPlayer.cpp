@@ -2,7 +2,7 @@
 
 namespace Entities {
 	void ClientPlayer::setDir(int dir) {
-		EntityAnimated::setDir(dir);
+		Entity::setDir(dir);
 		// TODO send packet to server
 	}
 
