@@ -34,6 +34,7 @@ namespace Scenes {
 		std::string_view level = json["level"];
 
 		auto newGameScene = std::make_unique<GameScene>(x, y, w, h, dir, animation, level);
+		newGameScene->getCamera().setScale(json["cameraZoom"]);
 		
 		std::lock_guard<std::mutex> lock(_sceneMutex);
 		_currentScene = nullptr;

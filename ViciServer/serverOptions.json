@@ -10,5 +10,6 @@
 	"defaultX": 30,
 	"defaultY": 30,
 	"defaultWidth": 13,
-	"defaultHeight": 23
+	"defaultHeight": 23,
+	"defaultZoom": 1.5
 }

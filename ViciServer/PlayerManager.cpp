@@ -26,6 +26,7 @@ namespace Networking {
 		playerData["dir"] = serverOptions["defaultDir"];
 		playerData["animation"] = serverOptions["defaultAni"];
 		playerData["level"] = serverOptions["defaultLevel"];
+		playerData["cameraZoom"] = serverOptions["defaultZoom"];
 
 		std::string jsonString{ playerData.dump() };
 		
