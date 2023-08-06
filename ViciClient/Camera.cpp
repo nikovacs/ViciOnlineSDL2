@@ -16,7 +16,7 @@ namespace Client {
 	}
 
 	void Camera::initialize() {
-		setScale(.5f); // pass this in from server settings
+		setScale(1); // pass this in from server settings
 	}
 
 	void Camera::update(Levels::Level& level) {
