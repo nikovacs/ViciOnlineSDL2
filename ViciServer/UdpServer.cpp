@@ -3,6 +3,7 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
 #include <iostream>
+#include "PlayerManager.hpp"
 
 Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPlayers, port, UdpChannels::MAX_CHANNELS) {
 	AssetBroker::initializeIndex();
@@ -19,17 +20,9 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
-			std::cout << "A new client connected from " << event.peer->address.host << ":" << event.peer->address.port << '\n';
-            /* Store any relevant client information here. */
-            //event.peer->data = "Client information";
+			Networking::PlayerManager::spawnPlayer(event.peer->connectID);
             break;
         case ENET_EVENT_TYPE_RECEIVE:
-            std::cout << "A packet of length " 
-                << event.packet->dataLength 
-                << " containing " << event.packet->data 
-                << " was received from " << event.peer->data 
-                << " on channel " << int(event.channelID) << '\n';
-
             switch (static_cast<int>(event.channelID)) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
@@ -43,8 +36,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
-			std::cout << event.peer->data << " disconnected." << std::endl;
-            /* Reset the peer's client information. */
+			Networking::PlayerManager::despawnPlayer(event.peer->connectID);
             event.peer->data = NULL;
         default:
             continue;

@@ -7,12 +7,16 @@ namespace Networking {
 		Level,
 		Script,
 		
+		initialPlayerData,
 		SpawnPlayer,
 		DespawnPlayer,
 		UpdatePlayerPos,
 		UpdatePlayerAniHard,
 		UpdatePlayerAniSoft,
 		UpdatePlayerDir,
+
+		StartWatchingLevel,
+		StopWatchingLevel,
 		
 		MAX_CHANNELS
 	};
