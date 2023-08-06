@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{22871485-bce0-45e2-bd08-bb613dd22155}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{b78db44d-9399-43a0-8226-7651249a2be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{70ba77ec-d209-48b2-8e72-db172f3f3d13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,16 +39,28 @@
     <ClCompile Include="AssetBroker.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
+    <ClCompile Include="ServerPlayer.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AssetBroker.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UdpServer.hpp">
       <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetBroker.hpp">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.hpp">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPlayer.hpp">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
