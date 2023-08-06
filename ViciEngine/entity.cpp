@@ -28,3 +28,12 @@ int Entities::Entity::getHeight() {
 void Entities::Entity::setHeight(int h) {
 	_height = h;
 }
+
+void Entities::Entity::setDir(int dir) {
+	if (dir < 0 || dir > 3) return;
+	_dir = dir;
+}
+
+int Entities::Entity::getDir() {
+	return _dir;
+}

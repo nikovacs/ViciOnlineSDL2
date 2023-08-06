@@ -3,9 +3,10 @@
 
 Entities::EntityAnimated::EntityAnimated(std::string_view aniName, int x, int y, int direction) :
 	_animation{ std::make_unique<Networking::NetworkAsset<Animations::Animation>>(aniName) },
-	_direction{ direction }, _animationName{ aniName } {
+	_animationName{ aniName } {
 	_x = x;
 	_y = y;
+	_dir = direction;
 }
 
 void Entities::EntityAnimated::update() {
@@ -15,16 +16,7 @@ void Entities::EntityAnimated::update() {
 
 void Entities::EntityAnimated::render(SDL_Renderer* renderer) {
 	if (_animation->getValue())
-		_animation->getValue()->render(renderer, _x, _y, _direction);
-}
-
-void Entities::EntityAnimated::setDir(int dir) {
-	if (dir < 0 || dir > 3) return;
-	_direction = dir;
-}
-
-int Entities::EntityAnimated::getDir() {
-	return _direction;
+		_animation->getValue()->render(renderer, _x, _y, _dir);
 }
 
 void Entities::EntityAnimated::setAniSoft(std::string_view aniName) {

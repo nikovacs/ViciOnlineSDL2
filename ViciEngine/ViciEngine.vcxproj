@@ -176,7 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetTransfer.cpp" />
-    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptLoader.cpp" />
     <ClCompile Include="StandardFuncs.cpp" />

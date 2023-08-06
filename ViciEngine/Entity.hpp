@@ -2,8 +2,6 @@
 
 namespace Entities {
 	class Entity {
-	protected:
-		int _x{}, _y{};
 	public:
 		virtual void setPosition(int x, int y);
 		int getX();
@@ -12,7 +10,11 @@ namespace Entities {
 		void setWidth(int w);
 		int getHeight();
 		void setHeight(int w);
+		virtual void setDir(int dir);
+		int getDir();
 	protected:
+		int _x{}, _y{};
+		int _dir{};
 		int _width{};
 		int _height{};
 	};

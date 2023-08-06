@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\entities">
-      <UniqueIdentifier>{988fc2fd-8379-4033-862d-59e5499e8bc4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Networking">
       <UniqueIdentifier>{c9f6e11a-4945-4247-ad26-ef1b1100829d}</UniqueIdentifier>
     </Filter>
@@ -34,10 +31,13 @@
     <Filter Include="Header Files\JSRuntime">
       <UniqueIdentifier>{403ea76a-6d7b-4554-aeb4-e46209412251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{988fc2fd-8379-4033-862d-59e5499e8bc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="entity.cpp">
-      <Filter>Source Files\entities</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="UdpHost.cpp">
       <Filter>Source Files\Networking</Filter>
