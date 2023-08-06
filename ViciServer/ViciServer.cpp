@@ -10,7 +10,7 @@
 ViciServer::ViciServer() {
 	loadServerOptions();
 	_running = false;
-	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); // make these number 
+	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); 
 
 	instance = this;
 }
