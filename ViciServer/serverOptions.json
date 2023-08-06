@@ -1,0 +1,12 @@
+{
+	"name": "Vici Modern",
+	
+	"port": 8424,
+	"maxPlayers": 1000,
+	
+	"defaultAni": "player_idle.vani",
+	"defaultDir": 0,
+	"defaultLevel": "firstmap.vmap",
+	"defaultX": 30,
+	"defaultY": 30
+}

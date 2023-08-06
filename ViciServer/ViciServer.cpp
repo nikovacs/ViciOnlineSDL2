@@ -4,15 +4,29 @@
 #include <thread>
 #include <iostream>
 #include <enet/enet.h>
+#include "nlohmann/json.hpp"
+#include <fstream>
 
 ViciServer::ViciServer() {
+	loadServerOptions();
 	_running = false;
-	_udpServer = std::make_unique<Networking::UdpServer>(8424, 1000); // make these number 
+	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); // make these number 
 
 	instance = this;
 }
 
 ViciServer::~ViciServer() {
+}
+
+void ViciServer::loadServerOptions() {
+	std::ifstream in("serverOptions.json");
+	std::stringstream buffer;
+	buffer << in.rdbuf();
+	_serverOptions = nlohmann::json::parse(buffer.str());
+}
+
+nlohmann::json& ViciServer::getServerOptions() {
+	return _serverOptions;
 }
 
 void ViciServer::start() {
