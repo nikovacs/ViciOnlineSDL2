@@ -20,7 +20,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
-			Networking::PlayerManager::spawnPlayer(event.peer->connectID);
+            Networking::PlayerManager::sendInitialPlayerData(event.peer);
             break;
         case ENET_EVENT_TYPE_RECEIVE:
             switch (static_cast<int>(event.channelID)) {

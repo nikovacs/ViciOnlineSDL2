@@ -4,6 +4,8 @@
 #include <enet/enet.h>
 #include <string>
 #include <iostream>
+#include "Scene.hpp"
+#include "nlohmann/json.hpp"
 
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
@@ -39,11 +41,15 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             
             switch (event.channelID) {
             case UdpChannels::Animation:
-			case UdpChannels::Texture:
+            case UdpChannels::Texture:
             case UdpChannels::Script:
             case UdpChannels::Level:
                 AssetManager::onReceived(event);
-				break;
+                break;
+            case UdpChannels::initialPlayerData:
+                Scenes::SceneManager::instance->newGameScene(event);
+                Scenes::SceneManager::instance->setScene("Game");
+                break;
             }
 
             

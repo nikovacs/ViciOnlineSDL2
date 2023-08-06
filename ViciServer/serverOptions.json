@@ -8,5 +8,7 @@
 	"defaultDir": 0,
 	"defaultLevel": "firstmap.vmap",
 	"defaultX": 30,
-	"defaultY": 30
+	"defaultY": 30,
+	"defaultWidth": 13,
+	"defaultHeight": 23
 }

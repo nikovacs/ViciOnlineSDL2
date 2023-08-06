@@ -11,9 +11,9 @@
 namespace Scenes {
 	class GameScene : public Scene {
 	public:
-		GameScene();
+		GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view level);
+		//GameScene();
 		~GameScene() override;
-		void initialize() override;
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
 		Client::Camera& getCamera();
