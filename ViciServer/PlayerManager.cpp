@@ -28,6 +28,10 @@ namespace Networking {
 		playerData["level"] = serverOptions["defaultLevel"];
 		playerData["cameraZoom"] = serverOptions["defaultZoom"];
 
+		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["level"], playerData["dir"], playerData["x"], playerData["y"]));
+		_players.at(peer->connectID)->setWidth(playerData["w"]);
+		_players.at(peer->connectID)->setHeight(playerData["h"]);
+
 		std::string jsonString{ playerData.dump() };
 		
 		ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
