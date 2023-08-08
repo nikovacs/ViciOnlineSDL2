@@ -6,6 +6,7 @@
 #include "Animation.hpp"
 #include "SingleLevel.hpp"
 #include "Camera.hpp"
+#include "PlayerManager.hpp"
 
 #include "KeyboardInputHandler.hpp" // TEMPORARY
 
@@ -37,6 +38,8 @@ namespace Scenes {
 			if (Handlers::KeyboardInputHandler::isKeyDown("Right"))
 				_clientPlayer->setPosition(_clientPlayer->getX() + 3, _clientPlayer->getY());
 		}
+
+		Networking::PlayerManager::update();
 		
 		if (_level->getValue()) {
 			_level->getValue()->update();
@@ -52,6 +55,7 @@ namespace Scenes {
 			_level->getValue()->render(renderer);
 		if (_clientPlayer)
 			_clientPlayer->render(renderer);
+		Networking::PlayerManager::render(renderer);
 	}
 
 	Client::Camera& GameScene::getCamera() {

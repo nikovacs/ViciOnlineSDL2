@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Scene.hpp"
 #include "nlohmann/json.hpp"
+#include "PlayerManager.hpp"
 
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
@@ -47,8 +48,20 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 AssetManager::onReceived(event);
                 break;
             case UdpChannels::initialPlayerData:
-                Scenes::SceneManager::instance->newGameScene(event);
+                Scenes::SceneManager::instance->newGameScene(event); // todo unpack event outside of method
                 Scenes::SceneManager::instance->setScene("Game");
+                break;
+            case UdpChannels::SpawnPlayer:
+                auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
+				auto json = nlohmann::json::parse(jsonString);
+				uint32_t id = json["id"];
+				int x = json["x"];
+				int y = json["y"];
+				int w = json["w"];
+				int h = json["h"];
+                int dir = json["dir"];
+				std::string animation = json["animation"];
+                Networking::PlayerManager::spawnPlayer(id, x, y, w, h, dir, animation);
                 break;
             }
 

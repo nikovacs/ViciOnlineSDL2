@@ -13,7 +13,7 @@ namespace Networking {
 		static void update();
 		static void render(SDL_Renderer* renderer);
 
-		static void spawnPlayer(uint32_t id, int posX, int posY, int dir, std::string_view animationName);
+		static void spawnPlayer(uint32_t id, int posX, int posY, int w, int h, int dir, std::string_view animationName);
 		static void despawnPlayer(uint32_t id);
 		static void updatePlayerPos(uint32_t id, int x, int y);
 		static void updatePlayerAniHard(uint32_t id, std::string_view animationName);

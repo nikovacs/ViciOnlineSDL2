@@ -19,10 +19,12 @@ namespace Networking {
 		}
 	}
 
-	void PlayerManager::spawnPlayer(uint32_t id, int posX, int posY, int dir, std::string_view animationName) {
+	void PlayerManager::spawnPlayer(uint32_t id, int posX, int posY, int w, int h, int dir, std::string_view animationName) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (_players.contains(id)) return;
 		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(animationName, posX, posY, dir));
+		_players.at(id)->setHeight(h);
+		_players.at(id)->setWidth(w);
 	}
 
 	void PlayerManager::despawnPlayer(uint32_t id) {
