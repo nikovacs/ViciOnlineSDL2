@@ -12,6 +12,12 @@ Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPl
 Networking::UdpServer::~UdpServer() {
 }
 
+void Networking::UdpServer::sendJson(ENetPeer* peer, nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag) {
+	auto jsonString = prepareJsonForSending(json);
+	ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
+	enet_peer_send(peer, channel, packet);
+}
+
 void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
     ENetEvent event;
     while (_isRunning) {
@@ -31,6 +37,9 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 AssetBroker::sendFile(event);
                 break;
             }
+        case UdpChannels::UpdatePlayerPos:
+            //Networking::PlayerManager::updatePlayerPos();
+            break;
             
             /* Clean up the packet now that we're done using it. */
             enet_packet_destroy(event.packet);
@@ -42,4 +51,5 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             continue;
         }
     }
+	enet_host_flush(server);
 }
