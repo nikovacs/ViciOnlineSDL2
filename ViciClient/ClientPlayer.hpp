@@ -5,7 +5,7 @@
 namespace Entities {
 	class ClientPlayer : public EntityAnimated {
 	public:
-		ClientPlayer(std::string_view aniName, int x, int y, int direction) : EntityAnimated(aniName, x, y, direction) {};
+		ClientPlayer(std::string_view aniName, int x, int y, int direction);
 		void setDir(int dir) override;
 		void setAniHard(std::string_view aniName) override;
 		void setPosition(int x, int y) override;

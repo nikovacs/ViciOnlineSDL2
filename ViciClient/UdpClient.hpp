@@ -3,6 +3,7 @@
 #include "../ViciEngine/UdpHost.hpp"
 #include <enet/enet.h>
 #include <string>
+#include "nlohmann/json.hpp"
 
 namespace Networking {
 	class UdpClient : public UdpHost {
@@ -11,6 +12,7 @@ namespace Networking {
 		virtual ~UdpClient();
 		void doNetworkLoop(ENetHost* client) override;
 		ENetPeer* getGameServer();
+		static void sendJson(nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag);
 	private:
 		ENetPeer* _gameServer;
 	};

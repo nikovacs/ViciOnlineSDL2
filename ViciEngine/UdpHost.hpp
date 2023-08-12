@@ -1,6 +1,9 @@
 #pragma once
 #include <enet/enet.h>
 #include <atomic>
+#include <nlohmann/json.hpp>
+#include <string>
+#include "../ViciEngine/base64.hpp"
 
 #ifdef _WIN32
 // Windows-specfic requirements for enet
@@ -17,6 +20,14 @@ namespace Networking {
 		void start();
 		void stop();
 		ENetHost* getHost();
+		static inline nlohmann::json getJsonFromPacket(ENetPacket* packet) {
+			auto jsonString = std::string(reinterpret_cast<const char*>(packet->data), packet->dataLength);
+			return nlohmann::json::parse(base64::from_base64(jsonString));
+		}
+		static inline std::string prepareJsonForSending(nlohmann::json json) {
+			std::string jsonString{ json.dump() };
+			return base64::to_base64(jsonString);
+		}
 	protected:
 		virtual void doNetworkLoop(ENetHost* host) = 0;
 		std::atomic_bool _isRunning;

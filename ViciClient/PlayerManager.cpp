@@ -19,10 +19,17 @@ namespace Networking {
 		}
 	}
 
-	void PlayerManager::spawnPlayer(uint32_t id, int posX, int posY, int w, int h, int dir, std::string_view animationName) {
+	void PlayerManager::spawnPlayer(nlohmann::json& json) {
+		uint32_t id = json["id"];
+		int x = json["x"];
+		int y = json["y"];
+		int w = json["w"];
+		int h = json["h"];
+		int dir = json["dir"];
+		std::string animation = json["animation"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (_players.contains(id)) return;
-		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(animationName, posX, posY, dir));
+		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(animation, x, y, dir));
 		_players.at(id)->setHeight(h);
 		_players.at(id)->setWidth(w);
 	}

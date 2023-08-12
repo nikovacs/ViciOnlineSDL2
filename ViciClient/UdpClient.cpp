@@ -21,6 +21,12 @@ ENetPeer* Networking::UdpClient::getGameServer() {
 	return _gameServer;
 }
 
+void Networking::UdpClient::sendJson(nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag) {
+    auto jsonString = prepareJsonForSending(json);
+    ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
+    enet_peer_send(static_cast<Networking::UdpClient*>(Networking::UdpClient::instance)->getGameServer(), channel, packet);
+}
+
 void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
     ENetEvent event;
     while (_isRunning) {
@@ -52,16 +58,8 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 Scenes::SceneManager::instance->setScene("Game");
                 break;
             case UdpChannels::SpawnPlayer:
-                auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
-				auto json = nlohmann::json::parse(jsonString);
-				uint32_t id = json["id"];
-				int x = json["x"];
-				int y = json["y"];
-				int w = json["w"];
-				int h = json["h"];
-                int dir = json["dir"];
-				std::string animation = json["animation"];
-                Networking::PlayerManager::spawnPlayer(id, x, y, w, h, dir, animation);
+                auto json = getJsonFromPacket(event.packet);
+                Networking::PlayerManager::spawnPlayer(json);
                 break;
             }
 
@@ -75,5 +73,6 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
         default:
             continue;
         }
+		enet_host_flush(getHost());
     }
 }
