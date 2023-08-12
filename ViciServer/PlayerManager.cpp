@@ -4,6 +4,7 @@
 #include <string>
 #include "../ViciEngine/UdpChannels.hpp"
 #include "enet/enet.h"
+#include "PlayerLevelManager.hpp"
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> PlayerManager::_players{};
@@ -32,65 +33,15 @@ namespace Networking {
 		_players.at(peer->connectID)->setWidth(playerData["w"]);
 		_players.at(peer->connectID)->setHeight(playerData["h"]);
 
-		std::string jsonString{ playerData.dump() };
-		
-		ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
-		enet_peer_send(peer, Networking::UdpChannels::initialPlayerData, packet);
+		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
 		spawnPlayer(peer->connectID);
-		enet_host_flush(Networking::UdpServer::instance->getHost());
 	}
 
 	void PlayerManager::spawnPlayer(uint32_t id) {
-		auto* playerToSpawn = _players.at(id).get();
-		nlohmann::json playerData{};
-		playerData["id"] = id;
-		playerData["x"] = playerToSpawn->getX();
-		playerData["y"] = playerToSpawn->getY();
-		playerData["w"] = playerToSpawn->getWidth();
-		playerData["h"] = playerToSpawn->getHeight();
-		playerData["dir"] = playerToSpawn->getDir();
-		playerData["animation"] = playerToSpawn->getAni();
 
-		std::string jsonString{ playerData.dump() };
-		
-		for (auto& p : _players) { // TODO eventually only spawn for players who should be able to see the player
-			if (p.first == id) continue;
-			ENetPeer* peer{ _peers.at(p.first) };
-			ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
-			enet_peer_send(peer, Networking::UdpChannels::SpawnPlayer, packet);
-
-			Entities::ServerPlayer* otherPlayerToSpawn{ _players.at(p.first).get() };
-			nlohmann::json otherPlayerData{};
-			otherPlayerData["id"] = p.first;
-			otherPlayerData["x"] = otherPlayerToSpawn->getX();
-			otherPlayerData["y"] = otherPlayerToSpawn->getY();
-			otherPlayerData["w"] = otherPlayerToSpawn->getWidth();
-			otherPlayerData["h"] = otherPlayerToSpawn->getHeight();
-			otherPlayerData["dir"] = otherPlayerToSpawn->getDir();
-			otherPlayerData["animation"] = otherPlayerToSpawn->getAni();
-
-			std::string otherJsonString{ otherPlayerData.dump() };
-
-			peer = _peers.at(id);
-			ENetPacket* packet2 = enet_packet_create(otherJsonString.c_str(), otherJsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
-			enet_peer_send(peer, Networking::UdpChannels::SpawnPlayer, packet2);
-		}
 	}
 	void PlayerManager::despawnPlayer(uint32_t id) {
-		nlohmann::json json{};
-		json["id"] = id;
-		std::string jsonString{ json.dump() };
-		
-		for (auto& p : _players) {
-			if (p.first == id) continue;
-			ENetPeer* peer{ _peers.at(p.first) };
-			
-			ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
-			enet_peer_send(peer, Networking::UdpChannels::DespawnPlayer, packet);
-		}
-		
-		_players.erase(id);
-		_peers.erase(id);
+
 	}
 	void PlayerManager::updatePlayerPos(uint32_t id) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
