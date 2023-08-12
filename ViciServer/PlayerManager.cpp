@@ -9,10 +9,10 @@
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> PlayerManager::_players{};
 	std::unordered_map<uint32_t, ENetPeer*> PlayerManager::_peers{};
-	std::mutex PlayerManager::_playerMutex{};
+	std::recursive_mutex PlayerManager::_playerMutex{};
 
 	void PlayerManager::sendInitialPlayerData(ENetPeer* peer) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 
 		_peers.emplace(peer->connectID, peer);
 		
@@ -30,33 +30,64 @@ namespace Networking {
 		playerData["cameraZoom"] = serverOptions["defaultZoom"];
 
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["level"], playerData["dir"], playerData["x"], playerData["y"]));
-		_players.at(peer->connectID)->setWidth(playerData["w"]);
-		_players.at(peer->connectID)->setHeight(playerData["h"]);
+		Entities::ServerPlayer* player = _players.at(peer->connectID).get();
+		player->setWidth(playerData["w"]);
+		player->setHeight(playerData["h"]);
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
-		spawnPlayer(peer->connectID);
+		
+		std::vector<uint32_t> players{ PlayerLevelManager::getPlayersWatchingLevel(player->getLevel()) };
+		for (uint32_t pId : players) {
+			spawnPlayer(peer->connectID, pId);
+		}
 	}
 
-	void PlayerManager::spawnPlayer(uint32_t id) {
+	void PlayerManager::spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		
+		Entities::ServerPlayer* playerToSpawn = _players.at(idToSpawn).get();
+		
+		nlohmann::json playerData{};
+		playerData["id"] = idToSpawn;
+		playerData["x"] = playerToSpawn->getX();
+		playerData["y"] = playerToSpawn->getY();
+		playerData["w"] = playerToSpawn->getWidth();
+		playerData["h"] = playerToSpawn->getHeight();
+		playerData["dir"] = playerToSpawn->getDir();
+		playerData["animation"] = playerToSpawn->getAni();
 
+		UdpServer::sendJson(_peers.at(spawnForId), playerData, UdpChannels::SpawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 	}
 	void PlayerManager::despawnPlayer(uint32_t id) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		
+		nlohmann::json playerData{};
+		playerData["id"] = id;
 
+		std::vector<uint32_t> players{ PlayerLevelManager::getPlayersWatchingLevel(_players.at(id)->getLevel()) };
+		for (uint32_t pId : players) {
+			UdpServer::sendJson(_peers.at(pId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
+		}
+
+		// TODO, store level watching info on the player object so we can use it here to remove from everything in PlayerLevelManager
+		
+		_players.erase(id);
+		_peers.erase(id);
 	}
 	void PlayerManager::updatePlayerPos(uint32_t id) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 	
 	}
 	void PlayerManager::updatePlayerAniHard(uint32_t id) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 	
 	}
 	void PlayerManager::updatePlayerAniSoft(uint32_t id) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 	
 	}
 	void PlayerManager::updatePlayerDir(uint32_t id) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 	
 	}
 }
