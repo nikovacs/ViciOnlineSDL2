@@ -1,9 +1,9 @@
 #include "PlayerLevelManager.hpp"
 
 namespace Networking {
-	std::unordered_map<std::string, std::set<uint32_t>> _playersOnLevel = {};
-	std::unordered_map<std::string, std::set<uint32_t>> _playersWatchingLevel = {};
-	std::mutex _lvlMngrMtx = {};
+	std::unordered_map<std::string, std::set<uint32_t>> PlayerLevelManager::_playersOnLevel = {};
+	std::unordered_map<std::string, std::set<uint32_t>> PlayerLevelManager::_playersWatchingLevel = {};
+	std::mutex PlayerLevelManager::_lvlMngrMtx = {};
 	
 	void PlayerLevelManager::addToLevel(uint32_t id, std::string_view levelName) {
 		std::lock_guard<std::mutex> lock(_lvlMngrMtx);

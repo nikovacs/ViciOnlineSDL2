@@ -37,6 +37,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 AssetBroker::sendFile(event);
                 break;
             }
+            break;
         case UdpChannels::UpdatePlayerPos:
             //Networking::PlayerManager::updatePlayerPos();
             break;
@@ -48,8 +49,8 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
 			Networking::PlayerManager::despawnPlayer(event.peer->connectID);
             event.peer->data = NULL;
         default:
-            continue;
+            break;
         }
+        enet_host_flush(server);
     }
-	enet_host_flush(server);
 }

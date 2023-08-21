@@ -54,13 +54,18 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 AssetManager::onReceived(event);
                 break;
             case UdpChannels::initialPlayerData:
-                Scenes::SceneManager::instance->newGameScene(event); // todo unpack event outside of method
+            {
+                auto jsonInitPlayerData = getJsonFromPacket(event.packet);
+                Scenes::SceneManager::instance->newGameScene(jsonInitPlayerData); // todo unpack event outside of method
                 Scenes::SceneManager::instance->setScene("Game");
-                break;
+            }
+            break;
             case UdpChannels::SpawnPlayer:
-                auto json = getJsonFromPacket(event.packet);
-                Networking::PlayerManager::spawnPlayer(json);
-                break;
+            {
+                auto jsonSpawnPlayer = getJsonFromPacket(event.packet);
+                Networking::PlayerManager::spawnPlayer(jsonSpawnPlayer);
+            }
+            break;
             }
 
             
@@ -71,7 +76,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             /* Reset the peer's client information. */
             event.peer->data = NULL;
         default:
-            continue;
+            break;
         }
 		enet_host_flush(getHost());
     }

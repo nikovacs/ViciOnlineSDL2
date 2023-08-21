@@ -23,7 +23,7 @@ namespace Scenes {
 		void update();
 		void render(SDL_Renderer* renderer);
 		void setScene(std::string_view name);
-		void newGameScene(ENetEvent& event);
+		void newGameScene(nlohmann::json& json);
 		static SceneManager* instance;
 	private:
 		Scene* _currentScene{ nullptr };

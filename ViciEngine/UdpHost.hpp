@@ -22,11 +22,10 @@ namespace Networking {
 		ENetHost* getHost();
 		static inline nlohmann::json getJsonFromPacket(ENetPacket* packet) {
 			auto jsonString = std::string(reinterpret_cast<const char*>(packet->data), packet->dataLength);
-			return nlohmann::json::parse(base64::from_base64(jsonString));
+			return nlohmann::json::parse(jsonString);
 		}
 		static inline std::string prepareJsonForSending(nlohmann::json json) {
-			std::string jsonString{ json.dump() };
-			return base64::to_base64(jsonString);
+			return json.dump();
 		}
 	protected:
 		virtual void doNetworkLoop(ENetHost* host) = 0;

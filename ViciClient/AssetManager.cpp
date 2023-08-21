@@ -44,13 +44,15 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 }
 
 void Networking::AssetManager::onReceived(ENetEvent& event) {
-	auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
-	nlohmann::json json{ nlohmann::json::parse(jsonString) };
+	//auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
+	//nlohmann::json json{ nlohmann::json::parse(jsonString) };
+	auto json = Networking::UdpClient::getJsonFromPacket(event.packet);
 
 	std::string fileName = json["fileName"];
 	std::string path = json["path"];
 	std::string fileData = json["data"];
 
+	std::cout << "Received " << fileName << std::endl;
 
 	writeFile(path, fileData);
 	_assetIndex.emplace(fileName, path);

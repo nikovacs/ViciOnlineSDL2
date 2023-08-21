@@ -81,6 +81,7 @@ namespace base64 {
         int offset = 0;
         const std::string base64_chars = get_base64_chars();
         for (unsigned char c : data) {
+            if (c == '\0') continue;
             auto num_val = base64_chars.find(c);
             if (num_val != std::string::npos) {
                 offset = 18 - counter % 4 * 6;
@@ -97,7 +98,7 @@ namespace base64 {
                 }
             }
             else if (c != '=') {
-                return std::string();
+                 return std::string();
             }
             counter++;
         }

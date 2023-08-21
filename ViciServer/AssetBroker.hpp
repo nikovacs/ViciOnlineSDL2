@@ -10,7 +10,5 @@ namespace Networking {
 	class AssetBroker : public AssetTransfer {
 	public:
 		static void sendFile(ENetEvent& event);
-	private:
-		static void send(nlohmann::json& json, ENetEvent& event);
 	};
 }

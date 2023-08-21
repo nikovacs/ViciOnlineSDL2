@@ -5,6 +5,7 @@
 #include <memory>
 #include <SDL2/sdl.h>
 #include <mutex>
+#include <nlohmann/json.hpp>
 
 #include <iostream>
 
@@ -22,9 +23,7 @@ namespace Scenes {
 
 	}
 
-	void SceneManager::newGameScene(ENetEvent& event) {
-		auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
-		nlohmann::json json{ nlohmann::json::parse(jsonString) };
+	void SceneManager::newGameScene(nlohmann::json& json) {
 		int x = json["x"];
 		int y = json["y"];
 		int w = json["w"];

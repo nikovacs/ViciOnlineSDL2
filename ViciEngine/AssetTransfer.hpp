@@ -18,6 +18,7 @@ namespace Networking {
 			std::ifstream file(path.data(), std::ios::binary);
 
 			if (!file) {
+				file.close();
 				return "";
 			}
 
@@ -31,6 +32,7 @@ namespace Networking {
 			std::ofstream file(path.data(), std::ios::binary);
 
 			if (!file) {
+				file.close();
 				return false;
 			}
 

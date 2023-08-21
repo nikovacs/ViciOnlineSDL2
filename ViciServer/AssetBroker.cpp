@@ -19,15 +19,8 @@ void Networking::AssetBroker::sendFile(ENetEvent& event) {
 		json["fileName"] = fileName;
 		json["path"] = path;
 		json["data"] = fileData;
-		
-		send(json, event);
+		std::cout << "sending " << fileName << std::endl;
+		Networking::UdpServer::sendJson(event.peer, json, static_cast<Networking::UdpChannels>(event.channelID), ENET_PACKET_FLAG_RELIABLE);
 	}
-}
-
-void Networking::AssetBroker::send(nlohmann::json& json, ENetEvent& event) {
-	std::string jsonString{ json.dump() };
-	ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, ENET_PACKET_FLAG_RELIABLE);
-	enet_peer_send(event.peer, event.channelID, packet);
-	enet_host_flush(Networking::UdpServer::instance->getHost());
 }
 

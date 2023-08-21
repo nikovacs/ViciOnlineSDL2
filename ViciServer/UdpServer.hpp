@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ViciEngine/UdpHost.hpp"
+#include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
 #include <string>
 
