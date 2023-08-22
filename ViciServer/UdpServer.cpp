@@ -3,7 +3,7 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
 #include <iostream>
-#include "PlayerManager.hpp"
+#include "ServerPlayerManager.hpp"
 
 Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPlayers, port, UdpChannels::MAX_CHANNELS) {
 	AssetBroker::initializeIndex();
@@ -26,7 +26,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
-            Networking::PlayerManager::sendInitialPlayerData(event.peer);
+            Networking::ServerPlayerManager::sendInitialPlayerData(event.peer);
             break;
         case ENET_EVENT_TYPE_RECEIVE:
             switch (static_cast<int>(event.channelID)) {
@@ -39,14 +39,16 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             }
             break;
         case UdpChannels::UpdatePlayerPos:
-            //Networking::PlayerManager::updatePlayerPos();
-            break;
+        {
+            nlohmann::json json{ getJsonFromPacket(event.packet) };
+            Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, json);
+        }
             
             /* Clean up the packet now that we're done using it. */
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
-			Networking::PlayerManager::despawnPlayer(event.peer->connectID);
+			Networking::ServerPlayerManager::onPlayerDisconnect(event.peer->connectID);
             event.peer->data = NULL;
         default:
             break;

@@ -171,14 +171,14 @@
   <ItemGroup>
     <ClCompile Include="AssetBroker.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="ServerPlayerManager.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="UdpServer.cpp" />
     <ClCompile Include="ViciServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetBroker.hpp" />
-    <ClInclude Include="PlayerManager.hpp" />
+    <ClInclude Include="ServerPlayerManager.hpp" />
     <ClInclude Include="ServerPlayer.hpp" />
     <ClInclude Include="UdpServer.hpp" />
     <ClInclude Include="ViciServer.hpp" />

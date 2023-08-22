@@ -42,7 +42,7 @@
     <ClCompile Include="ServerPlayer.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerManager.cpp">
+    <ClCompile Include="ServerPlayerManager.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="AssetBroker.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerManager.hpp">
+    <ClInclude Include="ServerPlayerManager.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="ServerPlayer.hpp">

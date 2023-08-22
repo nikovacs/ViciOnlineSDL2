@@ -1,34 +1,36 @@
 #pragma once
 
 #include <unordered_map>
+#include <nlohmann/json.hpp>
 #include "ServerPlayer.hpp"
 #include <memory>
 #include <enet/enet.h>
 #include <mutex>
 
 namespace Networking {
-	class PlayerManager {
+	class ServerPlayerManager {
 	public:
-		PlayerManager() = delete;
+		ServerPlayerManager() = delete;
 		static void sendInitialPlayerData(ENetPeer* peer);
 		static void spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId);
-		static void despawnPlayer(uint32_t id);
-		static void updatePlayerPos(uint32_t id);
+		static void despawnPlayer(uint32_t idToDespawn, uint32_t despawnForId);
+		static void onPlayerDisconnect(uint32_t id);
+		static void updatePlayerPos(uint32_t id, nlohmann::json& json);
 		static void updatePlayerAniHard(uint32_t id);
 		static void updatePlayerAniSoft(uint32_t id);
 		static void updatePlayerDir(uint32_t id);
 		static void addToLevel(uint32_t id, std::string_view levelName);
 		static void removeFromLevel(uint32_t id, std::string_view levelName);
-		static void startWatchingLevel(uint32_t id, std::string_view levelName);
-		static void stopWatchingLevel(uint32_t id, std::string_view levelName);
+		static void startWatchingLevel(uint32_t id, nlohmann::json& json);
+		static void stopWatchingLevel(uint32_t id, nlohmann::json& json);
 		static inline std::vector<uint32_t> getPlayersOnLevel(std::string_view levelName) {
-			std::lock_guard<std::mutex> lock(_lvlMtx);
+			std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 			if (!_playersOnLevel.contains(levelName.data())) return {};
 			auto playerSet = _playersOnLevel.at(levelName.data());
 			return { playerSet.begin(), playerSet.end() };
 		}
 		static inline std::vector<uint32_t> getPlayersWatchingLevel(std::string_view levelName) {
-			std::lock_guard<std::mutex> lock(_lvlMtx);
+			std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 			if (!_playersWatchingLevel.contains(levelName.data())) return {};
 			auto playerSet = _playersWatchingLevel.at(levelName.data());
 			return { playerSet.begin(), playerSet.end() };
@@ -40,6 +42,5 @@ namespace Networking {
 
 		static std::unordered_map<std::string, std::set<uint32_t>> _playersOnLevel;
 		static std::unordered_map<std::string, std::set<uint32_t>> _playersWatchingLevel;
-		static std::mutex _lvlMtx;
 	};
 }
