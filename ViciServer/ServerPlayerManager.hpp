@@ -16,9 +16,8 @@ namespace Networking {
 		static void despawnPlayer(uint32_t idToDespawn, uint32_t despawnForId);
 		static void onPlayerDisconnect(uint32_t id);
 		static void updatePlayerPos(uint32_t id, nlohmann::json& json);
-		static void updatePlayerAniHard(uint32_t id);
-		static void updatePlayerAniSoft(uint32_t id);
-		static void updatePlayerDir(uint32_t id);
+		static void updatePlayerAni(uint32_t id, nlohmann::json& json);
+		static void updatePlayerDir(uint32_t id, nlohmann::json& json);
 		static void addToLevel(uint32_t id, std::string_view levelName);
 		static void removeFromLevel(uint32_t id, std::string_view levelName);
 		static void startWatchingLevel(uint32_t id, nlohmann::json& json);

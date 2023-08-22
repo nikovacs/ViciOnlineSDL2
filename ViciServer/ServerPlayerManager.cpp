@@ -89,7 +89,6 @@ namespace Networking {
 	
 	void ServerPlayerManager::updatePlayerPos(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-
 		if (!_players.contains(id)) return;
 		
 		int newX = json["x"];
@@ -106,19 +105,34 @@ namespace Networking {
 		}
 	}
 	
-	void ServerPlayerManager::updatePlayerAniHard(uint32_t id) {
+	void ServerPlayerManager::updatePlayerAni(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-	
+		if (!_players.contains(id)) return;
+		
+		_players.at(id)->setAni(json["level"]);
+		json["id"] = id;
+
+		std::string_view level{ _players.at(id)->getLevel() };
+		std::vector<uint32_t> players{ getPlayersWatchingLevel(level) };
+		for (uint32_t pId : players) {
+			if (pId == id) continue;
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+		}
 	}
-	
-	void ServerPlayerManager::updatePlayerAniSoft(uint32_t id) {
+
+	void ServerPlayerManager::updatePlayerDir(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-	
-	}
-	
-	void ServerPlayerManager::updatePlayerDir(uint32_t id) {
-		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-	
+		if (!_players.contains(id)) return;
+
+		_players.at(id)->setDir(json["dir"]);
+		json["id"] = id;
+		
+		std::string_view level{ _players.at(id)->getLevel() };
+		std::vector<uint32_t> players{ getPlayersWatchingLevel(level) };
+		for (uint32_t pId : players) {
+			if (pId == id) continue;
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+		}
 	}
 
 	void ServerPlayerManager::addToLevel(uint32_t id, std::string_view levelName) {

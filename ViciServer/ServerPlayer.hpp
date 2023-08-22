@@ -12,8 +12,7 @@ namespace Entities {
 		virtual ~ServerPlayer();
 		void setLevel(std::string_view level);
 		std::string_view getLevel();
-		void setAniSoft(std::string_view animation);
-		void setAniHard(std::string_view animation);
+		void setAni(std::string_view animation);
 		std::string_view getAni();
 	private:
 		uint32_t _connectionId{};

@@ -15,12 +15,8 @@ namespace Entities {
 	std::string_view ServerPlayer::getLevel() {
 		return _level;
 	}
-
-	void ServerPlayer::setAniSoft(std::string_view animation) {
-		_animation = animation;
-	}
 	
-	void ServerPlayer::setAniHard(std::string_view animation) {
+	void ServerPlayer::setAni(std::string_view animation) {
 		_animation = animation;
 	}
 

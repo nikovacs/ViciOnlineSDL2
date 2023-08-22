@@ -36,15 +36,37 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Level:
                 AssetBroker::sendFile(event);
                 break;
+            case UdpChannels::UpdatePlayerPos:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, json);
+                break;
             }
-            break;
-        case UdpChannels::UpdatePlayerPos:
-        {
-            nlohmann::json json{ getJsonFromPacket(event.packet) };
-            Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, json);
-        }
-            
-            /* Clean up the packet now that we're done using it. */
+            case UdpChannels::UpdatePlayerAni:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, json);
+                break;
+            }
+            case UdpChannels::UpdatePlayerDir:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, json);
+                break;
+            }
+            case UdpChannels::StartWatchingLevel:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::startWatchingLevel(event.peer->connectID, json);
+                break;
+            }
+            case UdpChannels::StopWatchingLevel:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::stopWatchingLevel(event.peer->connectID, json);
+                break;
+            }
+            }
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:

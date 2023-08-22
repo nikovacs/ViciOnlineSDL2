@@ -11,8 +11,7 @@ namespace Networking {
 		SpawnPlayer,
 		DespawnPlayer,
 		UpdatePlayerPos,
-		UpdatePlayerAniHard,
-		UpdatePlayerAniSoft,
+		UpdatePlayerAni,
 		UpdatePlayerDir,
 
 		StartWatchingLevel,
