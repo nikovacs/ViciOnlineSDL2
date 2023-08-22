@@ -171,7 +171,6 @@
   <ItemGroup>
     <ClCompile Include="AssetBroker.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerLevelManager.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="UdpServer.cpp" />
@@ -179,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetBroker.hpp" />
-    <ClInclude Include="PlayerLevelManager.hpp" />
     <ClInclude Include="PlayerManager.hpp" />
     <ClInclude Include="ServerPlayer.hpp" />
     <ClInclude Include="UdpServer.hpp" />

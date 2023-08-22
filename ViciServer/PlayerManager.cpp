@@ -4,12 +4,15 @@
 #include <string>
 #include "../ViciEngine/UdpChannels.hpp"
 #include "enet/enet.h"
-#include "PlayerLevelManager.hpp"
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> PlayerManager::_players{};
 	std::unordered_map<uint32_t, ENetPeer*> PlayerManager::_peers{};
 	std::recursive_mutex PlayerManager::_playerMutex{};
+
+	std::unordered_map<std::string, std::set<uint32_t>> PlayerManager::_playersOnLevel = {};
+	std::unordered_map<std::string, std::set<uint32_t>> PlayerManager::_playersWatchingLevel = {};
+	std::mutex PlayerManager::_lvlMtx = {};
 
 	void PlayerManager::sendInitialPlayerData(ENetPeer* peer) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
@@ -36,7 +39,7 @@ namespace Networking {
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
 		
-		std::vector<uint32_t> players{ PlayerLevelManager::getPlayersWatchingLevel(player->getLevel()) };
+		std::vector<uint32_t> players{ getPlayersWatchingLevel(player->getLevel()) };
 		for (uint32_t pId : players) {
 			spawnPlayer(peer->connectID, pId);
 		}
@@ -64,7 +67,7 @@ namespace Networking {
 		nlohmann::json playerData{};
 		playerData["id"] = id;
 
-		std::vector<uint32_t> players{ PlayerLevelManager::getPlayersWatchingLevel(_players.at(id)->getLevel()) };
+		std::vector<uint32_t> players{ getPlayersWatchingLevel(_players.at(id)->getLevel()) };
 		for (uint32_t pId : players) {
 			UdpServer::sendJson(_peers.at(pId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 		}
@@ -89,5 +92,33 @@ namespace Networking {
 	void PlayerManager::updatePlayerDir(uint32_t id) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 	
+	}
+
+	void PlayerManager::addToLevel(uint32_t id, std::string_view levelName) {
+		std::lock_guard<std::mutex> lock(_lvlMtx);
+		if (!_playersOnLevel.contains(levelName.data())) {
+			_playersOnLevel.emplace(levelName, std::set<uint32_t>{});
+		}
+		_playersOnLevel.at(levelName.data()).insert(id);
+	}
+
+	void PlayerManager::removeFromLevel(uint32_t id, std::string_view levelName) {
+		std::lock_guard<std::mutex> lock(_lvlMtx);
+		if (!_playersOnLevel.contains(levelName.data())) return; // consider removing empty set?
+		_playersOnLevel.at(levelName.data()).erase(id);
+	}
+
+	void PlayerManager::startWatchingLevel(uint32_t id, std::string_view levelName) {
+		std::lock_guard<std::mutex> lock(_lvlMtx);
+		if (!_playersWatchingLevel.contains(levelName.data())) {
+			_playersWatchingLevel.emplace(levelName, std::set<uint32_t>{});
+		}
+		_playersWatchingLevel.at(levelName.data()).insert(id);
+	}
+
+	void PlayerManager::stopWatchingLevel(uint32_t id, std::string_view levelName) {
+		std::lock_guard<std::mutex> lock(_lvlMtx);
+		if (!_playersWatchingLevel.contains(levelName.data())) return; // consider removing empty set?
+		_playersWatchingLevel.at(levelName.data()).erase(id);
 	}
 }

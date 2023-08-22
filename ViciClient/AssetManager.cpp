@@ -38,9 +38,6 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 	do {
 		ret = enet_peer_send(static_cast<Networking::UdpClient*>(Networking::UdpClient::instance)->getGameServer(), channelID, packet);
 	} while (ret < 0);
-	
-	// Flush the client
-	enet_host_flush(Networking::UdpClient::instance->getHost());
 }
 
 void Networking::AssetManager::onReceived(ENetEvent& event) {

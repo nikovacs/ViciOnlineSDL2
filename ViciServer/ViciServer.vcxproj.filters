@@ -45,9 +45,6 @@
     <ClCompile Include="PlayerManager.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerLevelManager.cpp">
-      <Filter>Source Files\Networking</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.hpp">
@@ -64,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="ServerPlayer.hpp">
       <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerLevelManager.hpp">
-      <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
