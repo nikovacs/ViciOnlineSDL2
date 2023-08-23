@@ -4,6 +4,10 @@
 #include "../ViciEngine/base64.hpp"
 #include <string>
 #include <string_view>
+#include <nlohmann/json.hpp>
+#include "UdpClient.hpp"
+#include "../ViciEngine/UdpChannels.hpp"
+#include <enet/enet.h>
 
 namespace Levels {
 	class Level {
@@ -20,6 +24,15 @@ namespace Levels {
 		int _tileSize{};
 		std::pair<int, int> _levelDimensions{};
 		std::string _name{};
+		std::string _currentLevel{}; // same as _name if _name is .vlvl
+
+		void setCurrentLevel(std::string_view level) {
+			if (level == _currentLevel) return;
+			_currentLevel = level;
+			nlohmann::json json{};
+			json["lvl"] = level;
+			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerLevel, ENET_PACKET_FLAG_RELIABLE);
+		}
 		
 		inline std::string intToB64(int input) {
 			std::string b64Chars{ base64::get_base64_chars() };

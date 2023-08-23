@@ -9,6 +9,8 @@
 
 namespace Levels {
 	SingleLevel::SingleLevel(std::string_view name, std::string_view source) : Level{ name } {
+		setCurrentLevel(name);
+
 		std::istringstream iss{ source.data() };
 		std::string line;
 

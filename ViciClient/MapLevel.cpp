@@ -96,6 +96,7 @@ namespace Levels {
 		int levelHeightPixels = _levelDimensions.second * _tileSize;
 		_focusLevel.first = focusX / levelWidthPixels;
 		_focusLevel.second = focusY / levelHeightPixels;
+		setCurrentLevel(_mapLevels[_focusLevel.second][_focusLevel.first]);
 	}
 
 	void MapLevel::verifyAndUpdateLevelAssets() {
