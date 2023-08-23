@@ -185,6 +185,9 @@ namespace Networking {
 		std::string_view newLevel = json["lvl"];
 		std::string oldLevel{ _players.at(id)->getLevel() };
 		_players.at(id)->setLevel(newLevel);
+
+		removeFromLevel(id, oldLevel);
+		addToLevel(id, newLevel);
 		
 		std::set<uint32_t>& pIdsWatchingNewLevel{ _getPlayersWatchingLevel(newLevel) };
 		if (oldLevel.empty()) {
