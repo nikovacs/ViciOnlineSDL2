@@ -19,6 +19,7 @@ void Networking::UdpServer::sendJson(ENetPeer* peer, nlohmann::json& json, Netwo
 }
 
 void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
+    std::unordered_map<ENetPeer*, uint32_t> peerToPlayerId{}; // needed bc after disconnect connectId is 0
     ENetEvent event;
     while (_isRunning) {
         //std::cout << "udpserver running\n";
@@ -26,6 +27,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
+            peerToPlayerId.emplace(event.peer, event.peer->connectID);
             Networking::ServerPlayerManager::sendInitialPlayerData(event.peer);
             break;
         case ENET_EVENT_TYPE_RECEIVE:
@@ -75,8 +77,11 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
-			Networking::ServerPlayerManager::onPlayerDisconnect(event.peer->connectID);
+            if (!peerToPlayerId.contains(event.peer)) break;
+			Networking::ServerPlayerManager::onPlayerDisconnect(peerToPlayerId.at(event.peer));
+			peerToPlayerId.erase(event.peer);
             event.peer->data = NULL;
+            break;
         default:
             break;
         }
