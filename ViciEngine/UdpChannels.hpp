@@ -13,6 +13,8 @@ namespace Networking {
 		UpdatePlayerPos,
 		UpdatePlayerAni,
 		UpdatePlayerDir,
+		UpdatePlayerLevel,
+		UpdatePlayerWorld,
 
 		StartWatchingLevel,
 		StopWatchingLevel,
