@@ -31,13 +31,13 @@ namespace Networking {
 		playerData["cameraZoom"] = serverOptions["defaultZoom"];
 
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["level"], playerData["dir"], playerData["x"], playerData["y"]));
-		Entities::ServerPlayer* player = _players.at(peer->connectID).get();
-		player->setWidth(playerData["w"]);
-		player->setHeight(playerData["h"]);
+		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
+		player.setWidth(playerData["w"]);
+		player.setHeight(playerData["h"]);
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
 		
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(player->getLevel()) };
+		std::vector<uint32_t> players{ getPlayersWatchingLevel(player.getLevel()) };
 		for (uint32_t pId : players) {
 			if (pId == peer->connectID) continue;
 			spawnPlayer(peer->connectID, pId);
