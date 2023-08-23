@@ -22,6 +22,7 @@ namespace Networking {
 		static void removeFromLevel(uint32_t id, std::string_view levelName);
 		static void startWatchingLevel(uint32_t id, nlohmann::json& json);
 		static void stopWatchingLevel(uint32_t id, nlohmann::json& json);
+		static void updatePlayerLevel(uint32_t id, nlohmann::json& json);
 		static inline std::vector<uint32_t> getPlayersOnLevel(std::string_view levelName) {
 			std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 			if (!_playersOnLevel.contains(levelName.data())) return {};
@@ -41,5 +42,8 @@ namespace Networking {
 
 		static std::unordered_map<std::string, std::set<uint32_t>> _playersOnLevel;
 		static std::unordered_map<std::string, std::set<uint32_t>> _playersWatchingLevel;
+
+		static std::set<uint32_t>& _getPlayersOnLevel(std::string_view levelName);
+		static std::set<uint32_t>& _getPlayersWatchingLevel(std::string_view levelName);
 	};
 }

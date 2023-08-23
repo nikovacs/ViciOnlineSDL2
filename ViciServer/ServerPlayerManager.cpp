@@ -3,6 +3,7 @@
 #include <string>
 #include "../ViciEngine/UdpChannels.hpp"
 #include "enet/enet.h"
+#include <memory>
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> ServerPlayerManager::_players{};
@@ -37,11 +38,11 @@ namespace Networking {
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
 		
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(player.getLevel()) };
+		/*std::vector<uint32_t> players{ getPlayersWatchingLevel(player.getLevel()) };
 		for (uint32_t pId : players) {
 			if (pId == peer->connectID) continue;
 			spawnPlayer(peer->connectID, pId);
-		}
+		}*/
 	}
 
 	void ServerPlayerManager::spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId) {
@@ -76,7 +77,7 @@ namespace Networking {
 		nlohmann::json playerData{};
 		playerData["id"] = id;
 
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(_players.at(id)->getLevel()) };
+		std::set<uint32_t>& players{ _getPlayersWatchingLevel(_players.at(id)->getLevel()) };
 		for (uint32_t pId : players) {
 			UdpServer::sendJson(_peers.at(pId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 		}
@@ -98,7 +99,7 @@ namespace Networking {
 		json["id"] = id;
 		
 		std::string_view level{ _players.at(id)->getLevel() };
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(level) };
+		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
@@ -113,7 +114,7 @@ namespace Networking {
 		json["id"] = id;
 
 		std::string_view level{ _players.at(id)->getLevel() };
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(level) };
+		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
@@ -128,7 +129,7 @@ namespace Networking {
 		json["id"] = id;
 		
 		std::string_view level{ _players.at(id)->getLevel() };
-		std::vector<uint32_t> players{ getPlayersWatchingLevel(level) };
+		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
@@ -151,14 +152,14 @@ namespace Networking {
 
 	void ServerPlayerManager::startWatchingLevel(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		std::string_view levelName = json["level"];
+		std::string_view levelName = json["lvl"];
 		if (!_playersWatchingLevel.contains(levelName.data())) {
 			_playersWatchingLevel.emplace(levelName, std::set<uint32_t>{});
 		}
 		_playersWatchingLevel.at(levelName.data()).insert(id);
 
 		// spawn the players on that level for the client watching that level
-		std::vector<uint32_t> players{ getPlayersOnLevel(levelName) };
+		std::set<uint32_t>& players{ _getPlayersOnLevel(levelName) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			spawnPlayer(pId, id);
@@ -167,14 +168,64 @@ namespace Networking {
 
 	void ServerPlayerManager::stopWatchingLevel(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		std::string_view levelName = json["level"];
+		std::string_view levelName = json["lvl"];
 		if (!_playersWatchingLevel.contains(levelName.data())) return; // consider removing empty set?
 		_playersWatchingLevel.at(levelName.data()).erase(id);
 
-		std::vector<uint32_t> players{ getPlayersOnLevel(levelName) };
+		std::set<uint32_t>& players{ _getPlayersOnLevel(levelName) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			despawnPlayer(pId, id);
 		}
+	}
+
+	void ServerPlayerManager::updatePlayerLevel(uint32_t id, nlohmann::json& json) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		if (!_players.contains(id)) return;
+		std::string_view newLevel = json["lvl"];
+		std::string oldLevel{ _players.at(id)->getLevel() };
+		_players.at(id)->setLevel(newLevel);
+		
+		std::set<uint32_t>& pIdsWatchingNewLevel{ _getPlayersWatchingLevel(newLevel) };
+		if (oldLevel.empty()) {
+			for (uint32_t pId : pIdsWatchingNewLevel) {
+				if (pId == id) continue;
+				spawnPlayer(id, pId);
+			}
+			return;
+		}
+		
+		std::set<uint32_t>& pIdsWatchingOldLevel{ _getPlayersWatchingLevel(oldLevel) };
+		
+		std::set<uint32_t> spawnForPlayersIds{};
+		std::set_difference(pIdsWatchingNewLevel.begin(), pIdsWatchingNewLevel.end(), pIdsWatchingOldLevel.begin(), pIdsWatchingOldLevel.end(), std::inserter(spawnForPlayersIds, spawnForPlayersIds.begin()));
+		std::set<uint32_t> despawnForPlayerIds{};
+		std::set_difference(pIdsWatchingOldLevel.begin(), pIdsWatchingOldLevel.end(), pIdsWatchingNewLevel.begin(), pIdsWatchingNewLevel.end(), std::inserter(despawnForPlayerIds, despawnForPlayerIds.begin()));
+		
+		for (uint32_t pId : spawnForPlayersIds) {
+			if (pId == id) continue;
+			spawnPlayer(id, pId);
+		}
+
+		for (uint32_t pId : despawnForPlayerIds) {
+			if (pId == id) continue;
+			despawnPlayer(id, pId);
+		}
+	}
+
+	std::set<uint32_t>& ServerPlayerManager::_getPlayersOnLevel(std::string_view levelName) {
+		if (_playersWatchingLevel.contains(levelName.data())) {
+			return _playersWatchingLevel.at(levelName.data());
+		}
+		static std::set<uint32_t> emptySet{};
+		return emptySet;
+	}
+
+	std::set<uint32_t>& ServerPlayerManager::_getPlayersWatchingLevel(std::string_view levelName) {
+		if (_playersWatchingLevel.contains(levelName.data())) {
+			return _playersWatchingLevel.at(levelName.data());
+		}
+		static std::set<uint32_t> emptySet{};
+		return emptySet;
 	}
 }

@@ -54,6 +54,11 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, json);
                 break;
             }
+            case UdpChannels::UpdatePlayerLevel:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+				Networking::ServerPlayerManager::updatePlayerLevel(event.peer->connectID, json);
+            }
             case UdpChannels::StartWatchingLevel:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };

@@ -23,4 +23,12 @@ namespace Entities {
 	std::string_view ServerPlayer::getAni() {
 		return _animation;
 	}
+
+	void ServerPlayer::setWorld(std::string_view world) {
+		_world = world;
+	}
+
+	std::string_view ServerPlayer::getWorld() {
+		return _world;
+	}
 }
