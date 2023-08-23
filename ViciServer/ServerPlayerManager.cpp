@@ -27,10 +27,10 @@ namespace Networking {
 		playerData["h"] = serverOptions["defaultHeight"];
 		playerData["dir"] = serverOptions["defaultDir"];
 		playerData["animation"] = serverOptions["defaultAni"];
-		playerData["level"] = serverOptions["defaultLevel"];
+		playerData["world"] = serverOptions["defaultWorld"];
 		playerData["cameraZoom"] = serverOptions["defaultZoom"];
 
-		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["level"], playerData["dir"], playerData["x"], playerData["y"]));
+		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"]));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
 		player.setWidth(playerData["w"]);
 		player.setHeight(playerData["h"]);

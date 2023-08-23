@@ -11,7 +11,7 @@
 namespace Scenes {
 	class GameScene : public Scene {
 	public:
-		GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view level);
+		GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world);
 		//GameScene();
 		~GameScene() override;
 		void update() override;
@@ -20,7 +20,7 @@ namespace Scenes {
 		static GameScene* instance;
 	private:
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };
-		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _level{ nullptr };
+		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _world{ nullptr };
 		Client::Camera _camera{};
 	};
 }

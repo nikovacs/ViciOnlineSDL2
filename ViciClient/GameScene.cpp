@@ -13,13 +13,13 @@
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
 	
-	GameScene::GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view level) {
+	GameScene::GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world) {
 		_camera.initialize();
 		_clientPlayer = std::make_unique<Entities::ClientPlayer>(animation, x, y, dir);
 		_camera.setFocusObject(_clientPlayer.get());
 		_clientPlayer->setWidth(w);
 		_clientPlayer->setHeight(h);
-		_level = std::make_unique<Networking::NetworkAsset<Levels::Level>>(level);
+		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(world);
 		instance = this;
 	}
 
@@ -41,18 +41,18 @@ namespace Scenes {
 
 		Networking::PlayerManager::update();
 		
-		if (_level->getValue()) {
-			_level->getValue()->update();
+		if (_world->getValue()) {
+			_world->getValue()->update();
 		}
 		
-		if (_level->getValue()) {
-			_camera.update(*_level->getValue());
+		if (_world->getValue()) {
+			_camera.update(*_world->getValue());
 		}
 	}
 
 	void GameScene::render(SDL_Renderer* renderer) {
-		if (_level->getValue())
-			_level->getValue()->render(renderer);
+		if (_world->getValue())
+			_world->getValue()->render(renderer);
 		if (_clientPlayer)
 			_clientPlayer->render(renderer);
 		Networking::PlayerManager::render(renderer);
