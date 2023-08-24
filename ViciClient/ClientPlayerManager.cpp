@@ -1,25 +1,25 @@
-#include "PlayerManager.hpp"
+#include "ClientPlayerManager.hpp"
 #include <SDL2/SDL.h>
 
 namespace Networking {
-	std::unordered_map<uint32_t, std::unique_ptr<Entities::NetworkedPlayer>> PlayerManager::_players{};
-	std::mutex PlayerManager::_playerMutex{};
+	std::unordered_map<uint32_t, std::unique_ptr<Entities::NetworkedPlayer>> ClientPlayerManager::_players{};
+	std::mutex ClientPlayerManager::_playerMutex{};
 
-	void PlayerManager::update() {
+	void ClientPlayerManager::update() {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		for (auto& player : _players) {
 			player.second->update();
 		}
 	}
 
-	void PlayerManager::render(SDL_Renderer* renderer) {
+	void ClientPlayerManager::render(SDL_Renderer* renderer) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		for (auto& player : _players) {
 			player.second->render(renderer);
 		}
 	}
 
-	void PlayerManager::spawnPlayer(nlohmann::json& json) {
+	void ClientPlayerManager::spawnPlayer(nlohmann::json& json) {
 		uint32_t id = json["id"];
 		int x = json["x"];
 		int y = json["y"];
@@ -34,31 +34,31 @@ namespace Networking {
 		_players.at(id)->setWidth(w);
 	}
 
-	void PlayerManager::despawnPlayer(uint32_t id) {
+	void ClientPlayerManager::despawnPlayer(uint32_t id) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players.erase(id);
 	}
 
-	void PlayerManager::updatePlayerPos(uint32_t id, int x, int y) {
+	void ClientPlayerManager::updatePlayerPos(uint32_t id, int x, int y) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setPosition(x, y);
 	}
 
-	void PlayerManager::updatePlayerAniHard(uint32_t id, std::string_view animationName) {
+	void ClientPlayerManager::updatePlayerAniHard(uint32_t id, std::string_view animationName) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setAniHard(animationName);
 	}
 
-	void PlayerManager::updatePlayerAniSoft(uint32_t id, std::string_view animationName) {
+	void ClientPlayerManager::updatePlayerAniSoft(uint32_t id, std::string_view animationName) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setAniSoft(animationName);
 	}
 
-	void PlayerManager::updatePlayerDir(uint32_t id, int direction) {
+	void ClientPlayerManager::updatePlayerDir(uint32_t id, int direction) {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setDir(direction);

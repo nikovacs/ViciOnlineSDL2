@@ -7,9 +7,9 @@
 #include <mutex>
 
 namespace Networking {
-	class PlayerManager {
+	class ClientPlayerManager {
 	public:
-		PlayerManager() = delete;
+		ClientPlayerManager() = delete;
 		static void update();
 		static void render(SDL_Renderer* renderer);
 

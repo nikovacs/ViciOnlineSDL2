@@ -6,7 +6,7 @@
 #include <iostream>
 #include "Scene.hpp"
 #include "nlohmann/json.hpp"
-#include "PlayerManager.hpp"
+#include "ClientPlayerManager.hpp"
 
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
@@ -63,7 +63,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::SpawnPlayer:
             {
                 auto jsonSpawnPlayer = getJsonFromPacket(event.packet);
-                Networking::PlayerManager::spawnPlayer(jsonSpawnPlayer);
+                Networking::ClientPlayerManager::spawnPlayer(jsonSpawnPlayer);
             }
             break;
             }
