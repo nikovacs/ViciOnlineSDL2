@@ -193,6 +193,7 @@
     <ClCompile Include="UdpClient.cpp" />
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ViciSytemInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="UdpChannelMap.hpp" />
     <ClInclude Include="UdpClient.hpp" />
     <ClInclude Include="ViciClient.hpp" />
+    <ClInclude Include="ViciSystemInterface.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

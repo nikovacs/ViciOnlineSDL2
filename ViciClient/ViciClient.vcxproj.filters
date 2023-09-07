@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Levels">
       <UniqueIdentifier>{74877cc1-3f2b-4ae5-8ddd-8f7c7b616470}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{8f5ab293-02e7-4fd2-8c82-3907ec6eba62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{da2f0a42-1a4e-4fa9-9196-a0721dc8605b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="LevelWatchingManager.cpp">
       <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="ViciSytemInterface.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="LevelWatchingManager.hpp">
       <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ViciSystemInterface.hpp">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
