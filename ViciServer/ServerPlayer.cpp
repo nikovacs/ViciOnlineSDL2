@@ -31,4 +31,16 @@ namespace Entities {
 	std::string_view ServerPlayer::getWorld() {
 		return _world;
 	}
+
+	void ServerPlayer::startWatchingLevel(std::string_view lvl) {
+		_levelsWatching.insert(lvl.data());
+	}
+
+	const std::set<std::string>& ServerPlayer::getLevelsWatching() {
+		return _levelsWatching;
+	}
+
+	void ServerPlayer::stopWatchingLevel(std::string_view lvl) {
+		_levelsWatching.erase(lvl.data());
+	}
 }

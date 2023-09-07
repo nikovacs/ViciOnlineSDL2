@@ -8,6 +8,7 @@
 #include "UdpClient.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
+#include <set>
 
 namespace Levels {
 	class Level {
@@ -19,6 +20,7 @@ namespace Levels {
 		int getTileSize();
 		virtual int getLevelHeight();
 		virtual int getLevelWidth();
+		virtual void getRenderedLevels(std::set<std::string>& lvlsOut);
 	protected:
 		int _renderDistance{ 0 };
 		int _tileSize{};

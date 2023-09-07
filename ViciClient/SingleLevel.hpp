@@ -15,7 +15,7 @@ namespace Levels {
 	public:
 		SingleLevel(std::string_view name, std::string_view source);
 		virtual ~SingleLevel();
-		void update() override;
+		void update();
 		void render(SDL_Renderer* renderer) override;
 		void renderWithOffsets(SDL_Renderer* renderer, int xOffset, int yOffset);
 	private:

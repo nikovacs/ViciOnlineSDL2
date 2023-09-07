@@ -82,9 +82,12 @@ namespace Networking {
 			UdpServer::sendJson(_peers.at(pId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 		}
 
-		// TODO, store level watching info on the player object so we can use it here to remove from everything in PlayerLevelManager
-
-		_players.erase(id);
+		Entities::ServerPlayer& player = *_players.at(id);
+		for (const std::string& lvl : player.getLevelsWatching()) {
+			_playersWatchingLevel.at(lvl).erase(id);
+		}
+		_playersOnLevel.at(player.getLevel().data()).erase(id);
+		_players.erase(id); // player reference is now invalid
 		_peers.erase(id);
 	}
 	
@@ -157,6 +160,7 @@ namespace Networking {
 			_playersWatchingLevel.emplace(levelName, std::set<uint32_t>{});
 		}
 		_playersWatchingLevel.at(levelName.data()).insert(id);
+		_players.at(id)->startWatchingLevel(levelName);
 
 		// spawn the players on that level for the client watching that level
 		std::set<uint32_t>& players{ _getPlayersOnLevel(levelName) };
@@ -171,6 +175,7 @@ namespace Networking {
 		std::string_view levelName = json["lvl"];
 		if (!_playersWatchingLevel.contains(levelName.data())) return; // consider removing empty set?
 		_playersWatchingLevel.at(levelName.data()).erase(id);
+		_players.at(id)->stopWatchingLevel(levelName);
 
 		std::set<uint32_t>& players{ _getPlayersOnLevel(levelName) };
 		for (uint32_t pId : players) {
@@ -217,8 +222,8 @@ namespace Networking {
 	}
 
 	std::set<uint32_t>& ServerPlayerManager::_getPlayersOnLevel(std::string_view levelName) {
-		if (_playersWatchingLevel.contains(levelName.data())) {
-			return _playersWatchingLevel.at(levelName.data());
+		if (_playersOnLevel.contains(levelName.data())) {
+			return _playersOnLevel.at(levelName.data());
 		}
 		static std::set<uint32_t> emptySet{};
 		return emptySet;

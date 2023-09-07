@@ -8,12 +8,16 @@ namespace Entities {
 
 	void ClientPlayer::setDir(int dir) {
 		Entity::setDir(dir);
-		// TODO send packet to server
+		nlohmann::json json{};
+		json["dir"] = dir;
+		Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
 	}
 
 	void ClientPlayer::setAniHard(std::string_view aniName) {
 		EntityAnimated::setAniHard(aniName);
-		// TODO send packet to server
+		nlohmann::json json{};
+		json["ani"] = aniName;
+		Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
 	}
 
 	void ClientPlayer::setPosition(int x, int y) {

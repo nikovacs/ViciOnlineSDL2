@@ -63,6 +63,14 @@ namespace Levels {
 	void MapLevel::update() {
 		updateFocusLevel();
 		verifyAndUpdateLevelAssets();
+		for (int i{ _focusLevel.first - _renderDistance }; i <= _focusLevel.first + _renderDistance; i++) {
+			if (i < 0 || i >= _mapDimensions.first) continue;
+			for (int j{ _focusLevel.second - _renderDistance }; j <= _focusLevel.second + _renderDistance; j++) {
+				if (j < 0 || j >= _mapDimensions.second) continue;
+				auto* lvl = _levelNameAssetMap.at(_mapLevels[j][i])->getValue();
+				if (lvl) lvl->update();
+			}
+		}
 	}
 
 	void MapLevel::render(SDL_Renderer* renderer) {
@@ -86,6 +94,16 @@ namespace Levels {
 
 	int MapLevel::getLevelWidth() {
 		return _levelDimensions.first * _mapDimensions.first;
+	}
+
+	void MapLevel::getRenderedLevels(std::set<std::string>& lvlsOut) {
+		for (int i{ _focusLevel.first - _renderDistance }; i <= _focusLevel.first + _renderDistance; i++) {
+			if (i < 0 || i >= _mapDimensions.first) continue;
+			for (int j{ _focusLevel.second - _renderDistance }; j <= _focusLevel.second + _renderDistance; j++) {
+				if (j < 0 || j >= _mapDimensions.second) continue;
+				lvlsOut.insert(_mapLevels[j][i]);
+			}
+		}
 	}
 
 	void MapLevel::updateFocusLevel() {

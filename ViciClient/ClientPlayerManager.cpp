@@ -34,33 +34,35 @@ namespace Networking {
 		_players.at(id)->setWidth(w);
 	}
 
-	void ClientPlayerManager::despawnPlayer(uint32_t id) {
+	void ClientPlayerManager::despawnPlayer(nlohmann::json& json) {
+		uint32_t id = json["id"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players.erase(id);
 	}
 
-	void ClientPlayerManager::updatePlayerPos(uint32_t id, int x, int y) {
+	void ClientPlayerManager::updatePlayerPos(nlohmann::json& json) {
+		uint32_t id = json["id"];
+		int x = json["x"];
+		int y = json["y"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setPosition(x, y);
 	}
 
-	void ClientPlayerManager::updatePlayerAniHard(uint32_t id, std::string_view animationName) {
+	void ClientPlayerManager::updatePlayerAni(nlohmann::json& json) {
+		uint32_t id = json["id"];
+		std::string animation = json["ani"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-		_players[id]->setAniHard(animationName);
+		_players[id]->setAniHard(animation);
 	}
 
-	void ClientPlayerManager::updatePlayerAniSoft(uint32_t id, std::string_view animationName) {
+	void ClientPlayerManager::updatePlayerDir(nlohmann::json& json) {
+		uint32_t id = json["id"];
+		int dir = json["dir"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-		_players[id]->setAniSoft(animationName);
-	}
-
-	void ClientPlayerManager::updatePlayerDir(uint32_t id, int direction) {
-		std::lock_guard<std::mutex> lock(_playerMutex);
-		if (!_players.contains(id)) return;
-		_players[id]->setDir(direction);
+		_players[id]->setDir(dir);
 	}
 }

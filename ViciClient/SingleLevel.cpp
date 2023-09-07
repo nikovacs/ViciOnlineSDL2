@@ -9,8 +9,6 @@
 
 namespace Levels {
 	SingleLevel::SingleLevel(std::string_view name, std::string_view source) : Level{ name } {
-		setCurrentLevel(name);
-
 		std::istringstream iss{ source.data() };
 		std::string line;
 
@@ -49,7 +47,6 @@ namespace Levels {
 	}
 
 	void SingleLevel::update() {
-		// is there anything to update?
 	}
 
 	void SingleLevel::render(SDL_Renderer* renderer) {

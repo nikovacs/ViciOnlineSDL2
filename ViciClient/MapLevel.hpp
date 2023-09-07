@@ -18,6 +18,7 @@ namespace Levels {
 		void render(SDL_Renderer* renderer) override;
 		virtual int getLevelHeight() override;
 		virtual int getLevelWidth() override;
+		virtual void getRenderedLevels(std::set<std::string>& lvlsOut) override;
 	private:
 		void updateFocusLevel();
 		void verifyAndUpdateLevelAssets();

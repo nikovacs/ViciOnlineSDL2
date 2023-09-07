@@ -135,6 +135,9 @@
     <ClCompile Include="NetworkedPlayer.cpp">
       <Filter>Source Files\Players</Filter>
     </ClCompile>
+    <ClCompile Include="LevelWatchingManager.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -210,6 +213,9 @@
       <Filter>Header Files\Players</Filter>
     </ClInclude>
     <ClInclude Include="ClientPlayerManager.hpp">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelWatchingManager.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>

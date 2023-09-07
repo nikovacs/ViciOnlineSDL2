@@ -8,6 +8,8 @@
 #include "nlohmann/json.hpp"
 #include "ClientPlayerManager.hpp"
 
+#include <iostream>
+
 Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost(false, 1, port, UdpChannels::MAX_CHANNELS) {
 	enet_address_set_host(&_address, url.data());
 	_gameServer = enet_host_connect(_host, &_address, UdpChannels::MAX_CHANNELS, 0);
@@ -30,8 +32,7 @@ void Networking::UdpClient::sendJson(nlohmann::json& json, Networking::UdpChanne
 void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
     ENetEvent event;
     while (_isRunning) {
-        //std::cout << "udpclient running\n";
-        enet_host_service(client, &event, 1000);
+        enet_host_service(client, &event, 1); // TODO change last arg
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
@@ -39,13 +40,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             /* Store any relevant client information here. */
             //event.peer->data = "Client information";
             break;
-        case ENET_EVENT_TYPE_RECEIVE:
-            /*std::cout << "A packet of length "
-                << event.packet->dataLength
-                << " containing " << event.packet->data
-                << " was received from " << event.peer->data
-                << " on channel " << int(event.channelID) << '\n';*/
-            
+        case ENET_EVENT_TYPE_RECEIVE:            
             switch (event.channelID) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
@@ -56,7 +51,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::initialPlayerData:
             {
                 auto jsonInitPlayerData = getJsonFromPacket(event.packet);
-                Scenes::SceneManager::instance->newGameScene(jsonInitPlayerData); // todo unpack event outside of method
+                Scenes::SceneManager::instance->newGameScene(jsonInitPlayerData);
                 Scenes::SceneManager::instance->setScene("Game");
             }
             break;
@@ -64,6 +59,18 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             {
                 auto jsonSpawnPlayer = getJsonFromPacket(event.packet);
                 Networking::ClientPlayerManager::spawnPlayer(jsonSpawnPlayer);
+            }
+            break;
+            case UdpChannels::DespawnPlayer:
+            {
+                auto jsonDespawnPlayer = getJsonFromPacket(event.packet);
+                Networking::ClientPlayerManager::despawnPlayer(jsonDespawnPlayer);
+            }
+            break;
+            case UdpChannels::UpdatePlayerPos:
+            {
+                auto jsonPlayerPos = getJsonFromPacket(event.packet);
+                Networking::ClientPlayerManager::updatePlayerPos(jsonPlayerPos);
             }
             break;
             }

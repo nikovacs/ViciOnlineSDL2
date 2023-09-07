@@ -43,6 +43,7 @@ namespace Scenes {
 		
 		if (_world->getValue()) {
 			_world->getValue()->update();
+			_levelWatchingManager.update(*_world->getValue());
 		}
 		
 		if (_world->getValue()) {

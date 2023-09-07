@@ -19,4 +19,8 @@ namespace Levels {
 	int Level::getLevelWidth() {
 		return _levelDimensions.first;
 	}
+
+	void Level::getRenderedLevels(std::set<std::string>& lvlsOut) {
+		lvlsOut.insert(_currentLevel);
+	}
 }

@@ -16,6 +16,9 @@ namespace Entities {
 		std::string_view getAni();
 		void setWorld(std::string_view world);
 		std::string_view getWorld();
+		void startWatchingLevel(std::string_view lvl);
+		const std::set<std::string>& getLevelsWatching();
+		void stopWatchingLevel(std::string_view lvl);
 	private:
 		uint32_t _connectionId{};
 		std::string _animation{};

@@ -7,6 +7,7 @@
 #include "Level.hpp"
 #include "NetworkAsset.hpp"
 #include "Camera.hpp"
+#include "LevelWatchingManager.hpp"
 
 namespace Scenes {
 	class GameScene : public Scene {
@@ -22,5 +23,6 @@ namespace Scenes {
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };
 		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _world{ nullptr };
 		Client::Camera _camera{};
+		Networking::LevelWatchingManager _levelWatchingManager{};
 	};
 }

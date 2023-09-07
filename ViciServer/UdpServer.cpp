@@ -60,6 +60,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
 				Networking::ServerPlayerManager::updatePlayerLevel(event.peer->connectID, json);
+                break;
             }
             case UdpChannels::StartWatchingLevel:
             {
@@ -77,6 +78,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
+			std::cout << "disconnect\n";
             if (!peerToPlayerId.contains(event.peer)) break;
 			Networking::ServerPlayerManager::onPlayerDisconnect(peerToPlayerId.at(event.peer));
 			peerToPlayerId.erase(event.peer);
