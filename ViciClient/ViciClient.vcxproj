@@ -175,6 +175,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
+    <ClCompile Include="E:\Downloads\RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
     <ClCompile Include="EntityTexture.cpp" />
     <ClCompile Include="Frame.cpp" />
@@ -193,10 +194,10 @@
     <ClCompile Include="UdpClient.cpp" />
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ViciSytemInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="E:\Downloads\RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="AssetManager.hpp" />
@@ -222,7 +223,6 @@
     <ClInclude Include="UdpChannelMap.hpp" />
     <ClInclude Include="UdpClient.hpp" />
     <ClInclude Include="ViciClient.hpp" />
-    <ClInclude Include="ViciSystemInterface.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

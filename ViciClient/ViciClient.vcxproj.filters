@@ -144,7 +144,7 @@
     <ClCompile Include="LevelWatchingManager.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="ViciSytemInterface.cpp">
+    <ClCompile Include="E:\Downloads\RmlUi_Platform_SDL.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +227,7 @@
     <ClInclude Include="LevelWatchingManager.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="ViciSystemInterface.hpp">
+    <ClInclude Include="E:\Downloads\RmlUi_Platform_SDL.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
