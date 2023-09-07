@@ -37,12 +37,6 @@ namespace Networking {
 		player.setHeight(playerData["h"]);
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
-		
-		/*std::vector<uint32_t> players{ getPlayersWatchingLevel(player.getLevel()) };
-		for (uint32_t pId : players) {
-			if (pId == peer->connectID) continue;
-			spawnPlayer(peer->connectID, pId);
-		}*/
 	}
 
 	void ServerPlayerManager::spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId) {
@@ -149,8 +143,13 @@ namespace Networking {
 
 	void ServerPlayerManager::removeFromLevel(uint32_t id, std::string_view levelName) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		if (!_playersOnLevel.contains(levelName.data())) return; // consider removing empty set?
-		_playersOnLevel.at(levelName.data()).erase(id);
+		if (!_playersOnLevel.contains(levelName.data())) return;
+		
+		std::set<uint32_t>& levelSet{ _playersOnLevel.at(levelName.data()) };
+		levelSet.erase(id);
+		if (levelSet.empty()) {
+			_playersOnLevel.erase(levelName.data()); // levelSet ref invalid here
+		}
 	}
 
 	void ServerPlayerManager::startWatchingLevel(uint32_t id, nlohmann::json& json) {
@@ -173,14 +172,19 @@ namespace Networking {
 	void ServerPlayerManager::stopWatchingLevel(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		std::string_view levelName = json["lvl"];
-		if (!_playersWatchingLevel.contains(levelName.data())) return; // consider removing empty set?
-		_playersWatchingLevel.at(levelName.data()).erase(id);
+		if (!_playersWatchingLevel.contains(levelName.data())) return;
+		std::set<uint32_t>& levelSet{ _playersWatchingLevel.at(levelName.data()) };
+		levelSet.erase(id);
 		_players.at(id)->stopWatchingLevel(levelName);
 
 		std::set<uint32_t>& players{ _getPlayersOnLevel(levelName) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
 			despawnPlayer(pId, id);
+		}
+
+		if (levelSet.empty()) {
+			_playersWatchingLevel.erase(levelName.data());
 		}
 	}
 
