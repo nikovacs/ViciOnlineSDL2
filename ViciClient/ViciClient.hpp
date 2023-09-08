@@ -7,6 +7,7 @@
 #include <atomic>
 #include <thread>
 #include "ClientScriptLoader.hpp"
+#include "ViciGuiHost.hpp"
 
 class ViciClient {
 public:
@@ -36,4 +37,5 @@ private:
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
 	JS::ClientScriptLoader _scriptLoader;
+	std::unique_ptr<GUI::ViciGuiHost> _guiHost;
 };

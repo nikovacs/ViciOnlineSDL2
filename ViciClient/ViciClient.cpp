@@ -18,6 +18,7 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
 	_udpClient = std::make_unique<Networking::UdpClient>("localhost", 8424);
+	_guiHost = std::make_unique<GUI::ViciGuiHost>(_window, _renderer);
 
 	instance = this;
 }

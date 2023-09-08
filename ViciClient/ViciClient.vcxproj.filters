@@ -144,7 +144,13 @@
     <ClCompile Include="LevelWatchingManager.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Downloads\RmlUi_Platform_SDL.cpp">
+    <ClCompile Include="RmlUi_Platform_SDL.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ViciGuiHost.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RmlUi_Renderer_SDL.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +233,13 @@
     <ClInclude Include="LevelWatchingManager.hpp">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="E:\Downloads\RmlUi_Platform_SDL.h">
+    <ClInclude Include="RmlUi_Platform_SDL.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ViciGuiHost.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlUi_Renderer_SDL.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
