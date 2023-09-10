@@ -13,6 +13,5 @@ namespace GUI {
 
 	ViciGuiHost::~ViciGuiHost() {
 		Rml::Shutdown();
-		Rml::GetS
 	}
 }
