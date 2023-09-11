@@ -3,10 +3,10 @@
 ### Dependencies
 * VCPKG (Required to install other dependencies, do this first)
 * Boost (via VCPKG)
-* Nuklear (via VCPKG)
+* RmlUI (via VCPKG)
 * enet64.lib (prebuilt)
-* SDL2.dll (prebuild)
-* SDL2_image.dll (prebuild)
+* SDL2.dll (prebuilt)
+* SDL2_image.dll (prebuilt)
 * v8 (build for non-windows, contact Nik for pre-built windows lib)
 
 *NOTE*: If developing on Windows, just ask Nik for his lib folder instead of doing the non-vcpkg steps above.
