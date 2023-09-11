@@ -45,8 +45,8 @@ namespace Client {
 		bool levelFitsHorizontally{ levelWidthPixels * _scale <= screenWidth };
 		bool levelFitsVertically{ levelHeightPixels * _scale <= screenHeight };
 
-		_camera.w = static_cast<int>(screenWidth / 2 / _scale) - _target->getWidth() / 2;
-		_camera.h = static_cast<int>(screenHeight / 2 / _scale) - _target->getHeight() / 2;
+		_camera.w = static_cast<int>(screenWidth / 2.0f / _scale) - _target->getWidth() / 2;
+		_camera.h = static_cast<int>(screenHeight / 2.0f / _scale) - _target->getHeight() / 2;
 
 		if (levelFitsHorizontally) {
 			_camera.x = 0;
