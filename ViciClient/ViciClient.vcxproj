@@ -175,6 +175,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
+    <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="MouseInputHandler.cpp" />
     <ClCompile Include="NetworkedPlayer.cpp" />
     <ClCompile Include="ClientPlayerManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SingleLevel.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -199,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />

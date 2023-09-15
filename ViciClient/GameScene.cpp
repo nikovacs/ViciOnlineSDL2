@@ -13,7 +13,8 @@
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
 	
-	GameScene::GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world) {
+	GameScene::GameScene(std::string_view sceneName, int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world)
+		: Scene(sceneName), _udpClient{ "localhost", 8424 }, _scriptLoader{} {
 		_camera.initialize();
 		_clientPlayer = std::make_unique<Entities::ClientPlayer>(animation, x, y, dir);
 		_camera.setFocusObject(_clientPlayer.get());
@@ -40,6 +41,7 @@ namespace Scenes {
 		}
 
 		Networking::ClientPlayerManager::update();
+		_scriptLoader.update();
 		
 		if (_world->getValue()) {
 			_world->getValue()->update();
@@ -49,6 +51,8 @@ namespace Scenes {
 		if (_world->getValue()) {
 			_camera.update(*_world->getValue());
 		}
+
+		Scene::update(); // base class update
 	}
 
 	void GameScene::render(SDL_Renderer* renderer) {
@@ -57,9 +61,20 @@ namespace Scenes {
 		if (_clientPlayer)
 			_clientPlayer->render(renderer);
 		Networking::ClientPlayerManager::render(renderer);
+
+		Scene::render(renderer); // base class render
 	}
 
 	Client::Camera& GameScene::getCamera() {
 		return _camera;
+	}
+
+	void GameScene::start() {
+		_networkThread = std::make_unique<std::thread>(&Networking::UdpClient::start, &_udpClient);
+	}
+
+	void GameScene::stop() {
+		_udpClient.stop();
+		_networkThread->join();
 	}
 }

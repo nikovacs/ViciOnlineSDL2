@@ -6,7 +6,6 @@
 #include "UdpClient.hpp"
 #include <atomic>
 #include <thread>
-#include "ClientScriptLoader.hpp"
 #include "ViciGuiHost.hpp"
 
 class ViciClient {
@@ -30,12 +29,8 @@ public:
 	SDL_Window* getWindow() { return _window; }
 	
 private:
-	std::unique_ptr<std::thread> _networkThread;
-	std::unique_ptr<Networking::UdpClient> _udpClient;
 	std::unique_ptr<Scenes::SceneManager> _sceneManager;
 	std::atomic_bool _isRunning;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-	JS::ClientScriptLoader _scriptLoader;
-	std::unique_ptr<GUI::ViciGuiHost> _guiHost;
 };
