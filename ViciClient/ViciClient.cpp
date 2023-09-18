@@ -26,6 +26,8 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 }
 
 ViciClient::~ViciClient() {
+	// scene manager needs to dispose of rmlContexts before ViciGuiHost deinitializes
+	_sceneManager.reset();
 	GUI::ViciGuiHost::deinitialize();
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
