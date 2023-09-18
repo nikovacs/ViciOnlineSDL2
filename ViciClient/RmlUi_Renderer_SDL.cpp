@@ -33,6 +33,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <iostream>
+
 namespace Rml {
 	RenderInterface_SDL::RenderInterface_SDL(SDL_Renderer* renderer) : renderer(renderer) {}
 
@@ -88,6 +90,7 @@ namespace Rml {
 
 	bool RenderInterface_SDL::LoadTexture(Rml::TextureHandle& texture_handle, Rml::Vector2i& texture_dimensions, const Rml::String& source)
 	{
+		std::cout << "loading rml texture\n";
 		Rml::FileInterface* file_interface = Rml::GetFileInterface();
 		Rml::FileHandle file_handle = file_interface->Open(source);
 		if (!file_handle)

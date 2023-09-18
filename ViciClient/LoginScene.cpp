@@ -5,31 +5,48 @@ namespace Scenes {
 		Rml::ElementDocument* document = getContext().LoadDocumentFromMemory(R""(
 			<rml>
                 <head>
-                <title>Example</title>
-                <style>
-                    body
-                    {
-                        position: absolute;
-                        top: 50px;
-                        left: 50px;
-                        width: 500px;
-                        height: 500px;
-                        background-color: #ccc;
-                    }
-                    div
-                    {
-                        display: block;
-                        height: 150px;
-                        width: 200px; 
-                        background-color: #f00;
-                    }
-                </style>
+                    <title>User Login</title>
+					<style>
+						body {
+                            font-family: "Applestorm";
+                        }
+
+                        .login-box {
+                            width: 300px;
+                            padding: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            text-align: center;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin: 0;
+                        }
+
+                        input[type="text"],
+                        input[type="password"],
+                        button {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 3px;
+                        }
+					</style>
                 </head>
                 <body>
-                    <div/>
+                    <div class="login-box">
+                        <h2>User Login</h2>
+                        <form>
+                            <input type="text" placeholder="Username" required></input><br></br>
+                            <input type="password" placeholder="Password" required></input><br></br>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
                 </body>
             </rml>
 		)"");
+        document->Show();
 	}
 
 	void LoginScene::update() {
