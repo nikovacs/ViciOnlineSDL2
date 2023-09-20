@@ -8,6 +8,12 @@
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
+JS::ClientScriptLoader::~ClientScriptLoader() {
+	for (auto& script : _scripts) {
+		script.second->getValue()->trigger("onUnload");
+	}
+}
+
 void JS::ClientScriptLoader::update() {
 	attemptResolveInProgress();
 	for (auto& script : _scripts) {
@@ -38,6 +44,9 @@ void JS::ClientScriptLoader::loadScript(std::string_view fileName) {
 }
 
 void JS::ClientScriptLoader::unloadScript(std::string_view fileName) {
+	if (_scripts.contains(fileName.data())) {
+		_scripts.at(filename.data())->trigger("onUnload"));
+	}
 	_scripts.erase(fileName.data());
 }
 
