@@ -26,17 +26,6 @@ namespace Scenes {
 	}
 
 	void SceneManager::newGameScene() {
-		/*int x = json["x"];
-		int y = json["y"];
-		int w = json["w"];
-		int h = json["h"];
-		int dir = json["dir"];
-		std::string_view animation = json["animation"];
-		std::string_view world = json["world"];
-
-		auto newGameScene = std::make_unique<GameScene>("GameScene"sv, x, y, w, h, dir, animation, world);
-		newGameScene->getCamera().setScale(json["cameraZoom"]);*/
-
 		auto newGameScene = std::make_unique<GameScene>("GameScene"sv, "localhost", 8424);
 		
 		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
