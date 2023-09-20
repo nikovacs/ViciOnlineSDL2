@@ -13,8 +13,7 @@ namespace JS {
 	class ClientScriptLoader : public ScriptLoader {
 	public:
 		ClientScriptLoader();
-		~ClientScriptLoader();
-		virtual ~ClientScriptLoader() = default;
+		virtual ~ClientScriptLoader() override;
 		virtual void loadScript(std::string_view fileName) override;
 		virtual void unloadScript(std::string_view fileName) override;
 		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv) override;
