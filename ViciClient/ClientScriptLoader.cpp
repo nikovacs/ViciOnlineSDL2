@@ -10,7 +10,10 @@ JS::ClientScriptLoader::ClientScriptLoader() {}
 
 JS::ClientScriptLoader::~ClientScriptLoader() {
 	for (auto& script : _scripts) {
-		script.second->getValue()->trigger("onUnload");
+		auto* scriptPtr = script.second->getValue();
+		if (scriptPtr) {
+			scriptPtr->trigger("onUnload");
+		}
 	}
 }
 
@@ -45,7 +48,10 @@ void JS::ClientScriptLoader::loadScript(std::string_view fileName) {
 
 void JS::ClientScriptLoader::unloadScript(std::string_view fileName) {
 	if (_scripts.contains(fileName.data())) {
-		_scripts.at(filename.data())->trigger("onUnload"));
+		auto* scriptPtr = _scripts.at(fileName.data())->getValue();
+		if (scriptPtr) {
+			scriptPtr->trigger("onUnload");
+		}
 	}
 	_scripts.erase(fileName.data());
 }
