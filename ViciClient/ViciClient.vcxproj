@@ -131,7 +131,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>V8_COMPRESS_POINTERS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>V8_COMPRESS_POINTERS;_ITERATOR_DEBUG_LEVEL=2;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -175,6 +175,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
+    <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="MouseInputHandler.cpp" />
     <ClCompile Include="NetworkedPlayer.cpp" />
     <ClCompile Include="ClientPlayerManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SingleLevel.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -199,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />
@@ -217,6 +220,7 @@
     <ClInclude Include="MapLevel.hpp" />
     <ClInclude Include="NetworkedPlayer.hpp" />
     <ClInclude Include="ClientPlayerManager.hpp" />
+    <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="SingleLevel.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />
     <ClInclude Include="NetworkAsset.hpp" />

@@ -8,15 +8,16 @@
 #include "NetworkAsset.hpp"
 #include "Camera.hpp"
 #include "LevelWatchingManager.hpp"
+#include "ClientScriptLoader.hpp"
 
 namespace Scenes {
 	class GameScene : public Scene {
 	public:
-		GameScene(int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world);
-		//GameScene();
+		GameScene(std::string_view sceneName, std::string_view serverUrl, int serverPort);
 		~GameScene() override;
 		void update() override;
 		void render(SDL_Renderer* renderer) override;
+		void loadInitPlayerData(nlohmann::json& json);
 		Client::Camera& getCamera();
 		static GameScene* instance;
 	private:
@@ -24,5 +25,8 @@ namespace Scenes {
 		std::unique_ptr<Networking::NetworkAsset<Levels::Level>> _world{ nullptr };
 		Client::Camera _camera{};
 		Networking::LevelWatchingManager _levelWatchingManager{};
+		Networking::UdpClient _udpClient;
+		std::unique_ptr<std::thread> _networkThread{ nullptr };
+		JS::ClientScriptLoader _scriptLoader;
 	};
 }

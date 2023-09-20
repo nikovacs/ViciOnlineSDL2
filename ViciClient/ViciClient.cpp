@@ -8,7 +8,7 @@
 #include <thread>
 
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
-	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() }, _scriptLoader{} {
+	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {
 	int flags{ 0 };
 	flags |= fullscreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
 	
@@ -17,13 +17,18 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
-	_udpClient = std::make_unique<Networking::UdpClient>("localhost", 8424);
-	_guiHost = std::make_unique<GUI::ViciGuiHost>(_window, _renderer);
+	GUI::ViciGuiHost::initialize(_window, _renderer);
+
+	_sceneManager->newLoginScene();
+	_sceneManager->setScene("LoginScene");
 
 	instance = this;
 }
 
 ViciClient::~ViciClient() {
+	// scene manager needs to dispose of rmlContexts before ViciGuiHost deinitializes
+	_sceneManager.reset();
+	GUI::ViciGuiHost::deinitialize();
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
@@ -32,6 +37,8 @@ ViciClient::~ViciClient() {
 void ViciClient::handleEvents() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
+	_sceneManager->handleEvents(&event);
+
 	switch (event.type) {
 	case SDL_QUIT:
 		stop();
@@ -54,12 +61,9 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::initialize() {
-	//_sceneManager->initialize();
-	_scriptLoader.loadScript("testscript.js"); // TODO remove temporary
 }
 
 void ViciClient::update() {
-	_scriptLoader.update();
 	_sceneManager->update();
 }
 
@@ -73,12 +77,8 @@ void ViciClient::render() {
 
 void ViciClient::start() {
 	_isRunning = true;
-	_networkThread = std::make_unique<std::thread>(&Networking::UdpClient::start, _udpClient.get());
 }
 
 void ViciClient::stop() {
-	std::cout << "Stopping client..." << std::endl;
 	_isRunning = false;
-	_udpClient->stop();
-	_networkThread->join();
 }
