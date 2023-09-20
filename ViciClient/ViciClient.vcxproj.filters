@@ -251,5 +251,8 @@
     <ClInclude Include="LoginScene.hpp">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

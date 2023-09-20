@@ -1,3 +1,4 @@
+#include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Scene.hpp"
 #include <string>
@@ -24,8 +25,8 @@ namespace Scenes {
 
 	}
 
-	void SceneManager::newGameScene(nlohmann::json& json) {
-		int x = json["x"];
+	void SceneManager::newGameScene() {
+		/*int x = json["x"];
 		int y = json["y"];
 		int w = json["w"];
 		int h = json["h"];
@@ -34,19 +35,26 @@ namespace Scenes {
 		std::string_view world = json["world"];
 
 		auto newGameScene = std::make_unique<GameScene>("GameScene"sv, x, y, w, h, dir, animation, world);
-		newGameScene->getCamera().setScale(json["cameraZoom"]);
+		newGameScene->getCamera().setScale(json["cameraZoom"]);*/
+
+		auto newGameScene = std::make_unique<GameScene>("GameScene"sv, "localhost", 8424);
 		
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		_currentScene = nullptr;
 		if (_scenes.contains("Game"sv)) {
 			_scenes.erase("Game"sv);
 		}
-		_scenes.emplace("Game"sv, std::move(newGameScene));
+		_scenes.emplace("Game"sv, std::move(newGameScene)); 
+	}
+
+	Scene& SceneManager::getScene(std::string_view name) {
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
+		return *_scenes.at(name);
 	}
 
 	void SceneManager::newLoginScene() {
-		auto newLoginScene = std::make_unique<LoginScene>("LoginScene"sv);
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		auto newLoginScene = std::make_unique<LoginScene>("LoginScene"sv, [this]()->void { newGameScene(); });
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		_currentScene = nullptr;
 		if (_scenes.contains("LoginScene"sv)) {
 			_scenes.erase("LoginScene"sv);
@@ -55,38 +63,26 @@ namespace Scenes {
 	}
 
 	void SceneManager::update() {
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		if (_currentScene)
 			_currentScene->update();
 	}
 
 	void SceneManager::render(SDL_Renderer* renderer) {
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		if (_currentScene)
 			_currentScene->render(renderer);
 	}
 
 	void SceneManager::handleEvents(SDL_Event* event) {
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		if (_currentScene)
 			_currentScene->handleEvents(*event);
 	}
 
 	void SceneManager::setScene(std::string_view name) {
-		std::lock_guard<std::mutex> lock(_sceneMutex);
+		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		_currentScene = _scenes.at(name).get();
-	}
-
-	void SceneManager::start() {
-		for (auto& scene : _scenes) {
-			scene.second->start();
-		}
-	}
-	
-	void SceneManager::stop() {
-		for (auto& scene : _scenes) {
-			scene.second->stop();
-		}
 	}
 }
 

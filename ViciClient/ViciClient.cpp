@@ -77,10 +77,8 @@ void ViciClient::render() {
 
 void ViciClient::start() {
 	_isRunning = true;
-	_sceneManager->start();
 }
 
 void ViciClient::stop() {
 	_isRunning = false;
-	_sceneManager->stop();
 }

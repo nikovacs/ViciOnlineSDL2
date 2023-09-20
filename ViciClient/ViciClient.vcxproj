@@ -220,6 +220,7 @@
     <ClInclude Include="MapLevel.hpp" />
     <ClInclude Include="NetworkedPlayer.hpp" />
     <ClInclude Include="ClientPlayerManager.hpp" />
+    <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="SingleLevel.hpp" />
     <ClInclude Include="MouseInputHandler.hpp" />
     <ClInclude Include="NetworkAsset.hpp" />

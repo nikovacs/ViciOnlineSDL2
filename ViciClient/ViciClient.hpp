@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include "Scene.hpp"
+#include "SceneManager.hpp"
 #include "UdpClient.hpp"
 #include <atomic>
 #include <thread>

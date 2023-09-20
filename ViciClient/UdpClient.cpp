@@ -5,8 +5,10 @@
 #include <string>
 #include <iostream>
 #include "Scene.hpp"
+#include "SceneManager.hpp"
 #include "nlohmann/json.hpp"
 #include "ClientPlayerManager.hpp"
+#include "GameScene.hpp"
 
 #include <iostream>
 
@@ -17,6 +19,8 @@ Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost
 }
 
 Networking::UdpClient::~UdpClient() {
+	enet_peer_disconnect(_gameServer, 0);
+	enet_host_destroy(_host);
 }
 
 ENetPeer* Networking::UdpClient::getGameServer() {
@@ -51,7 +55,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::initialPlayerData:
             {
                 auto jsonInitPlayerData = getJsonFromPacket(event.packet);
-                Scenes::SceneManager::instance->newGameScene(jsonInitPlayerData);
+                reinterpret_cast<Scenes::GameScene*>(&Scenes::SceneManager::instance->getScene("Game"))->loadInitPlayerData(jsonInitPlayerData);
                 Scenes::SceneManager::instance->setScene("Game");
             }
             break;

@@ -1,7 +1,15 @@
 #include "LoginScene.hpp"
 
+#include <iostream>
+
 namespace Scenes {
-	LoginScene::LoginScene(std::string_view sceneName) : Scene(sceneName) {
+    LoginButtonListener::LoginButtonListener(std::function<void()>& onLoginCallback) : _callbackOnProcess{ onLoginCallback } {}
+
+    void LoginButtonListener::ProcessEvent(Rml::Event& event) {
+        _callbackOnProcess();
+    }
+
+    LoginScene::LoginScene(std::string_view sceneName, std::function<void()> onLoginCallback) : Scene{ sceneName }, _onLoginCallback{ onLoginCallback }, _loginButtonListener{ _onLoginCallback } {
 		Rml::ElementDocument* document = getContext().LoadDocumentFromMemory(R""(
 			<rml>
                 <head>
@@ -40,12 +48,13 @@ namespace Scenes {
                         <form>
                             <input type="text" placeholder="Username" required></input><br></br>
                             <input type="password" placeholder="Password" required></input><br></br>
-                            <button type="submit">Login</button>
+                            <button id="loginButton" type="submit" onclick="">Login</button>
                         </form>
                     </div>
                 </body>
             </rml>
 		)"");
+        document->GetElementById("loginButton")->AddEventListener("click", &_loginButtonListener);
         document->Show();
 	}
 
