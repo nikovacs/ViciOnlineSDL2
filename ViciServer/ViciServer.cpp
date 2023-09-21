@@ -11,7 +11,6 @@ ViciServer::ViciServer() {
 	loadServerOptions();
 	_running = false;
 	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); 
-	_scriptLoader = std::make_unique<JS::ServerScriptLoader>();
 	instance = this;
 }
 

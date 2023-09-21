@@ -11,7 +11,7 @@ private:
 	nlohmann::json _serverOptions;
 	std::unique_ptr<std::thread> _networkThread;
 	std::unique_ptr<Networking::UdpServer> _udpServer;
-	std::unique_ptr<JS::ServerScriptLoader> _scriptLoader;
+	JS::ServerScriptLoader _scriptLoader{};
 	static const int TICKS_PER_SECOND{ 20 };
 	bool _running;
 	void loadServerOptions();
