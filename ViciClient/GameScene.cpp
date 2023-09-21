@@ -12,17 +12,6 @@
 
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
-	
-	/*GameScene::GameScene(std::string_view sceneName, int x, int y, int w, int h, int dir, std::string_view animation, std::string_view world)
-		: Scene(sceneName), _udpClient{ "localhost", 8424 }, _scriptLoader{} {
-		_camera.initialize();
-		_clientPlayer = std::make_unique<Entities::ClientPlayer>(animation, x, y, dir);
-		_camera.setFocusObject(_clientPlayer.get());
-		_clientPlayer->setWidth(w);
-		_clientPlayer->setHeight(h);
-		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(world);
-		instance = this;
-	}*/
 
 	GameScene::GameScene(std::string_view sceneName, std::string_view serverUrl, int serverPort) : Scene{ sceneName }, _udpClient{ serverUrl, serverPort }, _scriptLoader{} {
 		_networkThread = std::make_unique<std::thread>(&Networking::UdpClient::start, &_udpClient);

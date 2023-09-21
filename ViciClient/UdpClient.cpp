@@ -20,7 +20,6 @@ Networking::UdpClient::UdpClient(const std::string_view url, int port) : UdpHost
 
 Networking::UdpClient::~UdpClient() {
 	enet_peer_disconnect(_gameServer, 0);
-	enet_host_destroy(_host);
 }
 
 ENetPeer* Networking::UdpClient::getGameServer() {
