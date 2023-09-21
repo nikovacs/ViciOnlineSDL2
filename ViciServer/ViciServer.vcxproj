@@ -173,6 +173,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServerPlayerManager.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
+    <ClCompile Include="ServerScriptLoader.cpp" />
     <ClCompile Include="UdpServer.cpp" />
     <ClCompile Include="ViciServer.cpp" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="AssetBroker.hpp" />
     <ClInclude Include="ServerPlayerManager.hpp" />
     <ClInclude Include="ServerPlayer.hpp" />
+    <ClInclude Include="ServerScriptLoader.hpp" />
     <ClInclude Include="UdpServer.hpp" />
     <ClInclude Include="ViciServer.hpp" />
   </ItemGroup>

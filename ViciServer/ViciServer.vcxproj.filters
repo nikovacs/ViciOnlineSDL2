@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{70ba77ec-d209-48b2-8e72-db172f3f3d13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JSRuntime">
+      <UniqueIdentifier>{4664283d-ae83-4c5f-8d7e-b122d37dada8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JSRuntime">
+      <UniqueIdentifier>{bb054144-2312-4e65-bbaf-f4ac255cac14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +51,9 @@
     <ClCompile Include="ServerPlayerManager.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
+    <ClCompile Include="ServerScriptLoader.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.hpp">
@@ -61,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="ServerPlayer.hpp">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerScriptLoader.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
