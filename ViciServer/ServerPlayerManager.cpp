@@ -4,6 +4,7 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include "enet/enet.h"
 #include <memory>
+#include "ServerScriptLoader.hpp"
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> ServerPlayerManager::_players{};

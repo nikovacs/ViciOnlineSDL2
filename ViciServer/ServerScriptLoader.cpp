@@ -53,6 +53,22 @@ namespace JS {
 				script.trigger("onUpdate");
 			}
 		}
+
+		// remove players that have disconnected on the main thread
+		std::vector<uint32_t> playerIdsRemoved{};
+		std::lock_guard lock{ _playersToRemoveMutex };
+		for (uint32_t playerId : _playerIdsToRemove) {
+			if (!_playerScripts.contains(playerId)) return;
+			for (auto& [fileName, script] : _playerScripts.at(playerId)) {
+				script.trigger("onUnload");
+			}
+			_playerScripts.erase(playerId);
+			playerIdsRemoved.push_back(playerId);
+		}
+
+		for (uint32_t playerId : playerIdsRemoved) {
+			_playerIdsToRemove.erase(playerId);
+		}
 	};
 
 	void ServerScriptLoader::loadScriptForPlayer(int32_t playerId, std::string_view fileName) {
@@ -84,10 +100,7 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::onPlayerDisconnect(int32_t playerId) {
-		if (!_playerScripts.contains(playerId)) return;
-		for (auto& [fileName, script] : _playerScripts.at(playerId)) {
-			script.trigger("onUnload");
-		}
-		_playerScripts.erase(playerId);
+		std::lock_guard lock{ _playersToRemoveMutex };
+		_playerIdsToRemove.insert(playerId);
 	};
 }

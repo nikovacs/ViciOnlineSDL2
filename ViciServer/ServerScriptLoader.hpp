@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <mutex>
+#include <set>
 
 namespace JS {
 	class ServerScriptLoader : public ScriptLoader {
@@ -20,5 +22,7 @@ namespace JS {
 	private:
 		std::map<std::string, JS::Script> _globalScripts{};
 		std::map<int32_t, std::map<std::string, JS::Script>> _playerScripts{};
+		std::set<uint32_t> _playerIdsToRemove{};
+		std::recursive_mutex _playersToRemoveMutex{};
 	};
 }
