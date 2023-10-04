@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{988fc2fd-8379-4033-862d-59e5499e8bc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Attributes">
+      <UniqueIdentifier>{75fef889-acdb-48e3-927a-1e123885185d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Attributes">
+      <UniqueIdentifier>{bc81b921-6e43-4212-bdeb-a82e762f99a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -57,6 +63,9 @@
     <ClCompile Include="StandardFuncs.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="Attributes.cpp">
+      <Filter>Source Files\Attributes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.hpp">
@@ -79,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="Script.hpp">
       <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="Attributes.hpp">
+      <Filter>Header Files\Attributes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
