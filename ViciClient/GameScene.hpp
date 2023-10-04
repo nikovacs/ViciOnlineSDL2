@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "LevelWatchingManager.hpp"
 #include "ClientScriptLoader.hpp"
+#include "../ViciEngine/Attributes.hpp"
 
 namespace Scenes {
 	class GameScene : public Scene {
@@ -27,6 +28,8 @@ namespace Scenes {
 		Networking::LevelWatchingManager _levelWatchingManager{};
 		Networking::UdpClient _udpClient;
 		std::unique_ptr<std::thread> _networkThread{ nullptr };
-		JS::ClientScriptLoader _scriptLoader;
+		JS::ClientScriptLoader _scriptLoader{};
+
+		Attributes _localAttrs{}; // only exists on this client and accessible from all clientside scripts
 	};
 }
