@@ -31,6 +31,7 @@ namespace Networking {
 		playerData["animation"] = serverOptions["defaultAni"];
 		playerData["world"] = serverOptions["defaultWorld"];
 		playerData["cameraZoom"] = serverOptions["defaultZoom"];
+		playerData["clientw"] = serverOptions["defaultClientWriteableAttrs"];
 
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"]));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
@@ -53,6 +54,7 @@ namespace Networking {
 		playerData["h"] = playerToSpawn->getHeight();
 		playerData["dir"] = playerToSpawn->getDir();
 		playerData["animation"] = playerToSpawn->getAni();
+		playerData["clientw"] = playerToSpawn->getClientWriteableAttrs().getUnderlyingJson();
 
 		UdpServer::sendJson(_peers.at(spawnForId), playerData, UdpChannels::SpawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 	}
@@ -223,6 +225,24 @@ namespace Networking {
 		for (uint32_t pId : despawnForPlayerIds) {
 			if (pId == id) continue;
 			despawnPlayer(id, pId);
+		}
+	}
+
+	void ServerPlayerManager::updatePlayerAttr(uint32_t id, nlohmann::json& json) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		
+		std::cout << "updating player attr for id " << id << "\n";
+
+		if (!_players.contains(id)) return;
+		_players.at(id)->getClientWriteableAttrs().set(json["k"], json["v"]);
+
+		json["id"] = id;
+
+		std::string_view level{ _players.at(id)->getLevel() };
+		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
+		for (uint32_t pId : players) {
+			if (pId == id) continue;
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerAttr, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 

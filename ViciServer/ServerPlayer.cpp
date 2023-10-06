@@ -4,6 +4,9 @@ namespace Entities {
 	ServerPlayer::ServerPlayer(uint32_t id, std::string_view animation, std::string_view level, int dir, int x, int y) : _connectionId{ id }, _animation{ animation }, _level{ level } {
 		setPosition(x, y);
 		_dir = dir;
+		_clientWriteableAttrs.setOnGetAttribCallback([this](std::string_view key) {
+			// Should update v8 attr here
+		});
 	}
 
 	ServerPlayer::~ServerPlayer() {}
@@ -42,5 +45,9 @@ namespace Entities {
 
 	void ServerPlayer::stopWatchingLevel(std::string_view lvl) {
 		_levelsWatching.erase(lvl.data());
+	}
+
+	Attributes& ServerPlayer::getClientWriteableAttrs() {
+		return _clientWriteableAttrs;
 	}
 }

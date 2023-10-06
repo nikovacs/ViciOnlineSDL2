@@ -6,7 +6,7 @@ namespace Networking {
 		Animation,
 		Level,
 		Script,
-		
+
 		initialPlayerData,
 		SpawnPlayer,
 		DespawnPlayer,
@@ -18,6 +18,8 @@ namespace Networking {
 
 		StartWatchingLevel,
 		StopWatchingLevel,
+
+		UpdatePlayerAttr,
 		
 		MAX_CHANNELS
 	};

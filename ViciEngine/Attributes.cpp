@@ -1,19 +1,11 @@
 #include "Attributes.hpp"
-
+#include <iostream>
 Attributes::Attributes(std::string& jsonDump) : _attributes{ jsonDump } {}
+
+Attributes::Attributes(nlohmann::json& json) : _attributes{ json } {}
 
 nlohmann::json& Attributes::getUnderlyingJson() {
 	return _attributes;
-}
-
-void Attributes::set(std::string_view key, auto value) {
-	_attributes[key.data()] = value;
-	if (_onSetAttribCallback) _onSetAttribCallback(key);
-}
-
-auto Attributes::get(std::string_view key) {
-	if (_onGetAttribCallback) _onGetAttribCallback(key);
-	return _attributes[key.data()];
 }
 
 void Attributes::setOnSetAttribCallback(callbackFunc callback) {

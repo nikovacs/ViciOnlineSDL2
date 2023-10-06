@@ -63,21 +63,12 @@ namespace Scenes {
 	}
 
 	void GameScene::loadInitPlayerData(nlohmann::json& json) {
-		int x = json["x"];
-		int y = json["y"];
-		int w = json["w"];
-		int h = json["h"];
-		int dir = json["dir"];
-		std::string_view animation = json["animation"];
-		std::string_view world = json["world"];
-		float cameraZoom = json["cameraZoom"];
-
-		_clientPlayer = std::make_unique<Entities::ClientPlayer>(animation, x, y, dir);
+		_clientPlayer = std::make_unique<Entities::ClientPlayer>(json);
 		_camera.setFocusObject(_clientPlayer.get());
-		_clientPlayer->setWidth(w);
-		_clientPlayer->setHeight(h);
-		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(world);
-		_camera.setScale(cameraZoom);
+		_clientPlayer->setWidth(json["w"]);
+		_clientPlayer->setHeight(json["h"]);
+		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(json["world"]);
+		_camera.setScale(json["cameraZoom"]);
 	}
 
 	Client::Camera& GameScene::getCamera() {

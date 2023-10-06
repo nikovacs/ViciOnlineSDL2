@@ -9,10 +9,18 @@ class Attributes {
 public:
 	Attributes() = default;
 	Attributes(std::string& jsonDump);
+	Attributes(nlohmann::json& json);
 
 	nlohmann::json& getUnderlyingJson();
-	void set(std::string_view key, auto value);
-	auto get(std::string_view key);
+	void set(std::string_view key, auto value) {
+		_attributes[key.data()] = value;
+		if (_onSetAttribCallback) _onSetAttribCallback(key);
+	}
+
+	auto get(std::string_view key) {
+		if (_onGetAttribCallback) _onGetAttribCallback(key);
+		return _attributes[key.data()];
+	}
 
 	void setOnSetAttribCallback(callbackFunc callback);
 	void setOnGetAttribCallback(callbackFunc callback);

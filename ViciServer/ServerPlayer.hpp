@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ViciEngine/Entity.hpp"
+#include "../ViciEngine/Attributes.hpp"
 #include <string>
 #include <mutex>
 #include <set>
@@ -19,11 +20,13 @@ namespace Entities {
 		void startWatchingLevel(std::string_view lvl);
 		const std::set<std::string>& getLevelsWatching();
 		void stopWatchingLevel(std::string_view lvl);
+		Attributes& getClientWriteableAttrs();
 	private:
 		uint32_t _connectionId{};
 		std::string _animation{};
 		std::string _world{};
 		std::string _level{};
 		std::set<std::string> _levelsWatching{};
+		Attributes _clientWriteableAttrs{};
 	};
 }

@@ -2,9 +2,18 @@
 #include "nlohmann/json.hpp"
 #include "enet/enet.h"
 #include "UdpClient.hpp"
+#include <iostream>
 
 namespace Entities {
-	ClientPlayer::ClientPlayer(std::string_view aniName, int x, int y, int direction) : EntityAnimated(aniName, x, y, direction) {};
+	ClientPlayer::ClientPlayer(nlohmann::json& json) : EntityAnimated(json["animation"], json["x"], json["y"], json["dir"]), _clientWriteableAttrs{ json["clientw"] } {
+		_clientWriteableAttrs.setOnSetAttribCallback([this](std::string_view key) {
+			nlohmann::json json{};
+			json["k"] = key;
+			json["v"] = _clientWriteableAttrs.get(key);
+			std::cout << "Updating clientw attrs with " << key << " and " << _clientWriteableAttrs.get(key) << std::endl;
+			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerAttr, ENET_PACKET_FLAG_RELIABLE);
+		});
+	};
 
 	void ClientPlayer::setDir(int dir) {
 		Entity::setDir(dir);
