@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <set>
 #include <string>
+#include "CaseInsensitiveComparator.hpp"
 
 namespace Handlers {
 	class KeyboardInputHandler {
@@ -11,6 +12,6 @@ namespace Handlers {
 		static void handleKeyUp(SDL_Event& e);
 		static bool isKeyDown(std::string_view key);
 	private:
-		static std::set<std::string> _keysDown;
+		static std::set<std::string, CaseInsensitiveComparator> _keysDown;
 	};
 }

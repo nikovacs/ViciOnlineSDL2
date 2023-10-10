@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-std::set<std::string> Handlers::KeyboardInputHandler::_keysDown = std::set<std::string>();
+std::set<std::string, CaseInsensitiveComparator> Handlers::KeyboardInputHandler::_keysDown = std::set<std::string, CaseInsensitiveComparator>();
 
 void Handlers::KeyboardInputHandler::handleKeyDown(SDL_Event& e) {
 	_keysDown.insert(SDL_GetKeyName(e.key.keysym.sym));
