@@ -76,6 +76,17 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
                 Networking::ClientPlayerManager::updatePlayerPos(jsonPlayerPos);
             }
             break;
+            case UdpChannels::UpdatePlayerDir:
+            {
+                auto jsonPlayerDir = getJsonFromPacket(event.packet);
+                Networking::ClientPlayerManager::updatePlayerDir(jsonPlayerDir);
+            }
+            break;
+            case UdpChannels::UpdatePlayerAni:
+            {
+                auto jsonPlayerAni = getJsonFromPacket(event.packet);
+                Networking::ClientPlayerManager::updatePlayerAni(jsonPlayerAni);
+            }
             }
 
             

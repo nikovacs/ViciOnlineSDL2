@@ -132,7 +132,7 @@ namespace Networking {
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 
