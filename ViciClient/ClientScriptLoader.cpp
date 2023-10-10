@@ -5,7 +5,9 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <v8.h>
 #include <v8pp/module.hpp>
+#include "KeyboardInputHandler.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -104,8 +106,35 @@ void JS::ClientScriptLoader::setApiSetupFuncs() {
 
 	static v8pp::module clientPlayer{ _isolate };
 	clientPlayer
-		.property("dir", [this]() -> int { return _clientPlayer->getDir(); }, [this](int dir) { _clientPlayer->setDir(dir); })
+		.property(
+			"dir",
+			[this]() -> int { return _clientPlayer->getDir(); },
+			[this](int dir) { _clientPlayer->setDir(dir); }
+			)
+		.property(
+			"ani",
+			[this]() -> std::string { return _clientPlayer->getAni(); },
+			[this](std::string ani) { _clientPlayer->setAniHard(ani); }
+			)
+		.property(
+			"width",
+			[this]() -> int { return _clientPlayer->getWidth(); },
+			[this](int width) { _clientPlayer->setWidth(width); }
+			)
+		.property(
+			"height",
+			[this]() -> int { return _clientPlayer->getHeight(); },
+			[this](int height) { _clientPlayer->setHeight(height); }
+			)
+		.property(
+			"pos",
+			[this]() -> std::vector<int> { return { _clientPlayer->getX(), _clientPlayer->getY() }; },
+			[this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); }
+			)
 		;
+	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), clientPlayer.new_instance());
 
-	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8::String::NewFromUtf8(_isolate, "clientPlayer").ToLocalChecked(), clientPlayer.new_instance());
+	v8::Local<v8::Function> isKeyDownFunc = v8pp::wrap_function(_isolate, "isKeyDown", &Handlers::KeyboardInputHandler::isKeyDown);
+	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "isKeyDown"), isKeyDownFunc);
+
 }

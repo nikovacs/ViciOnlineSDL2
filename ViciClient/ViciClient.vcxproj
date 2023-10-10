@@ -173,6 +173,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CaseInsensitiveComparator.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="LoginScene.cpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="CaseInsensitiveComparator.hpp" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />

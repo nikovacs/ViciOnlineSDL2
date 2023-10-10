@@ -8,8 +8,6 @@
 #include "Camera.hpp"
 #include "ClientPlayerManager.hpp"
 
-#include "KeyboardInputHandler.hpp" // TEMPORARY
-
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
 
@@ -26,15 +24,6 @@ namespace Scenes {
 	void GameScene::update() {
 		if (_clientPlayer) {
 			_clientPlayer->update();
-			// the below four if statements are temporary
-			if (Handlers::KeyboardInputHandler::isKeyDown("Down"))
-				_clientPlayer->setPosition(_clientPlayer->getX(), _clientPlayer->getY() + 3);
-			if (Handlers::KeyboardInputHandler::isKeyDown("Up"))
-				_clientPlayer->setPosition(_clientPlayer->getX(), _clientPlayer->getY() - 3);
-			if (Handlers::KeyboardInputHandler::isKeyDown("Left"))
-				_clientPlayer->setPosition(_clientPlayer->getX() - 3, _clientPlayer->getY());
-			if (Handlers::KeyboardInputHandler::isKeyDown("Right"))
-				_clientPlayer->setPosition(_clientPlayer->getX() + 3, _clientPlayer->getY());
 		}
 
 		Networking::ClientPlayerManager::update();

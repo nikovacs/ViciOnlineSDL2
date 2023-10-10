@@ -73,6 +73,12 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{da2f0a42-1a4e-4fa9-9196-a0721dc8605b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Comparators">
+      <UniqueIdentifier>{0b7dfc66-d0f4-436d-8243-2232de7ac40e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Comparators">
+      <UniqueIdentifier>{7dca016f-91e7-4d8b-bb0f-91e46a6d6e95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="LoginScene.cpp">
       <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="CaseInsensitiveComparator.cpp">
+      <Filter>Source Files\Comparators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="SceneManager.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CaseInsensitiveComparator.hpp">
+      <Filter>Header Files\Comparators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
