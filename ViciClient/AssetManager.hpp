@@ -28,10 +28,9 @@ namespace Networking {
 
 		template <typename T>
 		static void retrieveAsset(std::string_view fileName) {
-			if (_assetsInProgress.contains(fileName.data()) || _assetCache.contains(fileName.data())) {
-				// asset is already in progress, just wait for it to finish.
-				return;
-			}
+			if (_assetsInProgress.contains(fileName.data())) return;
+			if (_assetCache.contains(fileName.data()) && !_assetCache[fileName.data()].expired()) return;
+
 			if (_assetCache.count(fileName.data())) {
 				if (_assetCache[fileName.data()].expired()) {
 					_assetCache.erase(fileName.data());
