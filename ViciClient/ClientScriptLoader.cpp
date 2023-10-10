@@ -102,8 +102,6 @@ void JS::ClientScriptLoader::setApiSetupFuncs() {
 		throw std::runtime_error{ "ClientScriptLoader::getApiSetupFuncs() called before ClientScriptLoader::setClientPlayer()!" };
 	}
 
-	static std::vector<std::function<void(void)>> apiSetupFuncs{};
-
 	static v8pp::module clientPlayer{ _isolate };
 	clientPlayer
 		.property(
