@@ -16,6 +16,7 @@ namespace Entities {
 	};
 
 	void ClientPlayer::setDir(int dir) {
+		if (dir == _dir) return;
 		Entity::setDir(dir);
 		nlohmann::json json{};
 		json["dir"] = dir;
