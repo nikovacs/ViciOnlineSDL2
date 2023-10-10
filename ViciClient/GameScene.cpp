@@ -64,11 +64,13 @@ namespace Scenes {
 
 	void GameScene::loadInitPlayerData(nlohmann::json& json) {
 		_clientPlayer = std::make_unique<Entities::ClientPlayer>(json);
+		_scriptLoader.setClientPlayer(_clientPlayer.get());
 		_camera.setFocusObject(_clientPlayer.get());
 		_clientPlayer->setWidth(json["w"]);
 		_clientPlayer->setHeight(json["h"]);
 		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(json["world"]);
 		_camera.setScale(json["cameraZoom"]);
+		_scriptLoader.loadScript("testscript.js");
 	}
 
 	Client::Camera& GameScene::getCamera() {

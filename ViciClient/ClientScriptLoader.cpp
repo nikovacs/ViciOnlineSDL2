@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <v8pp/module.hpp>
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -26,6 +27,20 @@ void JS::ClientScriptLoader::update() {
 
 void JS::ClientScriptLoader::attemptResolveInProgress() {
 	if (_scriptsInProgress.size() == 0) return;
+
+	auto x = [this]()->void {
+		v8pp::module test{ _isolate };
+		test.property("dir",
+			[this]() -> int {
+				return _clientPlayer->getDir();
+			},
+			[this](int value) {
+				_clientPlayer->setDir(value);
+			}
+			);
+
+		_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8::String::NewFromUtf8(_isolate, "clientPlayer").ToLocalChecked(), test.new_instance()).FromJust();
+	};
 	
 	std::vector<std::string> toRemove{};
 	for (auto& script : _scriptsInProgress) {
@@ -33,6 +48,7 @@ void JS::ClientScriptLoader::attemptResolveInProgress() {
 		if (scriptPtr) {
 			_scripts[script.first] = std::move(script.second);
 			toRemove.push_back(script.first);
+			scriptPtr->initialize([this]()->void { setApiSetupFuncs(); });
 			scriptPtr->run();
 			scriptPtr->trigger("onLoad");
 		}
@@ -73,4 +89,23 @@ void JS::ClientScriptLoader::trigger(std::string_view functionName, std::string_
 			}
 		}
 	}
+}
+
+void JS::ClientScriptLoader::setClientPlayer(Entities::ClientPlayer* pl) {
+	_clientPlayer = pl;
+}
+
+void JS::ClientScriptLoader::setApiSetupFuncs() {
+	if (!_clientPlayer) {
+		throw std::runtime_error{ "ClientScriptLoader::getApiSetupFuncs() called before ClientScriptLoader::setClientPlayer()!" };
+	}
+
+	static std::vector<std::function<void(void)>> apiSetupFuncs{};
+
+	static v8pp::module clientPlayer{ _isolate };
+	clientPlayer
+		.property("dir", [this]() -> int { return _clientPlayer->getDir(); }, [this](int dir) { _clientPlayer->setDir(dir); })
+		;
+
+	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8::String::NewFromUtf8(_isolate, "clientPlayer").ToLocalChecked(), clientPlayer.new_instance());
 }

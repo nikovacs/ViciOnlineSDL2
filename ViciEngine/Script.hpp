@@ -4,11 +4,13 @@
 #include <v8.h>
 #include <memory>
 #include <map>
+#include <vector>
 
 namespace JS {
 	class Script {
 	public:
 		Script(v8::Isolate* isolate, std::string_view source);
+		void initialize(std::function<void(void)> apiSetupFunc);
 		void run();
 		void trigger(std::string_view functionName);
 		void exposeFunction(std::string_view functionName, v8::FunctionCallback callback);

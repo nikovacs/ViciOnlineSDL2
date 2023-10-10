@@ -3,10 +3,13 @@
 #include <string_view>
 #include <string>
 #include <v8.h>
+#include <v8pp/module.hpp>
+#include <iostream>
+#include <functional>
 
 JS::Script::Script(v8::Isolate* isolate, std::string_view source) : _functionTemplates{}, _isolate{ isolate }, _source{ source } {}
 
-void JS::Script::run() {
+void JS::Script::initialize(std::function<void(void)> apiSetupFunc) {
     v8::Isolate::Scope isolateScope{ _isolate };
     v8::HandleScope handleScope{ _isolate };
     v8::Local<v8::Context> context{ v8::Context::New(_isolate) };
@@ -18,7 +21,16 @@ void JS::Script::run() {
 
     exposeFunction("print", JS::printCallback);
 
-    script->Run(context); // this might have to move if we want to expose functions that are client/server specific. Perhaps just move into a function and call before onLoad
+    apiSetupFunc();
+}
+
+void JS::Script::run() {
+    v8::Isolate::Scope isolateScope{ _isolate };
+    v8::HandleScope handleScope{ _isolate };
+    v8::Local<v8::Context> context = _context.Get(_isolate);
+    v8::Context::Scope contextScope{ context };
+
+    _script.Get(_isolate)->Run(context).ToLocalChecked();
 }
 
 void JS::Script::trigger(std::string_view functionName) {

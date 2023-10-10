@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include "NetworkAsset.hpp"
+#include "ClientPlayer.hpp"
 
 using namespace std::literals;
 
@@ -18,9 +19,12 @@ namespace JS {
 		virtual void unloadScript(std::string_view fileName) override;
 		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv) override;
 		void update();
+		void setClientPlayer(Entities::ClientPlayer* pl);
 	private:
 		void attemptResolveInProgress();
+		void setApiSetupFuncs();
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts{};
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress{};
+		Entities::ClientPlayer* _clientPlayer{ nullptr };
 	};
 }
