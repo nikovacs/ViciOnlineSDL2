@@ -110,14 +110,14 @@ namespace Networking {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		
-		_players.at(id)->setAni(json["level"]);
+		_players.at(id)->setAni(json["ani"]);
 		json["id"] = id;
 
 		std::string_view level{ _players.at(id)->getLevel() };
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 
