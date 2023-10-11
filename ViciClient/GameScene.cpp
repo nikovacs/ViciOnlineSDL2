@@ -60,6 +60,7 @@ namespace Scenes {
 		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(json["world"]);
 		_camera.setScale(json["cameraZoom"]);
 		_scriptLoader.loadScript("testscript.js");
+		_scriptLoader.loadScript("anotherscript.js");
 	}
 
 	Client::Camera& GameScene::getCamera() {

@@ -102,7 +102,13 @@ void JS::ClientScriptLoader::setApiSetupFuncs() {
 		throw std::runtime_error{ "ClientScriptLoader::getApiSetupFuncs() called before ClientScriptLoader::setClientPlayer()!" };
 	}
 
-	static v8pp::module clientPlayer{ _isolate };
+	exposeClientPlayer();
+	exposeKeyboardHandler();
+	exposeLocalAttrs();
+}
+
+void JS::ClientScriptLoader::exposeClientPlayer() {
+	v8pp::module clientPlayer{ _isolate };
 	clientPlayer
 		.property(
 			"dir",
@@ -131,8 +137,72 @@ void JS::ClientScriptLoader::setApiSetupFuncs() {
 			)
 		;
 	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), clientPlayer.new_instance());
+}
+
+void JS::ClientScriptLoader::exposeKeyboardHandler() {
+	v8::HandleScope scope{ _isolate };
 
 	v8::Local<v8::Function> isKeyDownFunc = v8pp::wrap_function(_isolate, "isKeyDown", &Handlers::KeyboardInputHandler::isKeyDown);
 	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "isKeyDown"), isKeyDownFunc);
+}
 
+void JS::ClientScriptLoader::exposeLocalAttrs() {
+	v8::HandleScope scope{ _isolate };
+
+	static nlohmann::json localAttrs{};
+	v8pp::module localAttrsModule{ _isolate };
+	localAttrsModule
+		.function("setInt", [](std::string key, int value)->void { localAttrs[key] = value; })
+		.function("getInt", [](std::string key)->int { return localAttrs[key]; })
+		.function("setFloat", [](std::string key, float value)->void { localAttrs[key] = value; })
+		.function("getFloat", [](std::string key)->float { return localAttrs[key]; })
+		.function("setString", [](std::string key, std::string value)->void { localAttrs[key] = value; })
+		.function("getString", [](std::string key)->std::string { return localAttrs[key]; })
+		.function("setBool", [](std::string key, bool value)->void { localAttrs[key] = value; })
+		.function("getBool", [](std::string key)->bool { return localAttrs[key]; })
+		.function("getType",
+			[](std::string key)->std::string {
+				if (!localAttrs.contains(key)) return "undefined";
+				if (localAttrs[key].is_number_integer()) return "int";
+				if (localAttrs[key].is_number_float()) return "float";
+				if (localAttrs[key].is_string()) return "string";
+				if (localAttrs[key].is_boolean()) return "bool";
+				return "undefined";
+			}
+	);
+	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "__VICI__localAttrsModule"), localAttrsModule.new_instance());
+
+	static std::string localAttrsProxyScript{ R"(
+		const __VICI__INTERNAL__localAttrsHandler = {
+			get: function(target, prop, receiver) {
+				let type = __VICI__localAttrsModule.getType(prop);
+				if (type === "int") {
+					return __VICI__localAttrsModule.getInt(prop);
+				} else if (type === "float") {
+					return __VICI__localAttrsModule.getFloat(prop);
+				} else if (type === "string") {
+					return __VICI__localAttrsModule.getString(prop);
+				} else if (type === "bool") {
+					return __VICI__localAttrsModule.getBool(prop);
+				} else {
+					return undefined;
+				}
+			},
+			set: function(target, prop, value) {
+				if (Number.isInteger(value)) {
+					__VICI__localAttrsModule.setInt(prop, value);
+				} else if (typeof value === "number") {
+					__VICI__localAttrsModule.setFloat(prop, value);
+				} else if (typeof value === "string") {
+					__VICI__localAttrsModule.setString(prop, value);
+				} else if (typeof value === "boolean") {
+					__VICI__localAttrsModule.setBool(prop, value);
+				}
+			}
+		}
+		const localAttrs = new Proxy({}, __VICI__INTERNAL__localAttrsHandler);
+	)" };
+	v8::Local<v8::String> localAttrsProxyScriptString = v8pp::to_v8(_isolate, localAttrsProxyScript);
+	v8::Local<v8::Script> localAttrsProxyScriptCompiled = v8::Script::Compile(_isolate->GetCurrentContext(), localAttrsProxyScriptString).ToLocalChecked();
+	localAttrsProxyScriptCompiled->Run(_isolate->GetCurrentContext()).ToLocalChecked();
 }
