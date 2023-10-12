@@ -7,6 +7,7 @@
 #include "SingleLevel.hpp"
 #include <memory>
 #include "NetworkAsset.hpp"
+#include <unordered_set>
 
 namespace Levels {
 	MapLevel::MapLevel(std::string_view name, std::string_view source) : Level{ name } {
@@ -118,6 +119,9 @@ namespace Levels {
 	}
 
 	void MapLevel::verifyAndUpdateLevelAssets() {
+		std::unordered_set<std::string> levelsToUnload{};
+		for (auto& pair : _levelNameAssetMap) levelsToUnload.insert(pair.first);
+
 		for (int i{ _focusLevel.first - _renderDistance }; i <= _focusLevel.first + _renderDistance; i++) {
 			if (i < 0 || i >= _mapDimensions.first) continue;
 			
@@ -125,6 +129,7 @@ namespace Levels {
 				if (j < 0 || j >= _mapDimensions.second) continue;
 				
 				std::string& levelName = _mapLevels.at(j).at(i);
+				levelsToUnload.erase(levelName);
 				
 				if (!_levelNameAssetMap.contains(levelName)) {
 					_levelNameAssetMap.emplace(levelName, std::make_unique<Networking::NetworkAsset<Levels::Level>>(levelName));
@@ -133,6 +138,10 @@ namespace Levels {
 					_levelNameAssetMap[levelName]->getValue()->update();
 				}
 			}
+		}
+
+		for (auto& levelName : levelsToUnload) {
+			_levelNameAssetMap.erase(levelName);
 		}
 	}
 }
