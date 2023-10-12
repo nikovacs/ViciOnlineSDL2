@@ -152,10 +152,10 @@ void JS::ClientScriptLoader::exposeLocalAttrs() {
 	static nlohmann::json localAttrs{};
 	v8pp::module localAttrsModule{ _isolate };
 	localAttrsModule
-		.function("setInt", [](std::string key, int value)->void { localAttrs[key] = value; })
-		.function("getInt", [](std::string key)->int { return localAttrs[key]; })
-		.function("setFloat", [](std::string key, float value)->void { localAttrs[key] = value; })
-		.function("getFloat", [](std::string key)->float { return localAttrs[key]; })
+		.function("setInt", [](std::string key, int64_t value)->void { localAttrs[key] = value; })
+		.function("getInt", [](std::string key)->int64_t { return localAttrs[key]; })
+		.function("setFloat", [](std::string key, double value)->void { localAttrs[key] = value; })
+		.function("getFloat", [](std::string key)->double { return localAttrs[key]; })
 		.function("setString", [](std::string key, std::string value)->void { localAttrs[key] = value; })
 		.function("getString", [](std::string key)->std::string { return localAttrs[key]; })
 		.function("setBool", [](std::string key, bool value)->void { localAttrs[key] = value; })
