@@ -92,5 +92,8 @@
     <ClInclude Include="Attributes.hpp">
       <Filter>Header Files\Attributes</Filter>
     </ClInclude>
+    <ClInclude Include="TimedCache.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

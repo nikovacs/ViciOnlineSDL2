@@ -6,6 +6,7 @@
 #include <memory>
 #include <iostream>
 #include "../ViciEngine/AssetTransfer.hpp"
+#include "../ViciEngine/TimedCache.hpp"
 
 namespace Networking {
 	class AssetManager : public AssetTransfer {
@@ -15,27 +16,15 @@ namespace Networking {
 
 		template <typename T>
 		static std::shared_ptr<T> resolve(std::string_view fileName) {
-			if (_assetCache.contains(fileName.data())) {
-				if (!_assetCache[fileName.data()].expired()) {
-					std::shared_ptr<T> return_ptr = static_pointer_cast<T>(_assetCache[fileName.data()].lock());
-					_assetsInProgress.erase(fileName.data());
-					return return_ptr;
-				}
-				_assetCache.erase(fileName.data()); // Right now, just remove from cache if no references are left
-			}
+			if (_assetCache.contains(fileName.data()))
+				return static_pointer_cast<T>(_assetCache.at(fileName.data()));
 			return nullptr;
 		}
 
 		template <typename T>
 		static void retrieveAsset(std::string_view fileName) {
 			if (_assetsInProgress.contains(fileName.data())) return;
-			if (_assetCache.contains(fileName.data()) && !_assetCache[fileName.data()].expired()) return;
-
-			if (_assetCache.count(fileName.data())) {
-				if (_assetCache[fileName.data()].expired()) {
-					_assetCache.erase(fileName.data());
-				}
-			}
+			if (_assetCache.contains(fileName.data())) return;
 
 			// add to _assetsInProgress in preparation for requesting from server
 			_assetsInProgress.emplace(fileName.data(), nullptr);
@@ -44,6 +33,6 @@ namespace Networking {
 		}
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<void>> _assetsInProgress; // <assetName, asset_ptr>
-		static std::unordered_map<std::string, std::weak_ptr<void>> _assetCache; // <assetName, asset>
+		static TimedCache<std::string, void> _assetCache; // <assetName, asset>
 	};
 }

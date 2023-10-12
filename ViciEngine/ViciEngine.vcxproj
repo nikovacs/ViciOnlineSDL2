@@ -191,6 +191,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Script.hpp" />
     <ClInclude Include="ScriptLoader.hpp" />
+    <ClInclude Include="TimedCache.hpp" />
     <ClInclude Include="UdpChannels.hpp" />
     <ClInclude Include="UdpHost.hpp" />
   </ItemGroup>

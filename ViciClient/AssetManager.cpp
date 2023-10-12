@@ -17,12 +17,12 @@
 #include "Level.hpp"
 #include "SingleLevel.hpp"
 #include "MapLevel.hpp"
+#include "TimeManager.hpp"
 
 namespace fs = std::filesystem;
 
-std::unordered_map<std::string, std::weak_ptr<void>> Networking::AssetManager::_assetCache = std::unordered_map<std::string, std::weak_ptr<void>>();
-std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress = std::unordered_map<std::string, std::shared_ptr<void>>();
-
+TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
+std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {
 	const uint8_t* buffer = reinterpret_cast<const uint8_t*>(fileName.data());
@@ -41,8 +41,6 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 }
 
 void Networking::AssetManager::onReceived(ENetEvent& event) {
-	//auto jsonString = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
-	//nlohmann::json json{ nlohmann::json::parse(jsonString) };
 	auto json = Networking::UdpClient::getJsonFromPacket(event.packet);
 
 	std::string fileName = json["fileName"];
@@ -77,5 +75,6 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	}
 
 	// put it into the cache
-	_assetCache.emplace(fileName, std::weak_ptr(_assetsInProgress.at(fileName)));
+	_assetCache.emplace(fileName, _assetsInProgress.at(fileName));
+	_assetCache.update();
 }
