@@ -1,6 +1,16 @@
 #include "LoginScene.hpp"
 
-#include <iostream> 
+#include <iostream>
+#include "playfab/PlayFabError.h"
+#include "playfab/PlayFabClientDataModels.h"
+#include "playfab/PlayFabClientApi.h"
+#include "playfab/PlayFabSettings.h"
+#include "playfab/PlayFabApiSettings.h"
+#include <windows.h>
+
+using namespace PlayFab;
+using namespace ClientModels;
+
 
 namespace Scenes {
     LoginButtonListener::LoginButtonListener(std::function<void()>& onLoginCallback) : _callbackOnProcess{ onLoginCallback } {}
@@ -10,7 +20,9 @@ namespace Scenes {
     }
 
     LoginScene::LoginScene(std::string_view sceneName, std::function<void()> onLoginCallback) : Scene{ sceneName }, _onLoginCallback{ onLoginCallback }, _loginButtonListener{ _onLoginCallback } {
-		Rml::ElementDocument* document = getContext().LoadDocumentFromMemory(R""(
+        PlayFabSettings::staticSettings->titleId = ("C87E2");
+        
+        Rml::ElementDocument* document = getContext().LoadDocumentFromMemory(R""(
 			<rml>
                 <head>
                     <title>User Login</title>
