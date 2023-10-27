@@ -29,7 +29,5 @@ namespace Scenes {
 		Networking::UdpClient _udpClient;
 		std::unique_ptr<std::thread> _networkThread{ nullptr };
 		JS::ClientScriptLoader _scriptLoader{};
-
-		Attributes _localAttrs{}; // only exists on this client and accessible from all clientside scripts
 	};
 }
