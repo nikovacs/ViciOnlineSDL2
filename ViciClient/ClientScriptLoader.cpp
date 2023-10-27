@@ -7,7 +7,9 @@
 #include <vector>
 #include <v8.h>
 #include <v8pp/module.hpp>
+#include <v8pp/class.hpp>
 #include "KeyboardInputHandler.hpp"
+#include "NetworkedPlayer.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -17,6 +19,9 @@ JS::ClientScriptLoader::~ClientScriptLoader() {
 		if (scriptPtr) {
 			scriptPtr->trigger("onUnload");
 		}
+		// it is important that the scripts in these unique ptrs are released immediately
+		// the shut down order of v8 is important
+		script.second.release();
 	}
 }
 
@@ -105,6 +110,7 @@ void JS::ClientScriptLoader::setApiSetupFuncs() {
 	exposeClientPlayer();
 	exposeKeyboardHandler();
 	exposeLocalAttrs();
+	exposeNetworkedPlayerClass();
 }
 
 void JS::ClientScriptLoader::exposeClientPlayer() {
@@ -205,4 +211,26 @@ void JS::ClientScriptLoader::exposeLocalAttrs() {
 	v8::Local<v8::String> localAttrsProxyScriptString = v8pp::to_v8(_isolate, localAttrsProxyScript);
 	v8::Local<v8::Script> localAttrsProxyScriptCompiled = v8::Script::Compile(_isolate->GetCurrentContext(), localAttrsProxyScriptString).ToLocalChecked();
 	localAttrsProxyScriptCompiled->Run(_isolate->GetCurrentContext()).ToLocalChecked();
+}
+
+void JS::ClientScriptLoader::exposeNetworkedPlayerClass() {
+	// this function only needs to run once per isolate
+	// and there is only 1 isolate!
+	static boolean exposed{ false };
+	if (exposed) return;
+
+	v8pp::class_<Entities::NetworkedPlayer> networkedPlayerClass{ _isolate };
+	networkedPlayerClass
+		.auto_wrap_objects(true)
+		.property("dir", &Entities::NetworkedPlayer::getDir)
+		.property("ani", &Entities::NetworkedPlayer::getAni)
+		.property("width", &Entities::NetworkedPlayer::getWidth)
+		.property("height", &Entities::NetworkedPlayer::getHeight)
+		;
+
+	exposed = true;
+}
+
+void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions() {
+
 }

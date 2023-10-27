@@ -10,6 +10,7 @@ namespace JS {
 	class Script {
 	public:
 		Script(v8::Isolate* isolate, std::string_view source);
+		virtual ~Script();
 		void initialize(std::function<void(void)> apiSetupFunc);
 		void run();
 		void trigger(std::string_view functionName);

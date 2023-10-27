@@ -1,5 +1,6 @@
 #pragma once
 #include "../ViciEngine/ScriptLoader.hpp"
+#include <memory>
 #include <map>
 #include <string>
 #include <string_view>
@@ -20,8 +21,8 @@ namespace JS {
 		void triggerForPlayer(int32_t playerId, std::string_view functionName, std::string_view fileName = ""sv);
 		void onPlayerDisconnect(int32_t playerId);
 	private:
-		std::map<std::string, JS::Script> _globalScripts{};
-		std::map<int32_t, std::map<std::string, JS::Script>> _playerScripts{};
+		std::map<std::string, std::unique_ptr<JS::Script>> _globalScripts{};
+		std::map<int32_t, std::map<std::string, std::unique_ptr<JS::Script>>> _playerScripts{};
 		std::set<uint32_t> _playerIdsToRemove{};
 		std::recursive_mutex _playersToRemoveMutex{};
 	};

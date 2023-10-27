@@ -3,6 +3,7 @@
 #include <memory>
 #include <v8.h>
 #include <libplatform/libplatform.h>
+#include <v8pp/class.hpp>
 
 using namespace std::literals;
 
@@ -21,6 +22,7 @@ JS::ScriptLoader::ScriptLoader() {
 }
 
 JS::ScriptLoader::~ScriptLoader() {
+    v8pp::cleanup(_isolate);
     _isolate->Dispose();
     v8::V8::Dispose();
     v8::V8::DisposePlatform();

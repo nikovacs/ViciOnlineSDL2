@@ -6,12 +6,12 @@ namespace JS {
 
 	ServerScriptLoader::~ServerScriptLoader() {
 		for (auto& [fileName, script] : _globalScripts) {
-			script.trigger("onUnload");
+			script->trigger("onUnload");
 		}
 
 		for (auto& [playerId, scripts] : _playerScripts) {
 			for (auto& [fileName, script] : scripts) {
-				script.trigger("onUnload");
+				script->trigger("onUnload");
 			}
 		}
 	};
@@ -20,12 +20,12 @@ namespace JS {
 		std::string contents{ Networking::AssetBroker::readFile(fileName) };
 		if (contents.empty()) return;
 
-		_globalScripts.emplace(fileName, Script{ getIsolate(), contents });
+		_globalScripts.emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
 	};
 
 	void ServerScriptLoader::unloadScript(std::string_view fileName) {
 		if (_globalScripts.contains(fileName.data())) {
-			_globalScripts.at(fileName.data()).trigger("onUnload");
+			_globalScripts.at(fileName.data())->trigger("onUnload");
 			_globalScripts.erase(fileName.data());
 		}
 	};
@@ -33,24 +33,24 @@ namespace JS {
 	void ServerScriptLoader::trigger(std::string_view functionName, std::string_view fileName) {
 		if (fileName.empty()) {
 			for (auto& [fileName, script] : _globalScripts) {
-				script.trigger(functionName);
+				script->trigger(functionName);
 			}
 		}
 		else {
 			if (_globalScripts.contains(fileName.data())) {
-				_globalScripts.at(fileName.data()).trigger(functionName);
+				_globalScripts.at(fileName.data())->trigger(functionName);
 			}
 		}
 	};
 
 	void ServerScriptLoader::update() {
 		for (auto& [fileName, script] : _globalScripts) {
-			script.trigger("onUpdate");
+			script->trigger("onUpdate");
 		}
 
 		for (auto& [playerId, scripts] : _playerScripts) {
 			for (auto& [fileName, script] : scripts) {
-				script.trigger("onUpdate");
+				script->trigger("onUpdate");
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace JS {
 		for (uint32_t playerId : _playerIdsToRemove) {
 			if (!_playerScripts.contains(playerId)) return;
 			for (auto& [fileName, script] : _playerScripts.at(playerId)) {
-				script.trigger("onUnload");
+				script->trigger("onUnload");
 			}
 			_playerScripts.erase(playerId);
 			playerIdsRemoved.push_back(playerId);
@@ -75,13 +75,13 @@ namespace JS {
 		std::string contents{ Networking::AssetBroker::readFile(fileName) };
 		if (contents.empty()) return;
 
-		_playerScripts[playerId].emplace(fileName, Script{ getIsolate(), contents });
+		_playerScripts[playerId].emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
 	};
 
 	void ServerScriptLoader::unloadScriptForPlayer(int32_t playerId, std::string_view fileName) {
 		if (!_playerScripts.contains(playerId)) return;
 		if (!_playerScripts.at(playerId).contains(fileName.data())) return;
-		_playerScripts.at(playerId).at(fileName.data()).trigger("onUnload");
+		_playerScripts.at(playerId).at(fileName.data())->trigger("onUnload");
 		_playerScripts.at(playerId).erase(fileName.data());
 	};
 
@@ -89,12 +89,12 @@ namespace JS {
 		if (!_playerScripts.contains(playerId)) return;
 		if (fileName.empty()) {
 			for (auto& [fileName, script] : _playerScripts.at(playerId)) {
-				script.trigger(functionName);
+				script->trigger(functionName);
 			}
 		}
 		else {
 			if (_playerScripts.at(playerId).contains(fileName.data())) {
-				_playerScripts.at(playerId).at(fileName.data()).trigger(functionName);
+				_playerScripts.at(playerId).at(fileName.data())->trigger(functionName);
 			}
 		}
 	};

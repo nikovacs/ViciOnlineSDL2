@@ -6,8 +6,11 @@
 #include <v8pp/module.hpp>
 #include <iostream>
 #include <functional>
+#include <v8pp/class.hpp>
 
 JS::Script::Script(v8::Isolate* isolate, std::string_view source) : _functionTemplates{}, _isolate{ isolate }, _source{ source } {}
+
+JS::Script::~Script() {}
 
 void JS::Script::initialize(std::function<void(void)> apiSetupFunc) {
     v8::Isolate::Scope isolateScope{ _isolate };
