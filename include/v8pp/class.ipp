@@ -358,7 +358,7 @@ V8PP_IMPL classes::classes_info::iterator classes::find(type_info const& type)
 
 V8PP_IMPL classes* classes::instance(operation op, v8::Isolate* isolate)
 {
-#if defined(V8PP_ISOLATE_DATA_SLOT)
+	/*#if defined(V8PP_ISOLATE_DATA_SLOT)
 	classes* info = static_cast<classes*>(
 		isolate->GetData(V8PP_ISOLATE_DATA_SLOT));
 	switch (op)
@@ -380,7 +380,7 @@ V8PP_IMPL classes* classes::instance(operation op, v8::Isolate* isolate)
 		}
 		return nullptr;
 	}
-#else
+#else*/
 	static std::unordered_map<v8::Isolate*, classes> instances;
 	switch (op)
 	{
@@ -395,7 +395,7 @@ V8PP_IMPL classes* classes::instance(operation op, v8::Isolate* isolate)
 		instances.erase(isolate);
 		return nullptr;
 	}
-#endif
+//#endif
 	return nullptr; // should never reach this line
 }
 
