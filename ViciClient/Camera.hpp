@@ -15,7 +15,7 @@ namespace Client {
 		int getY();
 		int getW();
 		int getH();
-		void setScale(float scale);
+		void setScale(float scale, bool notifyServer = true);
 		float getScale();
 		int getOffsetX();
 		int getOffsetY();

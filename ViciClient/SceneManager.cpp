@@ -8,8 +8,7 @@
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include "LoginScene.hpp"
-
-#include <iostream>
+#include "ViciClient.hpp"
 
 using namespace std::string_view_literals;
 
@@ -17,7 +16,6 @@ namespace Scenes {
 	SceneManager* SceneManager::instance = nullptr;
 
 	SceneManager::SceneManager() {
-		std::cout << "SceneManager constructor called" << std::endl;
 		instance = this;
 	}
 	
@@ -41,8 +39,8 @@ namespace Scenes {
 		return *_scenes.at(name);
 	}
 
-	void SceneManager::newLoginScene() {
-		auto newLoginScene = std::make_unique<LoginScene>("LoginScene"sv, [this]()->void { newGameScene(); });
+	void SceneManager::newLoginScene(std::function<void(std::string_view)> onLoginCallback) {
+		auto newLoginScene = std::make_unique<LoginScene>("LoginScene"sv, onLoginCallback);
 		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		_currentScene = nullptr;
 		if (_scenes.contains("LoginScene"sv)) {

@@ -9,6 +9,7 @@
 #include "nlohmann/json.hpp"
 #include "ClientPlayerManager.hpp"
 #include "GameScene.hpp"
+#include "ViciClient.hpp"
 
 #include <iostream>
 
@@ -51,6 +52,13 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::Level:
                 AssetManager::onReceived(event);
                 break;
+            case UdpChannels::handshake:
+            {
+                nlohmann::json handshake{};
+                handshake["usr"] = ViciClient::instance->getUserName();
+                sendJson(handshake, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
+            }
+            break;
             case UdpChannels::initialPlayerData:
             {
                 auto jsonInitPlayerData = getJsonFromPacket(event.packet);

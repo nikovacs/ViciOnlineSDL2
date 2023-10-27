@@ -7,9 +7,11 @@ namespace Networking {
 		Level,
 		Script,
 
+		handshake,
 		initialPlayerData,
 		SpawnPlayer,
 		DespawnPlayer,
+		UpdatePlayerCameraZoom,
 		UpdatePlayerPos,
 		UpdatePlayerAni,
 		UpdatePlayerDir,

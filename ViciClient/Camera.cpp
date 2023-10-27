@@ -89,9 +89,14 @@ namespace Client {
 		return _camera.h;
 	}
 
-	void Camera::setScale(float scale) {
+	void Camera::setScale(float scale, bool notifyServer) {
 		SDL_RenderSetScale(ViciClient::instance->getRenderer(), scale, scale);
 		_scale = scale;
+		if (notifyServer) {
+			nlohmann::json json{};
+			json["cameraZoom"] = scale;
+			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerCameraZoom, ENET_PACKET_FLAG_RELIABLE);
+		}
 	}
 
 	float Camera::getScale() {

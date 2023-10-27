@@ -14,26 +14,41 @@ namespace Networking {
 	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersOnLevel = {};
 	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersWatchingLevel = {};
 
-	void ServerPlayerManager::sendInitialPlayerData(ENetPeer* peer) {
+	void ServerPlayerManager::sendInitialPlayerData(ENetPeer* peer, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 
 		_peers.emplace(peer->connectID, peer);
 		
 		nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
 		// TODO check if player's last info is saved in a file and load it
+		
+		std::string username = json["usr"];
+		std::string fileName = "playerData/" + username + ".json";
+		// check if file exists
+		nlohmann::json playerData;
+		bool fileExists{ std::filesystem::exists(fileName) };
+		std::cout << "file exists (" << fileName << "): " << fileExists << "\n";
+		if (fileExists) {
+			std::ifstream in(fileName);
+			std::stringstream buffer;
+			buffer << in.rdbuf();
+			playerData = nlohmann::json::parse(buffer.str());
+		}
+		else {
+			playerData["x"] = serverOptions["defaultX"];
+			playerData["y"] = serverOptions["defaultY"];
+			playerData["w"] = serverOptions["defaultWidth"];
+			playerData["h"] = serverOptions["defaultHeight"];
+			playerData["dir"] = serverOptions["defaultDir"];
+			playerData["animation"] = serverOptions["defaultAni"];
+			playerData["world"] = serverOptions["defaultWorld"];
+			playerData["cameraZoom"] = serverOptions["defaultZoom"];
+			playerData["clientw"] = serverOptions["defaultClientWriteableAttrs"];
+		}
 
-		nlohmann::json playerData{};
-		playerData["x"] = serverOptions["defaultX"];
-		playerData["y"] = serverOptions["defaultY"];
-		playerData["w"] = serverOptions["defaultWidth"];
-		playerData["h"] = serverOptions["defaultHeight"];
-		playerData["dir"] = serverOptions["defaultDir"];
-		playerData["animation"] = serverOptions["defaultAni"];
-		playerData["world"] = serverOptions["defaultWorld"];
-		playerData["cameraZoom"] = serverOptions["defaultZoom"];
-		playerData["clientw"] = serverOptions["defaultClientWriteableAttrs"];
-
-		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"]));
+		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(
+			username, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], playerData["clientw"]
+		));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
 		player.setWidth(playerData["w"]);
 		player.setHeight(playerData["h"]);
@@ -244,6 +259,12 @@ namespace Networking {
 			if (pId == id) continue;
 			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerAttr, ENET_PACKET_FLAG_RELIABLE);
 		}
+	}
+
+	void ServerPlayerManager::updatePlayerCameraZoom(uint32_t id, nlohmann::json& json) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		if (!_players.contains(id)) return;
+		_players.at(id)->setCameraZoom(json["cameraZoom"]);
 	}
 
 	std::set<uint32_t>& ServerPlayerManager::_getPlayersOnLevel(std::string_view levelName) {

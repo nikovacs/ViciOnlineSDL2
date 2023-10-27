@@ -58,7 +58,7 @@ namespace Scenes {
 		_clientPlayer->setWidth(json["w"]);
 		_clientPlayer->setHeight(json["h"]);
 		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(json["world"]);
-		_camera.setScale(json["cameraZoom"]);
+		_camera.setScale(json["cameraZoom"], false);
 		_scriptLoader.loadScript("testscript.js");
 		_scriptLoader.loadScript("anotherscript.js");
 	}

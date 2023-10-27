@@ -27,9 +27,12 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         switch (event.type)
         {
         case ENET_EVENT_TYPE_CONNECT:
+        {
             peerToPlayerId.emplace(event.peer, event.peer->connectID);
-            Networking::ServerPlayerManager::sendInitialPlayerData(event.peer);
+            nlohmann::json json{};
+            sendJson(event.peer, json, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
             break;
+        }
         case ENET_EVENT_TYPE_RECEIVE:
             switch (static_cast<int>(event.channelID)) {
             case UdpChannels::Animation:
@@ -38,6 +41,12 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Level:
                 AssetBroker::sendFile(event);
                 break;
+            case UdpChannels::handshake:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::sendInitialPlayerData(event.peer, json);
+                break;
+            }
             case UdpChannels::UpdatePlayerPos:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
@@ -49,6 +58,11 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, json);
                 break;
+            }
+            case UdpChannels::UpdatePlayerCameraZoom:
+            {
+                nlohmann::json json{ getJsonFromPacket(event.packet) };
+                Networking::ServerPlayerManager::updatePlayerCameraZoom(event.peer->connectID, json);
             }
             case UdpChannels::UpdatePlayerDir:
             {
