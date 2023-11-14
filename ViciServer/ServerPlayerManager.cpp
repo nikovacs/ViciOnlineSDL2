@@ -11,8 +11,8 @@ namespace Networking {
 	std::unordered_map<uint32_t, ENetPeer*> ServerPlayerManager::_peers{};
 	std::recursive_mutex ServerPlayerManager::_playerMutex{};
 
-	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersOnLevel = {};
-	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersWatchingLevel = {};
+	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersOnLevel{};
+	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersWatchingLevel{};
 
 	void ServerPlayerManager::sendInitialPlayerData(ENetPeer* peer, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
@@ -63,6 +63,7 @@ namespace Networking {
 		
 		nlohmann::json playerData{};
 		playerData["id"] = idToSpawn;
+		playerData["usr"] = playerToSpawn->getUsername();
 		playerData["x"] = playerToSpawn->getX();
 		playerData["y"] = playerToSpawn->getY();
 		playerData["w"] = playerToSpawn->getWidth();

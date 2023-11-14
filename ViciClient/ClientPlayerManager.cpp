@@ -3,6 +3,7 @@
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::NetworkedPlayer>> ClientPlayerManager::_players{};
+	std::unordered_map<std::string, uint32_t> ClientPlayerManager::_playerUsernamesToIds{};
 	std::mutex ClientPlayerManager::_playerMutex{};
 
 	void ClientPlayerManager::update() {
@@ -21,6 +22,7 @@ namespace Networking {
 
 	void ClientPlayerManager::spawnPlayer(nlohmann::json& json) {
 		uint32_t id = json["id"];
+		std::string username = json["usr"];
 		int x = json["x"];
 		int y = json["y"];
 		int w = json["w"];
@@ -29,7 +31,7 @@ namespace Networking {
 		std::string animation = json["animation"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (_players.contains(id)) return;
-		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(animation, x, y, dir));
+		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, x, y, dir));
 		_players.at(id)->setHeight(h);
 		_players.at(id)->setWidth(w);
 	}
@@ -64,5 +66,13 @@ namespace Networking {
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setDir(dir);
+	}
+
+	Entities::NetworkedPlayer* ClientPlayerManager::getPlayer(std::string_view username) {
+		std::lock_guard<std::mutex> lock(_playerMutex);
+		if (_playerUsernamesToIds.contains(username.data())) {
+			return _players.at(_playerUsernamesToIds.at(username.data())).get();
+		}
+		return nullptr;
 	}
 }
