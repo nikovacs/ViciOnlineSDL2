@@ -37,7 +37,7 @@
 v8::Local<v8::Value> V8PP_PLUGIN_INIT_PROC_NAME(isolate)
 
 #ifndef V8PP_HEADER_ONLY
-#define V8PP_HEADER_ONLY true
+#define V8PP_HEADER_ONLY false
 #endif
 
 #if V8PP_HEADER_ONLY
