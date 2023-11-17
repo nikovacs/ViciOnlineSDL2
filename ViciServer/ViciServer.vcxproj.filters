@@ -75,4 +75,7 @@
       <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

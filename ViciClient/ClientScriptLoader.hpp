@@ -7,6 +7,7 @@
 #include <memory>
 #include "NetworkAsset.hpp"
 #include "ClientPlayer.hpp"
+#include <v8pp/context.hpp>
 
 using namespace std::literals;
 
@@ -22,12 +23,12 @@ namespace JS {
 		void setClientPlayer(Entities::ClientPlayer* pl);
 	private:
 		void attemptResolveInProgress();
-		void setApiSetupFuncs();
-		void exposeClientPlayer();
-		void exposeKeyboardHandler();
-		void exposeLocalAttrs();
-		void exposeNetworkedPlayerClass();
-		void exposeNetworkPlayerManagerFunctions();
+		void setApiSetupFuncs(v8pp::context* ctx);
+		void exposeClientPlayer(v8pp::context* ctx);
+		void exposeKeyboardHandler(v8pp::context* ctx);
+		void exposeLocalAttrs(v8pp::context* ctx);
+		void exposeNetworkedPlayerClass(v8pp::context* ctx);
+		void exposeNetworkPlayerManagerFunctions(v8pp::context* ctx);
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts{};
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress{};
 		Entities::ClientPlayer* _clientPlayer{ nullptr };

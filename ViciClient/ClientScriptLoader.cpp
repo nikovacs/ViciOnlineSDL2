@@ -5,9 +5,9 @@
 #include <memory>
 #include <set>
 #include <vector>
-#include <v8.h>
-#include <v8pp/module.hpp>
 #include <v8pp/class.hpp>
+#include <v8pp/context.hpp>
+#include <v8pp/module.hpp>
 #include "KeyboardInputHandler.hpp"
 #include "NetworkedPlayer.hpp"
 
@@ -34,20 +34,6 @@ void JS::ClientScriptLoader::update() {
 
 void JS::ClientScriptLoader::attemptResolveInProgress() {
 	if (_scriptsInProgress.size() == 0) return;
-
-	auto x = [this]()->void {
-		v8pp::module test{ _isolate };
-		test.property("dir",
-			[this]() -> int {
-				return _clientPlayer->getDir();
-			},
-			[this](int value) {
-				_clientPlayer->setDir(value);
-			}
-			);
-
-		_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8::String::NewFromUtf8(_isolate, "clientPlayer").ToLocalChecked(), test.new_instance()).FromJust();
-	};
 	
 	std::vector<std::string> toRemove{};
 	for (auto& script : _scriptsInProgress) {
@@ -55,7 +41,7 @@ void JS::ClientScriptLoader::attemptResolveInProgress() {
 		if (scriptPtr) {
 			_scripts[script.first] = std::move(script.second);
 			toRemove.push_back(script.first);
-			scriptPtr->initialize([this]()->void { setApiSetupFuncs(); });
+			scriptPtr->initialize([this](v8pp::context* ctx)->void { setApiSetupFuncs(ctx); });
 			scriptPtr->run();
 			scriptPtr->trigger("onLoad");
 		}
@@ -102,18 +88,18 @@ void JS::ClientScriptLoader::setClientPlayer(Entities::ClientPlayer* pl) {
 	_clientPlayer = pl;
 }
 
-void JS::ClientScriptLoader::setApiSetupFuncs() {
+void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 	if (!_clientPlayer) {
 		throw std::runtime_error{ "ClientScriptLoader::getApiSetupFuncs() called before ClientScriptLoader::setClientPlayer()!" };
 	}
 
-	exposeClientPlayer();
-	exposeKeyboardHandler();
-	exposeLocalAttrs();
-	exposeNetworkedPlayerClass();
+	exposeClientPlayer(ctx);
+	exposeKeyboardHandler(ctx);
+	exposeLocalAttrs(ctx);
+	exposeNetworkedPlayerClass(ctx);
 }
 
-void JS::ClientScriptLoader::exposeClientPlayer() {
+void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
 	v8pp::module clientPlayer{ _isolate };
 	clientPlayer
 		.property(
@@ -142,17 +128,17 @@ void JS::ClientScriptLoader::exposeClientPlayer() {
 			[this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); }
 			)
 		;
-	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), clientPlayer.new_instance());
+	ctx->module("clientPlayer", clientPlayer);
 }
 
-void JS::ClientScriptLoader::exposeKeyboardHandler() {
+void JS::ClientScriptLoader::exposeKeyboardHandler(v8pp::context* ctx) {
 	v8::HandleScope scope{ _isolate };
 
 	v8::Local<v8::Function> isKeyDownFunc = v8pp::wrap_function(_isolate, "isKeyDown", &Handlers::KeyboardInputHandler::isKeyDown);
 	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "isKeyDown"), isKeyDownFunc);
 }
 
-void JS::ClientScriptLoader::exposeLocalAttrs() {
+void JS::ClientScriptLoader::exposeLocalAttrs(v8pp::context* ctx) {
 	v8::HandleScope scope{ _isolate };
 
 	static nlohmann::json localAttrs{};
@@ -176,7 +162,7 @@ void JS::ClientScriptLoader::exposeLocalAttrs() {
 				return "undefined";
 			}
 	);
-	_isolate->GetCurrentContext()->Global()->Set(_isolate->GetCurrentContext(), v8pp::to_v8(_isolate, "__VICI__localAttrsModule"), localAttrsModule.new_instance());
+	ctx->module("localAttrs", localAttrsModule);
 
 	static std::string localAttrsProxyScript{ R"(
 		const __VICI__INTERNAL__localAttrsHandler = {
@@ -213,12 +199,7 @@ void JS::ClientScriptLoader::exposeLocalAttrs() {
 	localAttrsProxyScriptCompiled->Run(_isolate->GetCurrentContext()).ToLocalChecked();
 }
 
-void JS::ClientScriptLoader::exposeNetworkedPlayerClass() {
-	// this function only needs to run once per isolate
-	// and there is only 1 isolate!
-	static boolean exposed{ false };
-	if (exposed) return;
-
+void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 	v8pp::class_<Entities::NetworkedPlayer> networkedPlayerClass{ _isolate };
 	networkedPlayerClass
 		.auto_wrap_objects(true)
@@ -227,10 +208,9 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass() {
 		.property("width", &Entities::NetworkedPlayer::getWidth)
 		.property("height", &Entities::NetworkedPlayer::getHeight)
 		;
-
-	exposed = true;
+	ctx->class_("networkedPlayer", networkedPlayerClass);
 }
 
-void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions() {
+void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* ctx) {
 
 }

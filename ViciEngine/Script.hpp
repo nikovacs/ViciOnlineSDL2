@@ -5,23 +5,22 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <functional>
+#include <v8pp/context.hpp>
 
 namespace JS {
 	class Script {
 	public:
 		Script(v8::Isolate* isolate, std::string_view source);
 		virtual ~Script();
-		void initialize(std::function<void(void)> apiSetupFunc);
+		void initialize(std::function<void(v8pp::context* ctx)> apiSetupFunc);
 		void run();
 		void trigger(std::string_view functionName);
-		void exposeFunction(std::string_view functionName, v8::FunctionCallback callback);
 	protected:
 		v8::Isolate* _isolate;
 		std::string _fileName;
 		std::string _source;
 		v8::UniquePersistent<v8::Script> _script;
-		v8::UniquePersistent<v8::Context> _context;
-	private:
-		std::map<std::string, v8::UniquePersistent<v8::FunctionTemplate>> _functionTemplates;
+		std::unique_ptr<v8pp::context> _context{ nullptr };
 	};
 }
