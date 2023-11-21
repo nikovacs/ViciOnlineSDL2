@@ -168,6 +168,9 @@
     <ClCompile Include="CaseInsensitiveComparator.cpp">
       <Filter>Source Files\Comparators</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkedPlayerJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="CaseInsensitiveComparator.hpp">
       <Filter>Header Files\Comparators</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkedPlayerJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

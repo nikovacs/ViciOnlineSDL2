@@ -1,5 +1,6 @@
 #include "ClientPlayerManager.hpp"
 #include <SDL2/SDL.h>
+#include <iostream>
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::NetworkedPlayer>> ClientPlayerManager::_players{};
@@ -34,12 +35,14 @@ namespace Networking {
 		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, x, y, dir));
 		_players.at(id)->setHeight(h);
 		_players.at(id)->setWidth(w);
+		_playerUsernamesToIds.emplace(username, id);
 	}
 
 	void ClientPlayerManager::despawnPlayer(nlohmann::json& json) {
 		uint32_t id = json["id"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
+		_playerUsernamesToIds.erase(_players.at(id)->getUsername().data());
 		_players.erase(id);
 	}
 

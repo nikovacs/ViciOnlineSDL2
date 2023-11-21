@@ -179,6 +179,7 @@
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="LoginScene.cpp" />
+    <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CaseInsensitiveComparator.hpp" />
     <ClInclude Include="LoginScene.hpp" />
+    <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />

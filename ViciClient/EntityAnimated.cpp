@@ -29,3 +29,7 @@ void Entities::EntityAnimated::setAniHard(std::string_view aniName) {
 	_animation = std::make_unique<Networking::NetworkAsset<Animations::Animation>>(aniName);
 }
 
+std::string_view Entities::EntityAnimated::getAni() {
+	return _animationName;
+}
+

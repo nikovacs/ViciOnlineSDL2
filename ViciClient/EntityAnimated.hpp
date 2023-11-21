@@ -15,7 +15,7 @@ namespace Entities {
 		void update();
 		void setAniSoft(std::string_view aniName);
 		virtual void setAniHard(std::string_view aniName);
-		inline std::string getAni() { return _animationName; };
+		std::string_view getAni();
 	protected:
 		std::string _animationName{};
 		std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _animation{};

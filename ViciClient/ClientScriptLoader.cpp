@@ -10,6 +10,8 @@
 #include <v8pp/module.hpp>
 #include "KeyboardInputHandler.hpp"
 #include "NetworkedPlayer.hpp"
+#include "ClientPlayerManager.hpp"
+#include "NetworkedPlayerJSWrapper.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -97,6 +99,7 @@ void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 	exposeKeyboardHandler(ctx);
 	exposeLocalAttrs(ctx);
 	exposeNetworkedPlayerClass(ctx);
+	exposeNetworkPlayerManagerFunctions(ctx);
 }
 
 void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
@@ -109,7 +112,7 @@ void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
 			)
 		.property(
 			"ani",
-			[this]() -> std::string { return _clientPlayer->getAni(); },
+			[this]() -> std::string_view { return _clientPlayer->getAni(); },
 			[this](std::string ani) { _clientPlayer->setAniHard(ani); }
 			)
 		.property(
@@ -200,7 +203,7 @@ void JS::ClientScriptLoader::exposeLocalAttrs(v8pp::context* ctx) {
 }
 
 void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
-	v8pp::class_<Entities::NetworkedPlayer> networkedPlayerClass{ _isolate };
+	/*static v8pp::class_<Entities::NetworkedPlayer> networkedPlayerClass{ _isolate };
 	networkedPlayerClass
 		.auto_wrap_objects(true)
 		.property("dir", &Entities::NetworkedPlayer::getDir)
@@ -208,9 +211,25 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 		.property("width", &Entities::NetworkedPlayer::getWidth)
 		.property("height", &Entities::NetworkedPlayer::getHeight)
 		;
+	ctx->class_("networkedPlayer", networkedPlayerClass);*/
+	static v8pp::class_<JS::NetworkedPlayerJSWrapper> networkedPlayerClass{ _isolate };
+	networkedPlayerClass
+		.auto_wrap_objects(true)
+		.property("username", &JS::NetworkedPlayerJSWrapper::getUsername)
+		.property("dir", &JS::NetworkedPlayerJSWrapper::getDir)
+		.property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
+		.property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
+		.property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
+		;
 	ctx->class_("networkedPlayer", networkedPlayerClass);
 }
 
 void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* ctx) {
-
+	ctx->function("getPlayer", [this](std::string_view username)->JS::NetworkedPlayerJSWrapper {
+		auto* pl{ Networking::ClientPlayerManager::getPlayer(username) };
+		if (pl) {
+			return JS::NetworkedPlayerJSWrapper{ pl };
+		}
+		return JS::NetworkedPlayerJSWrapper{};
+	});
 }
