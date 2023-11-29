@@ -45,6 +45,6 @@ void JS::Script::trigger(std::string_view functionName) {
         v8::Local<v8::Function> func_function = v8::Local<v8::Function>::Cast(func_value);
 
         // Call the function with zero arguments
-        v8::Local<v8::Value> result = func_function->Call(_context->impl(), _context->global(), 0, nullptr).ToLocalChecked();
+        func_function->Call(_context->impl(), _context->global(), 0, nullptr);
     }
 }

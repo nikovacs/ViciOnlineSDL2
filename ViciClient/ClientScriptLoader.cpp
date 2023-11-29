@@ -166,7 +166,7 @@ void JS::ClientScriptLoader::exposeLocalAttrs(v8pp::context* ctx) {
 				return "undefined";
 			}
 	);
-	ctx->module("localAttrs", localAttrsModule);
+	ctx->module("__VICI__localAttrsModule", localAttrsModule);
 
 	static std::string localAttrsProxyScript{ R"(
 		const __VICI__INTERNAL__localAttrsHandler = {
@@ -212,7 +212,7 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 		.property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
 		.property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
 		.property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
-		.property("clientw", &JS::NetworkedPlayerJSWrapper::getClientW)
+		.property("clientW", &JS::NetworkedPlayerJSWrapper::getClientW)
 		;
 	ctx->class_("networkedPlayer", networkedPlayerClass);
 
