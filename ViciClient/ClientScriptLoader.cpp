@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <set>
+#include <map>
 #include <vector>
 #include <v8pp/class.hpp>
 #include <v8pp/context.hpp>
@@ -203,15 +204,6 @@ void JS::ClientScriptLoader::exposeLocalAttrs(v8pp::context* ctx) {
 }
 
 void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
-	/*static v8pp::class_<Entities::NetworkedPlayer> networkedPlayerClass{ _isolate };
-	networkedPlayerClass
-		.auto_wrap_objects(true)
-		.property("dir", &Entities::NetworkedPlayer::getDir)
-		.property("ani", &Entities::NetworkedPlayer::getAni)
-		.property("width", &Entities::NetworkedPlayer::getWidth)
-		.property("height", &Entities::NetworkedPlayer::getHeight)
-		;
-	ctx->class_("networkedPlayer", networkedPlayerClass);*/
 	static v8pp::class_<JS::NetworkedPlayerJSWrapper> networkedPlayerClass{ _isolate };
 	networkedPlayerClass
 		.auto_wrap_objects(true)
@@ -220,16 +212,19 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 		.property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
 		.property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
 		.property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
+		.property("clientw", &JS::NetworkedPlayerJSWrapper::getClientW)
 		;
 	ctx->class_("networkedPlayer", networkedPlayerClass);
+
+	ctx->function("getPlayer", [this, ctx](std::string_view username)->v8::Local<v8::Value> {
+		auto* pl{ Networking::ClientPlayerManager::getPlayer(username) }; // pl can be nullptr
+		if (pl)
+			return v8pp::class_<JS::NetworkedPlayerJSWrapper>::create_object(_isolate, pl, ctx);
+		return v8::Null(_isolate);
+		}
+	);
 }
 
 void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* ctx) {
-	ctx->function("getPlayer", [this](std::string_view username)->JS::NetworkedPlayerJSWrapper {
-		auto* pl{ Networking::ClientPlayerManager::getPlayer(username) };
-		if (pl) {
-			return JS::NetworkedPlayerJSWrapper{ pl };
-		}
-		return JS::NetworkedPlayerJSWrapper{};
-	});
+	
 }
