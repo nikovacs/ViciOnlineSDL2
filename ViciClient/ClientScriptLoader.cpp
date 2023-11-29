@@ -217,6 +217,8 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 	ctx->class_("networkedPlayer", networkedPlayerClass);
 
 	ctx->function("getPlayer", [this, ctx](std::string_view username)->v8::Local<v8::Value> {
+		// TODO - the wrapped player object should put a lock on the underlying networkedPlayer so that it cannot be deleted while the wrapper is still in use
+		// Will be important for the wrapper to not be held for longer than the scope of a single function call within javascript
 		auto* pl{ Networking::ClientPlayerManager::getPlayer(username) }; // pl can be nullptr
 		if (pl)
 			return v8pp::class_<JS::NetworkedPlayerJSWrapper>::create_object(_isolate, pl, ctx);
