@@ -180,6 +180,7 @@
     <ClCompile Include="AssetTransfer.cpp" />
     <ClCompile Include="Attributes.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="IHasClientW.hpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptLoader.cpp" />
     <ClCompile Include="StandardFuncs.cpp" />
