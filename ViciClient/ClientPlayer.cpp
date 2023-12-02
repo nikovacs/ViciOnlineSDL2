@@ -5,13 +5,13 @@
 #include <iostream>
 
 namespace Entities {
-	ClientPlayer::ClientPlayer(nlohmann::json& json) : EntityAnimated(json["animation"], json["x"], json["y"], json["dir"]), _clientWriteableAttrs{ json["clientw"] } {
-		_clientWriteableAttrs.setOnSetAttribCallback([this](std::string_view key) {
+	ClientPlayer::ClientPlayer(nlohmann::json& json) : EntityAnimated(json["animation"], json["x"], json["y"], json["dir"], new nlohmann::json(json["clientW"]), new nlohmann::json(json["clientR"])) {
+		_clientW.setOnSetAttribCallback([this](std::string_view key) {
 			nlohmann::json json{};
 			json["k"] = key;
-			json["v"] = _clientWriteableAttrs.get(key);
-			std::cout << "Updating clientw attrs with " << key << " and " << _clientWriteableAttrs.get(key) << std::endl;
-			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerAttr, ENET_PACKET_FLAG_RELIABLE);
+			json["v"] = _clientW.get(key);
+			std::cout << "Updating clientw attrs with " << key << " and " << _clientW.get(key) << std::endl;
+			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdateClientW, ENET_PACKET_FLAG_RELIABLE);
 		});
 	};
 

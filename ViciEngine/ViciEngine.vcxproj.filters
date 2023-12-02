@@ -66,9 +66,6 @@
     <ClCompile Include="Attributes.cpp">
       <Filter>Source Files\Attributes</Filter>
     </ClCompile>
-    <ClCompile Include="IHasClientW.hpp">
-      <Filter>Header Files\Attributes</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.hpp">

@@ -21,7 +21,8 @@ namespace Networking {
 		StartWatchingLevel,
 		StopWatchingLevel,
 
-		UpdatePlayerAttr,
+		UpdateClientW,
+		UpdateClientR,
 		
 		MAX_CHANNELS
 	};

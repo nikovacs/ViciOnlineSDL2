@@ -12,5 +12,6 @@
 	"defaultWidth": 13,
 	"defaultHeight": 23,
 	"defaultZoom": 1,
-	"defaultClientWriteableAttrs": {}
+	"defaultClientW": {},
+	"defaultClientR": {}
 }

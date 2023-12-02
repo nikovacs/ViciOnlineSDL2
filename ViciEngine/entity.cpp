@@ -1,5 +1,7 @@
 #include "Entity.hpp"
 
+Entities::Entity::Entity(nlohmann::json* clientW, nlohmann::json* clientR) : _clientW(clientW), _clientR(clientR) {}
+
 void Entities::Entity::setPosition(int x, int y) {
 	_x = x;
 	_y = y;
@@ -36,4 +38,12 @@ void Entities::Entity::setDir(int dir) {
 
 int Entities::Entity::getDir() {
 	return _dir;
+}
+
+Attributes& Entities::Entity::getClientW() {
+	return _clientW;
+}
+
+Attributes& Entities::Entity::getClientR() {
+	return _clientR;
 }

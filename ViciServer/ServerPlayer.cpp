@@ -5,13 +5,10 @@
 namespace fs = std::filesystem;
 
 namespace Entities {
-	ServerPlayer::ServerPlayer(std::string_view username, uint32_t id, std::string_view animation, std::string_view world, int dir, int x, int y, float zoom, nlohmann::json& clientw)
-		: _username{ username }, _connectionId{ id }, _animation{ animation }, _world{ world }, _cameraZoom{ zoom }, _clientWriteableAttrs{ clientw } {
+	ServerPlayer::ServerPlayer(std::string_view username, uint32_t id, std::string_view animation, std::string_view world, int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR)
+		: _username{ username }, _connectionId{ id }, _animation{ animation }, _world{ world }, _cameraZoom{ zoom }, Entity(clientW, clientR) {
 		setPosition(x, y);
 		_dir = dir;
-		_clientWriteableAttrs.setOnGetAttribCallback([this](std::string_view key) {
-			// Should update v8 attr here
-		});
 	}
 
 	ServerPlayer::~ServerPlayer() {
@@ -24,7 +21,8 @@ namespace Entities {
 		playerData["animation"] = _animation;
 		playerData["world"] = _world;
 		playerData["cameraZoom"] = _cameraZoom;
-		playerData["clientw"] = _clientWriteableAttrs.getUnderlyingJson();
+		playerData["clientW"] = *_clientW.getUnderlyingJson();
+		playerData["clientR"] = *_clientR.getUnderlyingJson();
 
 		// create playerData/username.json if it does not exist
 		std::string strPath = "playerData/" + _username + ".json";
@@ -78,10 +76,6 @@ namespace Entities {
 
 	void ServerPlayer::stopWatchingLevel(std::string_view lvl) {
 		_levelsWatching.erase(lvl.data());
-	}
-
-	Attributes& ServerPlayer::getClientWriteableAttrs() {
-		return _clientWriteableAttrs;
 	}
 
 	std::string_view ServerPlayer::getUsername() {

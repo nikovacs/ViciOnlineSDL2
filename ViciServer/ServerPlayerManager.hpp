@@ -23,7 +23,7 @@ namespace Networking {
 		static void startWatchingLevel(uint32_t id, nlohmann::json& json);
 		static void stopWatchingLevel(uint32_t id, nlohmann::json& json);
 		static void updatePlayerLevel(uint32_t id, nlohmann::json& json);
-		static void updatePlayerAttr(uint32_t id, nlohmann::json& json);
+		static void updatePlayerClientW(uint32_t id, nlohmann::json& json);
 		static void updatePlayerCameraZoom(uint32_t id, nlohmann::json& json);
 		static inline std::vector<uint32_t> getPlayersOnLevel(std::string_view levelName) {
 			std::lock_guard<std::recursive_mutex> lock(_playerMutex);

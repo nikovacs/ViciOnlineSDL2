@@ -71,7 +71,7 @@ namespace JS {
 	Local<Value> NetworkedPlayerJSWrapper::_proxyGet(Local<Name> property) {
 		std::string propertyName{ v8pp::from_v8<std::string>(_ctx->isolate(), property, "") };
 
-		nlohmann::json& clientW{ _player->getClientWriteableAttrs() };
+		nlohmann::json& clientW{ *_player->getClientW().getUnderlyingJson()};
 
 		if (!clientW.contains(propertyName)) {
 			return v8::Undefined(_ctx->isolate());
@@ -103,7 +103,7 @@ namespace JS {
 			return v8::Boolean::New(_ctx->isolate(), false);
 		}
 
-		nlohmann::json& clientW{ _player->getClientWriteableAttrs() };
+		nlohmann::json& clientW{ *_player->getClientW().getUnderlyingJson()};
 
 		// TODO: might want to also support arrays and maps (objects)
 		if (value->IsBoolean()) {
@@ -137,7 +137,7 @@ namespace JS {
 			return v8::Boolean::New(_ctx->isolate(), false);
 		}
 
-		nlohmann::json& clientW{ _player->getClientWriteableAttrs() };
+		nlohmann::json& clientW{ *_player->getClientW().getUnderlyingJson() };
 
 		if (clientW.contains(propertyName)) {
 			clientW.erase(propertyName);

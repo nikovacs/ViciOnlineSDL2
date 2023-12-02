@@ -9,7 +9,7 @@
 namespace Entities {
 	class ServerPlayer : public Entity {
 	public:
-		ServerPlayer(std::string_view username, uint32_t id, std::string_view animation, std::string_view _world, int dir, int x, int y, float zoom, nlohmann::json& clientw);
+		ServerPlayer(std::string_view username, uint32_t id, std::string_view animation, std::string_view _world, int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR);
 		virtual ~ServerPlayer();
 		void setLevel(std::string_view level);
 		std::string_view getLevel();
@@ -22,7 +22,6 @@ namespace Entities {
 		void startWatchingLevel(std::string_view lvl);
 		const std::set<std::string>& getLevelsWatching();
 		void stopWatchingLevel(std::string_view lvl);
-		Attributes& getClientWriteableAttrs();
 		std::string_view getUsername();
 	private:
 		uint32_t _connectionId{};
@@ -31,7 +30,6 @@ namespace Entities {
 		std::string _level{};
 		float _cameraZoom{ 1.0f };
 		std::set<std::string> _levelsWatching{};
-		Attributes _clientWriteableAttrs{};
 		std::string _username{};
 	};
 }

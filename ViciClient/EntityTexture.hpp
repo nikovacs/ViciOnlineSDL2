@@ -6,11 +6,12 @@
 #include <SDL2/SDL.h>
 #include <string_view>
 #include <memory>
+#include <nlohmann/json.hpp>
 
 namespace Entities {
 	class EntityTexture : public EntityDrawable {
 	public:
-		EntityTexture(std::string_view textureFileName, int x, int y, int w, int h);
+		EntityTexture(std::string_view textureFileName, int x, int y, int w, int h, nlohmann::json* clientW, nlohmann::json* clientR);
 		void render(SDL_Renderer* renderer) override;
 	protected:
 		std::unique_ptr<Networking::NetworkAsset<AssetTypes::Texture>> _texture{ nullptr };

@@ -178,6 +178,7 @@
     <ClCompile Include="CaseInsensitiveComparator.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
+    <ClCompile Include="EntityDrawable.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />

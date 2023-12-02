@@ -29,10 +29,13 @@ namespace Networking {
 		int w = json["w"];
 		int h = json["h"];
 		int dir = json["dir"];
+		nlohmann::json* clientW = new nlohmann::json(json["clientW"]);
+		nlohmann::json* clientR = new nlohmann::json(json["clientR"]);
 		std::string animation = json["animation"];
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (_players.contains(id)) return;
-		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, x, y, dir));
+		// NetworkedPlayer takes ownership of the clientW and clientR pointers
+		_players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, x, y, dir, clientW, clientR));
 		_players.at(id)->setHeight(h);
 		_players.at(id)->setWidth(w);
 		_playerUsernamesToIds.emplace(username, id);

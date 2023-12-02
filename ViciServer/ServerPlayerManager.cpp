@@ -20,10 +20,10 @@ namespace Networking {
 		_peers.emplace(peer->connectID, peer);
 		
 		nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
-		// TODO check if player's last info is saved in a file and load it
 		
 		std::string username = json["usr"];
 		std::string fileName = "playerData/" + username + ".json";
+
 		// check if file exists
 		nlohmann::json playerData;
 		bool fileExists{ std::filesystem::exists(fileName) };
@@ -43,11 +43,16 @@ namespace Networking {
 			playerData["animation"] = serverOptions["defaultAni"];
 			playerData["world"] = serverOptions["defaultWorld"];
 			playerData["cameraZoom"] = serverOptions["defaultZoom"];
-			playerData["clientw"] = serverOptions["defaultClientWriteableAttrs"];
+			playerData["clientW"] = serverOptions["defaultClientW"];
+			playerData["clientR"] = serverOptions["defaultClientR"];
 		}
 
+		nlohmann::json* clientW = new nlohmann::json( playerData["clientW"] );
+		nlohmann::json* clientR = new nlohmann::json( playerData["clientR"] );
+
+		// takes ownership of clientW and clientR pointers
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(
-			username, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], playerData["clientw"]
+			username, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], clientW, clientR
 		));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
 		player.setWidth(playerData["w"]);
@@ -70,7 +75,8 @@ namespace Networking {
 		playerData["h"] = playerToSpawn->getHeight();
 		playerData["dir"] = playerToSpawn->getDir();
 		playerData["animation"] = playerToSpawn->getAni();
-		playerData["clientw"] = playerToSpawn->getClientWriteableAttrs().getUnderlyingJson();
+		playerData["clientW"] = *(playerToSpawn->getClientW().getUnderlyingJson());
+		playerData["clientR"] = *(playerToSpawn->getClientR().getUnderlyingJson());
 
 		UdpServer::sendJson(_peers.at(spawnForId), playerData, UdpChannels::SpawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 	}
@@ -244,13 +250,13 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::updatePlayerAttr(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerClientW(uint32_t id, nlohmann::json& json) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		
 		std::cout << "updating player attr for id " << id << "\n";
 
 		if (!_players.contains(id)) return;
-		_players.at(id)->getClientWriteableAttrs().set(json["k"], json["v"]);
+		_players.at(id)->getClientW().set(json["k"], json["v"]);
 
 		json["id"] = id;
 
@@ -258,7 +264,7 @@ namespace Networking {
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerAttr, ENET_PACKET_FLAG_RELIABLE);
+			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdateClientW, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 

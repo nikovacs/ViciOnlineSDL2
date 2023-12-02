@@ -10,7 +10,7 @@
 namespace Entities {
 	class EntityAnimated : public EntityDrawable {
 	public:
-		EntityAnimated(std::string_view aniName, int x, int y, int direction);
+		EntityAnimated(std::string_view aniName, int x, int y, int direction, nlohmann::json* clientW, nlohmann::json* clientR);
 		void render(SDL_Renderer* renderer) override;
 		void update();
 		void setAniSoft(std::string_view aniName);

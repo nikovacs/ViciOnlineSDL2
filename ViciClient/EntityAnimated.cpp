@@ -1,7 +1,8 @@
 #include "EntityAnimated.hpp"
 #include <string>
 
-Entities::EntityAnimated::EntityAnimated(std::string_view aniName, int x, int y, int direction) :
+Entities::EntityAnimated::EntityAnimated(std::string_view aniName, int x, int y, int direction, nlohmann::json* clientW, nlohmann::json* clientR) :
+	EntityDrawable(clientW, clientR),
 	_animation{ std::make_unique<Networking::NetworkAsset<Animations::Animation>>(aniName) },
 	_animationName{ aniName } {
 	_x = x;
