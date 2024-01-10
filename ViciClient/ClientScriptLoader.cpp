@@ -13,6 +13,8 @@
 #include "NetworkedPlayer.hpp"
 #include "ClientPlayerManager.hpp"
 #include "NetworkedPlayerJSWrapper.hpp"
+#include "ClientPlayerJSWrapper.hpp"
+#include "ViciClient.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -104,35 +106,26 @@ void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 }
 
 void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
-	v8pp::module clientPlayer{ _isolate };
-	clientPlayer
-		.property(
-			"dir",
-			[this]() -> int { return _clientPlayer->getDir(); },
-			[this](int dir) { _clientPlayer->setDir(dir); }
-			)
-		.property(
-			"ani",
-			[this]() -> std::string_view { return _clientPlayer->getAni(); },
-			[this](std::string ani) { _clientPlayer->setAniHard(ani); }
-			)
-		.property(
-			"width",
-			[this]() -> int { return _clientPlayer->getWidth(); },
-			[this](int width) { _clientPlayer->setWidth(width); }
-			)
-		.property(
-			"height",
-			[this]() -> int { return _clientPlayer->getHeight(); },
-			[this](int height) { _clientPlayer->setHeight(height); }
-			)
+
+	static v8pp::class_<JS::ClientPlayerJSWrapper> clientPlayerClass{ _isolate };
+	clientPlayerClass
+		.auto_wrap_objects(true)
+		.property("username", &JS::ClientPlayerJSWrapper::getUsername)
+		.property("dir", &JS::ClientPlayerJSWrapper::getDir, &JS::ClientPlayerJSWrapper::setDir)
+		.property("ani", &JS::ClientPlayerJSWrapper::getAni, &JS::ClientPlayerJSWrapper::setAni)
+		.property("width", &JS::ClientPlayerJSWrapper::getWidth, &JS::ClientPlayerJSWrapper::setWidth)
+		.property("height", &JS::ClientPlayerJSWrapper::getHeight, &JS::ClientPlayerJSWrapper::setHeight)
+		.property("x", &JS::ClientPlayerJSWrapper::getX, &JS::ClientPlayerJSWrapper::setX)
+		.property("y", &JS::ClientPlayerJSWrapper::getY, &JS::ClientPlayerJSWrapper::setY)
+		//.property("clientW", &JS::ClientPlayerJSWrapper::getClientW)
 		.property(
 			"pos",
 			[this]() -> std::vector<int> { return { _clientPlayer->getX(), _clientPlayer->getY() }; },
 			[this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); }
 			)
 		;
-	ctx->module("clientPlayer", clientPlayer);
+	// create a global clientPlayer object for the context
+	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), v8pp::to_v8(_isolate, ClientPlayerJSWrapper(_clientPlayer, ctx)));
 }
 
 void JS::ClientScriptLoader::exposeKeyboardHandler(v8pp::context* ctx) {
@@ -217,6 +210,10 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 	ctx->class_("networkedPlayer", networkedPlayerClass);
 
 	ctx->function("getPlayer", [this, ctx](std::string_view username)->v8::Local<v8::Value> {
+		std::string clientUserName{ ViciClient::instance->getUserName() };
+		if (clientUserName == username) {
+			return v8pp::class_<JS::ClientPlayerJSWrapper>::create_object(_isolate, _clientPlayer, ctx);
+		}
 		// TODO - the wrapped player object should put a lock on the underlying networkedPlayer so that it cannot be deleted while the wrapper is still in use
 		// Will be important for the wrapper to not be held for longer than the scope of a single function call within javascript
 		auto* pl{ Networking::ClientPlayerManager::getPlayer(username) }; // pl can be nullptr

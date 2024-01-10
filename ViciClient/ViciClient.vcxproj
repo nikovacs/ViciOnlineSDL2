@@ -177,6 +177,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CaseInsensitiveComparator.cpp" />
     <ClCompile Include="ClientPlayer.cpp" />
+    <ClCompile Include="ClientPlayerJSWrapper.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="EntityDrawable.cpp" />
     <ClCompile Include="LoginScene.cpp" />
@@ -207,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CaseInsensitiveComparator.hpp" />
+    <ClInclude Include="ClientPlayerJSWrapper.hpp" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
