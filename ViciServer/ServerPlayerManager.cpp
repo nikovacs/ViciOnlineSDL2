@@ -256,7 +256,7 @@ namespace Networking {
 		std::cout << "updating player attr for id " << id << "\n";
 
 		if (!_players.contains(id)) return;
-		_players.at(id)->getClientW().set(json["k"], json["v"]);
+		_players.at(id)->getClientW().set<nlohmann::json&>(json["k"], json["v"]);
 
 		json["id"] = id;
 

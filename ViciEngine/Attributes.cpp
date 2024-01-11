@@ -13,14 +13,17 @@ nlohmann::json* Attributes::getUnderlyingJson() {
 	return _attributes;
 }
 
-void Attributes::set(std::string_view key, nlohmann::json& value) {
-	(*_attributes)[key.data()] = value;
-	if (_onSetAttribCallback) _onSetAttribCallback(key);
-}
-
 nlohmann::json& Attributes::get(std::string_view key) {
 	if (_onGetAttribCallback) _onGetAttribCallback(key);
 	return (*_attributes)[key.data()];
+}
+
+void Attributes::remove(std::string_view key) {
+	_attributes->erase(key.data());
+}
+
+bool Attributes::has(std::string_view key) {
+	return _attributes->contains(key.data());
 }
 
 void Attributes::setOnSetAttribCallback(callbackFunc callback) {
@@ -29,4 +32,8 @@ void Attributes::setOnSetAttribCallback(callbackFunc callback) {
 
 void Attributes::setOnGetAttribCallback(callbackFunc callback) {
 	_onGetAttribCallback = callback;
+}
+
+void Attributes::setOnRemoveAttribCallback(callbackFunc callback) {
+	_onRemoveAttribCallback = callback;
 }

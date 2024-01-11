@@ -206,6 +206,7 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 		.property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
 		.property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
 		.property("clientW", &JS::NetworkedPlayerJSWrapper::getClientW)
+		.property("clientR", &JS::NetworkedPlayerJSWrapper::getClientR)
 		;
 	ctx->class_("networkedPlayer", networkedPlayerClass);
 

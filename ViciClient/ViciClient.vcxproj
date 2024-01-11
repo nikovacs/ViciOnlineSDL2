@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractPlayerJSWrapper.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="ViciGuiHost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractPlayerJSWrapper.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CaseInsensitiveComparator.hpp" />
     <ClInclude Include="ClientPlayerJSWrapper.hpp" />
