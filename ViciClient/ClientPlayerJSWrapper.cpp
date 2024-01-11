@@ -1,11 +1,12 @@
 #include "ClientPlayerJSWrapper.hpp"
 #include "ViciClient.hpp"
+#include <iostream>
 
 namespace JS {
 	ClientPlayerJSWrapper::ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx) : _player{ pl }, _ctx{ ctx } {}
 
-	std::string_view ClientPlayerJSWrapper::getUsername() {
-		return ViciClient::instance->getUserName();
+	std::string ClientPlayerJSWrapper::getUsername() {
+		return std::string(ViciClient::instance->getUserName());
 	}
 
 	int ClientPlayerJSWrapper::getX() {

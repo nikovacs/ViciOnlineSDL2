@@ -42,8 +42,8 @@ namespace JS {
 		_clientWProxy.Reset(ctx->isolate(), clientWAttrs);
 	}
 
-	std::string_view NetworkedPlayerJSWrapper::getUsername() {
-		return _player->getUsername();
+	std::string NetworkedPlayerJSWrapper::getUsername() {
+		return std::string(_player->getUsername());
 	}
 	int NetworkedPlayerJSWrapper::getX() {
 		return _player->getX();

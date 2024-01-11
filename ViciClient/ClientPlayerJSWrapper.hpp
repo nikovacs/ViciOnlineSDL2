@@ -10,7 +10,7 @@ namespace JS {
 	public:
 		ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx);
 		virtual ~ClientPlayerJSWrapper() = default;
-		std::string_view getUsername();
+		std::string getUsername();
 		int getX();
 		void setX(int x);
 		int getY();
