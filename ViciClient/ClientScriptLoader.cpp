@@ -123,6 +123,8 @@ void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
 			[this]() -> std::vector<int> { return { _clientPlayer->getX(), _clientPlayer->getY() }; },
 			[this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); }
 			)
+		.property("clientW", &JS::ClientPlayerJSWrapper::getClientW)
+		.property("clientR", &JS::ClientPlayerJSWrapper::getClientR)
 		;
 	// create a global clientPlayer object for the context
 	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), v8pp::to_v8(_isolate, ClientPlayerJSWrapper(_clientPlayer, ctx)));
