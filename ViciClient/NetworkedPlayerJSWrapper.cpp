@@ -10,6 +10,8 @@ namespace JS {
 		setAllowWrite(false);
 	}
 
+	NetworkedPlayerJSWrapper::~NetworkedPlayerJSWrapper() {}
+
 	std::string NetworkedPlayerJSWrapper::getUsername() {
 		return std::string(_player->getUsername());
 	}
