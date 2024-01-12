@@ -12,6 +12,9 @@ public:
 	virtual ~Attributes();
 	nlohmann::json* getUnderlyingJson();
 	void set(std::string_view key, auto value) {
+		if ((*_attributes)[key.data()] == value) {
+			return;
+		}
 		(*_attributes)[key.data()] = value;
 		if (_onSetAttribCallback) _onSetAttribCallback(key);
 	}
