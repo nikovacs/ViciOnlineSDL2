@@ -13,8 +13,8 @@ namespace JS {
 		_clientWHandler.Reset(ctx->isolate(), clientWHandlerObj);
 
 		_proxyGetterHelper(clientWHandlerObj, &_player->getClientW());
-		_proxySetterHelper(clientWHandlerObj, &_player->getClientW());
-		_proxyDeleterHelper(clientWHandlerObj, &_player->getClientW());
+		_proxySetterHelper(clientWHandlerObj, &_player->getClientW(), true);
+		_proxyDeleterHelper(clientWHandlerObj, &_player->getClientW(), true);
 
 		v8::Local<v8::Proxy> clientWAttrs{ v8::Proxy::New(ctx->impl(), clientWTargetObj, clientWHandlerObj).ToLocalChecked() };
 		_clientWProxy.Reset(ctx->isolate(), clientWAttrs);
@@ -27,8 +27,8 @@ namespace JS {
 		_clientRHandler.Reset(ctx->isolate(), clientRHandlerObj);
 
 		_proxyGetterHelper(clientRHandlerObj, &_player->getClientR());
-		_proxySetterHelper(clientRHandlerObj, &_player->getClientR());
-		_proxyDeleterHelper(clientRHandlerObj, &_player->getClientR());
+		_proxySetterHelper(clientRHandlerObj, &_player->getClientR(), false);
+		_proxyDeleterHelper(clientRHandlerObj, &_player->getClientR(), false);
 
 		v8::Local<v8::Proxy> clientRAttrs{ v8::Proxy::New(ctx->impl(), clientRTargetObj, clientRHandlerObj).ToLocalChecked() };
 		_clientRProxy.Reset(ctx->isolate(), clientRAttrs);
@@ -42,20 +42,20 @@ namespace JS {
 		_clientRHandler.Reset(other._ctx->isolate(), other._clientRHandler.Get(other._ctx->isolate()));
 		_clientRProxy.Reset(other._ctx->isolate(), other._clientRProxy.Get(other._ctx->isolate()));
 		_player = other._player;
-		_allowWrite = other._allowWrite;
+		_allowWriteClientW = other._allowWriteClientW;
 		_ctx = other._ctx;
 	}
 
 	v8::Local<v8::Proxy> AbstractPlayerJSWrapper::getClientW() {
-		return _clientRProxy.Get(_ctx->isolate());
-	}
-
-	v8::Local<v8::Proxy> AbstractPlayerJSWrapper::getClientR() {
 		return _clientWProxy.Get(_ctx->isolate());
 	}
 
-	void AbstractPlayerJSWrapper::setAllowWrite(bool allowWrite) {
-		_allowWrite = allowWrite;
+	v8::Local<v8::Proxy> AbstractPlayerJSWrapper::getClientR() {
+		return _clientRProxy.Get(_ctx->isolate());
+	}
+
+	void AbstractPlayerJSWrapper::setAllowWriteClientW(bool allowWrite) {
+		_allowWriteClientW = allowWrite;
 	}
 
 	v8::Local<v8::Value> AbstractPlayerJSWrapper::_proxyGet(v8::Local<v8::Name> property, Attributes* attrs) {
@@ -140,10 +140,10 @@ namespace JS {
 		));
 	}
 
-	void AbstractPlayerJSWrapper::_proxySetterHelper(v8::Local<v8::Object> handler, Attributes* attrs) {
+	void AbstractPlayerJSWrapper::_proxySetterHelper(v8::Local<v8::Object> handler, Attributes* attrs, bool isClientW) {
 		handler->Set(_ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_ctx->isolate(), "set"), v8pp::wrap_function(_ctx->isolate(), "",
-			[this, attrs](const v8::FunctionCallbackInfo<v8::Value>& args)->v8::Local<v8::Value> {
-				if (_allowWrite) {
+			[this, attrs, isClientW](const v8::FunctionCallbackInfo<v8::Value>& args)->v8::Local<v8::Value> {
+				if (isClientW && _allowWriteClientW) {
 					v8::Local<v8::Name> property = args[1].As<v8::Name>();
 					v8::Local<v8::Value> value = args[2];
 					return _proxySet(property, value, attrs);
@@ -155,10 +155,10 @@ namespace JS {
 		));
 	}
 
-	void AbstractPlayerJSWrapper::_proxyDeleterHelper(v8::Local<v8::Object> handler, Attributes* attrs) {
+	void AbstractPlayerJSWrapper::_proxyDeleterHelper(v8::Local<v8::Object> handler, Attributes* attrs, bool isClientW) {
 		handler->Set(_ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_ctx->isolate(), "deleteProperty"), v8pp::wrap_function(_ctx->isolate(), "",
-			[this, attrs](const v8::FunctionCallbackInfo<v8::Value>& args)->v8::Local<v8::Value> {
-				if (_allowWrite) {
+			[this, attrs, isClientW](const v8::FunctionCallbackInfo<v8::Value>& args)->v8::Local<v8::Value> {
+				if (isClientW && _allowWriteClientW) {
 					v8::Local<v8::Name> property = args[1].As<v8::Name>();
 					return _proxyDelete(property, attrs);
 				}

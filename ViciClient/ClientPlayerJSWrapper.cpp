@@ -4,7 +4,7 @@
 
 namespace JS {
 	ClientPlayerJSWrapper::ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx) : AbstractPlayerJSWrapper{ ctx, pl }, _player{ pl } {
-		setAllowWrite(true);
+		setAllowWriteClientW(true);
 	}
 
 	std::string ClientPlayerJSWrapper::getUsername() {

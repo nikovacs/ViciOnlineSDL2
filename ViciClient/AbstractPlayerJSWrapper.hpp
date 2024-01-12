@@ -15,14 +15,14 @@ namespace JS {
 		v8::Local<v8::Proxy> getClientR();
 	protected:
 		v8pp::context* _ctx = nullptr;
-		void setAllowWrite(bool allow);
+		void setAllowWriteClientW(bool allow);
 	private:
 		v8::Local<v8::Value> _proxyGet(v8::Local<v8::Name> property, Attributes* attrs);
 		v8::Local<v8::Value> _proxySet(v8::Local<v8::Name> property, v8::Local<v8::Value> value, Attributes* attrs);
 		v8::Local<v8::Value> _proxyDelete(v8::Local<v8::Name> property, Attributes* attrs);
 		void _proxyGetterHelper(v8::Local<v8::Object> handler, Attributes* attrs);
-		void _proxySetterHelper(v8::Local<v8::Object> handler, Attributes* attrs);
-		void _proxyDeleterHelper(v8::Local<v8::Object> handler, Attributes* attrs);
+		void _proxySetterHelper(v8::Local<v8::Object> handler, Attributes* attrs, bool isClientW);
+		void _proxyDeleterHelper(v8::Local<v8::Object> handler, Attributes* attrs, bool isClientW);
 		v8::Global<v8::Object> _clientWTarget;
 		v8::Global<v8::Object> _clientWHandler;
 		v8::Global<v8::Proxy> _clientWProxy;
@@ -30,6 +30,6 @@ namespace JS {
 		v8::Global<v8::Object> _clientRHandler;
 		v8::Global<v8::Proxy> _clientRProxy;
 		Entities::Entity* _player = nullptr;
-		bool _allowWrite = false;
+		bool _allowWriteClientW = false;
 	};
 }

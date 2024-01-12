@@ -7,7 +7,7 @@ using namespace v8;
 
 namespace JS {
 	NetworkedPlayerJSWrapper::NetworkedPlayerJSWrapper(Entities::NetworkedPlayer* pl, v8pp::context* ctx) : AbstractPlayerJSWrapper{ctx, pl}, _player { pl } {
-		setAllowWrite(false);
+		setAllowWriteClientW(false);
 	}
 
 	std::string NetworkedPlayerJSWrapper::getUsername() {
