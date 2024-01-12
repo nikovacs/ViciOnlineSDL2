@@ -4,9 +4,10 @@
 #include <v8.h>
 #include <v8pp/context.hpp>
 #include "ClientPlayer.hpp"
+#include "AbstractPlayerJSWrapper.hpp"
 
 namespace JS {
-	class ClientPlayerJSWrapper {
+	class ClientPlayerJSWrapper : public AbstractPlayerJSWrapper {
 	public:
 		ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx);
 		virtual ~ClientPlayerJSWrapper() = default;
@@ -23,9 +24,7 @@ namespace JS {
 		void setWidth(int w);
 		int getHeight();
 		void setHeight(int h);
-		v8::Local<v8::Proxy> getClientW();
 	private:
-		v8pp::context* _ctx{ nullptr };
 		Entities::ClientPlayer* _player{ nullptr };
 	};
 }

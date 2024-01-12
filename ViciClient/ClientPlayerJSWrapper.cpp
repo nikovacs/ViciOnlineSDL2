@@ -3,7 +3,9 @@
 #include <iostream>
 
 namespace JS {
-	ClientPlayerJSWrapper::ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx) : _player{ pl }, _ctx{ ctx } {}
+	ClientPlayerJSWrapper::ClientPlayerJSWrapper(Entities::ClientPlayer* pl, v8pp::context* ctx) : AbstractPlayerJSWrapper{ ctx, pl }, _player{ pl } {
+		setAllowWrite(true);
+	}
 
 	std::string ClientPlayerJSWrapper::getUsername() {
 		return std::string(ViciClient::instance->getUserName());

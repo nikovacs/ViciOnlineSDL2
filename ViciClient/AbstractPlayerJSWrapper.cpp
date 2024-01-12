@@ -1,4 +1,5 @@
 #include "AbstractPlayerJSWrapper.hpp"
+#include <iostream>
 
 namespace JS {
 	AbstractPlayerJSWrapper::AbstractPlayerJSWrapper(v8pp::context* ctx, Entities::Entity* player) : _ctx{ ctx }, _player{ player } {
@@ -33,7 +34,17 @@ namespace JS {
 		_clientRProxy.Reset(ctx->isolate(), clientRAttrs);
 	}
 
-	AbstractPlayerJSWrapper::~AbstractPlayerJSWrapper() {}
+	AbstractPlayerJSWrapper::AbstractPlayerJSWrapper(const AbstractPlayerJSWrapper& other) {
+		_clientWTarget.Reset(other._ctx->isolate(), other._clientWTarget.Get(other._ctx->isolate()));
+		_clientWHandler.Reset(other._ctx->isolate(), other._clientWHandler.Get(other._ctx->isolate()));
+		_clientWProxy.Reset(other._ctx->isolate(), other._clientWProxy.Get(other._ctx->isolate()));
+		_clientRTarget.Reset(other._ctx->isolate(), other._clientRTarget.Get(other._ctx->isolate()));
+		_clientRHandler.Reset(other._ctx->isolate(), other._clientRHandler.Get(other._ctx->isolate()));
+		_clientRProxy.Reset(other._ctx->isolate(), other._clientRProxy.Get(other._ctx->isolate()));
+		_player = other._player;
+		_allowWrite = other._allowWrite;
+		_ctx = other._ctx;
+	}
 
 	v8::Local<v8::Proxy> AbstractPlayerJSWrapper::getClientW() {
 		return _clientRProxy.Get(_ctx->isolate());
@@ -148,7 +159,7 @@ namespace JS {
 		handler->Set(_ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_ctx->isolate(), "deleteProperty"), v8pp::wrap_function(_ctx->isolate(), "",
 			[this, attrs](const v8::FunctionCallbackInfo<v8::Value>& args)->v8::Local<v8::Value> {
 				if (_allowWrite) {
-					v8::Local<v8::Name> property = args[0].As<v8::Name>();
+					v8::Local<v8::Name> property = args[1].As<v8::Name>();
 					return _proxyDelete(property, attrs);
 				}
 				else {

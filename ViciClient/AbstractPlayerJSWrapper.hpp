@@ -9,7 +9,8 @@ namespace JS {
 	class AbstractPlayerJSWrapper {
 	public:
 		AbstractPlayerJSWrapper(v8pp::context* ctx, Entities::Entity* player);
-		virtual ~AbstractPlayerJSWrapper();
+		AbstractPlayerJSWrapper(const AbstractPlayerJSWrapper& other);
+		virtual ~AbstractPlayerJSWrapper() = default;
 		v8::Local<v8::Proxy> getClientW();
 		v8::Local<v8::Proxy> getClientR();
 	protected:

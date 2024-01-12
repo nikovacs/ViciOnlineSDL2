@@ -12,7 +12,7 @@ namespace JS {
 	class NetworkedPlayerJSWrapper : public AbstractPlayerJSWrapper {
 	public:
 		NetworkedPlayerJSWrapper(Entities::NetworkedPlayer*, v8pp::context* ctx);
-		virtual ~NetworkedPlayerJSWrapper() override;
+		virtual ~NetworkedPlayerJSWrapper() = default;
 		std::string getUsername();
 		int getX();
 		int getY();
