@@ -29,6 +29,7 @@ namespace JS {
 		void exposeLocalAttrs(v8pp::context* ctx);
 		void exposeNetworkedPlayerClass(v8pp::context* ctx);
 		void exposeNetworkPlayerManagerFunctions(v8pp::context* ctx);
+		void exposeRmlUIFunctions(v8pp::context* ctx);
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts{};
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress{};
 		Entities::ClientPlayer* _clientPlayer{ nullptr };

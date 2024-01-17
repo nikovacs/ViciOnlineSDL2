@@ -180,6 +180,9 @@
     <ClCompile Include="AbstractPlayerJSWrapper.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="RmlJSWrappers.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -285,6 +288,9 @@
       <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
     <ClInclude Include="AbstractPlayerJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlJSWrappers.hpp">
       <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
   </ItemGroup>

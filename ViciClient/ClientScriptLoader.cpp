@@ -230,3 +230,7 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context* ctx) {
 void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* ctx) {
 	
 }
+
+void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
+
+}

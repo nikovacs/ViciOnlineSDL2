@@ -183,6 +183,7 @@
     <ClCompile Include="EntityDrawable.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
+    <ClCompile Include="RmlJSWrappers.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="ClientPlayerJSWrapper.hpp" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
+    <ClInclude Include="RmlJSWrappers.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />
