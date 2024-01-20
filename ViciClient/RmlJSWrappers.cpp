@@ -34,7 +34,7 @@ namespace JS {
 		return RmlElementJSWrapper{ _ctx.GetRootElement() };
 	}
 
-	RmlElementJSWrapper RmlContextJSWrapper::getElementAtPoint(int x, int y, RmlElementJSWrapper ignoreElement, RmlElementJSWrapper element) {
+	RmlElementJSWrapper RmlContextJSWrapper::getElementAtPoint(float x, float y, RmlElementJSWrapper ignoreElement, RmlElementJSWrapper element) {
 		return RmlElementJSWrapper{ _ctx.GetElementAtPoint({x, y}, ignoreElement.getUnderlyingElement(), element.getUnderlyingElement())};
 	}
 

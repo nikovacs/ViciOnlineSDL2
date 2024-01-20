@@ -10,6 +10,7 @@
 #include "LevelWatchingManager.hpp"
 #include "ClientScriptLoader.hpp"
 #include "../ViciEngine/Attributes.hpp"
+#include <thread>
 
 namespace Scenes {
 	class GameScene : public Scene {

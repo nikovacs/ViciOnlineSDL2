@@ -19,7 +19,7 @@ namespace JS {
 		RmlElementJSWrapper getHoverElement();
 		RmlElementJSWrapper getFocusElement();
 		RmlElementJSWrapper getRootElement();
-		RmlElementJSWrapper getElementAtPoint(int x, int y, RmlElementJSWrapper ignoreElement, RmlElementJSWrapper element);
+		RmlElementJSWrapper getElementAtPoint(float x, float y, RmlElementJSWrapper ignoreElement, RmlElementJSWrapper element);
 		void pullDocumentToFront(RmlDocumentJSWrapper document);
 		void pushDocumentToBack(RmlDocumentJSWrapper document);
 		void unfocusDocument(RmlDocumentJSWrapper document);
