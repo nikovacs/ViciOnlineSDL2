@@ -17,3 +17,4 @@
   * `./vcpkg.exe install enet`  (Used for UDP Networking)
   * `./vcpkg.exe install sdl2`  (Displaying to the screen)
   * `./vcpkg.exe install sdl2-image`
+  * `./vcpkg.exe install nlohmann-json` (C++ JSON objects)
