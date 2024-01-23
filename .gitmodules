@@ -1,0 +1,3 @@
+[submodule "ViciServer/Assets"]
+	path = ViciServer/Assets
+	url = https://github.com/nikovacs/ViciDefaultAssets.git
