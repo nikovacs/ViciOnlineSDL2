@@ -68,6 +68,7 @@ namespace JS {
 	public:
 		RmlDocumentJSWrapper(Rml::ElementDocument* document);
 		virtual ~RmlDocumentJSWrapper();
+		//void processHeader
 		void setTitle(std::string title);
 		std::string getTitle();
 		std::string getSourceURL();
@@ -103,7 +104,7 @@ namespace JS {
 		std::string getClassNames();
 		//RmlStyleSheetJSWrapper getStyleSheet();
 		std::string getAddress(bool includePseudoClasses = false, bool includeParents = true);
-		void setOffset(float x, float y, RmlElementJSWrapper offsetParent, bool offsetFixed = false);
+		void setOffset(std::vector<float> offset, RmlElementJSWrapper offsetParent, bool offsetFixed = false);
 		//std::vector<int> getRelativeOffset(std::string area = "CONTENT");
 		//std::vector<int> getAbsoluteOffset(std::string area = "CONTENT");
 		//void setClientArea(std::string clientArea);
@@ -132,7 +133,7 @@ namespace JS {
 		//RmlFloatJSWrapper getFloat();
 		//RmlDisplayJSWrapper getDisplay();
 		float getLineHeight();
-		bool project(float x, float y);
+		bool project(std::vector<float> point);
 		//bool animate
 		//bool addAnimationKey
 		//IterateLocalProperties

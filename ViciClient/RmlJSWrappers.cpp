@@ -117,7 +117,7 @@ namespace JS {
 	}
 
 	void RmlContextJSWrapper::setDocumentsBaseTag(std::string baseTag) {
-		_ctx.SetDocumentsBaseTag(baseTag.data());
+		_ctx.SetDocumentsBaseTag(baseTag);
 	}
 
 	std::string RmlContextJSWrapper::getDocumentsBaseTag() {
@@ -134,8 +134,9 @@ namespace JS {
 
 	RmlDocumentJSWrapper::~RmlDocumentJSWrapper() {}
 
+
 	void RmlDocumentJSWrapper::setTitle(std::string title) {
-		_document->SetTitle(title.data());
+		_document->SetTitle(title);
 	}
 
 	std::string RmlDocumentJSWrapper::getTitle() {
@@ -187,15 +188,15 @@ namespace JS {
 	RmlElementJSWrapper::~RmlElementJSWrapper() {}
 
 	void RmlElementJSWrapper::setClass(std::string className, bool activate) {
-		_element->SetClass(className.data(), activate);
+		_element->SetClass(className, activate);
 	}
 
 	bool RmlElementJSWrapper::isClassSet(std::string className) {
-		return _element->IsClassSet(className.data());
+		return _element->IsClassSet(className);
 	}
 
 	void RmlElementJSWrapper::setClassNames(std::string classNames) {
-		_element->SetClassNames(classNames.data());
+		_element->SetClassNames(classNames);
 	}
 
 	std::string RmlElementJSWrapper::getClassNames() {
@@ -206,16 +207,17 @@ namespace JS {
 		return _element->GetAddress(includePseudoClasses, includeParents);
 	}
 
-	void RmlElementJSWrapper::setOffset(float x, float y, RmlElementJSWrapper offsetParent, bool offsetFixed) {
-		_element->SetOffset({ x, y }, offsetParent.getUnderlyingElement(), offsetFixed);
+	void RmlElementJSWrapper::setOffset(std::vector<float> offset, RmlElementJSWrapper offsetParent, bool offsetFixed) {
+		Rml::Vector2f offsetVec{ offset[0], offset[1] };
+		_element->SetOffset(offsetVec, offsetParent.getUnderlyingElement(), offsetFixed);
 	}
 
 	/*std::vector<int> RmlElementJSWrapper::getRelativeOffset(std::string area) {
-		return _element->GetRelativeOffset(area.data());
+		return _element->GetRelativeOffset(area);
 	}*/
 
 	/*std::vector<int> RmlElementJSWrapper::getAbsoluteOffset(std::string area) {
-		_element->GetAbsoluteOffset(area.data());
+		_element->GetAbsoluteOffset(area);
 	}*/
 
 	int RmlElementJSWrapper::getNumBoxes() {
@@ -239,15 +241,15 @@ namespace JS {
 	}
 
 	bool RmlElementJSWrapper::setProperty(std::string name, std::string value) {
-		return _element->SetProperty(name.data(), value.data());
+		return _element->SetProperty(name, value);
 	}
 
 	void RmlElementJSWrapper::removeProperty(std::string name) {
-		_element->RemoveProperty(name.data());
+		_element->RemoveProperty(name);
 	}
 
 	float RmlElementJSWrapper::resolveNumericProperty(std::string property) {
-		return _element->ResolveNumericProperty(property.data());
+		return _element->ResolveNumericProperty(property);
 	}
 
 	std::vector<float> RmlElementJSWrapper::getContainingBlock() {
@@ -259,17 +261,17 @@ namespace JS {
 		return _element->GetLineHeight();
 	}
 
-	bool RmlElementJSWrapper::project(float x, float y) {
-		Rml::Vector2f point{ x, y };
-		return _element->Project(point);
+	bool RmlElementJSWrapper::project(std::vector<float> point) {
+		Rml::Vector2f pointVec{ point[0], point[1] };
+		return _element->Project(pointVec);
 	}
 
 	void RmlElementJSWrapper::setPseudoClass(std::string pseudoClass, bool activate) {
-		_element->SetPseudoClass(pseudoClass.data(), activate);
+		_element->SetPseudoClass(pseudoClass, activate);
 	}
 
 	bool RmlElementJSWrapper::isPseudoClassSet(std::string pseudoClass) {
-		return _element->IsPseudoClassSet(pseudoClass.data());
+		return _element->IsPseudoClassSet(pseudoClass);
 	}
 
 	bool RmlElementJSWrapper::arePseudoClassesSet(std::vector<std::string> pseudoClasses) {
