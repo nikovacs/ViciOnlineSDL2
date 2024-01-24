@@ -268,4 +268,6 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 		.function("setDocumentsBaseTag", &JS::RmlContextJSWrapper::setDocumentsBaseTag)
 		.function("getDocumentsBaseTag", &JS::RmlContextJSWrapper::getDocumentsBaseTag)
 		;	
+	// create a global rmlContextClass object for the context
+	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "uiContext"), v8pp::to_v8(_isolate, JS::RmlContextJSWrapper(*Rml::GetContext("GameScene"))));
 }
