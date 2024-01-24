@@ -15,6 +15,7 @@
 #include "NetworkedPlayerJSWrapper.hpp"
 #include "ClientPlayerJSWrapper.hpp"
 #include "ViciClient.hpp"
+#include "RmlJSWrappers.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -232,5 +233,39 @@ void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* 
 }
 
 void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
+	static v8pp::class_<JS::RmlContextJSWrapper> rmlContextClass{ _isolate };
+	static v8pp::class_<JS::RmlDocumentJSWrapper> rmlDocumentClass{ _isolate };
+	static v8pp::class_<JS::RmlElementJSWrapper> rmlElementClass{ _isolate };
 
+	rmlContextClass
+		.auto_wrap_objects(true)
+		.function("setDimensions", &JS::RmlContextJSWrapper::setDimensions)
+		.function("getDimensions", &JS::RmlContextJSWrapper::getDimensions)
+		.function("setDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::setDensityIndependentPixelRatio)
+		.function("getDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::getDensityIndependentPixelRatio)
+		.function("createDocument", &JS::RmlContextJSWrapper::createDocument)
+		.function("loadDocumentFromString", &JS::RmlContextJSWrapper::loadDocumentFromString)
+		.function("unloadDocument", &JS::RmlContextJSWrapper::unloadDocument)
+		.function("unloadAllDocuments", &JS::RmlContextJSWrapper::unloadAllDocuments)
+		.function("enableMouseCursor", &JS::RmlContextJSWrapper::enableMouseCursor)
+		.function("activateTheme", &JS::RmlContextJSWrapper::activateTheme)
+		.function("isThemeActive", &JS::RmlContextJSWrapper::isThemeActive)
+		.function("getDocument", &JS::RmlContextJSWrapper::getDocument)
+		.function("getHoverElement", &JS::RmlContextJSWrapper::getHoverElement)
+		.function("getFocusElement", &JS::RmlContextJSWrapper::getFocusElement)
+		.function("getRootElement", &JS::RmlContextJSWrapper::getRootElement)
+		.function("getElementAtPoint", &JS::RmlContextJSWrapper::getElementAtPoint)
+		.function("pullDocumentToFront", &JS::RmlContextJSWrapper::pullDocumentToFront)
+		.function("pushDocumentToBack", &JS::RmlContextJSWrapper::pushDocumentToBack)
+		.function("unfocusDocument", &JS::RmlContextJSWrapper::unfocusDocument)
+		.function("processTextInput", &JS::RmlContextJSWrapper::processTextInput)
+		.function("processMouseMove", &JS::RmlContextJSWrapper::processMouseMove)
+		.function("processMouseLeave", &JS::RmlContextJSWrapper::processMouseLeave)
+		.function("isMouseInteracting", &JS::RmlContextJSWrapper::isMouseInteracting)
+		.function("getActiveClipRegion", &JS::RmlContextJSWrapper::getActiveClipRegion)
+		.function("setActiveClipRegion", &JS::RmlContextJSWrapper::setActiveClipRegion)
+		.function("removeDataModel", &JS::RmlContextJSWrapper::removeDataModel)
+		.function("setDocumentsBaseTag", &JS::RmlContextJSWrapper::setDocumentsBaseTag)
+		.function("getDocumentsBaseTag", &JS::RmlContextJSWrapper::getDocumentsBaseTag)
+		;	
 }
