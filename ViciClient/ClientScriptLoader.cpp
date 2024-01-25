@@ -106,6 +106,7 @@ void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 	exposeLocalAttrs(ctx);
 	exposeNetworkedPlayerClass(ctx);
 	exposeNetworkPlayerManagerFunctions(ctx);
+	exposeRmlUIFunctions(ctx);
 }
 
 void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {
@@ -235,6 +236,9 @@ void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* 
 }
 
 void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
+	static bool firstTime{ true };
+	if (!firstTime) return;
+
 	static v8pp::class_<JS::RmlContextJSWrapper> rmlContextClass{ _isolate };
 	static v8pp::class_<JS::RmlElementJSWrapper> rmlElementClass{ _isolate };
 	static v8pp::class_<JS::RmlDocumentJSWrapper> rmlDocumentClass{ _isolate };
@@ -307,9 +311,11 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 		.function("reloadStyleSheet", &JS::RmlDocumentJSWrapper::reloadStyleSheet)
 		.function("pullToFront", &JS::RmlDocumentJSWrapper::pullToFront)
 		.function("pushToBack", &JS::RmlDocumentJSWrapper::pushToBack)
+		.function("show", &JS::RmlDocumentJSWrapper::show)
 		.function("hide", &JS::RmlDocumentJSWrapper::hide)
 		.function("close", &JS::RmlDocumentJSWrapper::close)
 		.function("isModal", &JS::RmlDocumentJSWrapper::isModal)
 		;
-		
+
+		firstTime = false;
 }

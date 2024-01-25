@@ -20,6 +20,7 @@ namespace JS {
 		void pullToFront();
 		void pushToBack();
 		//void show(std::string modalFlag = "None", std::string focusFlag = "Auto");
+		void show();
 		void hide();
 		void close();
 		//RmlElementPtrJSWrapper createElement(std::string name);

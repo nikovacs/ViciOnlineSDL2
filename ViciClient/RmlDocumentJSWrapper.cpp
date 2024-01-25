@@ -32,6 +32,10 @@ namespace JS {
 
 	//void RmlDocumentJSWrapper::show(std::string modalFlag, std::string focusFlag) {}
 
+	void RmlDocumentJSWrapper::show() {
+		_document->Show();
+	}
+
 	void RmlDocumentJSWrapper::hide() {
 		_document->Hide();
 	}
