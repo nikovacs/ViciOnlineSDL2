@@ -15,7 +15,9 @@
 #include "NetworkedPlayerJSWrapper.hpp"
 #include "ClientPlayerJSWrapper.hpp"
 #include "ViciClient.hpp"
-#include "RmlJSWrappers.hpp"
+#include "RmlContextJSWrapper.hpp"
+#include "RmlElementJSWrapper.hpp"
+#include "RmlDocumentJSWrapper.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -298,6 +300,7 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 
 	rmlDocumentClass
 		.auto_wrap_objects(true)
+		.inherit<JS::RmlElementJSWrapper>()
 		.function("setTitle", &JS::RmlDocumentJSWrapper::setTitle)
 		.function("getTitle", &JS::RmlDocumentJSWrapper::getTitle)
 		.function("getSourceURL", &JS::RmlDocumentJSWrapper::getSourceURL)

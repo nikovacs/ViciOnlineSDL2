@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Comparators">
       <UniqueIdentifier>{7dca016f-91e7-4d8b-bb0f-91e46a6d6e95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JSRuntime\RmlUI">
+      <UniqueIdentifier>{eb86cc91-006e-44cc-b3b5-39ade4d574fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JSRuntime\RmlUI">
+      <UniqueIdentifier>{2ea21c67-f72d-429e-a67c-bd3711c8ced4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -180,8 +186,14 @@
     <ClCompile Include="AbstractPlayerJSWrapper.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
-    <ClCompile Include="RmlJSWrappers.cpp">
-      <Filter>Source Files\JSRuntime</Filter>
+    <ClCompile Include="RmlContextJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RmlElementJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RmlDocumentJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,8 +302,14 @@
     <ClInclude Include="AbstractPlayerJSWrapper.hpp">
       <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
-    <ClInclude Include="RmlJSWrappers.hpp">
-      <Filter>Header Files\JSRuntime</Filter>
+    <ClInclude Include="RmlDocumentJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlContextJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlElementJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
