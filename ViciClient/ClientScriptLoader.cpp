@@ -236,86 +236,88 @@ void JS::ClientScriptLoader::exposeNetworkPlayerManagerFunctions(v8pp::context* 
 }
 
 void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
-	static bool firstTime{ true };
-	if (!firstTime) return;
-
 	static v8pp::class_<JS::RmlContextJSWrapper> rmlContextClass{ _isolate };
 	static v8pp::class_<JS::RmlElementJSWrapper> rmlElementClass{ _isolate };
 	static v8pp::class_<JS::RmlDocumentJSWrapper> rmlDocumentClass{ _isolate };
 
-	rmlContextClass
-		.auto_wrap_objects(true)
-		.function("setDimensions", &JS::RmlContextJSWrapper::setDimensions)
-		.function("getDimensions", &JS::RmlContextJSWrapper::getDimensions)
-		.function("setDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::setDensityIndependentPixelRatio)
-		.function("getDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::getDensityIndependentPixelRatio)
-		.function("createDocument", &JS::RmlContextJSWrapper::createDocument)
-		.function("loadDocumentFromString", &JS::RmlContextJSWrapper::loadDocumentFromString)
-		.function("unloadDocument", &JS::RmlContextJSWrapper::unloadDocument)
-		.function("unloadAllDocuments", &JS::RmlContextJSWrapper::unloadAllDocuments)
-		.function("enableMouseCursor", &JS::RmlContextJSWrapper::enableMouseCursor)
-		.function("activateTheme", &JS::RmlContextJSWrapper::activateTheme)
-		.function("isThemeActive", &JS::RmlContextJSWrapper::isThemeActive)
-		.function("getDocument", &JS::RmlContextJSWrapper::getDocument)
-		.function("getHoverElement", &JS::RmlContextJSWrapper::getHoverElement)
-		.function("getFocusElement", &JS::RmlContextJSWrapper::getFocusElement)
-		.function("getRootElement", &JS::RmlContextJSWrapper::getRootElement)
-		.function("getElementAtPoint", &JS::RmlContextJSWrapper::getElementAtPoint)
-		.function("pullDocumentToFront", &JS::RmlContextJSWrapper::pullDocumentToFront)
-		.function("pushDocumentToBack", &JS::RmlContextJSWrapper::pushDocumentToBack)
-		.function("unfocusDocument", &JS::RmlContextJSWrapper::unfocusDocument)
-		.function("processTextInput", &JS::RmlContextJSWrapper::processTextInput)
-		.function("processMouseMove", &JS::RmlContextJSWrapper::processMouseMove)
-		.function("processMouseLeave", &JS::RmlContextJSWrapper::processMouseLeave)
-		.function("isMouseInteracting", &JS::RmlContextJSWrapper::isMouseInteracting)
-		.function("getActiveClipRegion", &JS::RmlContextJSWrapper::getActiveClipRegion)
-		.function("setActiveClipRegion", &JS::RmlContextJSWrapper::setActiveClipRegion)
-		.function("removeDataModel", &JS::RmlContextJSWrapper::removeDataModel)
-		.function("setDocumentsBaseTag", &JS::RmlContextJSWrapper::setDocumentsBaseTag)
-		.function("getDocumentsBaseTag", &JS::RmlContextJSWrapper::getDocumentsBaseTag)
-		;	
-	// create a global rmlContextClass object for the context
-	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "uiContext"), v8pp::to_v8(_isolate, JS::RmlContextJSWrapper(*Rml::GetContext("GameScene"))));
+	static bool firstTime{ true };
+	if (firstTime) {
 
-	rmlElementClass
-		.auto_wrap_objects(true)
-		.function("setClass", &JS::RmlElementJSWrapper::setClass)
-		.function("isClassSet", &JS::RmlElementJSWrapper::isClassSet)
-		.function("setClassNames", &JS::RmlElementJSWrapper::setClassNames)
-		.function("getClassNames", &JS::RmlElementJSWrapper::getClassNames)
-		.function("getAddress", &JS::RmlElementJSWrapper::getAddress)
-		.function("setOffset", &JS::RmlElementJSWrapper::setOffset)
-		.function("getNumBoxes", &JS::RmlElementJSWrapper::getNumBoxes)
-		.function("getBaseline", &JS::RmlElementJSWrapper::getBaseline)
-		.function("isPointWithinElement", &JS::RmlElementJSWrapper::isPointWithinElement)
-		.function("isVisible", &JS::RmlElementJSWrapper::isVisible)
-		.function("getZIndex", &JS::RmlElementJSWrapper::getZIndex)
-		.function("setProperty", &JS::RmlElementJSWrapper::setProperty)
-		.function("removeProperty", &JS::RmlElementJSWrapper::removeProperty)
-		.function("resolveNumericProperty", &JS::RmlElementJSWrapper::resolveNumericProperty)
-		.function("getContainingBlock", &JS::RmlElementJSWrapper::getContainingBlock)
-		.function("getLineHeight", &JS::RmlElementJSWrapper::getLineHeight)
-		.function("project", &JS::RmlElementJSWrapper::project)
-		.function("setPseudoClass", &JS::RmlElementJSWrapper::setPseudoClass)
-		.function("isPseudoClassSet", &JS::RmlElementJSWrapper::isPseudoClassSet)
-		.function("arePseudoClassesSet", &JS::RmlElementJSWrapper::arePseudoClassesSet)
-		.function("getActivePseudoClasses", &JS::RmlElementJSWrapper::getActivePseudoClasses)
-		;
+		rmlContextClass
+			.auto_wrap_objects(true)
+			.function("setDimensions", &JS::RmlContextJSWrapper::setDimensions)
+			.function("getDimensions", &JS::RmlContextJSWrapper::getDimensions)
+			.function("setDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::setDensityIndependentPixelRatio)
+			.function("getDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::getDensityIndependentPixelRatio)
+			.function("createDocument", &JS::RmlContextJSWrapper::createDocument)
+			.function("loadDocumentFromString", &JS::RmlContextJSWrapper::loadDocumentFromString)
+			.function("unloadDocument", &JS::RmlContextJSWrapper::unloadDocument)
+			.function("unloadAllDocuments", &JS::RmlContextJSWrapper::unloadAllDocuments)
+			.function("enableMouseCursor", &JS::RmlContextJSWrapper::enableMouseCursor)
+			.function("activateTheme", &JS::RmlContextJSWrapper::activateTheme)
+			.function("isThemeActive", &JS::RmlContextJSWrapper::isThemeActive)
+			.function("getDocument", &JS::RmlContextJSWrapper::getDocument)
+			.function("getHoverElement", &JS::RmlContextJSWrapper::getHoverElement)
+			.function("getFocusElement", &JS::RmlContextJSWrapper::getFocusElement)
+			.function("getRootElement", &JS::RmlContextJSWrapper::getRootElement)
+			.function("getElementAtPoint", &JS::RmlContextJSWrapper::getElementAtPoint)
+			.function("pullDocumentToFront", &JS::RmlContextJSWrapper::pullDocumentToFront)
+			.function("pushDocumentToBack", &JS::RmlContextJSWrapper::pushDocumentToBack)
+			.function("unfocusDocument", &JS::RmlContextJSWrapper::unfocusDocument)
+			.function("processTextInput", &JS::RmlContextJSWrapper::processTextInput)
+			.function("processMouseMove", &JS::RmlContextJSWrapper::processMouseMove)
+			.function("processMouseLeave", &JS::RmlContextJSWrapper::processMouseLeave)
+			.function("isMouseInteracting", &JS::RmlContextJSWrapper::isMouseInteracting)
+			.function("getActiveClipRegion", &JS::RmlContextJSWrapper::getActiveClipRegion)
+			.function("setActiveClipRegion", &JS::RmlContextJSWrapper::setActiveClipRegion)
+			.function("removeDataModel", &JS::RmlContextJSWrapper::removeDataModel)
+			.function("setDocumentsBaseTag", &JS::RmlContextJSWrapper::setDocumentsBaseTag)
+			.function("getDocumentsBaseTag", &JS::RmlContextJSWrapper::getDocumentsBaseTag)
+			;
 
-	rmlDocumentClass
-		.auto_wrap_objects(true)
-		.inherit<JS::RmlElementJSWrapper>()
-		.function("setTitle", &JS::RmlDocumentJSWrapper::setTitle)
-		.function("getTitle", &JS::RmlDocumentJSWrapper::getTitle)
-		.function("getSourceURL", &JS::RmlDocumentJSWrapper::getSourceURL)
-		.function("reloadStyleSheet", &JS::RmlDocumentJSWrapper::reloadStyleSheet)
-		.function("pullToFront", &JS::RmlDocumentJSWrapper::pullToFront)
-		.function("pushToBack", &JS::RmlDocumentJSWrapper::pushToBack)
-		.function("show", &JS::RmlDocumentJSWrapper::show)
-		.function("hide", &JS::RmlDocumentJSWrapper::hide)
-		.function("close", &JS::RmlDocumentJSWrapper::close)
-		.function("isModal", &JS::RmlDocumentJSWrapper::isModal)
-		;
+		rmlElementClass
+			.auto_wrap_objects(true)
+			.function("setClass", &JS::RmlElementJSWrapper::setClass)
+			.function("isClassSet", &JS::RmlElementJSWrapper::isClassSet)
+			.function("setClassNames", &JS::RmlElementJSWrapper::setClassNames)
+			.function("getClassNames", &JS::RmlElementJSWrapper::getClassNames)
+			.function("getAddress", &JS::RmlElementJSWrapper::getAddress)
+			.function("setOffset", &JS::RmlElementJSWrapper::setOffset)
+			.function("getNumBoxes", &JS::RmlElementJSWrapper::getNumBoxes)
+			.function("getBaseline", &JS::RmlElementJSWrapper::getBaseline)
+			.function("isPointWithinElement", &JS::RmlElementJSWrapper::isPointWithinElement)
+			.function("isVisible", &JS::RmlElementJSWrapper::isVisible)
+			.function("getZIndex", &JS::RmlElementJSWrapper::getZIndex)
+			.function("setProperty", &JS::RmlElementJSWrapper::setProperty)
+			.function("removeProperty", &JS::RmlElementJSWrapper::removeProperty)
+			.function("resolveNumericProperty", &JS::RmlElementJSWrapper::resolveNumericProperty)
+			.function("getContainingBlock", &JS::RmlElementJSWrapper::getContainingBlock)
+			.function("getLineHeight", &JS::RmlElementJSWrapper::getLineHeight)
+			.function("project", &JS::RmlElementJSWrapper::project)
+			.function("setPseudoClass", &JS::RmlElementJSWrapper::setPseudoClass)
+			.function("isPseudoClassSet", &JS::RmlElementJSWrapper::isPseudoClassSet)
+			.function("arePseudoClassesSet", &JS::RmlElementJSWrapper::arePseudoClassesSet)
+			.function("getActivePseudoClasses", &JS::RmlElementJSWrapper::getActivePseudoClasses)
+			;
+
+		rmlDocumentClass
+			.auto_wrap_objects(true)
+			.inherit<JS::RmlElementJSWrapper>()
+			.function("setTitle", &JS::RmlDocumentJSWrapper::setTitle)
+			.function("getTitle", &JS::RmlDocumentJSWrapper::getTitle)
+			.function("getSourceURL", &JS::RmlDocumentJSWrapper::getSourceURL)
+			.function("reloadStyleSheet", &JS::RmlDocumentJSWrapper::reloadStyleSheet)
+			.function("pullToFront", &JS::RmlDocumentJSWrapper::pullToFront)
+			.function("pushToBack", &JS::RmlDocumentJSWrapper::pushToBack)
+			.function("show", &JS::RmlDocumentJSWrapper::show)
+			.function("hide", &JS::RmlDocumentJSWrapper::hide)
+			.function("close", &JS::RmlDocumentJSWrapper::close)
+			.function("isModal", &JS::RmlDocumentJSWrapper::isModal)
+			;
 
 		firstTime = false;
+	}
+
+	// create a global rmlContextClass object for the context
+	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "uiContext"), v8pp::to_v8(_isolate, JS::RmlContextJSWrapper(*Rml::GetContext("GameScene"))));
 }
