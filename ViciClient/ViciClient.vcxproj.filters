@@ -195,6 +195,15 @@
     <ClCompile Include="RmlDocumentJSWrapper.cpp">
       <Filter>Source Files\JSRuntime\RmlUI</Filter>
     </ClCompile>
+    <ClCompile Include="ViciJSEventListenerHandler.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ViciJSEventListenerHandler.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RmlEventJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -309,6 +318,9 @@
       <Filter>Header Files\JSRuntime\RmlUI</Filter>
     </ClInclude>
     <ClInclude Include="RmlElementJSWrapper.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlEventJSWrapper.hpp">
       <Filter>Header Files\JSRuntime\RmlUI</Filter>
     </ClInclude>
   </ItemGroup>

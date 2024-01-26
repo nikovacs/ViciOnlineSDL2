@@ -192,6 +192,7 @@
     <ClCompile Include="RmlContextJSWrapper.cpp" />
     <ClCompile Include="RmlDocumentJSWrapper.cpp" />
     <ClCompile Include="RmlElementJSWrapper.cpp" />
+    <ClCompile Include="RmlEventJSWrapper.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -214,6 +215,8 @@
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ViciGuiHost.cpp" />
+    <ClCompile Include="ViciJSEventListenerHandler.cpp" />
+    <ClCompile Include="ViciJSEventListenerHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPlayerJSWrapper.hpp" />
@@ -225,6 +228,7 @@
     <ClInclude Include="RmlContextJSWrapper.hpp" />
     <ClInclude Include="RmlDocumentJSWrapper.hpp" />
     <ClInclude Include="RmlElementJSWrapper.hpp" />
+    <ClInclude Include="RmlEventJSWrapper.hpp" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />

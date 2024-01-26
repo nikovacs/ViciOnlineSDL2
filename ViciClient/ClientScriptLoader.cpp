@@ -18,6 +18,7 @@
 #include "RmlContextJSWrapper.hpp"
 #include "RmlElementJSWrapper.hpp"
 #include "RmlDocumentJSWrapper.hpp"
+#include "RmlEventJSWrapper.hpp"
 
 JS::ClientScriptLoader::ClientScriptLoader() {}
 
@@ -239,6 +240,7 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 	static v8pp::class_<JS::RmlContextJSWrapper> rmlContextClass{ _isolate };
 	static v8pp::class_<JS::RmlElementJSWrapper> rmlElementClass{ _isolate };
 	static v8pp::class_<JS::RmlDocumentJSWrapper> rmlDocumentClass{ _isolate };
+	static v8pp::class_<JS::RmlEventJSWrapper> rmlEventClass{ _isolate };
 
 	static bool firstTime{ true };
 	if (firstTime) {
@@ -313,6 +315,20 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 			.function("hide", &JS::RmlDocumentJSWrapper::hide)
 			.function("close", &JS::RmlDocumentJSWrapper::close)
 			.function("isModal", &JS::RmlDocumentJSWrapper::isModal)
+			;
+
+		rmlEventClass
+			.auto_wrap_objects(true)
+			.function("setCurrentElement", &JS::RmlEventJSWrapper::setCurrentElement)
+			.function("getCurrentElement", &JS::RmlEventJSWrapper::getCurrentElement)
+			.function("getTargetElement", &JS::RmlEventJSWrapper::getTargetElement)
+			.function("getType", &JS::RmlEventJSWrapper::getType)
+			.function("stopPropagation", &JS::RmlEventJSWrapper::stopPropagation)
+			.function("stopImmediatePropagation", &JS::RmlEventJSWrapper::stopImmediatePropagation)
+			.function("isInterruptible", &JS::RmlEventJSWrapper::isInterruptible)
+			.function("isPropagating", &JS::RmlEventJSWrapper::isPropagating)
+			.function("isImmediatePropagating", &JS::RmlEventJSWrapper::isImmediatePropagating)
+			.function("getUnprojectedMouseScreenPos", &JS::RmlEventJSWrapper::getUnprojectedMouseScreenPos)
 			;
 
 		firstTime = false;
