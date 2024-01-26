@@ -2,8 +2,6 @@
 
 namespace JS {
 	RmlEventJSWrapper::RmlEventJSWrapper(Rml::Event& event) : _ev(event) {}
-	
-	RmlEventJSWrapper::~RmlEventJSWrapper() {}
 
 	void RmlEventJSWrapper::setCurrentElement(RmlElementJSWrapper el) {
 		_ev.SetCurrentElement(el.getUnderlyingElement());

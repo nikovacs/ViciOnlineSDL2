@@ -8,7 +8,6 @@ namespace JS {
 	class RmlEventJSWrapper {
 	public:
 		RmlEventJSWrapper(Rml::Event& ev);
-		virtual ~RmlEventJSWrapper();
 		//RmlEventPhaseJSWrapper getPhase();
 		//void setPhase
 		void setCurrentElement(RmlElementJSWrapper el);

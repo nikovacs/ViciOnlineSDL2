@@ -3,6 +3,8 @@
 #include <RmlUi/Core.h>
 #include <string>
 #include <unordered_map>
+#include <v8.h>
+//#include "RmlDocumentJSWrapper.hpp"
 
 namespace JS {
 	class RmlElementJSWrapper {
@@ -52,7 +54,67 @@ namespace JS {
 		bool isPseudoClassSet(std::string pseudoClass);
 		bool arePseudoClassesSet(std::vector<std::string> pseudoClasses);
 		std::vector<std::string> getActivePseudoClasses();
-		// not even half way, come back to this when we need it
+		void setAttribute(std::string name, std::string value); // do we need other overloads?
+		//std::string getAttribute(std::string name); // all 3 overloads
+		bool hasAttribute(std::string name);
+		void removeAttribute(std::string name);
+		//getAttributes;
+		int getNumAttributes();
+		RmlElementJSWrapper getFocusLeafNode();
+		//RmlContextJSWrapper getContext(); // planning on only have one context, so should not need this
+		std::string getTagName();
+		std::string getId();
+		void setId(std::string id);
+		float getAbsoluteLeft();
+		float getAbsoluteTop();
+		float getClientLeft();
+		float getClientTop();
+		float getClientWidth();
+		float getClientHeight();
+		RmlElementJSWrapper getOffsetParent();
+		float getOffsetLeft();
+		float getOffsetTop();
+		float getOffsetWidth();
+		float getOffsetHeight();
+		float getScrollLeft();
+		void setScrollLeft(float scrollLeft);
+		float getScrollTop();
+		void setScrollTop(float scrollTop);
+		float getScrollWidth();
+		float getScrollHeight();
+		//RmlElementStyleJSWrapper getStyle
+		//RmlDocumentJSWrapper getOwnerDocument();
+		RmlElementJSWrapper getParentNode();
+		RmlElementJSWrapper closest(std::string selector);
+		RmlElementJSWrapper getNextSibling();
+		RmlElementJSWrapper getPreviousSibling();
+		RmlElementJSWrapper getFirstChild();
+		RmlElementJSWrapper getLastChild();
+		RmlElementJSWrapper getChild(int index);
+		int getNumChildren(bool includeNonDomElements = false);
+		std::string getInnerRML();
+		void setInnerRML(std::string rml);
+		bool focus();
+		void blur();
+		void click();
+		// Not including overload for addEventListener
+		void addEventListener(std::string eventType, v8::Local<v8::Function> func, bool inCapturePhase = false);
+		// Not includiong overload for removeEventListener
+		void removeEventListener(std::string eventType, v8::Local<v8::Function> func, bool inCapturePhase = false);
+		//bool dispatchEvent(std::string eventType, const Dictionary& params, bool interruptible, bool bubbles = true) // relies on variant
+		// void scrollIntoView(scrollIntoViewOptions opts)
+		void scrollIntoView(bool alignWithTop = true);
+		//void scrollTo(std::vector<float>, scrollbehavior)
+		//RmlElementJSWrapper appendChild // relies on ElementPtr
+		// RmlElementJSWrapper insertBefore // relies on ElementPtr
+		// ElementPtr replaceChild // relies on ElementPtr
+		// ElementPtr removeChild // relies on ElementPtr
+		bool hasChildNodes();
+		RmlElementJSWrapper getElementById(std::string id);
+		std::vector<RmlElementJSWrapper> getElementsByTagName(std::string tagName);
+		std::vector<RmlElementJSWrapper> getElementsByClassName(std::string className);
+		RmlElementJSWrapper querySelector(std::string selector);
+		std::vector<RmlElementJSWrapper> querySelectorAll(std::string selector);
 
 		// for internal use only
 		bool isValid();
