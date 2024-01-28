@@ -216,7 +216,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ViciGuiHost.cpp" />
     <ClCompile Include="ViciJSEventListenerHandler.cpp" />
-    <ClCompile Include="ViciJSEventListenerHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPlayerJSWrapper.hpp" />
@@ -258,6 +257,7 @@
     <ClInclude Include="UdpClient.hpp" />
     <ClInclude Include="ViciClient.hpp" />
     <ClInclude Include="ViciGuiHost.hpp" />
+    <ClInclude Include="ViciJSEventListenerHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
