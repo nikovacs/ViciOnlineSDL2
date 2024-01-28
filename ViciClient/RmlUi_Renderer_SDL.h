@@ -31,6 +31,11 @@
 
 #include <RmlUi/Core/RenderInterface.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "NetworkAsset.hpp"
+#include <unordered_map>
+#include <memory>
+#include "Texture.hpp"
 namespace Rml {
 	class RenderInterface_SDL : public Rml::RenderInterface {
 	public:
@@ -56,6 +61,8 @@ namespace Rml {
 		SDL_Renderer* renderer;
 		SDL_Rect rect_scissor = {};
 		bool scissor_region_enabled = false;
+		std::unordered_map<std::string, std::unique_ptr<Networking::NetworkAsset<AssetTypes::Texture>>> _textures{};
+		std::unordered_map<SDL_Texture*, std::string> _textureNames{};
 	};
 }
 #endif

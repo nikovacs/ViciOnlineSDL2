@@ -32,7 +32,6 @@
 #include <RmlUi/Core/Types.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
 #include <iostream>
 
 namespace Rml {
@@ -90,44 +89,25 @@ namespace Rml {
 
 	bool RenderInterface_SDL::LoadTexture(Rml::TextureHandle& texture_handle, Rml::Vector2i& texture_dimensions, const Rml::String& source)
 	{
-		std::cout << "loading rml texture\n";
-		Rml::FileInterface* file_interface = Rml::GetFileInterface();
-		Rml::FileHandle file_handle = file_interface->Open(source);
-		if (!file_handle)
-			return false;
-
-		file_interface->Seek(file_handle, 0, SEEK_END);
-		size_t buffer_size = file_interface->Tell(file_handle);
-		file_interface->Seek(file_handle, 0, SEEK_SET);
-
-		char* buffer = new char[buffer_size];
-		file_interface->Read(buffer, buffer_size, file_handle);
-		file_interface->Close(file_handle);
-
-		const size_t i = source.rfind('.');
-		Rml::String extension = (i == Rml::String::npos ? Rml::String() : source.substr(i + 1));
-
-		SDL_Surface* surface = IMG_LoadTyped_RW(SDL_RWFromMem(buffer, int(buffer_size)), 1, extension.c_str());
-
-		bool success = false;
-
-		if (surface)
-		{
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-			if (texture)
-			{
-				texture_handle = (Rml::TextureHandle)texture;
-				texture_dimensions = Rml::Vector2i(surface->w, surface->h);
-				success = true;
-			}
-
-			SDL_FreeSurface(surface);
+		if (!_textures.contains(source)) {
+			_textures.insert({ source, std::make_unique<Networking::NetworkAsset<AssetTypes::Texture>>(source) });
 		}
 
-		delete[] buffer;
+		Networking::NetworkAsset<AssetTypes::Texture>* texAsset = _textures[source].get();
+		if (texAsset->getValue() == nullptr) {
+			return false;
+		}
 
-		return success;
+		SDL_Texture* underlyingTex{ texAsset->getValue()->getUnderlyingTexture() };
+		texture_handle = (Rml::TextureHandle)underlyingTex;
+
+		_textureNames[underlyingTex] = source;
+
+		int w, h;
+		SDL_QueryTexture(underlyingTex, nullptr, nullptr, &w, &h);
+		texture_dimensions = { w, h };
+
+		return true;
 	}
 
 	bool RenderInterface_SDL::GenerateTexture(Rml::TextureHandle& texture_handle, const Rml::byte* source, const Rml::Vector2i& source_dimensions)
@@ -155,6 +135,9 @@ namespace Rml {
 
 	void RenderInterface_SDL::ReleaseTexture(Rml::TextureHandle texture_handle)
 	{
-		SDL_DestroyTexture((SDL_Texture*)texture_handle);
+		SDL_Texture* tex = (SDL_Texture*)texture_handle;
+		std::string& texName { _textureNames[tex] };
+		_textures.erase(texName);
+		_textureNames.erase(tex);
 	}
 }
