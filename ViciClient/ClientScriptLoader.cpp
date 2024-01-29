@@ -324,7 +324,7 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 			.function("setScrollTop", &JS::RmlElementJSWrapper::setScrollTop)
 			.function("getScrollWidth", &JS::RmlElementJSWrapper::getScrollWidth)
 			.function("getScrollHeight", &JS::RmlElementJSWrapper::getScrollHeight)
-			//.function("getOwnerDocument", &JS::RmlElementJSWrapper::getOwnerDocument)
+			.function("getOwnerDocument", &JS::RmlElementJSWrapper::getOwnerDocument)
 			.function("getParentNode", &JS::RmlElementJSWrapper::getParentNode)
 			.function("closest", &JS::RmlElementJSWrapper::closest)
 			.function("getNextSibling", &JS::RmlElementJSWrapper::getNextSibling)

@@ -1,5 +1,6 @@
 #include "ViciJSEventListenerHandler.hpp"
 #include "RmlElementJSWrapper.hpp"
+#include "RmlDocumentJSWrapper.hpp"
 #include <string>
 #include <vector>
 #include <RmlUi/Core.h>
@@ -221,9 +222,9 @@ namespace JS {
 		return _element->GetScrollHeight();
 	}
 
-	/*RmlDocumentJSWrapper RmlElementJSWrapper::getOwnerDocument() {
+	RmlDocumentJSWrapper RmlElementJSWrapper::getOwnerDocument() {
 		return RmlDocumentJSWrapper{ _element->GetOwnerDocument() };
-	}*/
+	}
 
 	RmlElementJSWrapper RmlElementJSWrapper::getParentNode() {
 		return RmlElementJSWrapper{ _element->GetParentNode() };

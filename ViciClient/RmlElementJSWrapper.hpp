@@ -4,9 +4,9 @@
 #include <string>
 #include <unordered_map>
 #include <v8.h>
-//#include "RmlDocumentJSWrapper.hpp"
 
 namespace JS {
+	class RmlDocumentJSWrapper; // get around circular include
 	class RmlElementJSWrapper {
 	public:
 		RmlElementJSWrapper(Rml::Element* element);
@@ -83,7 +83,7 @@ namespace JS {
 		float getScrollWidth();
 		float getScrollHeight();
 		//RmlElementStyleJSWrapper getStyle
-		//RmlDocumentJSWrapper getOwnerDocument();
+		RmlDocumentJSWrapper getOwnerDocument();
 		RmlElementJSWrapper getParentNode();
 		RmlElementJSWrapper closest(std::string selector);
 		RmlElementJSWrapper getNextSibling();
