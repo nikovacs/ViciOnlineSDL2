@@ -7,6 +7,7 @@
 #include "SingleLevel.hpp"
 #include "Camera.hpp"
 #include "ClientPlayerManager.hpp"
+#include "RmlUi/Debugger.h"
 
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
@@ -14,6 +15,11 @@ namespace Scenes {
 	GameScene::GameScene(std::string_view sceneName, std::string_view serverUrl, int serverPort) : Scene{ sceneName }, _udpClient{ serverUrl, serverPort }, _scriptLoader{} {
 		_networkThread = std::make_unique<std::thread>(&Networking::UdpClient::start, &_udpClient);
 		instance = this;
+
+		Rml::Context* rmlContext = &getContext();
+		Rml::Debugger::Initialise(rmlContext);
+		Rml::Debugger::SetContext(rmlContext);
+		Rml::Debugger::SetVisible(true);
 	}
 
 	GameScene::~GameScene() {

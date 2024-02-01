@@ -4,9 +4,7 @@
 #include "RmlUi_Platform_SDL.h"
 
 namespace Scenes {
-	Scene::Scene(std::string_view name) : _rmlContext { GUI::ViciGuiHost::getContext(name) } {
-		Rml::Debugger::Initialise(&_rmlContext);
-	}
+	Scene::Scene(std::string_view name) : _rmlContext { GUI::ViciGuiHost::getContext(name) } {}
 
 	Scene::~Scene(){
 		GUI::ViciGuiHost::destroyContext(_rmlContext.GetName());
