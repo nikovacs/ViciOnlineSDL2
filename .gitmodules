@@ -1,3 +1,6 @@
 [submodule "ViciServer/Assets"]
 	path = ViciServer/Assets
 	url = https://github.com/nikovacs/ViciDefaultAssets.git
+[submodule "RmlUi"]
+	path = RmlUi
+	url = https://github.com/nikovacs/RmlUi.git
