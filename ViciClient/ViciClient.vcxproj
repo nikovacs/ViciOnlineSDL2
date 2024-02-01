@@ -212,6 +212,7 @@
     <ClCompile Include="SingleLevel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UdpClient.cpp" />
+    <ClCompile Include="ViciAsyncDocumentLoader.cpp" />
     <ClCompile Include="ViciClient.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ViciGuiHost.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="TimeManager.hpp" />
     <ClInclude Include="UdpChannelMap.hpp" />
     <ClInclude Include="UdpClient.hpp" />
+    <ClInclude Include="ViciAsyncDocumentLoader.hpp" />
     <ClInclude Include="ViciClient.hpp" />
     <ClInclude Include="ViciGuiHost.hpp" />
     <ClInclude Include="ViciJSEventListenerHandler.hpp" />

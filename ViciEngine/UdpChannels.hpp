@@ -6,6 +6,7 @@ namespace Networking {
 		Animation,
 		Level,
 		Script,
+		String,
 
 		handshake,
 		initialPlayerData,

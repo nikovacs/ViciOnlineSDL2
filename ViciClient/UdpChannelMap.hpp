@@ -6,6 +6,7 @@
 #include "../ViciEngine/Script.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
 #include "Level.hpp"
+#include <string>
 
 namespace Networking {
 	class UdpTypeChannelMap {
@@ -15,13 +16,15 @@ namespace Networking {
 			{ std::type_index(typeid(JS::Script)), Script },
 			{ std::type_index(typeid(Animations::Animation)), Animation },
 			{ std::type_index(typeid(Levels::Level)), Level },
+			{ std::type_index(typeid(std::string)), String }
 			
 		};
 		static inline const std::map<int, std::string> _numberToNameMap{
 			{ Texture, "Texture" },
 			{ Script, "Script" },
 			{ Animation, "Animation" },
-			{ Level, "Level"}
+			{ Level, "Level" },
+			{ String, "String" }
 		};
 	public:
 		template <typename T>
