@@ -9,6 +9,7 @@
 #include <nlohmann/json.hpp>
 #include "LoginScene.hpp"
 #include "ViciClient.hpp"
+#include "ViciAsyncDocumentLoader.hpp"
 
 using namespace std::string_view_literals;
 
@@ -50,6 +51,7 @@ namespace Scenes {
 	}
 
 	void SceneManager::update() {
+		JS::ViciAsyncDocumentLoader::attemptResolve();
 		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		if (_currentScene)
 			_currentScene->update();
