@@ -81,6 +81,7 @@ namespace Levels {
 			
 			for (int j{ _focusLevel.second - _renderDistance }; j <= _focusLevel.second + _renderDistance; j++) {
 				if (j < 0 || j >= _mapDimensions.second) continue;
+				if (!_levelNameAssetMap.contains(_mapLevels[j][i])) continue;
 				if (!_levelNameAssetMap[_mapLevels[j][i]]->getValue()) continue;
 				int yOffset{ _levelDimensions.first * _tileSize * j };
 
