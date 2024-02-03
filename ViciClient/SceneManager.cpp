@@ -51,10 +51,10 @@ namespace Scenes {
 	}
 
 	void SceneManager::update() {
-		JS::ViciAsyncDocumentLoader::attemptResolve();
 		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		if (_currentScene)
 			_currentScene->update();
+		JS::ViciAsyncDocumentLoader::attemptResolve();
 	}
 
 	void SceneManager::render(SDL_Renderer* renderer) {
