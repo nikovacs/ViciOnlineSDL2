@@ -52,12 +52,14 @@ namespace JS {
 
 			try {
 				Rml::ElementDocument* doc{ Rml::GetContext("GameScene")->LoadDocument(fileName)};
+				_isolate->Enter();
 				if (doc) {
 					resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
 				}
 				else {
 					resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
 				}
+				_isolate->Exit();
 				toRemove.push_back(i);
 			}
 			catch (const std::string& e) {
