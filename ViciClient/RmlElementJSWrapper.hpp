@@ -40,7 +40,7 @@ namespace JS {
 		//RmlPropertyJSWrapper getLocalProperty(std::string name);
 		//RmlPropertyJSWrapper getLocalProperty(RmlPropertyIdJSWrapper id);
 		//float resolveNumericProperty(RmlPropertyJSWrapper property, float baseValue);
-		float resolveNumericProperty(std::string property);
+		//float resolveNumericValue(std::string property);
 		std::vector<float> getContainingBlock();
 		//RmlPositionJSWrapper getPosition();
 		//RmlFloatJSWrapper getFloat();

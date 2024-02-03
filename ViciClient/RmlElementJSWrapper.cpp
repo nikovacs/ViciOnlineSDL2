@@ -88,9 +88,9 @@ namespace JS {
 		_element->RemoveProperty(name);
 	}
 
-	float RmlElementJSWrapper::resolveNumericProperty(std::string property) {
-		return _element->ResolveNumericProperty(property);
-	}
+	/*float RmlElementJSWrapper::resolveNumericProperty(std::string property) {
+		return _element->ResolveNumericValue();
+	}*/
 
 	std::vector<float> RmlElementJSWrapper::getContainingBlock() {
 		Rml::Vector2f block{ _element->GetContainingBlock() };

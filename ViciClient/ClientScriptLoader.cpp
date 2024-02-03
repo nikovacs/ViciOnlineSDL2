@@ -291,7 +291,7 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 			.function("getZIndex", &JS::RmlElementJSWrapper::getZIndex)
 			.function("setProperty", &JS::RmlElementJSWrapper::setProperty)
 			.function("removeProperty", &JS::RmlElementJSWrapper::removeProperty)
-			.function("resolveNumericProperty", &JS::RmlElementJSWrapper::resolveNumericProperty)
+			//.function("resolveNumericProperty", &JS::RmlElementJSWrapper::resolveNumericProperty)
 			.function("getContainingBlock", &JS::RmlElementJSWrapper::getContainingBlock)
 			.function("getLineHeight", &JS::RmlElementJSWrapper::getLineHeight)
 			.function("project", &JS::RmlElementJSWrapper::project)
