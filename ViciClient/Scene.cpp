@@ -4,10 +4,10 @@
 #include "RmlUi_Platform_SDL.h"
 
 namespace Scenes {
-	Scene::Scene(std::string_view name) : _rmlContext { GUI::ViciGuiHost::getContext(name) } {}
+	Scene::Scene(std::string_view name) : _contextName{ name }, _rmlContext { GUI::ViciGuiHost::getContext(name) } {}
 
 	Scene::~Scene(){
-		GUI::ViciGuiHost::destroyContext(_rmlContext.GetName());
+		GUI::ViciGuiHost::destroyContext(_contextName);
 	}
 
 	void Scene::update() {

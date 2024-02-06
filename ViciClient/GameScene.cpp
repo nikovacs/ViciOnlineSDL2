@@ -8,6 +8,7 @@
 #include "Camera.hpp"
 #include "ClientPlayerManager.hpp"
 #include "RmlUi/Debugger.h"
+#include "ViciJSEventListenerHandler.hpp"
 
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
@@ -25,6 +26,8 @@ namespace Scenes {
 	GameScene::~GameScene() {
 		_udpClient.stop();
 		_networkThread->join();
+		GUI::ViciGuiHost::destroyContext("GameScene");
+		JS::ViciJSEventListenerHandler::deinitialize();
 	}
 
 	void GameScene::update() {

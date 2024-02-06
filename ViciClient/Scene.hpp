@@ -2,6 +2,7 @@
 #include <string_view>
 #include <SDL2/SDL.h>
 #include <RmlUi/Core.h>
+#include <string>
 
 namespace Scenes {
 	class Scene {
@@ -15,5 +16,6 @@ namespace Scenes {
 		Rml::Context& getContext();
 	private:
 		Rml::Context& _rmlContext;
+		std::string _contextName{};
 	};
 }

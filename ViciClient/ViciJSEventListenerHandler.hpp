@@ -16,6 +16,7 @@ namespace JS {
 	class ViciJSEventListenerHandler {
 	public:
 		ViciJSEventListenerHandler() = delete;
+		static void deinitialize();
 		static void addEventListener(Rml::Element* element, std::string_view eventType, v8::Local<v8::Function> func, bool inCapturePhase = false);
 		static void removeEventListener(Rml::Element* element, std::string_view eventType, v8::Local<v8::Function> func, bool inCapturePhase = false);
 		static void onElementDeleted(Rml::Element* element);

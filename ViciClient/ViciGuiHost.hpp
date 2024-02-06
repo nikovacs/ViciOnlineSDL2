@@ -5,6 +5,8 @@
 #include <string>
 #include "RmlUi_Renderer_SDL.h"
 #include "RmlUi_Platform_SDL.h"
+#include "RmlUi_FileInterface.h"
+#include "RmlElementDeletionListenerPlugin.hpp"
 
 namespace GUI {
 	class ViciGuiHost {
@@ -19,7 +21,9 @@ namespace GUI {
 		static std::map<std::string, Rml::Context*> _contexts;
 		static SDL_Window* _window;
 		static SDL_Renderer* _renderer;
+		static Rml::FileInterface* _fileInterface;
 		static Rml::SystemInterface_SDL* _systemInterface;
 		static Rml::RenderInterface_SDL* _renderInterface;
+		static JS::RmlElementDeletionListenerPlugin* _elementDeletionListenerPlugin;
 	};
 }

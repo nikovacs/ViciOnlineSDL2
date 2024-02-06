@@ -206,8 +206,10 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
     <ClCompile Include="RmlContextJSWrapper.cpp" />
     <ClCompile Include="RmlDocumentJSWrapper.cpp" />
+    <ClCompile Include="RmlElementDeletionListenerPlugin.cpp" />
     <ClCompile Include="RmlElementJSWrapper.cpp" />
     <ClCompile Include="RmlEventJSWrapper.cpp" />
+    <ClCompile Include="RmlUi_FileInterface.cpp" />
     <ClCompile Include="RmlUi_Renderer_SDL.cpp" />
     <ClCompile Include="RmlUi_Platform_SDL.cpp" />
     <ClCompile Include="EntityAnimated.cpp" />
@@ -242,8 +244,10 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
     <ClInclude Include="RmlContextJSWrapper.hpp" />
     <ClInclude Include="RmlDocumentJSWrapper.hpp" />
+    <ClInclude Include="RmlElementDeletionListenerPlugin.hpp" />
     <ClInclude Include="RmlElementJSWrapper.hpp" />
     <ClInclude Include="RmlEventJSWrapper.hpp" />
+    <ClInclude Include="RmlUi_FileInterface.h" />
     <ClInclude Include="RmlUi_Renderer_SDL.h" />
     <ClInclude Include="RmlUi_Platform_SDL.h" />
     <ClInclude Include="Level.hpp" />

@@ -204,6 +204,9 @@
     <ClCompile Include="ViciAsyncDocumentLoader.cpp">
       <Filter>Source Files\JSRuntime\RmlUI</Filter>
     </ClCompile>
+    <ClCompile Include="RmlElementDeletionListenerPlugin.cpp">
+      <Filter>Source Files\JSRuntime\RmlUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -327,6 +330,9 @@
       <Filter>Header Files\JSRuntime\RmlUI</Filter>
     </ClInclude>
     <ClInclude Include="ViciAsyncDocumentLoader.hpp">
+      <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlElementDeletionListenerPlugin.hpp">
       <Filter>Header Files\JSRuntime\RmlUI</Filter>
     </ClInclude>
   </ItemGroup>

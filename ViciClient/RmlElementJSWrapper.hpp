@@ -121,6 +121,5 @@ namespace JS {
 		Rml::Element* getUnderlyingElement();
 	private:
 		Rml::Element* _element;
-		static std::unordered_map<Rml::Element*, int> _elementRefCounts;
 	};
 }

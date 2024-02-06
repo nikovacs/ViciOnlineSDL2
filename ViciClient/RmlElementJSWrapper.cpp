@@ -8,24 +8,9 @@
 #include <iostream>
 
 namespace JS {
-	RmlElementJSWrapper::RmlElementJSWrapper(Rml::Element* element) : _element{ element } {
-		if (_elementRefCounts.contains(_element)) {
-			_elementRefCounts[_element]++;
-		}
-		else {
-			_elementRefCounts[_element] = 1;
-		}
-	}
+	RmlElementJSWrapper::RmlElementJSWrapper(Rml::Element* element) : _element{ element } {}
 
-	RmlElementJSWrapper::~RmlElementJSWrapper() {
-		if (_elementRefCounts.contains(_element)) {
-			_elementRefCounts[_element]--;
-			if (_elementRefCounts[_element] == 0) {
-				_elementRefCounts.erase(_element);
-				ViciJSEventListenerHandler::onElementDeleted(_element);
-			}
-		}
-	}
+	RmlElementJSWrapper::~RmlElementJSWrapper() {}
 
 	void RmlElementJSWrapper::setClass(std::string className, bool activate) {
 		_element->SetClass(className, activate);
@@ -339,6 +324,4 @@ namespace JS {
 	Rml::Element* RmlElementJSWrapper::getUnderlyingElement() {
 		return _element;
 	}
-
-	std::unordered_map<Rml::Element*, int> RmlElementJSWrapper::_elementRefCounts{};
 }

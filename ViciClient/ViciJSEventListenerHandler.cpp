@@ -23,6 +23,10 @@ namespace JS {
 	v8::Isolate* ViciJSEventListenerHandler::_isolate{ nullptr };
 	std::unordered_map<Rml::Element*, v8::Global<v8::Context>> ViciJSEventListenerHandler::_elementContextMap{};
 
+	void ViciJSEventListenerHandler::deinitialize() {
+		_symbol.Reset();
+	}
+
 	void ViciJSEventListenerHandler::addEventListener(Rml::Element* element, std::string_view eventType, v8::Local<v8::Function> func, bool inCapturePhase) {
 		v8::Isolate* isolate{ v8::Isolate::GetCurrent() };
 		_updateIsolateIfNull(isolate);
@@ -91,7 +95,7 @@ namespace JS {
 		std::vector<v8::Global<v8::Function>>& funcs{ elementMap.at(eventType.data()) };
 		v8::Local<v8::Symbol> symbol{ _symbol.Get(isolate) };
 		auto findFunc = [&func, isolate, context, &symbol](const v8::Global<v8::Function>& f) {
-			return f.Get(isolate)->Get(context, _symbol.Get(isolate)).ToLocalChecked() == func->Get(context, symbol).ToLocalChecked();
+			return f.Get(isolate)->Get(context, symbol).ToLocalChecked() == func->Get(context, symbol).ToLocalChecked();
 		};
 		auto funcIt{ std::find_if(funcs.begin(), funcs.end(), findFunc) };
 		if (funcIt != funcs.end()) {
@@ -110,10 +114,7 @@ namespace JS {
 	}
 
 	void ViciJSEventListenerHandler::onElementDeleted(Rml::Element* element) {
-		// ensure we are no longer holding onto the context pointer
 		if (_elementContextMap.contains(element)) {
-			v8::Global<v8::Context>& context{ _elementContextMap.at(element) };
-			context.Reset();
 			_elementContextMap.erase(element);
 		}
 

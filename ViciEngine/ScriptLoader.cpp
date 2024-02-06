@@ -4,6 +4,7 @@
 #include <v8.h>
 #include <libplatform/libplatform.h>
 #include <v8pp/class.hpp>
+#include <iostream>
 
 using namespace std::literals;
 
@@ -22,11 +23,13 @@ JS::ScriptLoader::ScriptLoader() {
 }
 
 JS::ScriptLoader::~ScriptLoader() {
+    std::cout << "ScriptLoader::~ScriptLoader() 1" << std::endl;
     v8pp::cleanup(_isolate);
     _isolate->Dispose();
     v8::V8::Dispose();
     v8::V8::DisposePlatform();
 	delete createParams.array_buffer_allocator;
+    std::cout << "ScriptLoader::~ScriptLoader() 2" << std::endl;
 }
 
 v8::Isolate* JS::ScriptLoader::getIsolate() {
