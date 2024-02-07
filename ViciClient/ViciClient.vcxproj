@@ -240,6 +240,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CaseInsensitiveComparator.hpp" />
     <ClInclude Include="ClientPlayerJSWrapper.hpp" />
+    <ClInclude Include="Font_ApplestormChalkboard.h" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
     <ClInclude Include="RmlContextJSWrapper.hpp" />

@@ -18,11 +18,19 @@
 #include "SingleLevel.hpp"
 #include "MapLevel.hpp"
 #include "TimeManager.hpp"
+#include "Font_ApplestormChalkboard.h"
 
 namespace fs = std::filesystem;
 
 TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
+std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
+
+void Networking::AssetManager::generatePermanentAssets() {
+	std::string content(reinterpret_cast<char const*>(ApplestormChalkboard_otf), ApplestormChalkboard_otf_len);
+	// ensure the file names are lowercase
+	_permanentAssets.emplace("applestormchalkboard.otf", std::make_shared<std::string>(content));
+}
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {
 	const uint8_t* buffer = reinterpret_cast<const uint8_t*>(fileName.data());
@@ -77,7 +85,7 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
 	}
 	else {
-		throw std::runtime_error("Unknown type");
+		throw std::runtime_error("Unknown type: " + std::string(typeName));
 	}
 
 	// put it into the cache

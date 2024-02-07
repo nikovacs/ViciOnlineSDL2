@@ -6,6 +6,7 @@
 #include "MouseInputHandler.hpp"
 #include <iostream>
 #include <thread>
+#include "AssetManager.hpp"
 
 ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 	: _isRunning{ false }, _window{ nullptr }, _renderer{ nullptr }, _sceneManager{ std::make_unique<Scenes::SceneManager>() } {
@@ -17,6 +18,7 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
+	Networking::AssetManager::generatePermanentAssets(); // contains font(s) required below
 	GUI::ViciGuiHost::initialize(_window, _renderer);
 
 	_sceneManager->newLoginScene(
@@ -66,6 +68,7 @@ void ViciClient::handleEvents() {
 }
 
 void ViciClient::initialize() {
+	
 }
 
 void ViciClient::update() {

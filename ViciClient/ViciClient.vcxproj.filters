@@ -341,6 +341,9 @@
     <ClInclude Include="RmlUi_FileInterface.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Font_ApplestormChalkboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
