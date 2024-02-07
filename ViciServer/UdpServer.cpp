@@ -39,6 +39,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Texture:
             case UdpChannels::Script:
             case UdpChannels::Level:
+            case UdpChannels::String:
                 AssetBroker::sendFile(event);
                 break;
             case UdpChannels::handshake:

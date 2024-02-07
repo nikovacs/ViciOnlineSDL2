@@ -73,6 +73,12 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
 		}
 	}
+	else if (typeName == "String") {
+		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
+	}
+	else {
+		throw std::runtime_error("Unknown type");
+	}
 
 	// put it into the cache
 	_assetCache.emplace(fileName, _assetsInProgress.at(fileName));

@@ -50,6 +50,7 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::Texture:
             case UdpChannels::Script:
             case UdpChannels::Level:
+            case UdpChannels::String:
                 AssetManager::onReceived(event);
                 break;
             case UdpChannels::handshake:

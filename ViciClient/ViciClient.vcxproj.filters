@@ -207,6 +207,9 @@
     <ClCompile Include="RmlElementDeletionListenerPlugin.cpp">
       <Filter>Source Files\JSRuntime\RmlUI</Filter>
     </ClCompile>
+    <ClCompile Include="RmlUi_FileInterface.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="RmlElementDeletionListenerPlugin.hpp">
       <Filter>Header Files\JSRuntime\RmlUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RmlUi_FileInterface.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
