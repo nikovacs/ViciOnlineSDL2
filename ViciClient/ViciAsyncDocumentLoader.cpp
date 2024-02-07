@@ -10,7 +10,8 @@ namespace JS {
 	v8::Isolate* ViciAsyncDocumentLoader::_isolate{ nullptr };
 
 	v8::Local<v8::Promise> ViciAsyncDocumentLoader::loadDocumentAsync(std::string_view fileName, v8::Local<v8::Context> ctx) {
-		_setIsolateIfNull(ctx->GetIsolate());
+		v8::Isolate* isolate{ ctx->GetIsolate() };
+		_setIsolateIfNull(isolate);
 		v8::Local<v8::Promise::Resolver> resolver{ v8::Promise::Resolver::New(ctx).ToLocalChecked() };
 		v8::Local<v8::Promise> promise{ resolver->GetPromise() };
 
@@ -21,7 +22,8 @@ namespace JS {
 	}
 
 	v8::Local<v8::Promise> ViciAsyncDocumentLoader::loadDocumentAsyncFromMemory(std::string_view source, std::string_view name, v8::Local<v8::Context> ctx) {
-		_setIsolateIfNull(ctx->GetIsolate());
+		v8::Isolate* isolate{ ctx->GetIsolate() };
+		_setIsolateIfNull(isolate);
 		v8::Local<v8::Promise::Resolver> resolver{ v8::Promise::Resolver::New(ctx).ToLocalChecked() };
 		v8::Local<v8::Promise> promise{ resolver->GetPromise() };
 		_inProgressNameSourcePairs.push_back({ name.data(), source.data() });
@@ -83,12 +85,14 @@ namespace JS {
 
 			try {
 				Rml::ElementDocument* doc{ Rml::GetContext("GameScene")->LoadDocumentFromMemory(source, name) };
+				_isolate->Enter();
 				if (doc) {
 					resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
 				}
 				else {
 					resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
 				}
+				_isolate->Exit();
 				toRemove.push_back(i);
 			}
 			catch (const std::string& e) {
