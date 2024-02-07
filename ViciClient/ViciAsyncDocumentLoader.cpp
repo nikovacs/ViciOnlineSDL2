@@ -10,9 +10,7 @@ namespace JS {
 	v8::Isolate* ViciAsyncDocumentLoader::_isolate{ nullptr };
 
 	v8::Local<v8::Promise> ViciAsyncDocumentLoader::loadDocumentAsync(std::string_view fileName, v8::Local<v8::Context> ctx) {
-		v8::Isolate* isolate{ ctx->GetIsolate() };
-		_setIsolateIfNull(isolate);
-		v8::HandleScope handleScope{ isolate };
+		_setIsolateIfNull(ctx->GetIsolate());
 		v8::Local<v8::Promise::Resolver> resolver{ v8::Promise::Resolver::New(ctx).ToLocalChecked() };
 		v8::Local<v8::Promise> promise{ resolver->GetPromise() };
 
@@ -23,12 +21,9 @@ namespace JS {
 	}
 
 	v8::Local<v8::Promise> ViciAsyncDocumentLoader::loadDocumentAsyncFromMemory(std::string_view source, std::string_view name, v8::Local<v8::Context> ctx) {
-		v8::Isolate* isolate{ ctx->GetIsolate() };
-		_setIsolateIfNull(isolate);
-		v8::HandleScope handleScope{ isolate };
+		_setIsolateIfNull(ctx->GetIsolate());
 		v8::Local<v8::Promise::Resolver> resolver{ v8::Promise::Resolver::New(ctx).ToLocalChecked() };
 		v8::Local<v8::Promise> promise{ resolver->GetPromise() };
-		
 		_inProgressNameSourcePairs.push_back({ name.data(), source.data() });
 		_inProgressNameSourceResolvers.push_back({ v8::Global<v8::Promise::Resolver>{isolate, resolver}, v8::Global<v8::Context>{isolate, ctx} });
 

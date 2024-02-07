@@ -251,6 +251,7 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 			.function("setDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::setDensityIndependentPixelRatio)
 			.function("getDensityIndependentPixelRatio", &JS::RmlContextJSWrapper::getDensityIndependentPixelRatio)
 			.function("createDocument", &JS::RmlContextJSWrapper::createDocument)
+			.function("loadDocument", &JS::RmlContextJSWrapper::loadDocument)
 			.function("loadDocumentFromString", &JS::RmlContextJSWrapper::loadDocumentFromString)
 			.function("unloadDocument", &JS::RmlContextJSWrapper::unloadDocument)
 			.function("unloadAllDocuments", &JS::RmlContextJSWrapper::unloadAllDocuments)
@@ -382,5 +383,5 @@ void JS::ClientScriptLoader::exposeRmlUIFunctions(v8pp::context* ctx) {
 	}
 
 	// create a global rmlContextClass object for the context
-	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "uiContext"), v8pp::to_v8(_isolate, JS::RmlContextJSWrapper(*Rml::GetContext("GameScene"))));
+	ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "uiContext"), v8pp::to_v8(_isolate, JS::RmlContextJSWrapper(*Rml::GetContext("GameScene"), ctx->impl())));
 }

@@ -9,6 +9,7 @@
 #include "ClientPlayerManager.hpp"
 #include "RmlUi/Debugger.h"
 #include "ViciJSEventListenerHandler.hpp"
+#include "ViciAsyncDocumentLoader.hpp"
 
 namespace Scenes {
 	GameScene* GameScene::instance = nullptr;
@@ -36,6 +37,7 @@ namespace Scenes {
 		}
 
 		Networking::ClientPlayerManager::update();
+		JS::ViciAsyncDocumentLoader::attemptResolve();
 		_scriptLoader.update();
 		
 		if (_world->getValue()) {

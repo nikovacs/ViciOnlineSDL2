@@ -8,16 +8,15 @@
 namespace JS {
 	class RmlContextJSWrapper {
 	public:
-		RmlContextJSWrapper(Rml::Context& context);
+		RmlContextJSWrapper(Rml::Context& context, v8::Local<v8::Context> v8Ctx);
 		virtual ~RmlContextJSWrapper();
 		void setDimensions(std::vector<int> dimensions);
 		std::vector<int> getDimensions();
 		void setDensityIndependentPixelRatio(float ratio);
 		float getDensityIndependentPixelRatio();
 		RmlDocumentJSWrapper createDocument(std::string instancerName = "body");
-		//RmlDocumentJSWrapper loadDocument(std::string documentPath); Can't have this since the file may not be local. Could potentially make it async and return a promise
-		//RmlDocumentJSWrapper loadDocument(Stream docStream); Not Relevant
-		RmlDocumentJSWrapper loadDocumentFromString(std::string document, std::string docName);
+		v8::Local<v8::Promise> loadDocument(std::string documentPath);
+		v8::Local<v8::Promise> loadDocumentFromString(std::string document, std::string docName);
 		void unloadDocument(RmlDocumentJSWrapper doc);
 		void unloadAllDocuments();
 		void enableMouseCursor(bool enable);
@@ -60,5 +59,6 @@ namespace JS {
 		Rml::Context& getUnderlyingContext();
 	private:
 		Rml::Context& _ctx;
+		v8::Isolate* _isolate;
 	};
 }

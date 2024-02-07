@@ -4,9 +4,12 @@
 #include <string>
 #include <vector>
 #include <v8pp/context.hpp>
+#include "ViciAsyncDocumentLoader.hpp"
 
 namespace JS {
-	RmlContextJSWrapper::RmlContextJSWrapper(Rml::Context& ctx) : _ctx{ ctx } {}
+	RmlContextJSWrapper::RmlContextJSWrapper(Rml::Context& ctx, v8::Local<v8::Context> v8Ctx) : _ctx{ ctx } {
+		_isolate = v8Ctx->GetIsolate();
+	}
 
 	RmlContextJSWrapper::~RmlContextJSWrapper() {}
 
@@ -31,8 +34,14 @@ namespace JS {
 		return RmlDocumentJSWrapper{ _ctx.CreateDocument(instancerName) };
 	}
 
-	RmlDocumentJSWrapper RmlContextJSWrapper::loadDocumentFromString(std::string document, std::string docName) {
-		return RmlDocumentJSWrapper{ _ctx.LoadDocumentFromMemory(document, docName) };
+	v8::Local<v8::Promise> RmlContextJSWrapper::loadDocument(std::string docPath) {
+		v8::Isolate::Scope isolateScope{ _isolate };
+		return JS::ViciAsyncDocumentLoader::loadDocumentAsync(docPath, _isolate->GetCurrentContext());
+	}
+
+	v8::Local<v8::Promise> RmlContextJSWrapper::loadDocumentFromString(std::string document, std::string docName) {
+		v8::Isolate::Scope isolateScope{ _isolate };
+		return JS::ViciAsyncDocumentLoader::loadDocumentAsyncFromMemory(document, docName, _isolate->GetCurrentContext());
 	}
 
 	void RmlContextJSWrapper::unloadDocument(RmlDocumentJSWrapper doc) {
