@@ -47,9 +47,21 @@ namespace Rml {
 
 	size_t RmlUi_FileInterface::Read(void* buffer, size_t size, FileHandle file)
 	{
-		const String& str = *reinterpret_cast<String*>(file);
-		size_t bytes_to_copy = (std::min)(size, str.size());
-		memcpy(buffer, str.data(), bytes_to_copy);
+		String& str = *reinterpret_cast<String*>(file);
+		size_t& position = _positions[file];
+
+		// Calculate the remaining bytes to read from the current position
+		size_t bytes_remaining = str.size() - position;
+
+		// Determine how many bytes to read (minimum of bytes remaining and requested size)
+		size_t bytes_to_copy = (std::min)(bytes_remaining, size);
+
+		// Copy bytes from the string to the buffer
+		memcpy(buffer, str.data() + position, bytes_to_copy);
+
+		// Update the position
+		position += bytes_to_copy;
+
 		return bytes_to_copy;
 	}
 
