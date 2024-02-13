@@ -8,7 +8,6 @@ namespace Networking {
 	class NetworkAsset {
 	public:
 		NetworkAsset(std::string_view assetName) : _fileName{assetName}, _value { nullptr }, _resolved{ false } {
-			std::cout << "NetworkAsset constructor called for " << assetName << std::endl;
 			std::transform(_fileName.begin(), _fileName.end(), _fileName.begin(), ::tolower);
 			AssetManager::retrieveAsset<T>(_fileName);
 		}

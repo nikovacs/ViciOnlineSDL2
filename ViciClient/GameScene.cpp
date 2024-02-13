@@ -72,7 +72,7 @@ namespace Scenes {
 		_camera.setScale(json["cameraZoom"], false);
 		_scriptLoader.loadScript("testscript.js");
 		_scriptLoader.loadScript("anotherscript.js");
-		_scriptLoader.loadScript("testGui.js");
+		//_scriptLoader.loadScript("testGui.js");
 	}
 
 	Client::Camera& GameScene::getCamera() {
