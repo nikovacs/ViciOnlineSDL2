@@ -168,6 +168,11 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <PostBuildEvent>
       <Message>Copy Required dlls to OutDir</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>"C:\Program Files\Git\git-bash.exe" -c "xxd -i ApplestormChalkboard.otf &gt; vicigen_ApplestormChalkboard.h"
+"C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.html &gt; vicigen_loginScene_html.h"
+"C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.css &gt; vicigen_loginScene_css.h"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -282,6 +287,8 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClInclude Include="ViciJSEventListenerHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="loginScene.css" />
+    <None Include="loginScene.html" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -18,7 +18,10 @@
 #include "SingleLevel.hpp"
 #include "MapLevel.hpp"
 #include "TimeManager.hpp"
-#include "Font_ApplestormChalkboard.h"
+
+#include "vicigen_ApplestormChalkboard.h"
+#include "vicigen_loginScene_css.h"
+#include "vicigen_loginScene_html.h"
 
 namespace fs = std::filesystem;
 
@@ -27,9 +30,15 @@ std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager:
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
 
 void Networking::AssetManager::generatePermanentAssets() {
-	std::string content(reinterpret_cast<char const*>(ApplestormChalkboard_otf), ApplestormChalkboard_otf_len);
 	// ensure the file names are lowercase
+	std::string content(reinterpret_cast<char const*>(ApplestormChalkboard_otf), ApplestormChalkboard_otf_len);
 	_permanentAssets.emplace("applestormchalkboard.otf", std::make_shared<std::string>(content));
+
+	content = std::string(reinterpret_cast<char const*>(loginScene_css), loginScene_css_len);
+	_permanentAssets.emplace("loginscene.css", std::make_shared<std::string>(content));
+	
+	content = std::string(reinterpret_cast<char const*>(loginScene_html), loginScene_html_len);
+	_permanentAssets.emplace("loginscene.html", std::make_shared<std::string>(content));
 }
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {

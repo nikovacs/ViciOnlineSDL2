@@ -85,6 +85,9 @@
     <Filter Include="Source Files\JSRuntime\RmlUI">
       <UniqueIdentifier>{2ea21c67-f72d-429e-a67c-bd3711c8ced4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scenes\LoginScene">
+      <UniqueIdentifier>{6a76fcf5-d688-4f94-aacb-b4252a1735b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -168,9 +171,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="LoginScene.cpp">
-      <Filter>Source Files\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="CaseInsensitiveComparator.cpp">
       <Filter>Source Files\Comparators</Filter>
     </ClCompile>
@@ -209,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="RmlUi_FileInterface.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScene.cpp">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,5 +350,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="loginScene.html">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
+    </None>
+    <None Include="loginScene.css">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
+    </None>
   </ItemGroup>
 </Project>
