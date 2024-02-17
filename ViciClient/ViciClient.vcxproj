@@ -172,7 +172,8 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
       <Command>"C:\Program Files\Git\git-bash.exe" -c "xxd -i ApplestormChalkboard.otf &gt; vicigen_ApplestormChalkboard.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.html &gt; vicigen_loginScene_html.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.css &gt; vicigen_loginScene_css.h"
-"C:\Program Files\Git\git-bash.exe" -c "xxd -i guiBackground.png &gt; vicigen_guiBackground_png.h"</Command>
+"C:\Program Files\Git\git-bash.exe" -c "xxd -i guiBackground.png &gt; vicigen_guiBackground_png.h"
+"C:\Program Files\Git\git-bash.exe" -c "xxd -i vicionlinelogo.png &gt; vicigen_vicionlinelogo_png.h"</Command>
       <Message>Generate hex dumps of files to embed</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -295,6 +296,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Downloads\guiBackground.png" />
+    <Image Include="vicionlinelogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

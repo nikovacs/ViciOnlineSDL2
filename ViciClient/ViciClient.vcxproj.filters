@@ -361,5 +361,8 @@
     <Image Include="..\..\..\..\Downloads\guiBackground.png">
       <Filter>Source Files\Scenes\LoginScene</Filter>
     </Image>
+    <Image Include="vicionlinelogo.png">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
+    </Image>
   </ItemGroup>
 </Project>

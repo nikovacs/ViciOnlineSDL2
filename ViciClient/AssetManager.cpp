@@ -19,10 +19,13 @@
 #include "MapLevel.hpp"
 #include "TimeManager.hpp"
 
+// Embedding assets
 #include "vicigen_ApplestormChalkboard.h"
 #include "vicigen_loginScene_css.h"
 #include "vicigen_loginScene_html.h"
 #include "vicigen_guiBackground_png.h"
+#include "vicigen_vicionlinelogo_png.h"
+
 
 namespace fs = std::filesystem;
 
@@ -36,13 +39,16 @@ void Networking::AssetManager::generatePermanentAssets() {
 	_permanentAssets.emplace("applestormchalkboard.otf", std::make_shared<std::string>(content));
 
 	content = std::string(reinterpret_cast<char const*>(loginScene_css), loginScene_css_len);
-	_permanentAssets.emplace("loginscene.css", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("__vici_internal__loginscene.css", std::make_shared<std::string>(content));
 	
 	content = std::string(reinterpret_cast<char const*>(loginScene_html), loginScene_html_len);
-	_permanentAssets.emplace("loginscene.html", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("__vici_internal__loginscene.html", std::make_shared<std::string>(content));
 
 	content = std::string(reinterpret_cast<char const*>(guiBackground_png), guiBackground_png_len);
 	_permanentAssets.emplace("__vici_internal__guibackground.png", std::make_shared<AssetTypes::Texture>(content));
+
+	content = std::string(reinterpret_cast<char const*>(vicionlinelogo_png), vicionlinelogo_png_len);
+	_permanentAssets.emplace("__vici_internal__vicionlinelogo.png", std::make_shared<AssetTypes::Texture>(content));
 }
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {
