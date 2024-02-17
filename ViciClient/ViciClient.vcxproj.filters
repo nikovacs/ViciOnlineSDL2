@@ -357,4 +357,9 @@
       <Filter>Source Files\Scenes\LoginScene</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\guiBackground.png">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

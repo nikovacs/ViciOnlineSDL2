@@ -1,8 +1,15 @@
-body {
+@spritesheet guiBackground {
+    src: __vici_internal__guiBackground.png;
+    outer: 0px 0px 32px 32px;
+    inner: 5px 10px 22px 14px;
+} 
+ 
+ body {
     font-family: "Applestorm";
 }
 
 .login-box {
+    decorator: ninepatch( outer, inner);
     width: 300px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -23,3 +30,10 @@ button {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+/* 
+.login-box {
+    decorator: ninepatch( outer, inner );
+    width: 300px;
+    height: 300px;
+} */

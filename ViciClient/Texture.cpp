@@ -3,8 +3,10 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
-AssetTypes::Texture::Texture(std::string_view fileName) {
-	_texture = IMG_LoadTexture(ViciClient::instance->getRenderer(), fileName.data());
+AssetTypes::Texture::Texture(std::string_view source) {
+	SDL_RWops* rw = SDL_RWFromConstMem(source.data(), static_cast<int>(source.size()));
+	_texture = IMG_LoadTexture_RW(ViciClient::instance->getRenderer(), rw, 0);
+	SDL_RWclose(rw);
 }
 
 AssetTypes::Texture::~Texture() {

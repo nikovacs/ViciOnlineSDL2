@@ -104,7 +104,7 @@ namespace Rml {
 		_textureNames[underlyingTex] = source;
 
 		int w, h;
-		SDL_QueryTexture(underlyingTex, nullptr, nullptr, &w, &h);
+		SDL_QueryTexture(underlyingTex, NULL, NULL, &w, &h);
 		texture_dimensions = { w, h };
 
 		return true;
