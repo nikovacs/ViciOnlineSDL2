@@ -35,5 +35,5 @@ private:
 	std::atomic_bool _isRunning;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-	std::string _userName;
+	std::string _userName{};
 };

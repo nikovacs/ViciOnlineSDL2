@@ -83,7 +83,7 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(event.channelID) };
 	std::shared_ptr<void>& assetInProgress = _assetsInProgress.at(fileName);
 	if (typeName == "Texture") {
-		assetInProgress = std::make_shared<AssetTypes::Texture>(fileData);
+		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
 	}
 	else if (typeName == "Script") {
 		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
