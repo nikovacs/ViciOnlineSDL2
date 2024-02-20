@@ -295,7 +295,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\guiBackground.png" />
+    <Image Include="guiBackground.png" />
     <Image Include="vicionlinelogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
