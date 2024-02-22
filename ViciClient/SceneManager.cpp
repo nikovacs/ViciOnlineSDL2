@@ -40,7 +40,7 @@ namespace Scenes {
 		return *_scenes.at(name);
 	}
 
-	void SceneManager::newLoginScene(std::function<void(std::string_view)> onLoginCallback) {
+	void SceneManager::newLoginScene(std::function<void()> onLoginCallback) {
 		auto newLoginScene = std::make_unique<LoginScene>("LoginScene"sv, onLoginCallback);
 		std::lock_guard<std::recursive_mutex> lock(_sceneMutex);
 		_currentScene = nullptr;

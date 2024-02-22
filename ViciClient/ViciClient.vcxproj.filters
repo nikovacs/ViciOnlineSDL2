@@ -213,6 +213,9 @@
     <ClCompile Include="LoginScene.cpp">
       <Filter>Source Files\Scenes\LoginScene</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -347,6 +350,9 @@
     <ClInclude Include="Font_ApplestormChalkboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerInfo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -356,13 +362,16 @@
     <None Include="loginScene.css">
       <Filter>Source Files\Scenes\LoginScene</Filter>
     </None>
+    <None Include="registerScene.html">
+      <Filter>Source Files\Scenes\LoginScene</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\guiBackground.png">
-      <Filter>Source Files\Scenes\LoginScene</Filter>
-    </Image>
     <Image Include="vicionlinelogo.png">
       <Filter>Source Files\Scenes\LoginScene</Filter>
+    </Image>
+    <Image Include="guiBackground.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>

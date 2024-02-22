@@ -9,8 +9,8 @@
             <div class="login-methods">
                 <div class="login-type classic-login">
                     <div class="text-field email-or-username">
-                        <label class="label">Email or Username:</label>
-                        <input id="username-field" class="input" type="text" />
+                        <label class="label">Email:</label>
+                        <input id="email-field" class="input" type="text" />
                     </div>
                     <div class="text-field password">
                         <label class="label">Password:</label>
@@ -18,12 +18,13 @@
                     </div>
                     <div class="buttons">
                         <!-- register now hyperlink -->
-                        <a class="register-now" href="registerScene.html">Register Now</a>
+                        <a id="register-btn" class="hyperlink">Register Now</a>
                         <!-- forgot password hyperlink -->
-                        <a class="forgot-password" href="forgotPasswordScene.html">Forgot Password</a>
+                        <a id="forgot-password-btn" class="hyperlink" href="forgotPasswordScene.html">Forgot Password</a>
                         <!-- login button -->
                         <button id="login-btn" class="button login">Login</button>
                     </div>
+                    <span id="error"></span>
                 </div>
                 <div class="divider"></div>
                 <div class="login-type thirdparty-login"></div>

@@ -26,9 +26,8 @@ ViciClient::ViciClient(const char* title, int xpos, int ypos, int width, int hei
 	GUI::ViciGuiHost::initialize(_window, _renderer);
 
 	_sceneManager->newLoginScene(
-		[this](std::string_view userName)->void {
-		_userName = userName;
-		_sceneManager->newGameScene();
+		[this]()->void {
+			_sceneManager->newGameScene();
 		}
 	);
 	_sceneManager->setScene("LoginScene");

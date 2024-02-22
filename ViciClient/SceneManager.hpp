@@ -17,7 +17,7 @@ namespace Scenes {
 		void setScene(std::string_view name);
 		Scene& getScene(std::string_view name);
 		void newGameScene();
-		void newLoginScene(std::function<void(std::string_view)> onLoginCallback);
+		void newLoginScene(std::function<void()> onLoginCallback);
 		static SceneManager* instance;
 	private:
 		Scene* _currentScene{ nullptr };

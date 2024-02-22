@@ -103,8 +103,13 @@ input {
     cursor: pointer;
 }
 
-.register-now,
-.forgot-password {
+.hyperlink {
     text-decoration: underline;
     cursor: pointer;
+}
+
+#error {
+    color: red;
+    font-size: 0.75vw;
+    margin-top: 2vh;
 }

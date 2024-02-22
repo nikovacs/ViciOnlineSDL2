@@ -10,6 +10,7 @@
 #include "ClientPlayerManager.hpp"
 #include "GameScene.hpp"
 #include "ViciClient.hpp"
+#include "PlayerInfo.hpp"
 
 #include <iostream>
 
@@ -56,7 +57,8 @@ void Networking::UdpClient::doNetworkLoop(ENetHost* client) {
             case UdpChannels::handshake:
             {
                 nlohmann::json handshake{};
-                handshake["usr"] = ViciClient::instance->getUserName();
+                handshake["usr"] = PlayerInfo::username;
+                handshake["id"] = PlayerInfo::playerId;
                 sendJson(handshake, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
             }
             break;

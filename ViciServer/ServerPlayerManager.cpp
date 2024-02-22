@@ -22,7 +22,8 @@ namespace Networking {
 		nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
 		
 		std::string username = json["usr"];
-		std::string fileName = "playerData/" + username + ".json";
+		std::string playerId = json["id"];
+		std::string fileName = "playerData/" + playerId + ".json";
 
 		// check if file exists
 		nlohmann::json playerData;
@@ -52,7 +53,7 @@ namespace Networking {
 
 		// takes ownership of clientW and clientR pointers
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(
-			username, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], clientW, clientR
+			username, playerId, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], clientW, clientR
 		));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
 		player.setWidth(playerData["w"]);

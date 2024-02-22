@@ -1,5 +1,6 @@
 #include "ClientPlayerJSWrapper.hpp"
 #include "ViciClient.hpp"
+#include "PlayerInfo.hpp"
 #include <iostream>
 
 namespace JS {
@@ -8,7 +9,7 @@ namespace JS {
 	}
 
 	std::string ClientPlayerJSWrapper::getUsername() {
-		return std::string(ViciClient::instance->getUserName());
+		return PlayerInfo::username;
 	}
 
 	int ClientPlayerJSWrapper::getX() {

@@ -5,8 +5,9 @@
 namespace fs = std::filesystem;
 
 namespace Entities {
-	ServerPlayer::ServerPlayer(std::string_view username, uint32_t id, std::string_view animation, std::string_view world, int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR)
-		: _username{ username }, _connectionId{ id }, _animation{ animation }, _world{ world }, _cameraZoom{ zoom }, Entity(clientW, clientR) {
+	ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, uint32_t id, std::string_view animation, std::string_view world,
+		int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR)
+		: _username{ username }, _playerId{ playerId }, _connectionId{ id }, _animation{ animation }, _world{ world }, _cameraZoom{ zoom }, Entity(clientW, clientR) {
 		setPosition(x, y);
 		_dir = dir;
 	}
@@ -24,8 +25,8 @@ namespace Entities {
 		playerData["clientW"] = *_clientW.getUnderlyingJson();
 		playerData["clientR"] = *_clientR.getUnderlyingJson();
 
-		// create playerData/username.json if it does not exist
-		std::string strPath = "playerData/" + _username + ".json";
+		// create playerData/playerId.json if it does not exist
+		std::string strPath = "playerData/" + _playerId + ".json";
 		fs::path path{ strPath };
 		fs::create_directories(path.remove_filename());
 

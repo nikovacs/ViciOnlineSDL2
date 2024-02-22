@@ -25,7 +25,7 @@
 #include "vicigen_loginScene_html.h"
 #include "vicigen_guiBackground_png.h"
 #include "vicigen_vicionlinelogo_png.h"
-
+#include "vicigen_registerScene_html.h"
 
 namespace fs = std::filesystem;
 
@@ -49,6 +49,9 @@ void Networking::AssetManager::generatePermanentAssets() {
 
 	content = std::string(reinterpret_cast<char const*>(vicionlinelogo_png), vicionlinelogo_png_len);
 	_permanentAssets.emplace("__vici_internal__vicionlinelogo.png", std::make_shared<AssetTypes::Texture>(content));
+
+	content = std::string(reinterpret_cast<char const*>(registerScene_html), registerScene_html_len);
+	_permanentAssets.emplace("__vici_internal__registerscene.html", std::make_shared<std::string>(content));
 }
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {

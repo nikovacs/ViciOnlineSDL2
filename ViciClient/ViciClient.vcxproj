@@ -172,6 +172,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
       <Command>"C:\Program Files\Git\git-bash.exe" -c "xxd -i ApplestormChalkboard.otf &gt; vicigen_ApplestormChalkboard.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.html &gt; vicigen_loginScene_html.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i loginScene.css &gt; vicigen_loginScene_css.h"
+"C:\Program Files\Git\git-bash.exe" -c "xxd -i registerScene.html &gt; vicigen_registerScene_html.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i guiBackground.png &gt; vicigen_guiBackground_png.h"
 "C:\Program Files\Git\git-bash.exe" -c "xxd -i vicionlinelogo.png &gt; vicigen_vicionlinelogo_png.h"</Command>
       <Message>Generate hex dumps of files to embed</Message>
@@ -212,6 +213,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClCompile Include="EntityDrawable.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
+    <ClCompile Include="PlayerInfo.cpp" />
     <ClCompile Include="RmlContextJSWrapper.cpp" />
     <ClCompile Include="RmlDocumentJSWrapper.cpp" />
     <ClCompile Include="RmlElementDeletionListenerPlugin.cpp" />
@@ -251,6 +253,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <ClInclude Include="Font_ApplestormChalkboard.h" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
+    <ClInclude Include="PlayerInfo.hpp" />
     <ClInclude Include="RmlContextJSWrapper.hpp" />
     <ClInclude Include="RmlDocumentJSWrapper.hpp" />
     <ClInclude Include="RmlElementDeletionListenerPlugin.hpp" />
@@ -293,6 +296,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)
     <None Include="loginScene.css" />
     <None Include="loginScene.html" />
     <None Include="packages.config" />
+    <None Include="registerScene.html" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="guiBackground.png" />

@@ -28,12 +28,10 @@ public:
 	bool isRunning() { return _isRunning; }
 	SDL_Renderer* getRenderer() { return _renderer; }
 	SDL_Window* getWindow() { return _window; }
-	std::string getUserName() { return _userName; }
 	
 private:
 	std::unique_ptr<Scenes::SceneManager> _sceneManager;
 	std::atomic_bool _isRunning;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
-	std::string _userName{};
 };
