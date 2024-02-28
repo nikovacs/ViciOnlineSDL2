@@ -9,6 +9,9 @@
 * SDL2 (via VCPKG)
 * SDL2-Image (via VCPKG)
 * v8/v8pp (Alreayd installed on the VM)
+* PlayFab (Submodule)
+* PostgreSQL (install v16 on vm)
+* libpqxx (via VCPKG)
 
 * Open powershell, and navigate to ~/vcpkg
 * Run the following commands
@@ -18,3 +21,4 @@
   * `./vcpkg.exe install sdl2`  (Displaying to the screen)
   * `./vcpkg.exe install sdl2-image`
   * `./vcpkg.exe install nlohmann-json` (C++ JSON objects)
+  * `./vcpkg.exe install libpqxx`
