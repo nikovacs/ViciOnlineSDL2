@@ -13,5 +13,12 @@
 	"defaultHeight": 23,
 	"defaultZoom": 1,
 	"defaultClientW": {},
-	"defaultClientR": {}
+	"defaultClientR": {},
+	"db": {
+		"host": "localhost:5432",
+		"user": "viciUser",
+		"password": "viciPass",
+		"database": "viciDB",
+		"minConnections": 4
+	}
 }
