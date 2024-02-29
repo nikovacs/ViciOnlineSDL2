@@ -23,7 +23,7 @@ namespace JS {
 		void setClientPlayer(Entities::ClientPlayer* pl);
 	private:
 		void attemptResolveInProgress();
-		void setApiSetupFuncs(v8pp::context* ctx);
+		virtual void setApiSetupFuncs(v8pp::context* ctx) override;
 		void exposeClientPlayer(v8pp::context* ctx);
 		void exposeKeyboardHandler(v8pp::context* ctx);
 		void exposeLocalAttrs(v8pp::context* ctx);

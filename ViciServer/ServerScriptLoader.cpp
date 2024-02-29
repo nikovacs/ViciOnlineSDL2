@@ -1,5 +1,8 @@
 #include "ServerScriptLoader.hpp"
 #include "AssetBroker.hpp"
+#include <v8pp/module.hpp>
+#include <v8pp/class.hpp>
+#include "DbJSWrapper.hpp"
 
 namespace JS {
 	ServerScriptLoader::ServerScriptLoader() {};
@@ -103,4 +106,27 @@ namespace JS {
 		std::lock_guard lock{ _playersToRemoveMutex };
 		_playerIdsToRemove.insert(playerId);
 	};
+
+	void ServerScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
+		setupDatabaseApi(ctx);
+	}
+
+	void ServerScriptLoader::setupDatabaseApi(v8pp::context* ctx) {
+		v8::HandleScope scope{ _isolate };
+
+		static v8pp::class_<Vici::DbTransactionJSWrapper> dbTransactionJSWrapper{ _isolate };
+		dbTransactionJSWrapper
+			.function("exec", &Vici::DbTransactionJSWrapper::exec)
+			.function("commit", &Vici::DbTransactionJSWrapper::commit)
+			;
+
+		ctx->class_("DbTransaction", dbTransactionJSWrapper);
+
+
+		v8pp::module dbApi{ _isolate };
+		dbApi.function("exec", []() {});
+		dbApi.function("beginTransaction", []() { return Vici::DbTransactionJSWrapper{}; });
+
+		ctx->module("db", dbApi);
+	}
 }

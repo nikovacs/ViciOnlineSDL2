@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetBroker.cpp" />
+    <ClCompile Include="DbJSWrapper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServerPlayerManager.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
@@ -181,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetBroker.hpp" />
+    <ClInclude Include="DbJSWrapper.hpp" />
     <ClInclude Include="ServerPlayerManager.hpp" />
     <ClInclude Include="ServerPlayer.hpp" />
     <ClInclude Include="ServerScriptLoader.hpp" />

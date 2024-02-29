@@ -21,6 +21,8 @@ namespace JS {
 		void triggerForPlayer(int32_t playerId, std::string_view functionName, std::string_view fileName = ""sv);
 		void onPlayerDisconnect(int32_t playerId);
 	private:
+		virtual void setApiSetupFuncs(v8pp::context* ctx) override;
+		void setupDatabaseApi(v8pp::context* ctx);
 		std::map<std::string, std::unique_ptr<JS::Script>> _globalScripts{};
 		std::map<int32_t, std::map<std::string, std::unique_ptr<JS::Script>>> _playerScripts{};
 		std::set<uint32_t> _playerIdsToRemove{};
