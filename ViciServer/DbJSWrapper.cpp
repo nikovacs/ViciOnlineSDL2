@@ -1,5 +1,7 @@
 #include "DbJSWrapper.hpp"
 #include <v8pp/convert.hpp>
+#include "ViciServer.hpp"
+#include <pqxx/pqxx>
 
 namespace Vici {
 	DbResultsJSWrapper::DbResultsJSWrapper(pqxx::result result) : _result{ result } {}
@@ -26,11 +28,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getString(std::string columnName) {
-		return getString(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getString(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -38,11 +36,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getInt(std::string columnName) {
-		return getInt(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getInt(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -50,11 +44,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getFloat(std::string columnName) {
-		return getFloat(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getFloat(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -62,11 +52,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getBool(std::string columnName) {
-		return getBool(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getBool(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -74,11 +60,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getJson(std::string columnName) {
-		return getJson(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getJson(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -86,11 +68,7 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getArray(std::string columnName) {
-		return getArray(_result.column_number(columnName));
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getArray(int columnIndex) {
-		auto value = _current[columnIndex];
+		auto value = _current[_result.column_number(columnName)];
 		if (value.is_null()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
@@ -100,11 +78,12 @@ namespace Vici {
 
 	// DbTransactionJSWrapper
 	DbTransactionJSWrapper::DbTransactionJSWrapper() {
-		// borrow a connection from the connection pool
+		_cnx = ViciServer::instance->getDbPool().borrowConnection();
+		_tnx = new pqxx::work{ *_cnx };
 	}
 	DbTransactionJSWrapper::~DbTransactionJSWrapper() {
 		delete _tnx;
-		// release the connection to the connection pool
+		ViciServer::instance->getDbPool().returnConnection(_cnx);
 	}
 
 	DbResultsJSWrapper DbTransactionJSWrapper::exec(std::string sql) {

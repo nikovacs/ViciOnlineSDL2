@@ -3,6 +3,7 @@
 #include <v8pp/module.hpp>
 #include <v8pp/class.hpp>
 #include "DbJSWrapper.hpp"
+#include "ViciServer.hpp"
 
 namespace JS {
 	ServerScriptLoader::ServerScriptLoader() {};
@@ -20,10 +21,18 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::loadScript(std::string_view fileName) {
-		std::string contents{ Networking::AssetBroker::readFile(fileName) };
+		std::string contents{ Networking::AssetBroker::getFile(fileName)};
 		if (contents.empty()) return;
-
+		std::cout << "test1" << std::endl;
 		_globalScripts.emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
+		std::cout << "test2" << std::endl;
+		Script* script = _globalScripts.at(fileName.data()).get();
+		std::cout << "test3" << std::endl;
+		script->initialize([this](v8pp::context* ctx) { setApiSetupFuncs(ctx); });
+		std::cout << "test4" << std::endl;
+		script->run();
+		script->trigger("onLoad");
+		std::cout << "test5" << std::endl;
 	};
 
 	void ServerScriptLoader::unloadScript(std::string_view fileName) {
@@ -75,10 +84,14 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::loadScriptForPlayer(int32_t playerId, std::string_view fileName) {
-		std::string contents{ Networking::AssetBroker::readFile(fileName) };
+		std::string contents{ Networking::AssetBroker::getFile(fileName) };
 		if (contents.empty()) return;
 
 		_playerScripts[playerId].emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
+		Script* script = _playerScripts.at(playerId).at(fileName.data()).get();
+		script->initialize([this](v8pp::context* ctx) { setApiSetupFuncs(ctx); });
+		script->run();
+		script->trigger("onLoad");
 	};
 
 	void ServerScriptLoader::unloadScriptForPlayer(int32_t playerId, std::string_view fileName) {
@@ -114,19 +127,34 @@ namespace JS {
 	void ServerScriptLoader::setupDatabaseApi(v8pp::context* ctx) {
 		v8::HandleScope scope{ _isolate };
 
+		static v8pp::class_<Vici::DbResultsJSWrapper> dbResultsJSWrapper{ _isolate };
+		dbResultsJSWrapper
+			.auto_wrap_objects(true)
+			.function("next", &Vici::DbResultsJSWrapper::next)
+			.function("hasNext", &Vici::DbResultsJSWrapper::hasNext)
+			.function("isEmpty", &Vici::DbResultsJSWrapper::isEmpty)
+			.function("getString", &Vici::DbResultsJSWrapper::getString)
+			.function("getInt", &Vici::DbResultsJSWrapper::getInt)
+			.function("getFloat", &Vici::DbResultsJSWrapper::getFloat)
+			.function("getBool", &Vici::DbResultsJSWrapper::getBool)
+			.function("getJson", &Vici::DbResultsJSWrapper::getJson)
+			.function("getArray", &Vici::DbResultsJSWrapper::getArray)
+			;
+		ctx->class_("DbResults", dbResultsJSWrapper);
+
 		static v8pp::class_<Vici::DbTransactionJSWrapper> dbTransactionJSWrapper{ _isolate };
 		dbTransactionJSWrapper
+			.auto_wrap_objects(true)
 			.function("exec", &Vici::DbTransactionJSWrapper::exec)
 			.function("commit", &Vici::DbTransactionJSWrapper::commit)
 			;
-
 		ctx->class_("DbTransaction", dbTransactionJSWrapper);
 
-
-		v8pp::module dbApi{ _isolate };
-		dbApi.function("exec", []() {});
-		dbApi.function("beginTransaction", []() { return Vici::DbTransactionJSWrapper{}; });
-
+		static v8pp::module dbApi{ _isolate };
+		dbApi
+			.function("exec", [](std::string sql) { return ViciServer::instance->getDbPool().exec(sql); })
+			.function("beginTransaction", []() { return Vici::DbTransactionJSWrapper{}; })
+			;
 		ctx->module("db", dbApi);
 	}
 }

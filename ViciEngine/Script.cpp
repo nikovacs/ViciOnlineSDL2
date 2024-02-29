@@ -14,7 +14,7 @@ JS::Script::~Script() {}
 
 void JS::Script::initialize(std::function<void(v8pp::context* ctx)> apiSetupFunc) {
     v8::HandleScope handleScope{ _isolate };
-     _context = std::make_unique<v8pp::context>(_isolate);
+    _context = std::make_unique<v8pp::context>(_isolate);
 
     v8::Local<v8::String> sourceCode{ v8::String::NewFromUtf8(_isolate, _source.data(), v8::NewStringType::kNormal, static_cast<int>(_source.size())).ToLocalChecked() };
     v8::Local<v8::Script> script{ v8::Script::Compile(_context->impl(), sourceCode).ToLocalChecked() };

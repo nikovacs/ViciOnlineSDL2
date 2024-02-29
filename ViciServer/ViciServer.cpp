@@ -7,11 +7,15 @@
 #include "nlohmann/json.hpp"
 #include <fstream>
 
+ViciServer* ViciServer::instance = nullptr;
+
 ViciServer::ViciServer() {
 	_loadServerOptions();
+	_initDbPool();
 	_running = false;
 	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); 
 	instance = this;
+	_scriptLoader.loadScript("testdb.js");
 }
 
 ViciServer::~ViciServer() {
@@ -27,11 +31,12 @@ void ViciServer::_loadServerOptions() {
 void ViciServer::_initDbPool() {
 	nlohmann::json& dbOptions = _serverOptions["db"];
 	std::string host = dbOptions["host"];
+	int port = dbOptions["port"];
 	std::string user = dbOptions["user"];
 	std::string password = dbOptions["password"];
 	std::string database = dbOptions["database"];
 	int minConnections = dbOptions["minConnections"];
-	_dbPool = std::make_unique<Vici::DbConnectionPool>(host, database, user, password, minConnections);
+	_dbPool = std::make_unique<Vici::DbConnectionPool>(host, port, database, user, password, minConnections);
 }
 
 nlohmann::json& ViciServer::getServerOptions() {
@@ -56,4 +61,8 @@ void ViciServer::serverLoop() {
 		//std::cout << "server loop\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND));
 	}
+}
+
+Vici::DbConnectionPool& ViciServer::getDbPool() {
+	return *_dbPool;
 }

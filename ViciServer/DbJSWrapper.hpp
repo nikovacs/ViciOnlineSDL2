@@ -15,17 +15,11 @@ namespace Vici {
 		bool isEmpty();
 
 		v8::Local<v8::Value> getString(std::string columnName);
-		v8::Local<v8::Value> getString(int columnIndex);
 		v8::Local<v8::Value> getInt(std::string columnName);
-		v8::Local<v8::Value> getInt(int columnIndex);
 		v8::Local<v8::Value> getFloat(std::string columnName);
-		v8::Local<v8::Value> getFloat(int columnIndex);
 		v8::Local<v8::Value> getBool(std::string columnName);
-		v8::Local<v8::Value> getBool(int columnIndex);
 		v8::Local<v8::Value> getJson(std::string columnName);
-		v8::Local<v8::Value> getJson(int columnIndex);
 		v8::Local<v8::Value> getArray(std::string columnName);
-		v8::Local<v8::Value> getArray(int columnIndex);
 	private:
 		pqxx::result _result;
 		pqxx::result::iterator _current;

@@ -1,11 +1,11 @@
 #include "DbConnectionPool.hpp"
-
+#include <iostream>
 namespace Vici {
-	DbConnectionPool::DbConnectionPool(std::string_view host, std::string_view db, std::string_view user, std::string_view pass, int minAvailableConnections) :
-		_host{ host }, _db{ db }, _user{ user }, _pass{ pass },
+	DbConnectionPool::DbConnectionPool(std::string_view host, int port, std::string_view db, std::string_view user, std::string_view pass, int minAvailableConnections) :
+		_host{ host }, _port{ port }, _db{ db }, _user{ user }, _pass{ pass },
 		_minAvailableConnections{ minAvailableConnections }
 	{
-		_connectionString = "host=" + _host + " dbname=" + _db + " user=" + _user + " password=" + _pass;
+		_connectionString = "host=" + _host + " port=" + std::to_string(_port) + " dbname=" + _db + " user=" + _user + " password=" + _pass;
 		_createConnections(_minAvailableConnections);
 	}
 
@@ -31,6 +31,15 @@ namespace Vici {
 			_availableConnections.push_back(std::move(*it));
 			_inUseConnections.erase(it);
 		}
+	}
+
+	DbResultsJSWrapper DbConnectionPool::exec(std::string_view sql) {
+		pqxx::connection* conn = borrowConnection();
+		pqxx::nontransaction ntx(*conn);
+		pqxx::result result = ntx.exec(sql);
+		ntx.abort();
+		returnConnection(conn);
+		return result;
 	}
 
 	void DbConnectionPool::_createConnections(int count) {

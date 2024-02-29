@@ -31,6 +31,12 @@
     <Filter Include="Source Files\JSRuntime">
       <UniqueIdentifier>{bb054144-2312-4e65-bbaf-f4ac255cac14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Database">
+      <UniqueIdentifier>{01f205c8-edab-4d16-ba97-2c53c93063f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Database">
+      <UniqueIdentifier>{ad1a1390-64d9-453e-8a94-eda6797f2711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +60,12 @@
     <ClCompile Include="ServerScriptLoader.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="DbConnectionPool.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DbJSWrapper.cpp">
+      <Filter>Source Files\JSRuntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.hpp">
@@ -72,6 +84,12 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ServerScriptLoader.hpp">
+      <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="DbConnectionPool.hpp">
+      <Filter>Header Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="DbJSWrapper.hpp">
       <Filter>Header Files\JSRuntime</Filter>
     </ClInclude>
   </ItemGroup>

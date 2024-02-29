@@ -19,11 +19,12 @@ private:
 	void _loadServerOptions();
 	void _initDbPool();
 public:
-	static inline ViciServer* instance{ nullptr };
+	static ViciServer* instance;
 	ViciServer();
 	virtual ~ViciServer();
 	void start();
 	void stop();
 	void serverLoop();
 	nlohmann::json& getServerOptions();
+	Vici::DbConnectionPool& getDbPool();
 };
