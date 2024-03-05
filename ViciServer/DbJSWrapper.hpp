@@ -4,6 +4,7 @@
 #include <v8.h>
 #include <v8pp/json.hpp>
 #include <pqxx/pqxx>
+#include <memory>
 
 namespace Vici {
 	class DbResultsJSWrapper {
@@ -33,7 +34,7 @@ namespace Vici {
 		DbResultsJSWrapper exec(std::string sql);
 		void commit();
 	private:
-		pqxx::work* _tnx{ nullptr };
+		std::unique_ptr<pqxx::work> _tnx{ nullptr };
 		pqxx::connection* _cnx{ nullptr };
 	};
 }

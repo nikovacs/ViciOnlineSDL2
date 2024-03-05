@@ -79,12 +79,13 @@ namespace Vici {
 	// DbTransactionJSWrapper
 	DbTransactionJSWrapper::DbTransactionJSWrapper() {
 		_cnx = ViciServer::instance->getDbPool().borrowConnection();
-		_tnx = new pqxx::work{ *_cnx };
+		_tnx = std::make_unique<pqxx::work>(*_cnx);
 	}
 
 
 	DbTransactionJSWrapper::~DbTransactionJSWrapper() {
-		delete _tnx;
+		_tnx->abort();
+		_tnx.reset();
 		ViciServer::instance->getDbPool().returnConnection(_cnx);
 	}
 
