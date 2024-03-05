@@ -1,9 +1,9 @@
 [submodule "ViciServer/Assets"]
 	path = ViciServer/Assets
 	url = https://github.com/nikovacs/ViciDefaultAssets.git
-[submodule "RmlUi"]
-	path = RmlUi
-	url = https://github.com/nikovacs/RmlUi.git
 [submodule "XPlatCppSdk"]
 	path = XPlatCppSdk
 	url = https://github.com/PlayFab/XPlatCppSdk
+[submodule "RmlUi"]
+	path = RmlUi
+	url = https://github.com/mikke89/RmlUi.git
