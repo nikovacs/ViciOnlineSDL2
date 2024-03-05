@@ -23,16 +23,11 @@ namespace JS {
 	void ServerScriptLoader::loadScript(std::string_view fileName) {
 		std::string contents{ Networking::AssetBroker::getFile(fileName)};
 		if (contents.empty()) return;
-		std::cout << "test1" << std::endl;
 		_globalScripts.emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
-		std::cout << "test2" << std::endl;
 		Script* script = _globalScripts.at(fileName.data()).get();
-		std::cout << "test3" << std::endl;
 		script->initialize([this](v8pp::context* ctx) { setApiSetupFuncs(ctx); });
-		std::cout << "test4" << std::endl;
 		script->run();
 		script->trigger("onLoad");
-		std::cout << "test5" << std::endl;
 	};
 
 	void ServerScriptLoader::unloadScript(std::string_view fileName) {

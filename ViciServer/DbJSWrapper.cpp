@@ -4,7 +4,7 @@
 #include <pqxx/pqxx>
 
 namespace Vici {
-	DbResultsJSWrapper::DbResultsJSWrapper(pqxx::result result) : _result{ result } {}
+	DbResultsJSWrapper::DbResultsJSWrapper(pqxx::result result) : _result{ result }, _current{ _result.cbegin() } {}
 	DbResultsJSWrapper::~DbResultsJSWrapper() {}
 	bool DbResultsJSWrapper::next() {
 		if (_result.empty() || _current == _result.end()) {
