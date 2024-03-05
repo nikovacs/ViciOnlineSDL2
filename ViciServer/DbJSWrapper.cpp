@@ -81,6 +81,8 @@ namespace Vici {
 		_cnx = ViciServer::instance->getDbPool().borrowConnection();
 		_tnx = new pqxx::work{ *_cnx };
 	}
+
+
 	DbTransactionJSWrapper::~DbTransactionJSWrapper() {
 		delete _tnx;
 		ViciServer::instance->getDbPool().returnConnection(_cnx);

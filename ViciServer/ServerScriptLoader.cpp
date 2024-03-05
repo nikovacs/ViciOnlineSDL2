@@ -148,7 +148,7 @@ namespace JS {
 		static v8pp::module dbApi{ _isolate };
 		dbApi
 			.function("exec", [](std::string sql) { return ViciServer::instance->getDbPool().exec(sql); })
-			.function("beginTransaction", []() { return Vici::DbTransactionJSWrapper{}; })
+			.function("beginTransaction", []() { return dbTransactionJSWrapper.create_object(v8::Isolate::GetCurrent()); })
 			;
 		ctx->module("db", dbApi);
 	}
