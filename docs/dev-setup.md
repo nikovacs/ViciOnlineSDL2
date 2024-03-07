@@ -9,11 +9,12 @@
 * SDL2 (via VCPKG)
 * SDL2-Image (via VCPKG)
 * v8/v8pp (Alreayd installed on the VM)
+* PlayFab (submodule)
+* RmlUi (submodule)
 
 * Open powershell, and navigate to ~/vcpkg
 * Run the following commands
   * `./vcpkg.exe install boost` (This takes the longest and is the largest. Currently working to remove this dependency)
-  * `./vcpkg.exe install rmlui` (Embeddable implementation of HTML + CSS)
   * `./vcpkg.exe install enet`  (Used for UDP Networking)
   * `./vcpkg.exe install sdl2`  (Displaying to the screen)
   * `./vcpkg.exe install sdl2-image`
