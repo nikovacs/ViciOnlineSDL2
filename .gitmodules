@@ -4,6 +4,12 @@
 [submodule "XPlatCppSdk"]
 	path = XPlatCppSdk
 	url = https://github.com/PlayFab/XPlatCppSdk
+	branch = 784bec91040d9063f8e022843a42fefc45493c5c
 [submodule "RmlUi"]
 	path = RmlUi
 	url = https://github.com/mikke89/RmlUi.git
+	branch = 55d18ed01683a317fa6ef641e337d534ef95d482
+[submodule "v8pp"]
+	path = v8pp
+	url = https://github.com/nikovacs/v8pp.git
+	branch = 06MAR2024

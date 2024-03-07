@@ -137,24 +137,24 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)XPlatCppSdk\external\jsoncpp\include;$(SolutionDir)XPlatCppSdk\code\include;$(SolutionDir)..\v8pp;$(SolutionDir)..\v8pp\packages\v8-v143-x64.9.8.177.4\include;$(SolutionDir)RmlUi\Include;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)XPlatCppSdk\external\jsoncpp\include;$(SolutionDir)XPlatCppSdk\code\include;$(SolutionDir)v8pp;$(SolutionDir)v8pp\packages\v8-v143-x64.9.8.177.4\include;$(SolutionDir)RmlUi\Include;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)XPlatCppSdk\build\Windows\x64\Debug\;$(SolutionDir)XPlatCppSdk\build\Windows\x64\Debug\XPlatCppWindows;$(SolutionDir)RmlUi\Build\Debug;$(SolutionDir)x64\Debug;$(SolutionDir)..\v8pp\packages\v8-v143-x64.9.8.177.4\lib\Debug;$(SolutionDir)..\v8pp\bin\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)XPlatCppSdk\build\Windows\x64\Debug\;$(SolutionDir)XPlatCppSdk\build\Windows\x64\Debug\XPlatCppWindows;$(SolutionDir)RmlUi\Build\Debug;$(SolutionDir)x64\Debug;$(SolutionDir)v8pp\packages\v8-v143-x64.9.8.177.4\lib\Debug;$(SolutionDir)v8pp\bin\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>lib_json.lib;XPlatCppWindows.lib;v8pp.lib;v8.dll.lib;v8_libbase.dll.lib;v8_libplatform.dll.lib;ViciEngine.lib;RmlCore.lib;RmlDebugger.lib;shell.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icudtl.dat $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icui18n.dll $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icuuc.dll $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8.dll $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8_libbase.dll $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8_libplatform.dll $(OutDir)
-copy $(SolutionDir)..\v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\zlib.dll $(OutDir)
+      <Command>copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icudtl.dat $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icui18n.dll $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\icuuc.dll $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8.dll $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8_libbase.dll $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\v8_libplatform.dll $(OutDir)
+copy $(SolutionDir)v8pp\packages\v8.redist-v143-x64.9.8.177.4\lib\Debug\zlib.dll $(OutDir)
 copy $(SolutionDir)RmlUi\Build\Debug\brotlicommon.dll $(OutDir)
 copy $(SolutionDir)RmlUi\Build\Debug\brotlidec.dll $(OutDir)
 copy $(SolutionDir)RmlUi\Build\Debug\bz2d.dll $(OutDir)

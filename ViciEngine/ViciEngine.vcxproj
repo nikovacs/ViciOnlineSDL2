@@ -134,7 +134,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\v8pp;$(SolutionDir)..\v8pp\packages\v8-v143-x64.9.8.177.4\include;$(SolutionDir)include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)v8pp;$(SolutionDir)v8pp\packages\v8-v143-x64.9.8.177.4\include;$(SolutionDir)include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
@@ -145,7 +145,7 @@
       <AdditionalDependencies>enet64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\v8pp\bin\Debug;$(SolutionDir)..\v8pp\packages\v8-v143-x64.9.8.177.4\lib\Debug;$(SolutionDir)x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)v8pp\bin\Debug;$(SolutionDir)v8pp\packages\v8-v143-x64.9.8.177.4\lib\Debug;$(SolutionDir)x64\Debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>v8pp.lib;v8.dll.lib;v8_libbase.dll.lib;v8_libplatform.dll.lib;winmm.lib;dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
