@@ -9,6 +9,7 @@
 * SDL2-Image (via VCPKG)
 * nlohmann-json (via VCPKG)
 * freetype (via VCPKG, dependency for RmlUi)
+* libpqxx (via VCPKG)
 * v8/v8pp (submodule)
 * PlayFab (submodule)
 * RmlUi (submodule)
@@ -21,3 +22,4 @@
   * `./vcpkg.exe install sdl2-image`
   * `./vcpkg.exe install nlohmann-json` (C++ JSON objects)
   * `./vcpkg.exe install freetype`
+  * `./vcpkg.exe install libpqxx`
