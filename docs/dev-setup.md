@@ -2,13 +2,13 @@
 ### Get the VM Virtual Disk from Nik & set up in either VirtualBox(most likely to work) or VMWare
 ### Open Visual Studio and clone the repo from https://github.com/nikovacs/ViciOnlineSDL2.git
 ### Dependencies
-* VCPKG (Already installed on the VM)
+* VCPKG (Install in ~)
 * Boost (via VCPKG)
-* RmlUI (via VCPKG)
 * Enet (via VCPKG)
 * SDL2 (via VCPKG)
 * SDL2-Image (via VCPKG)
-* v8/v8pp (Alreayd installed on the VM)
+* nlohmann-json (via VCPKG)
+* v8/v8pp (submodule)
 * PlayFab (submodule)
 * RmlUi (submodule)
 
