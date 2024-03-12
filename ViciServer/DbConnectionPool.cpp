@@ -9,6 +9,10 @@ namespace Vici {
 		_createConnections(_minAvailableConnections);
 	}
 
+	DbConnectionPool::DbConnectionPool(std::string_view completeUrl, int minAvailableConnections) : _connectionString{ completeUrl }, _minAvailableConnections{ minAvailableConnections } {
+		_createConnections(_minAvailableConnections);
+	}
+
 	pqxx::connection* DbConnectionPool::borrowConnection() {
 		if (_availableConnections.empty()) {
 			_createConnections(1);

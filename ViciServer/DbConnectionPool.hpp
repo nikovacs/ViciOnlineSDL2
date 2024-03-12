@@ -11,6 +11,7 @@ namespace Vici {
 	class DbConnectionPool {
 	public:
 		DbConnectionPool(std::string_view host, int port, std::string_view db, std::string_view user, std::string_view pass, int minAvailableConnections);
+		DbConnectionPool(std::string_view completeUrl, int minAvailableConnections);
 		~DbConnectionPool() = default;
 		pqxx::connection* borrowConnection();
 		void returnConnection(pqxx::connection* conn);

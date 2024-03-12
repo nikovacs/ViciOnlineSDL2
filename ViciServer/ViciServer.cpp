@@ -30,6 +30,13 @@ void ViciServer::_loadServerOptions() {
 
 void ViciServer::_initDbPool() {
 	nlohmann::json& dbOptions = _serverOptions["db"];
+
+	if (dbOptions.contains("url")) {
+		std::string url = dbOptions["url"];
+		_dbPool = std::make_unique<Vici::DbConnectionPool>(url, dbOptions["minConnections"]);
+		return;
+	}
+
 	std::string host = dbOptions["host"];
 	int port = dbOptions["port"];
 	std::string user = dbOptions["user"];
