@@ -16,6 +16,6 @@
 	"defaultClientR": {},
 	"db": {
 		"url": "postgres://bvoggtip:vC4tn7YUvOKBs3b5X9UDUzu-OWPDFvO6@ziggy.db.elephantsql.com/bvoggtip",
-		"minConnections": 4
+		"minConnections": 1
 	}
 }
