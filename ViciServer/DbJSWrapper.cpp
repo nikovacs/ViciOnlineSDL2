@@ -76,24 +76,24 @@ namespace Vici {
 	}
 
 
-	// DbTransactionJSWrapper
-	DbTransactionJSWrapper::DbTransactionJSWrapper() {
-		_cnx = ViciServer::instance->getDbPool().borrowConnection();
-		_tnx = std::make_unique<pqxx::work>(*_cnx);
-	}
+	//// DbTransactionJSWrapper
+	//DbTransactionJSWrapper::DbTransactionJSWrapper() {
+	//	_cnx = ViciServer::instance->getDbPool().borrowConnection();
+	//	_tnx = std::make_unique<pqxx::work>(*_cnx);
+	//}
 
 
-	DbTransactionJSWrapper::~DbTransactionJSWrapper() {
-		_tnx->abort();
-		_tnx.reset();
-		ViciServer::instance->getDbPool().returnConnection(_cnx);
-	}
+	//DbTransactionJSWrapper::~DbTransactionJSWrapper() {
+	//	_tnx->abort();
+	//	_tnx.reset();
+	//	ViciServer::instance->getDbPool().returnConnection(_cnx);
+	//}
 
-	DbResultsJSWrapper DbTransactionJSWrapper::exec(std::string sql) {
-		return DbResultsJSWrapper(_tnx->exec(sql));
-	}
+	//DbResultsJSWrapper DbTransactionJSWrapper::exec(std::string sql) {
+	//	return DbResultsJSWrapper(_tnx->exec(sql));
+	//}
 
-	void DbTransactionJSWrapper::commit() {
-		_tnx->commit();
-	}
+	//void DbTransactionJSWrapper::commit() {
+	//	_tnx->commit();
+	//}
 }

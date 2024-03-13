@@ -1,5 +1,6 @@
 #include "DbConnectionPool.hpp"
 #include <iostream>
+
 namespace Vici {
 	DbConnectionPool::DbConnectionPool(std::string_view host, int port, std::string_view db, std::string_view user, std::string_view pass, int minAvailableConnections) :
 		_host{ host }, _port{ port }, _db{ db }, _user{ user }, _pass{ pass },
@@ -14,6 +15,7 @@ namespace Vici {
 	}
 
 	pqxx::connection* DbConnectionPool::borrowConnection() {
+		std::lock_guard<std::mutex> lock(_mutex);
 		if (_availableConnections.empty()) {
 			_createConnections(1);
 		}
@@ -27,6 +29,7 @@ namespace Vici {
 	}
 
 	void DbConnectionPool::returnConnection(pqxx::connection* conn) {
+		std::lock_guard<std::mutex> lock(_mutex);
 		auto it = std::find_if(_inUseConnections.begin(), _inUseConnections.end(), [conn](const std::unique_ptr<pqxx::connection>& c) {
 			return c.get() == conn;
 		});
@@ -37,14 +40,14 @@ namespace Vici {
 		}
 	}
 
-	DbResultsJSWrapper DbConnectionPool::exec(std::string_view sql) {
+	/*DbResultsJSWrapper DbConnectionPool::exec(std::string_view sql) {
 		pqxx::connection* conn = borrowConnection();
 		pqxx::nontransaction ntx(*conn);
 		pqxx::result result = ntx.exec(sql);
 		ntx.abort();
 		returnConnection(conn);
 		return result;
-	}
+	}*/
 
 	void DbConnectionPool::_createConnections(int count) {
 		for (int i = 0; i < count; i++) {

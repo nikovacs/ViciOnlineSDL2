@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetBroker.cpp" />
+    <ClCompile Include="DbAsyncQueryRunner.cpp" />
     <ClCompile Include="DbConnectionPool.cpp" />
     <ClCompile Include="DbJSWrapper.cpp" />
     <ClCompile Include="main.cpp" />
@@ -183,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetBroker.hpp" />
+    <ClInclude Include="DbAsyncQueryRunner.hpp" />
     <ClInclude Include="DbConnectionPool.hpp" />
     <ClInclude Include="DbJSWrapper.hpp" />
     <ClInclude Include="ServerPlayerManager.hpp" />

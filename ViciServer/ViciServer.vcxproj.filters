@@ -66,6 +66,9 @@
     <ClCompile Include="DbJSWrapper.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="DbAsyncQueryRunner.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciServer.hpp">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="DbJSWrapper.hpp">
       <Filter>Header Files\JSRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="DbAsyncQueryRunner.hpp">
+      <Filter>Header Files\Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

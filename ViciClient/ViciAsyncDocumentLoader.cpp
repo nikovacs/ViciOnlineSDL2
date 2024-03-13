@@ -75,6 +75,7 @@ namespace JS {
 	void ViciAsyncDocumentLoader::_attemptResolveBySource() {
 		std::vector<size_t> toRemove{};
 		for (size_t i{ 0 }; i < _inProgressNameSourcePairs.size(); ++i) {
+			v8::Isolate::Scope isolateScope{ _isolate };
 			v8::HandleScope handleScope{ _isolate };
 			v8::Local<v8::Context> ctx{ _inProgressNameSourceResolvers[i].second.Get(_isolate) };
 			v8::Context::Scope contextScope{ ctx };

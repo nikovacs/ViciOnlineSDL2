@@ -5,7 +5,8 @@
 #include <vector>
 #include <pqxx/pqxx>
 #include <memory>
-#include "DbJSWrapper.hpp"
+#include <mutex>
+//#include "DbJSWrapper.hpp"
 
 namespace Vici {
 	class DbConnectionPool {
@@ -15,7 +16,7 @@ namespace Vici {
 		~DbConnectionPool() = default;
 		pqxx::connection* borrowConnection();
 		void returnConnection(pqxx::connection* conn);
-		DbResultsJSWrapper exec(std::string_view sql);
+		//DbResultsJSWrapper exec(std::string_view sql);
 	private:
 		void _createConnections(int count);
 
@@ -29,5 +30,6 @@ namespace Vici {
 
 		std::vector<std::unique_ptr<pqxx::connection>> _availableConnections{};
 		std::vector<std::unique_ptr<pqxx::connection>> _inUseConnections{};
+		std::mutex _mutex{};
 	 };
 }

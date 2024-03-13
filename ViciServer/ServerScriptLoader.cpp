@@ -137,18 +137,18 @@ namespace JS {
 			;
 		ctx->class_("DbResults", dbResultsJSWrapper);
 
-		static v8pp::class_<Vici::DbTransactionJSWrapper> dbTransactionJSWrapper{ _isolate };
+		/*static v8pp::class_<Vici::DbTransactionJSWrapper> dbTransactionJSWrapper{ _isolate };
 		dbTransactionJSWrapper
 			.auto_wrap_objects(true)
 			.function("exec", &Vici::DbTransactionJSWrapper::exec)
 			.function("commit", &Vici::DbTransactionJSWrapper::commit)
 			;
-		ctx->class_("DbTransaction", dbTransactionJSWrapper);
+		ctx->class_("DbTransaction", dbTransactionJSWrapper);*/
 
 		static v8pp::module dbApi{ _isolate };
 		dbApi
-			.function("exec", [](std::string sql) { return ViciServer::instance->getDbPool().exec(sql); })
-			.function("beginTransaction", []() { return dbTransactionJSWrapper.create_object(v8::Isolate::GetCurrent()); })
+			.function("exec", [this](std::string sql) { return ViciServer::instance->getDbAsyncQueryRunner().runQuery(sql, _isolate->GetCurrentContext()); })
+			//.function("beginTransaction", []() { return dbTransactionJSWrapper.create_object(v8::Isolate::GetCurrent()); })
 			;
 		ctx->module("db", dbApi);
 	}

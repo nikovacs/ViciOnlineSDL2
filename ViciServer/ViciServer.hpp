@@ -5,19 +5,19 @@
 #include <thread>
 #include "nlohmann/json.hpp"
 #include "ServerScriptLoader.hpp"
-#include "DbConnectionPool.hpp"
+#include "DbAsyncQueryRunner.hpp"
 
 class ViciServer {
 private:
 	nlohmann::json _serverOptions;
-	std::unique_ptr<Vici::DbConnectionPool> _dbPool;
+	std::unique_ptr<Vici::DbAsyncQueryRunner> _dbAsyncQueryRunner;
 	std::unique_ptr<std::thread> _networkThread;
 	std::unique_ptr<Networking::UdpServer> _udpServer;
 	JS::ServerScriptLoader _scriptLoader{};
 	static const int TICKS_PER_SECOND{ 20 };
 	bool _running;
 	void _loadServerOptions();
-	void _initDbPool();
+	void _initDb();
 public:
 	static ViciServer* instance;
 	ViciServer();
@@ -26,5 +26,6 @@ public:
 	void stop();
 	void serverLoop();
 	nlohmann::json& getServerOptions();
-	Vici::DbConnectionPool& getDbPool();
+	Vici::DbAsyncQueryRunner& getDbAsyncQueryRunner();
+	v8::Isolate* getIsolate();
 };

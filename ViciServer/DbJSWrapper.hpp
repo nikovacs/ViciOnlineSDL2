@@ -27,7 +27,7 @@ namespace Vici {
 	};
 
 
-	class DbTransactionJSWrapper {
+	/*class DbTransactionJSWrapper {
 	public:
 		DbTransactionJSWrapper();
 		virtual ~DbTransactionJSWrapper();
@@ -36,5 +36,5 @@ namespace Vici {
 	private:
 		std::unique_ptr<pqxx::work> _tnx{ nullptr };
 		pqxx::connection* _cnx{ nullptr };
-	};
+	};*/
 }
