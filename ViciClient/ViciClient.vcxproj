@@ -140,6 +140,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)XPlatCppSdk\external\jsoncpp\include;$(SolutionDir)XPlatCppSdk\code\include;$(SolutionDir)v8pp;$(SolutionDir)v8pp\packages\v8-v143-x64.9.8.177.4\include;$(SolutionDir)RmlUi\Include;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,6 +191,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
