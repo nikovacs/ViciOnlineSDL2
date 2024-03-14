@@ -33,9 +33,9 @@ namespace Vici {
 				resolver->Resolve(ctx, v8pp::to_v8(isolate, DbResultsJSWrapper{ result }));
 			}
 			catch (const std::exception& e) {
-				std::cout << e.what() << std::endl;
-				auto ex = v8pp::throw_ex(isolate, e.what());
-				resolver->Reject(ctx, ex);
+				v8::Local<v8::String> v8ErrorText = v8pp::to_v8(isolate, e.what());
+				v8::Local<v8::Value> v8Error = v8::Exception::Error(v8ErrorText);
+				resolver->Reject(ctx, v8Error);
 			}
 		}
 
