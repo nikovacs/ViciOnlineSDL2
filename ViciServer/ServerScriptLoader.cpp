@@ -116,12 +116,11 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
+		std::cout << "Setting up server API" << std::endl;
 		setupDatabaseApi(ctx);
 	}
 
 	void ServerScriptLoader::setupDatabaseApi(v8pp::context* ctx) {
-		v8::HandleScope scope{ _isolate };
-
 		static v8pp::class_<Vici::DbResultsJSWrapper> dbResultsJSWrapper{ _isolate };
 		dbResultsJSWrapper
 			.auto_wrap_objects(true)

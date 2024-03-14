@@ -17,27 +17,26 @@ namespace Vici {
 		for (size_t i{ 0 }; i < _inProgressQueries.size(); i++) {
 			auto& future = _inProgressQueries[i].first;
 			auto& v8Resolver = _inProgressQueries[i].second;
-			if (future.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
+			if (future->wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
 				continue;
 			}
 			toRemove.push_back(i);
 
-			//v8::Isolate::Scope isolateScope{ isolate };
 			v8::HandleScope handleScope{ isolate };
-			v8::Local<v8::Context> ctx = _futureToContext[_hashFuture(future)].Get(isolate);
-			std::cout << "NIK processInProgress: " << ctx.IsEmpty() << std::endl;
-			_futureToContext.erase(_hashFuture(future));
+			v8::Local<v8::Context> ctx = _futureToContext[_hashFuture(*future)].Get(isolate);
+			_futureToContext.erase(_hashFuture(*future));
 			v8::Local<v8::Promise::Resolver> resolver = v8Resolver.Get(isolate);
 
 			pqxx::result result;
 			try {
-				result = future.get();
+				result = future->get();
+				resolver->Resolve(ctx, v8pp::to_v8(isolate, DbResultsJSWrapper{ result }));
 			}
 			catch (const std::exception& e) {
+				std::cout << e.what() << std::endl;
 				auto ex = v8pp::throw_ex(isolate, e.what());
 				resolver->Reject(ctx, ex);
 			}
-			resolver->Resolve(ctx, v8pp::to_v8(isolate, DbResultsJSWrapper{ result }));
 		}
 
 		// handle the removal of completed queries
@@ -49,15 +48,16 @@ namespace Vici {
 	}
 
 	v8::Local<v8::Promise> DbAsyncQueryRunner::runQuery(std::string_view sql, v8::Local<v8::Context> ctx) {
-		//v8::Isolate::Scope isolateScope{ ctx->GetIsolate() };
-		//v8::EscapableHandleScope handleScope{ ctx->GetIsolate() };
+		v8::Context::Scope contextScope{ ctx };
 
 		auto resolver = v8::Promise::Resolver::New(ctx).ToLocalChecked();
 		auto future = std::async(std::launch::async, &DbAsyncQueryRunner::_runQueryAsync, this, sql);
 		auto v8Promise = resolver->GetPromise();
+		std::unique_ptr<std::future<pqxx::result>> uniqueFuture{ std::make_unique<std::future<pqxx::result>>(std::move(future)) };
 
-		_futureToContext.emplace(_hashFuture(future), v8::Global<v8::Context>{ctx->GetIsolate(), ctx});
-		_inProgressQueries.push_back({ std::move(future), v8::Global<v8::Promise::Resolver>{ctx->GetIsolate(), resolver}});
+
+		_futureToContext.emplace(_hashFuture(*uniqueFuture), v8::Global<v8::Context>{ctx->GetIsolate(), ctx});
+		_inProgressQueries.push_back({ std::move(uniqueFuture), v8::Global<v8::Promise::Resolver>{ctx->GetIsolate(), resolver}});
 
 		return v8Promise;
 	}
