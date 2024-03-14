@@ -114,3 +114,9 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	_assetCache.emplace(fileName, _assetsInProgress.at(fileName));
 	_assetCache.update();
 }
+
+void Networking::AssetManager::clearCache() {
+	_assetCache.clear();
+	_permanentAssets.clear();
+	_assetsInProgress.clear();
+}

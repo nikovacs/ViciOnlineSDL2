@@ -37,6 +37,9 @@ ViciClient::~ViciClient() {
 	// scene manager needs to dispose of rmlContexts before ViciGuiHost deinitializes
 	_sceneManager.reset();
 	GUI::ViciGuiHost::deinitialize();
+	// Clearing the cache is required before deleting the renderer
+	// otherwise a debug assert may, or may not, be triggered
+	Networking::AssetManager::clearCache();
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();

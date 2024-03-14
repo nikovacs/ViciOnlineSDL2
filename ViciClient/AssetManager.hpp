@@ -14,6 +14,7 @@ namespace Networking {
 		static void generatePermanentAssets();
 		static void requestFile(std::string_view, int channelID);
 		static void onReceived(ENetEvent& event);
+		static void clearCache();
 
 		template <typename T>
 		static std::shared_ptr<T> resolve(std::string_view fileName) {
