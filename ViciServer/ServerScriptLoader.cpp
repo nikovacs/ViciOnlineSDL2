@@ -127,12 +127,18 @@ namespace JS {
 			.function("next", &Vici::DbResultsJSWrapper::next)
 			.function("hasNext", &Vici::DbResultsJSWrapper::hasNext)
 			.function("isEmpty", &Vici::DbResultsJSWrapper::isEmpty)
-			.function("getString", &Vici::DbResultsJSWrapper::getString)
-			.function("getInt", &Vici::DbResultsJSWrapper::getInt)
-			.function("getFloat", &Vici::DbResultsJSWrapper::getFloat)
-			.function("getBool", &Vici::DbResultsJSWrapper::getBool)
+			.function("getString", &Vici::DbResultsJSWrapper::getValue<std::string>)
+			.function("getSmallInt", &Vici::DbResultsJSWrapper::getValue<int16_t>)
+			.function("getInt", &Vici::DbResultsJSWrapper::getValue<int32_t>)
+			.function("getBigInt", &Vici::DbResultsJSWrapper::getBigInt)
+			.function("getReal", &Vici::DbResultsJSWrapper::getValue<float>)
+			.function("getDouble", &Vici::DbResultsJSWrapper::getValue<double>)
+			// To add the following two types would require a library like bigdecimal.js
+			//.function("getNumeric", &Vici::DbResultsJSWrapper::getNumeric)
+			//.function("getDecimal", &Vici::DbResultsJSWrapper::getDecimal)
+			.function("getBool", &Vici::DbResultsJSWrapper::getValue<bool>)
 			.function("getJson", &Vici::DbResultsJSWrapper::getJson)
-			.function("getArray", &Vici::DbResultsJSWrapper::getArray)
+			//.function("getArray", &Vici::DbResultsJSWrapper::getArray)
 			;
 		ctx->class_("DbResults", dbResultsJSWrapper);
 

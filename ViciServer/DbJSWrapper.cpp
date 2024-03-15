@@ -1,7 +1,5 @@
 #include "DbJSWrapper.hpp"
-#include <v8pp/convert.hpp>
 #include "ViciServer.hpp"
-#include <pqxx/pqxx>
 
 namespace Vici {
 	DbResultsJSWrapper::DbResultsJSWrapper(pqxx::result result) : _result{ result }, _current{ _result.cbegin() } {}
@@ -27,52 +25,34 @@ namespace Vici {
 		return _result.empty();
 	}
 
-	v8::Local<v8::Value> DbResultsJSWrapper::getString(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
-		if (value.is_null()) {
+	v8::Local<v8::Value> DbResultsJSWrapper::getBigInt(std::string columnName) {
+		std::optional<pqxx::field> opt = _getValue(columnName);
+		if (!opt.has_value()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
-		return v8pp::to_v8(v8::Isolate::GetCurrent(), value.as<std::string>());
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getInt(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
-		if (value.is_null()) {
-			return v8::Null(v8::Isolate::GetCurrent());
-		}
-		return v8pp::to_v8(v8::Isolate::GetCurrent(), value.as<int>());
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getFloat(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
-		if (value.is_null()) {
-			return v8::Null(v8::Isolate::GetCurrent());
-		}
-		return v8pp::to_v8(v8::Isolate::GetCurrent(), value.as<double>());
-	}
-
-	v8::Local<v8::Value> DbResultsJSWrapper::getBool(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
-		if (value.is_null()) {
-			return v8::Null(v8::Isolate::GetCurrent());
-		}
-		return v8pp::to_v8(v8::Isolate::GetCurrent(), value.as<bool>());
+		std::cout << "getBigInt: " << opt.value().as<int64_t>() << std::endl;
+		return v8::BigInt::New(v8::Isolate::GetCurrent(), opt.value().as<int64_t>());
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getJson(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
-		if (value.is_null()) {
+		std::optional<pqxx::field> opt = _getValue(columnName);
+		if (!opt.has_value()) {
 			return v8::Null(v8::Isolate::GetCurrent());
 		}
-		return v8pp::json_parse(v8::Isolate::GetCurrent(), value.as<std::string>());
+		return v8pp::json_parse(v8::Isolate::GetCurrent(), opt.value().as<std::string>());
 	}
 
 	v8::Local<v8::Value> DbResultsJSWrapper::getArray(std::string columnName) {
-		auto value = _current[_result.column_number(columnName)];
+		// TODO
+		return v8::Null(v8::Isolate::GetCurrent());
+	}
+
+	std::optional<pqxx::field> DbResultsJSWrapper::_getValue(std::string& columnName) {
+		auto value = _current[_result.column_number("\"" + columnName + "\"")];
 		if (value.is_null()) {
-			return v8::Null(v8::Isolate::GetCurrent());
+			return std::nullopt;
 		}
-		return v8pp::json_parse(v8::Isolate::GetCurrent(), value.as<std::string>()).As<v8::Array>();
+		return value;
 	}
 
 
