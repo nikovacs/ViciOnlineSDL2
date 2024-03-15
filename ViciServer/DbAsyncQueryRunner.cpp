@@ -51,7 +51,7 @@ namespace Vici {
 		v8::Context::Scope contextScope{ ctx };
 
 		auto resolver = v8::Promise::Resolver::New(ctx).ToLocalChecked();
-		auto future = std::async(std::launch::async, &DbAsyncQueryRunner::_runQueryAsync, this, sql);
+		auto future = std::async(std::launch::async, &DbAsyncQueryRunner::_runQueryAsync, this, std::string(sql));
 		auto v8Promise = resolver->GetPromise();
 		std::unique_ptr<std::future<pqxx::result>> uniqueFuture{ std::make_unique<std::future<pqxx::result>>(std::move(future)) };
 
@@ -62,7 +62,7 @@ namespace Vici {
 		return v8Promise;
 	}
 
-	pqxx::result DbAsyncQueryRunner::_runQueryAsync(std::string_view sql) {
+	pqxx::result DbAsyncQueryRunner::_runQueryAsync(std::string sql) {
 		pqxx::connection* conn = _connectionPool->borrowConnection();
 		pqxx::nontransaction ntx(*conn);
 		pqxx::result result = ntx.exec(sql);

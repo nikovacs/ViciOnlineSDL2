@@ -28,7 +28,7 @@ namespace Vici {
 		DbAsyncQueryRunner(DbAsyncQueryRunner&&) = delete;
 		DbAsyncQueryRunner& operator=(DbAsyncQueryRunner&&) = delete;
 
-		pqxx::result _runQueryAsync(std::string_view sql);
+		pqxx::result _runQueryAsync(std::string sql);
 		//pqxx::result _runQueryInTransactionAsync(std::string_view sql, pqxx::work& tnx);
 		size_t _hashFuture(const std::future<pqxx::result>& future);
 	};
