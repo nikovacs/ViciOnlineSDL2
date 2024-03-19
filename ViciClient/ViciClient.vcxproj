@@ -212,6 +212,7 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)</Command>
     <ClCompile Include="ClientPlayerJSWrapper.cpp" />
     <ClCompile Include="ClientScriptLoader.cpp" />
     <ClCompile Include="EntityDrawable.cpp" />
+    <ClCompile Include="Gottimation.cpp" />
     <ClCompile Include="LoginScene.cpp" />
     <ClCompile Include="NetworkedPlayerJSWrapper.cpp" />
     <ClCompile Include="PlayerInfo.cpp" />
@@ -252,6 +253,8 @@ copy $(SolutionDir)RmlUi\Build\Debug\zlibd1.dll $(OutDir)</Command>
     <ClInclude Include="CaseInsensitiveComparator.hpp" />
     <ClInclude Include="ClientPlayerJSWrapper.hpp" />
     <ClInclude Include="Font_ApplestormChalkboard.h" />
+    <ClInclude Include="Gottimation.hpp" />
+    <ClInclude Include="IAnimation.hpp" />
     <ClInclude Include="LoginScene.hpp" />
     <ClInclude Include="NetworkedPlayerJSWrapper.hpp" />
     <ClInclude Include="PlayerInfo.hpp" />

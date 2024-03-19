@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EntityDrawable.hpp"
-#include "Animation.hpp"
+#include "IAnimation.hpp"
 #include "NetworkAsset.hpp" // circular inclusion?
 #include <memory>
 #include <string>
@@ -18,7 +18,7 @@ namespace Entities {
 		std::string_view getAni();
 	protected:
 		std::string _animationName{};
-		std::unique_ptr<Networking::NetworkAsset<Animations::Animation>> _animation{};
+		std::unique_ptr<Networking::NetworkAsset<Animations::IAnimation>> _animation{};
 	
 	};
 }

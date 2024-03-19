@@ -49,9 +49,6 @@
     <Filter Include="Source Files\Animation">
       <UniqueIdentifier>{348f49fa-b785-4cbc-b2b0-79e79410ca13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Animation">
-      <UniqueIdentifier>{af9e3ba0-e21d-4ddd-8b0d-64af56a7fb9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{1830b9d3-1a47-4cf4-9b7b-67835cf53b9f}</UniqueIdentifier>
     </Filter>
@@ -88,6 +85,21 @@
     <Filter Include="Source Files\Scenes\LoginScene">
       <UniqueIdentifier>{6a76fcf5-d688-4f94-aacb-b4252a1735b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Animations">
+      <UniqueIdentifier>{af9e3ba0-e21d-4ddd-8b0d-64af56a7fb9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animations\BasicAnimation">
+      <UniqueIdentifier>{b63139ff-ed50-419b-a996-e53397f420fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animations\Gottimation">
+      <UniqueIdentifier>{4b3871aa-6d8a-4f81-b117-55e7a555db32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation\BasicAnimation">
+      <UniqueIdentifier>{e11705aa-bb14-4dc2-a776-e037c18fb0e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation\Gottimation">
+      <UniqueIdentifier>{69d5235f-9445-4e39-a606-05db72b674bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -122,15 +134,6 @@
     </ClCompile>
     <ClCompile Include="EntityTexture.cpp">
       <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameDirection.cpp">
-      <Filter>Source Files\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Frame.cpp">
-      <Filter>Source Files\Animation</Filter>
     </ClCompile>
     <ClCompile Include="EntityAnimated.cpp">
       <Filter>Source Files\Entities</Filter>
@@ -216,6 +219,18 @@
     <ClCompile Include="PlayerInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrameDirection.cpp">
+      <Filter>Source Files\Animation\BasicAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Animation\BasicAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files\Animation\BasicAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Gottimation.cpp">
+      <Filter>Source Files\Animation\Gottimation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViciClient.hpp">
@@ -259,15 +274,6 @@
     </ClInclude>
     <ClInclude Include="EntityTexture.hpp">
       <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.hpp">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameDirection.hpp">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame.hpp">
-      <Filter>Header Files\Animation</Filter>
     </ClInclude>
     <ClInclude Include="EntityAnimated.hpp">
       <Filter>Header Files\Entities</Filter>
@@ -352,6 +358,21 @@
     </ClInclude>
     <ClInclude Include="PlayerInfo.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.hpp">
+      <Filter>Header Files\Animations\BasicAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
+      <Filter>Header Files\Animations\BasicAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameDirection.hpp">
+      <Filter>Header Files\Animations\BasicAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Gottimation.hpp">
+      <Filter>Header Files\Animations\Gottimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

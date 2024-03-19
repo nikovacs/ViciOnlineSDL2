@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IAnimation.hpp"
 #include "Frame.hpp"
 #include <string_view>
 #include <string>
@@ -16,7 +17,7 @@ namespace Networking {
 }
 
 namespace Animations {
-	class Animation {
+	class Animation : public IAnimation {
 	public:
 		Animation(std::string_view name, std::string_view source);
 		virtual ~Animation();
