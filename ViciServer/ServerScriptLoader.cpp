@@ -138,7 +138,14 @@ namespace JS {
 			//.function("getDecimal", &Vici::DbResultsJSWrapper::getDecimal)
 			.function("getBool", &Vici::DbResultsJSWrapper::getValue<bool>)
 			.function("getJson", &Vici::DbResultsJSWrapper::getJson)
-			//.function("getArray", &Vici::DbResultsJSWrapper::getArray)
+			.function("getArrayOfString", &Vici::DbResultsJSWrapper::getArrayOf<std::string>)
+			.function("getArrayOfSmallInt", &Vici::DbResultsJSWrapper::getArrayOf<int16_t>)
+			.function("getArrayOfInt", &Vici::DbResultsJSWrapper::getArrayOf<int32_t>)
+			.function("getArrayOfBigInt", &Vici::DbResultsJSWrapper::getArrayOf<int64_t>)
+			.function("getArrayOfReal", &Vici::DbResultsJSWrapper::getArrayOf<float>)
+			.function("getArrayOfDouble", &Vici::DbResultsJSWrapper::getArrayOf<double>)
+			.function("getArrayOfBool", &Vici::DbResultsJSWrapper::getArrayOf<bool>)
+			.function("getArrayOfJson", &Vici::DbResultsJSWrapper::getArrayOf<v8::Local<v8::Value>>)
 			;
 		ctx->class_("DbResults", dbResultsJSWrapper);
 
