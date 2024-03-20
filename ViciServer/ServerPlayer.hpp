@@ -24,6 +24,7 @@ namespace Entities {
 		const std::set<std::string>& getLevelsWatching();
 		void stopWatchingLevel(std::string_view lvl);
 		std::string_view getUsername();
+		void addScript();
 	private:
 		uint32_t _connectionId{};
 		std::string _animation{};

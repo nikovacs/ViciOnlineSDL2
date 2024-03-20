@@ -1,4 +1,5 @@
 #include "UdpServer.hpp"
+#include "ViciServer.hpp"
 #include "AssetBroker.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
@@ -37,10 +38,12 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             switch (static_cast<int>(event.channelID)) {
             case UdpChannels::Animation:
             case UdpChannels::Texture:
-            case UdpChannels::Script:
             case UdpChannels::Level:
             case UdpChannels::String:
                 AssetBroker::sendFile(event);
+                break;
+            case UdpChannels::Script:
+                AssetBroker::sendFile(event, true);
                 break;
             case UdpChannels::handshake:
             {

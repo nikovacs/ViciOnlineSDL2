@@ -21,7 +21,8 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::loadScript(std::string_view fileName) {
-		std::string contents{ Networking::AssetBroker::getFile(fileName)};
+		std::string fileNameStr{ preProcessScriptFilename(fileName) };
+		std::string contents{ Networking::AssetBroker::getFile(fileNameStr)};
 		if (contents.empty()) return;
 		_globalScripts.emplace(fileName, std::make_unique<Script>(getIsolate(), contents));
 		Script* script = _globalScripts.at(fileName.data()).get();
@@ -51,6 +52,17 @@ namespace JS {
 	};
 
 	void ServerScriptLoader::update() {
+		{
+			nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
+			std::string rootScript{ serverOptions["rootScript"] };
+			std::lock_guard lock{ _playersNeedingRootScriptMutex };
+			for (uint32_t playerId : _playersNeedingRootScript) {
+				std::cout << "Loading root script for player " << playerId << std::endl;
+				loadScriptForPlayer(playerId, rootScript);
+			}
+			_playersNeedingRootScript.clear();
+		}
+
 		for (auto& [fileName, script] : _globalScripts) {
 			script->trigger("onUpdate");
 		}
@@ -78,8 +90,16 @@ namespace JS {
 		}
 	};
 
+	void ServerScriptLoader::loadRootScriptForPlayer(int32_t playerId) {
+		nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
+		
+		std::lock_guard lock{ _playersNeedingRootScriptMutex };
+		_playersNeedingRootScript.emplace_back(playerId);
+	}
+
 	void ServerScriptLoader::loadScriptForPlayer(int32_t playerId, std::string_view fileName) {
-		std::string contents{ Networking::AssetBroker::getFile(fileName) };
+		std::string fileNameStr { preProcessScriptFilename(fileName) };
+		std::string contents{ Networking::AssetBroker::getFile(fileNameStr) };
 		if (contents.empty()) return;
 
 		_playerScripts[playerId].emplace(fileName, std::make_unique<Script>(getIsolate(), contents));

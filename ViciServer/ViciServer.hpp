@@ -27,5 +27,6 @@ public:
 	void serverLoop();
 	nlohmann::json& getServerOptions();
 	Vici::DbAsyncQueryRunner& getDbAsyncQueryRunner();
+	JS::ServerScriptLoader& getScriptLoader();
 	v8::Isolate* getIsolate();
 };

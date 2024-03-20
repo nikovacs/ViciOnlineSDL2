@@ -14,6 +14,7 @@
 	"defaultZoom": 1,
 	"defaultClientW": {},
 	"defaultClientR": {},
+	"rootScript": "masterScript.js",
 	"db": {
 		"url": "postgresql://vicidb_owner:AEKSXDBI0xR3@ep-ancient-heart-a4polhjz.us-east-1.aws.neon.tech/vicidb?sslmode=require&options=-cclient_encoding%3DUTF8",
 		"minConnections": 1

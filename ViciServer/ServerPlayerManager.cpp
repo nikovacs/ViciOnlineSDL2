@@ -5,6 +5,7 @@
 #include "enet/enet.h"
 #include <memory>
 #include "ServerScriptLoader.hpp"
+#include "AssetBroker.hpp"
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> ServerPlayerManager::_players{};
@@ -47,6 +48,11 @@ namespace Networking {
 			playerData["clientW"] = serverOptions["defaultClientW"];
 			playerData["clientR"] = serverOptions["defaultClientR"];
 		}
+		
+		std::string rootScript = "cs_" + std::string(serverOptions["rootScript"]);
+		if (Networking::AssetBroker::containsFile(rootScript)) {
+			playerData["rootScript"] = serverOptions["rootScript"];
+		}
 
 		nlohmann::json* clientW = new nlohmann::json( playerData["clientW"] );
 		nlohmann::json* clientR = new nlohmann::json( playerData["clientR"] );
@@ -60,6 +66,10 @@ namespace Networking {
 		player.setHeight(playerData["h"]);
 
 		UdpServer::sendJson(peer, playerData, Networking::UdpChannels::initialPlayerData, ENET_PACKET_FLAG_RELIABLE);
+
+		if (playerData.contains("rootScript")) {
+			ViciServer::instance->getScriptLoader().loadRootScriptForPlayer(peer->connectID);
+		}
 	}
 
 	void ServerPlayerManager::spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId) {

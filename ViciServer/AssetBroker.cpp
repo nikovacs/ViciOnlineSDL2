@@ -6,13 +6,21 @@
 
 namespace fs = std::filesystem;
 
-void Networking::AssetBroker::sendFile(ENetEvent& event) {
+void Networking::AssetBroker::sendFile(ENetEvent& event, bool isScript) {
 	auto fileName = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
+	if (isScript) {
+		fileName = "cs_" + fileName;
+	}
 	if (_assetIndex.count(fileName.data()) > 0) {
 		std::string path = _assetIndex[fileName.data()];
 		std::string fileData = readFile(path);
 		if (fileData.empty()) {
 			return;
+		}
+
+		if (isScript) {
+			// remove cs_
+			fileName = fileName.substr(3);
 		}
 		
 		nlohmann::json json;
