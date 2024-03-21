@@ -106,7 +106,11 @@ namespace Networking {
 		for (const std::string& lvl : player.getLevelsWatching()) {
 			_playersWatchingLevel.at(lvl).erase(id);
 		}
-		_playersOnLevel.at(player.getLevel().data()).erase(id);
+
+		// if the player disconnects before loading into a level, the level will be empty
+		if (!player.getLevel().empty()) {
+			_playersOnLevel.at(player.getLevel().data()).erase(id);
+		}
 		_players.erase(id); // player reference is now invalid
 		_peers.erase(id);
 	}

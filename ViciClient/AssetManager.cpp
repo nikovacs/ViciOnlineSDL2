@@ -35,29 +35,33 @@ std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager:
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
 
 void Networking::AssetManager::generatePermanentAssets() {
-	// ensure the file names are lowercase
+	// if the following items are not retrieved exactly as written here (including case)
+	// the client will attempt to retrieve them from the server
+	// however, the connection to the server is not yet established at this point
+	// so the client will not be able to retrieve them and will crash
 	std::string content(reinterpret_cast<char const*>(ApplestormChalkboard_otf), ApplestormChalkboard_otf_len);
-	_permanentAssets.emplace("applestormchalkboard.otf", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("ApplestormChalkboard.otf", std::make_shared<std::string>(content));
 
 	content = std::string(reinterpret_cast<char const*>(loginScene_css), loginScene_css_len);
-	_permanentAssets.emplace("__vici_internal__loginscene.css", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("__vici_internal__loginScene.css", std::make_shared<std::string>(content));
 	
 	content = std::string(reinterpret_cast<char const*>(loginScene_html), loginScene_html_len);
-	_permanentAssets.emplace("__vici_internal__loginscene.html", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("__vici_internal__loginScene.html", std::make_shared<std::string>(content));
 
 	content = std::string(reinterpret_cast<char const*>(guiBackground_png), guiBackground_png_len);
-	_permanentAssets.emplace("__vici_internal__guibackground.png", std::make_shared<AssetTypes::Texture>(content));
+	_permanentAssets.emplace("__vici_internal__guiBackground.png", std::make_shared<AssetTypes::Texture>(content));
 
 	content = std::string(reinterpret_cast<char const*>(vicionlinelogo_png), vicionlinelogo_png_len);
-	_permanentAssets.emplace("__vici_internal__vicionlinelogo.png", std::make_shared<AssetTypes::Texture>(content));
+	_permanentAssets.emplace("__vici_internal__viciOnlineLogo.png", std::make_shared<AssetTypes::Texture>(content));
 
 	content = std::string(reinterpret_cast<char const*>(registerScene_html), registerScene_html_len);
-	_permanentAssets.emplace("__vici_internal__registerscene.html", std::make_shared<std::string>(content));
+	_permanentAssets.emplace("__vici_internal__registerScene.html", std::make_shared<std::string>(content));
 }
 
-void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {
-	const uint8_t* buffer = reinterpret_cast<const uint8_t*>(fileName.data());
-	size_t bufferSize = fileName.length();
+void Networking::AssetManager::requestFile(std::string_view filePath, int channelID) {
+	std::cout << "Requesting " << filePath << std::endl;
+	const uint8_t* buffer = reinterpret_cast<const uint8_t*>(filePath.data());
+	size_t bufferSize = filePath.length();
 
 	// Create an ENetPacket with the byte buffer
 	ENetPacket* packet = enet_packet_create(buffer, bufferSize, ENET_PACKET_FLAG_RELIABLE);
@@ -72,23 +76,20 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 }
 
 void Networking::AssetManager::onReceived(ENetEvent& event) {
-	auto json = Networking::UdpClient::getJsonFromPacket(event.packet);
+	auto json{ Networking::UdpClient::getJsonFromPacket(event.packet) };
 
-	std::string fileName = json["fileName"];
 	std::string path = json["path"];
 	std::string fileData = json["data"];
 
-	std::cout << "Received " << fileName << std::endl;
-
-	writeFile(path, fileData);
-	_assetIndex.emplace(fileName, path);
+	std::cout << "Received " << path << std::endl;
+	addAssetToIndex(path);
 
 	//load from path
 	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(event.channelID) };
-	std::shared_ptr<void>& assetInProgress = _assetsInProgress.at(fileName);
+	std::shared_ptr<void>& assetInProgress = _assetsInProgress.at(path);
 
-	size_t dotIndex{ fileName.find_last_of('.') };
-	std::string extension{ fileName.substr(dotIndex + 1) };
+	size_t dotIndex{ path.find_last_of('.') };
+	std::string extension{ path.substr(dotIndex + 1) };
 
 	if (typeName == "Texture") {
 		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
@@ -98,17 +99,17 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	}
 	else if (typeName == "Animation") {
 		if (extension == "vani") {
-			assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Animation>(path, base64::from_base64(fileData));
 		}
 		else if (extension == "json") {
-			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Gottimation>(path, base64::from_base64(fileData));
 		}
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")
-			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::SingleLevel>(path, base64::from_base64(fileData));
 		else if (extension == "vmap") {
-			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::MapLevel>(path, base64::from_base64(fileData));
 		}
 	}
 	else if (typeName == "String") {
@@ -119,7 +120,7 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	}
 
 	// put it into the cache
-	_assetCache.emplace(fileName, _assetsInProgress.at(fileName));
+	_assetCache.emplace(path, _assetsInProgress.at(path));
 	_assetCache.update();
 }
 

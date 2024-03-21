@@ -7,19 +7,17 @@
 namespace fs = std::filesystem;
 
 void Networking::AssetBroker::sendFile(ENetEvent& event) {
-	auto fileName = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
-	if (_assetIndex.count(fileName.data()) > 0) {
-		std::string path = _assetIndex[fileName.data()];
-		std::string fileData = readFile(path);
+	auto filePath = std::string(reinterpret_cast<const char*>(event.packet->data), event.packet->dataLength);
+	if (indexContains(filePath)) {
+		std::string fileData = base64::to_base64(readFile(filePath));
 		if (fileData.empty()) {
 			return;
 		}
 		
 		nlohmann::json json;
-		json["fileName"] = fileName;
-		json["path"] = path;
+		json["path"] = filePath;
 		json["data"] = fileData;
-		std::cout << "sending " << fileName << std::endl;
+		std::cout << "sending " << filePath << std::endl;
 		Networking::UdpServer::sendJson(event.peer, json, static_cast<Networking::UdpChannels>(event.channelID), ENET_PACKET_FLAG_RELIABLE);
 	}
 }

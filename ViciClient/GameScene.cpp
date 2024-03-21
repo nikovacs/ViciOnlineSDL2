@@ -70,8 +70,8 @@ namespace Scenes {
 		_clientPlayer->setHeight(json["h"]);
 		_world = std::make_unique<Networking::NetworkAsset<Levels::Level>>(json["world"]);
 		_camera.setScale(json["cameraZoom"], false);
-		_scriptLoader.loadScript("testscript.js");
-		_scriptLoader.loadScript("anotherscript.js");
+		_scriptLoader.loadScript("ViciDefaults/scripts/testscript.js");
+		//_scriptLoader.loadScript("anotherscript.js");
 		//_scriptLoader.loadScript("testGui.js");
 	}
 

@@ -29,7 +29,7 @@
 }
 
 .logo {
-    decorator: image( __vici_internal__vicionlinelogo.png contain );
+    decorator: image( __vici_internal__viciOnlineLogo.png contain );
     width: 50%;
     height: 15%;
     margin: 25px;
