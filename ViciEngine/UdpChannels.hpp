@@ -19,6 +19,9 @@ namespace Networking {
 		UpdatePlayerLevel,
 		UpdatePlayerWorld,
 
+		LoadScript,
+		UnloadScript,
+
 		StartWatchingLevel,
 		StopWatchingLevel,
 

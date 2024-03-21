@@ -80,3 +80,7 @@ Vici::DbAsyncQueryRunner& ViciServer::getDbAsyncQueryRunner() {
 v8::Isolate* ViciServer::getIsolate() {
 	return _scriptLoader.getIsolate();
 }
+
+JS::ScriptLoader& ViciServer::getScriptLoader() {
+	return _scriptLoader;
+}

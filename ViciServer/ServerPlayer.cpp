@@ -1,13 +1,15 @@
 #include "ServerPlayer.hpp"
 #include "AssetBroker.hpp"
 #include <filesystem>
+#include "UdpServer.hpp"
+#include "ViciServer.hpp"
 
 namespace fs = std::filesystem;
 
 namespace Entities {
-	ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, uint32_t id, std::string_view animation, std::string_view world,
+	ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer* peer, std::string_view animation, std::string_view world,
 		int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR)
-		: _username{ username }, _playerId{ playerId }, _connectionId{ id }, _animation{ animation }, _world{ world }, _cameraZoom{ zoom }, Entity(clientW, clientR) {
+		: _username{ username }, _playerId{ playerId }, _peer{ peer }, _animation{animation}, _world{world}, _cameraZoom{zoom}, Entity(clientW, clientR) {
 		setPosition(x, y);
 		_dir = dir;
 	}
@@ -81,5 +83,31 @@ namespace Entities {
 
 	std::string_view ServerPlayer::getUsername() {
 		return _username;
+	}
+
+	void ServerPlayer::addScript(std::string_view scriptName) {
+		std::string serversidePath{ "scripts/server/" + std::string(scriptName) };
+		std::string clientsidePath{ "scripts/client/" + std::string(scriptName) };
+
+		ViciServer::instance->getScriptLoader().loadScriptForPlayer(_peer->connectID, serversidePath);
+
+		if (Networking::AssetBroker::indexContains(clientsidePath)) {
+			nlohmann::json json{};
+			json["script"] = clientsidePath;
+			Networking::UdpServer::sendJson(_peer, json, Networking::UdpChannels::LoadScript, ENET_PACKET_FLAG_RELIABLE);
+		}
+	}
+
+	void ServerPlayer::removeScript(std::string_view scriptName) {
+		std::string serversidePath{ "scripts/server/" + std::string(scriptName) };
+		std::string clientsidePath{ "scripts/client/" + std::string(scriptName) };
+
+		ViciServer::instance->getScriptLoader().unloadScriptForPlayer(_peer->connectID, serversidePath);
+
+		if (Networking::AssetBroker::indexContains(clientsidePath)) {
+			nlohmann::json json{};
+			json["script"] = clientsidePath;
+			Networking::UdpServer::sendJson(_peer, json, Networking::UdpChannels::UnloadScript, ENET_PACKET_FLAG_RELIABLE);
+		}
 	}
 }
