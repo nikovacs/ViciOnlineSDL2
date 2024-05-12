@@ -1,14 +1,25 @@
 #pragma once
+
 #include "UdpChannelMap.hpp"
 #include <string>
 #include <unordered_map>
-#include <map>
+#include <unordered_map>
+#include <unordered_set>
 #include <enet/enet.h>
 #include <memory>
 #include <iostream>
 #include "../ViciEngine/AssetTransfer.hpp"
 #include "../ViciEngine/AssetCache.hpp"
 #include <mutex>
+//#include "NetworkAsset.hpp"
+
+//class NetworkAsset;
+// forward declaration to avoid circular dependency
+template <typename T>
+class NetworkAsset {
+public:
+	void resolve(std::shared_ptr<T> value);
+};
 
 namespace Networking {
 	class AssetManager : public AssetTransfer {
@@ -66,34 +77,100 @@ namespace Networking {
 		* @param fileName the name of the file to request
 		*/
 		template <typename T>
-		static void retrieveAsset(std::string_view fileName) {
-			if (_permanentAssets.contains(fileName.data())) return;
+		static std::shared_ptr<T> retrieveAsset(std::string_view fileName) {
+			std::string assetType{ typeid(T).name() };
+			if (_permanentAssets.contains(fileName.data()))
+				return static_pointer_cast<T>(_permanentAssets.at(fileName.data()));;
+
 			{
+				// locking before querying the assetCache prevents from requesting the same asset multiple times
 				std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
-				if (_assetsInProgress.contains(fileName.data())) return;
+
+				if (_assetCache.contains<T>(fileName.data()))
+					return _assetCache.get<T>(fileName.data());
+
+				if (_assetsInProgress[assetType].contains(fileName.data()))
+					return nullptr;
 			}
-			if (_assetCache.contains<T>(fileName.data())) return;
 
 			// add to _assetsInProgress in preparation for requesting from server
 			{
 				std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
-				_assetsInProgress.emplace(fileName.data(), nullptr);
+				_assetsInProgress[assetType].insert(fileName.data());
 			}
 			int channelID{ Networking::UdpTypeChannelMap::template getChannel<T>() };
 			requestFile(fileName.data(), channelID);
+			return nullptr;
 		}
-	private:
+
 		/**
-		* Because onReceived can run on multiple different threads at the same time,
-		* it is important for _assetsInProgress to be thread-safe and not invaidate any pointers.
-		* An unordered_map can invalidate pointers if inserting requires re-hashing the elements,
-		* which does not happen with a normal map.
-		*/ 
-		static std::map<std::string, std::shared_ptr<void>> _assetsInProgress; // <assetName, asset_ptr>
+		* Remove all assets from the cache with the key fileName
+		* @param fileName the name of the file to remove from the cache
+		* @return true if the asset was removed, false otherwise
+		*/
+		static bool removeFromCache(std::string_view fileName);
+
+		/**
+		* Register a NetworkAsset with the AssetManager
+		* This is required for the AssetManager to be able to invalidate resources at runtime
+		* This is necessary if a resource is updated at runtime.
+		* 
+		* @tparam T the assetType of the NetworkAsset
+		* @param fileName the name of the file to register
+		* @param networkAsset the NetworkAsset to register
+		*/
+		template <typename T>
+		static void registerNetworkAsset(std::string_view fileName, Networking::NetworkAsset<T>* networkAsset) {
+			std::string assetType{ typeid(T).name() };
+			std::lock_guard<std::mutex> lock(_networkAssetMutex);
+			_networkAssets[assetType][fileName.data()].push_back(reinterpret_cast<Networking::NetworkAsset<void>*>(networkAsset));
+		}
+
+		/**
+		* Unregister a NetworkAsset with the AssetManager
+		* Typically called from the destructor of the NetworkAsset
+		* 
+		* @tparam T the assetType of the NetworkAsset
+		* @param fileName the name of the file to unregister
+		* @param networkAsset the NetworkAsset to unregister
+		*/
+		template <typename T>
+		static void unregisterNetworkAsset(std::string_view fileName, Networking::NetworkAsset<T>* networkAsset) {
+			std::string assetType{ typeid(T).name() };
+			std::lock_guard<std::mutex> lock(_networkAssetMutex);
+			auto& assets = _networkAssets[assetType][fileName.data()];
+			assets.erase(std::remove(assets.begin(), assets.end(), reinterpret_cast<Networking::NetworkAsset<void>*>(networkAsset)), assets.end());
+
+			if (assets.empty()) {
+				_networkAssets[assetType].erase(fileName.data());
+			}
+		}
+
+		/**
+		* Called to update the NetworkAsset with the new asset
+		* 
+		* @tparam T the assetType of the NetworkAsset
+		* @param fileName the name of the file to update
+		* @param asset the new asset to update with
+		*/
+		template <typename T>
+		static void resolveNetworkAssets(std::string_view fileName, std::shared_ptr<T> asset) {
+			std::string assetType{ typeid(T).name() };
+			std::lock_guard<std::mutex> lock(_networkAssetMutex);
+			auto& assets = _networkAssets[assetType][fileName.data()];
+			for (auto networkAsset : assets) {
+				networkAsset->resolve(asset);
+			}
+		}
+
+	private:
+		static std::unordered_map<std::string, std::unordered_set<std::string>> _assetsInProgress;
 		static std::mutex _assetsInProgressMutex;
 
-		//static TimedCache<std::string, void> _assetCache; // <assetName, asset>
 		static AssetCache _assetCache;
 		static std::unordered_map<std::string, std::shared_ptr<void>> _permanentAssets; // <assetName, asset_ptr>
+
+		static std::mutex _networkAssetMutex;
+		static std::unordered_map<std::string, std::unordered_map<std::string, std::vector<Networking::NetworkAsset<void>*>>> _networkAssets; // <assetType, <assetName, NetworkAsset&>>
 	};
 }

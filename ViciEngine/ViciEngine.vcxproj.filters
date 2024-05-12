@@ -72,6 +72,9 @@
     <ClCompile Include="AssetCache.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="TryLockGuard.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.hpp">
@@ -98,10 +101,10 @@
     <ClInclude Include="Attributes.hpp">
       <Filter>Header Files\Attributes</Filter>
     </ClInclude>
-    <ClInclude Include="TimedCache.hpp">
+    <ClInclude Include="AssetCache.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="AssetCache.hpp">
+    <ClInclude Include="TryLockGuard.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

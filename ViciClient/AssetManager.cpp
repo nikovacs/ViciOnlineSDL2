@@ -11,10 +11,8 @@
 #include <enet/enet.h>
 #include <filesystem>
 #include <string>
-#include <unordered_map>
 #include <nlohmann/json.hpp>
 #include <fstream>
-#include <memory>
 #include "Level.hpp"
 #include "SingleLevel.hpp"
 #include "MapLevel.hpp"
@@ -30,11 +28,15 @@
 
 namespace fs = std::filesystem;
 
-//TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
 AssetCache Networking::AssetManager::_assetCache{};
-std::map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
-std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
+
+std::unordered_map<std::string, std::unordered_set<std::string>> Networking::AssetManager::_assetsInProgress{};
 std::mutex Networking::AssetManager::_assetsInProgressMutex{};
+
+std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
+
+std::mutex Networking::AssetManager::_networkAssetMutex{};
+std::unordered_map<std::string, std::unordered_map<std::string, std::vector<Networking::NetworkAsset<void>*>>> Networking::AssetManager::_networkAssets{};
 
 void Networking::AssetManager::generatePermanentAssets() {
 	// ensure the file names are lowercase
@@ -89,55 +91,58 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 
 	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(event.channelID) };
 
-	std::shared_ptr<void>* assetInProgress{ nullptr };
-	{
-		std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
-		assetInProgress = &_assetsInProgress.at(fileName);
-	}
+	std::shared_ptr<void> assetInProgress{ nullptr };
 
 	size_t dotIndex{ fileName.find_last_of('.') };
 	std::string extension{ fileName.substr(dotIndex + 1) };
 
 	if (typeName == "Texture") {
-		*assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
+		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
 		assetType = typeid(AssetTypes::Texture).name();
 	}
 	else if (typeName == "Script") {
-		*assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
+		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
 		assetType = typeid(JS::Script).name();
 	}
 	else if (typeName == "Animation") {
 		if (extension == "vani") {
-			*assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
 		}
 		else if (extension == "json") {
-			*assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
 		}
 		assetType = typeid(Animations::IAnimation).name();
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")
-			*assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
 		else if (extension == "vmap") {
-			*assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
 		}
 		assetType = typeid(Levels::Level).name();
 	}
 	else if (typeName == "String") {
-		*assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
+		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
 		assetType = typeid(std::string).name();
 	}
 	else {
 		throw std::runtime_error("Unknown type: " + std::string(typeName));
 	}
 
-	// put it into the cache
-	_assetCache.add(assetType, fileName, _assetsInProgress.at(fileName));
+	_assetCache.add(assetType, fileName, assetInProgress);
 	//_assetCache.update(); // can be re-added if timing is re-added
 
 	{
+		std::lock_guard<std::mutex> lock(_networkAssetMutex);
+		auto& assets = _networkAssets[assetType][fileName];
+		for (auto* networkAsset : assets) {
+			networkAsset->resolve(assetInProgress);
+		}
+	}
+
+	{
 		std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
-		_assetsInProgress.erase(fileName);
+		_assetsInProgress[assetType].erase(fileName);
 	}
 }
 
@@ -145,4 +150,9 @@ void Networking::AssetManager::clearCache() {
 	_assetCache.clear();
 	_permanentAssets.clear();
 	_assetsInProgress.clear();
+}
+
+bool Networking::AssetManager::removeFromCache(std::string_view fileName) {
+	return _assetCache.removeAll(fileName.data());
+	// at this point, only the shared_ptrs owned by the NetworkAssets still contain the asset
 }

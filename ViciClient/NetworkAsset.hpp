@@ -2,26 +2,47 @@
 #include "AssetManager.hpp"
 #include <memory>
 #include <atomic>
-#include <iostream>
+#include <mutex>
+#include "../ViciEngine/TryLockGuard.hpp"
+
 namespace Networking {
 	template <typename T>
 	class NetworkAsset {
 	public:
 		NetworkAsset(std::string_view assetName) : _fileName{assetName}, _value { nullptr } {
 			std::transform(_fileName.begin(), _fileName.end(), _fileName.begin(), ::tolower);
-			AssetManager::retrieveAsset<T>(_fileName);
+
+			AssetManager::registerNetworkAsset<T>(_fileName, this);
+			std::shared_ptr<T> asset{ AssetManager::retrieveAsset<T>(_fileName) };
+			if (asset) {
+				resolve(asset);
+			}
 		}
 
+		virtual ~NetworkAsset() {
+			AssetManager::unregisterNetworkAsset<T>(_fileName, this);
+		}
+
+		NetworkAsset(const NetworkAsset&) = delete;
+		NetworkAsset(NetworkAsset&&) = delete;
+
 		T* getValue() {
-			if (_value) {
-				return _value.get();
+			TryLockGuard lock{ _valueMutex };
+			if (!lock) {
+				return nullptr;
 			}
-			_value = AssetManager::resolve<T>(_fileName);
 			return _value.get();
+		}
+
+		void resolve(std::shared_ptr<T> value) {
+			std::lock_guard<std::mutex> lock(_valueMutex);
+			_value = value;
 		}
 
 	private:
 		std::shared_ptr<T> _value{ nullptr };
+		std::mutex _valueMutex{};
+
 		std::string _fileName{};
 	};
 }
