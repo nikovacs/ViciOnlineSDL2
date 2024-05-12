@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Attributes">
       <UniqueIdentifier>{bc81b921-6e43-4212-bdeb-a82e762f99a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{ff4e9d66-c30a-4b4b-b874-fa698fcd6fe8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -65,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="Attributes.cpp">
       <Filter>Source Files\Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetCache.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,9 @@
       <Filter>Header Files\Attributes</Filter>
     </ClInclude>
     <ClInclude Include="TimedCache.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetCache.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

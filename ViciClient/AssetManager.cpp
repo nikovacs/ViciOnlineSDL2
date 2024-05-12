@@ -30,7 +30,8 @@
 
 namespace fs = std::filesystem;
 
-TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
+//TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
+AssetCache Networking::AssetManager::_assetCache{};
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
 
@@ -74,6 +75,8 @@ void Networking::AssetManager::requestFile(std::string_view fileName, int channe
 void Networking::AssetManager::onReceived(ENetEvent& event) {
 	auto json = Networking::UdpClient::getJsonFromPacket(event.packet);
 
+	std::string assetType{};
+
 	std::string fileName = json["fileName"];
 	std::string path = json["path"];
 	std::string fileData = json["data"];
@@ -92,9 +95,11 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 
 	if (typeName == "Texture") {
 		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
+		assetType = typeid(AssetTypes::Texture).name();
 	}
 	else if (typeName == "Script") {
 		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
+		assetType = typeid(JS::Script).name();
 	}
 	else if (typeName == "Animation") {
 		if (extension == "vani") {
@@ -103,6 +108,7 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 		else if (extension == "json") {
 			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
 		}
+		assetType = typeid(Animations::IAnimation).name();
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")
@@ -110,17 +116,19 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 		else if (extension == "vmap") {
 			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
 		}
+		assetType = typeid(Levels::Level).name();
 	}
 	else if (typeName == "String") {
 		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
+		assetType = typeid(std::string).name();
 	}
 	else {
 		throw std::runtime_error("Unknown type: " + std::string(typeName));
 	}
 
 	// put it into the cache
-	_assetCache.emplace(fileName, _assetsInProgress.at(fileName));
-	_assetCache.update();
+	_assetCache.add(assetType, fileName, _assetsInProgress.at(fileName));
+	//_assetCache.update(); // can be re-added if timing is re-added
 }
 
 void Networking::AssetManager::clearCache() {

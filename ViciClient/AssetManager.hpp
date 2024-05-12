@@ -6,7 +6,7 @@
 #include <memory>
 #include <iostream>
 #include "../ViciEngine/AssetTransfer.hpp"
-#include "../ViciEngine/TimedCache.hpp"
+#include "../ViciEngine/AssetCache.hpp"
 
 namespace Networking {
 	class AssetManager : public AssetTransfer {
@@ -18,8 +18,8 @@ namespace Networking {
 
 		template <typename T>
 		static std::shared_ptr<T> resolve(std::string_view fileName) {
-			if (_assetCache.contains(fileName.data()))
-				return static_pointer_cast<T>(_assetCache.at(fileName.data()));
+			if (_assetCache.contains<T>(fileName.data()))
+				return _assetCache.get<T>(fileName.data());
 			else if (_permanentAssets.contains(fileName.data()))
 				return static_pointer_cast<T>(_permanentAssets.at(fileName.data()));
 			return nullptr;
@@ -28,7 +28,7 @@ namespace Networking {
 		template <typename T>
 		static void retrieveAsset(std::string_view fileName) {
 			if (_assetsInProgress.contains(fileName.data())) return;
-			if (_assetCache.contains(fileName.data())) return;
+			if (_assetCache.contains<T>(fileName.data())) return;
 			if (_permanentAssets.contains(fileName.data())) return;
 
 			// add to _assetsInProgress in preparation for requesting from server
@@ -38,7 +38,8 @@ namespace Networking {
 		}
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<void>> _assetsInProgress; // <assetName, asset_ptr>
-		static TimedCache<std::string, void> _assetCache; // <assetName, asset>
+		//static TimedCache<std::string, void> _assetCache; // <assetName, asset>
+		static AssetCache _assetCache;
 		static std::unordered_map<std::string, std::shared_ptr<void>> _permanentAssets; // <assetName, asset_ptr>
 	};
 }

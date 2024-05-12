@@ -177,6 +177,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetCache.cpp" />
     <ClCompile Include="AssetTransfer.cpp" />
     <ClCompile Include="Attributes.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetCache.hpp" />
     <ClInclude Include="AssetTransfer.hpp" />
     <ClInclude Include="Attributes.hpp" />
     <ClInclude Include="base64.hpp" />
