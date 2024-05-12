@@ -32,8 +32,9 @@ namespace fs = std::filesystem;
 
 //TimedCache<std::string, void> Networking::AssetManager::_assetCache{};
 AssetCache Networking::AssetManager::_assetCache{};
-std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
+std::map<std::string, std::shared_ptr<void>> Networking::AssetManager::_assetsInProgress{};
 std::unordered_map<std::string, std::shared_ptr<void>> Networking::AssetManager::_permanentAssets{};
+std::mutex Networking::AssetManager::_assetsInProgressMutex{};
 
 void Networking::AssetManager::generatePermanentAssets() {
 	// ensure the file names are lowercase
@@ -86,40 +87,44 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	writeFile(path, fileData);
 	_assetIndex.emplace(fileName, path);
 
-	//load from path
 	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(event.channelID) };
-	std::shared_ptr<void>& assetInProgress = _assetsInProgress.at(fileName);
+
+	std::shared_ptr<void>* assetInProgress{ nullptr };
+	{
+		std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
+		assetInProgress = &_assetsInProgress.at(fileName);
+	}
 
 	size_t dotIndex{ fileName.find_last_of('.') };
 	std::string extension{ fileName.substr(dotIndex + 1) };
 
 	if (typeName == "Texture") {
-		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
+		*assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
 		assetType = typeid(AssetTypes::Texture).name();
 	}
 	else if (typeName == "Script") {
-		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
+		*assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
 		assetType = typeid(JS::Script).name();
 	}
 	else if (typeName == "Animation") {
 		if (extension == "vani") {
-			assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
+			*assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
 		}
 		else if (extension == "json") {
-			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
+			*assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
 		}
 		assetType = typeid(Animations::IAnimation).name();
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")
-			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
+			*assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
 		else if (extension == "vmap") {
-			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
+			*assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
 		}
 		assetType = typeid(Levels::Level).name();
 	}
 	else if (typeName == "String") {
-		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
+		*assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
 		assetType = typeid(std::string).name();
 	}
 	else {
@@ -129,6 +134,11 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	// put it into the cache
 	_assetCache.add(assetType, fileName, _assetsInProgress.at(fileName));
 	//_assetCache.update(); // can be re-added if timing is re-added
+
+	{
+		std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
+		_assetsInProgress.erase(fileName);
+	}
 }
 
 void Networking::AssetManager::clearCache() {

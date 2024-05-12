@@ -7,28 +7,21 @@ namespace Networking {
 	template <typename T>
 	class NetworkAsset {
 	public:
-		NetworkAsset(std::string_view assetName) : _fileName{assetName}, _value { nullptr }, _resolved{ false } {
+		NetworkAsset(std::string_view assetName) : _fileName{assetName}, _value { nullptr } {
 			std::transform(_fileName.begin(), _fileName.end(), _fileName.begin(), ::tolower);
 			AssetManager::retrieveAsset<T>(_fileName);
 		}
 
 		T* getValue() {
-			if (_resolved) {
+			if (_value) {
 				return _value.get();
 			}
 			_value = AssetManager::resolve<T>(_fileName);
-			if (_value) _resolved = true;
 			return _value.get();
 		}
 
-		void finish(std::shared_ptr<T> val) {
-			_value = val;
-			_resolved = true;
-		}
-
 	private:
-		std::shared_ptr<T> _value;
-		std::string _fileName;
-		std::atomic_bool _resolved;
+		std::shared_ptr<T> _value{ nullptr };
+		std::string _fileName{};
 	};
 }

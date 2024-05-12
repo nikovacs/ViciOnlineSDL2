@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <mutex>
 
 class AssetCache {
 public:
@@ -19,6 +20,7 @@ public:
 	template <typename T>
 	bool contains(const std::string& key) const {
 		std::string type = typeid(T).name();
+		std::lock_guard<std::mutex> lock(_mutex);
 		if (_assets.contains(type)) {
 			return _assets.at(type).contains(key);
 		}
@@ -35,6 +37,7 @@ public:
 	template <typename T>
 	void add(const std::string& fileName, std::shared_ptr<T> asset) {
 		std::string type = typeid(T).name();
+		std::lock_guard<std::mutex> lock(_mutex);
 		// the inner map will be created if it doesn't exist
 		_assets[type][fileName] = asset;
 	}
@@ -59,6 +62,7 @@ public:
 	template <typename T>
 	bool remove(const std::string& key) {
 		std::string type = typeid(T).name();
+		std::lock_guard<std::mutex> lock(_mutex);
 		if (_assets.contains(type)) {
 			if (_assets.at(type).contains(key)) {
 				_assets.at(type).erase(key);
@@ -87,6 +91,7 @@ public:
 	template <typename T>
 	std::shared_ptr<T> get(const std::string& key) const {
 		std::string type = typeid(T).name();
+		std::lock_guard<std::mutex> lock(_mutex);
 		if (_assets.contains(type)) {
 			if (_assets.at(type).contains(key)) {
 				return std::static_pointer_cast<T>(_assets.at(type).at(key));
@@ -102,4 +107,5 @@ public:
 private:
 	// outter map: key = asset type, inner map: key = asset key, value = asset
 	std::unordered_map<std::string, std::unordered_map<std::string, std::shared_ptr<void>>> _assets{};
+	mutable std::mutex _mutex{};
 };
