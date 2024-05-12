@@ -68,8 +68,11 @@ namespace Networking {
 		template <typename T>
 		static void retrieveAsset(std::string_view fileName) {
 			if (_permanentAssets.contains(fileName.data())) return;
+			{
+				std::lock_guard<std::mutex> lock(_assetsInProgressMutex);
+				if (_assetsInProgress.contains(fileName.data())) return;
+			}
 			if (_assetCache.contains<T>(fileName.data())) return;
-			if (_assetsInProgress.contains(fileName.data())) return;
 
 			// add to _assetsInProgress in preparation for requesting from server
 			{
