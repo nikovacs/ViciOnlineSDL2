@@ -31,16 +31,21 @@ namespace Networking {
 			if (!lock) {
 				return nullptr;
 			}
+			if (_newValue) {
+				_value = _newValue;
+				_newValue = nullptr;
+			}
 			return _value.get();
 		}
 
 		void resolve(std::shared_ptr<T> value) {
 			std::lock_guard<std::mutex> lock(_valueMutex);
-			_value = value;
+			_newValue = value;
 		}
 
 	private:
 		std::shared_ptr<T> _value{ nullptr };
+		std::shared_ptr<T> _newValue{ nullptr };
 		std::mutex _valueMutex{};
 
 		std::string _fileName{};
