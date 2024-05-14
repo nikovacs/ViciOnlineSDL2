@@ -16,7 +16,6 @@ int main() {
 	int FPS{ displayMode.refresh_rate };
 	int frameDelay{ 1000 / FPS };
 	Uint32 frameStart{ 0 };
-	Uint32 frameEnd{ 0 };
 	int frameTime{ 0 };
 	TimeManager::setDelta(0);
 	

@@ -359,9 +359,6 @@
     <ClInclude Include="PlayerInfo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IAnimation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Frame.hpp">
       <Filter>Header Files\Animations\BasicAnimation</Filter>
     </ClInclude>
@@ -373,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="Gottimation.hpp">
       <Filter>Header Files\Animations\Gottimation</Filter>
+    </ClInclude>
+    <ClInclude Include="IAnimation.hpp">
+      <Filter>Header Files\Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
