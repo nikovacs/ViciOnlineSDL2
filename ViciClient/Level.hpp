@@ -9,6 +9,7 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include <enet/enet.h>
 #include <set>
+#include "../ViciEngine/SimplePacket.hpp"
 
 namespace Levels {
 	class Level {
@@ -31,9 +32,10 @@ namespace Levels {
 		void setCurrentLevel(std::string_view level) {
 			if (level == _currentLevel) return;
 			_currentLevel = level;
-			nlohmann::json json{};
-			json["lvl"] = level;
-			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerLevel, ENET_PACKET_FLAG_RELIABLE);
+
+			Networking::SimplePacket packet{};
+			packet.add(_currentLevel);
+			Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerLevel, ENET_PACKET_FLAG_RELIABLE);
 		}
 		
 		inline std::string intToB64(int input) {

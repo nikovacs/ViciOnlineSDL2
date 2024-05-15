@@ -88,9 +88,8 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             }
             case UdpChannels::UpdatePlayerLevel:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-				Networking::ServerPlayerManager::updatePlayerLevel(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+				Networking::ServerPlayerManager::updatePlayerLevel(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::StartWatchingLevel:

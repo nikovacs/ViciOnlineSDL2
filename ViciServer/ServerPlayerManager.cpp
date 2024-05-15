@@ -220,10 +220,10 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::updatePlayerLevel(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerLevel(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-		std::string_view newLevel = json["lvl"];
+		std::string newLevel = packet.get<std::string>();
 		std::string oldLevel{ _players.at(id)->getLevel() };
 		_players.at(id)->setLevel(newLevel);
 
