@@ -26,16 +26,18 @@ namespace Entities {
 
 	void ClientPlayer::setAniHard(std::string_view aniName) {
 		EntityAnimated::setAniHard(aniName);
-		nlohmann::json json{};
-		json["ani"] = aniName;
-		Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
+
+		Networking::SimplePacket packet{};
+		packet.add<std::string>(aniName.data());
+		Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
 	}
 
 	void ClientPlayer::setPosition(int x, int y) {
 		EntityAnimated::setPosition(x, y);
-		nlohmann::json json{};
-		json["x"] = _x;
-		json["y"] = _y;
-		Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+
+		Networking::SimplePacket packet{};
+		packet.add(_x);
+		packet.add(_y);
+		Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_RELIABLE);
 	}
 }

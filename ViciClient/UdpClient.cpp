@@ -97,9 +97,8 @@ namespace Networking {
                 break;
                 case UdpChannels::UpdatePlayerPos:
                 {
-                    auto jsonPlayerPos = getJsonFromPacket(event.packet);
-                    ClientPlayerManager::updatePlayerPos(jsonPlayerPos);
-                    enet_packet_destroy(event.packet);
+                    SimplePacket packet{ event.packet };
+                    ClientPlayerManager::updatePlayerPos(packet);
                 }
                 break;
                 case UdpChannels::UpdatePlayerDir:
@@ -110,9 +109,8 @@ namespace Networking {
                 break;
                 case UdpChannels::UpdatePlayerAni:
                 {
-                    auto jsonPlayerAni = getJsonFromPacket(event.packet);
-                    ClientPlayerManager::updatePlayerAni(jsonPlayerAni);
-                    enet_packet_destroy(event.packet);
+                    SimplePacket packet{ event.packet };
+                    ClientPlayerManager::updatePlayerAni(packet);
                 }
                 break;
                 }

@@ -49,18 +49,20 @@ namespace Networking {
 		_players.erase(id);
 	}
 
-	void ClientPlayerManager::updatePlayerPos(nlohmann::json& json) {
-		uint32_t id = json["id"];
-		int x = json["x"];
-		int y = json["y"];
+	void ClientPlayerManager::updatePlayerPos(SimplePacket& packet) {
+		int x{ packet.get<int>() };
+		int y{ packet.get<int>() };
+		uint32_t id{ packet.get<uint32_t>() };
+
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setPosition(x, y);
 	}
 
-	void ClientPlayerManager::updatePlayerAni(nlohmann::json& json) {
-		uint32_t id = json["id"];
-		std::string animation = json["ani"];
+	void ClientPlayerManager::updatePlayerAni(SimplePacket& packet) {
+		std::string animation{ packet.get<std::string>() };
+		uint32_t id = packet.get<uint32_t>();
+
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setAniHard(animation);

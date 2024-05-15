@@ -16,14 +16,14 @@ namespace Networking {
 		static void spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId);
 		static void despawnPlayer(uint32_t idToDespawn, uint32_t despawnForId);
 		static void onPlayerDisconnect(uint32_t id);
-		static void updatePlayerPos(uint32_t id, nlohmann::json& json);
-		static void updatePlayerAni(uint32_t id, nlohmann::json& json);
+		static void updatePlayerPos(uint32_t id, SimplePacket& packet);
+		static void updatePlayerAni(uint32_t id, SimplePacket& packet);
 		static void updatePlayerDir(uint32_t id, SimplePacket& packet);
 		static void addToLevel(uint32_t id, std::string_view levelName);
 		static void removeFromLevel(uint32_t id, std::string_view levelName);
 		static void startWatchingLevel(uint32_t id, nlohmann::json& json);
 		static void stopWatchingLevel(uint32_t id, nlohmann::json& json);
-		static void updatePlayerLevel(uint32_t id,SimplePacket& packet);
+		static void updatePlayerLevel(uint32_t id, SimplePacket& packet);
 		static void updatePlayerClientW(uint32_t id, nlohmann::json& json);
 		static void updatePlayerCameraZoom(uint32_t id, nlohmann::json& json);
 		static inline std::vector<uint32_t> getPlayersOnLevel(std::string_view levelName) {

@@ -15,9 +15,9 @@ namespace Networking {
 
 		static void spawnPlayer(nlohmann::json& json);
 		static void despawnPlayer(nlohmann::json& json);
-		static void updatePlayerPos(nlohmann::json& json);
-		static void updatePlayerAni(nlohmann::json& json);
-		static void updatePlayerDir(SimplePacket& json);
+		static void updatePlayerPos(SimplePacket& packet);
+		static void updatePlayerAni(SimplePacket& packet);
+		static void updatePlayerDir(SimplePacket& packet);
 		static Entities::NetworkedPlayer* getPlayer(std::string_view username);
 	private:
 		static std::unordered_map<uint32_t, std::unique_ptr<Entities::NetworkedPlayer>> _players;

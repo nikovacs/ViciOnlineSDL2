@@ -61,16 +61,14 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             }
             case UdpChannels::UpdatePlayerPos:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::UpdatePlayerAni:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::UpdatePlayerCameraZoom:

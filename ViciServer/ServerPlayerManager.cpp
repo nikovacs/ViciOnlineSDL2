@@ -116,36 +116,37 @@ namespace Networking {
 		_peers.erase(id);
 	}
 	
-	void ServerPlayerManager::updatePlayerPos(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerPos(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		
-		int newX = json["x"];
-		int newY = json["y"];
+		int newX = packet.get<int>();
+		int newY = packet.get<int>();
 		_players.at(id)->setPosition(newX, newY);
 
-		json["id"] = id;
+		packet.add(id);
 		
 		std::string_view level{ _players.at(id)->getLevel() };
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_UNSEQUENCED);
+			UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerPos, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 	
-	void ServerPlayerManager::updatePlayerAni(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerAni(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-		
-		_players.at(id)->setAni(json["ani"]);
-		json["id"] = id;
+
+		std::string newAni = packet.get<std::string>();
+		_players.at(id)->setAni(newAni);
+		packet.add(id);
 
 		std::string_view level{ _players.at(id)->getLevel() };
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
+			UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 
