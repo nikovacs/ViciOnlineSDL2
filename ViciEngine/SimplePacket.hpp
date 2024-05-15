@@ -32,7 +32,7 @@ namespace Networking {
 		SimplePacket(SimplePacket&&) = delete;
 
 		template <typename T>
-		void add(T& value) {
+		void add(const T& value) {
 			if constexpr (std::endian::native == std::endian::little) {
 				for (int i{ sizeof(T) - 1 }; i >= 0; i--) {
 					_data.push_back((value >> (i * 8)) & 0xFF);
@@ -50,6 +50,7 @@ namespace Networking {
 			_packetNeedsRecreation = true;
 		}
 
+		template <>
 		void add(const std::string& str) {
 			for (const char& c : str) {
 				_data.push_back(c);
@@ -85,7 +86,8 @@ namespace Networking {
 			return value;
 			}
 
-		inline std::string getString() {
+		template <>
+		inline std::string get() {
 			std::string str{};
 			while (_data[_pos] != '\0') {
 				str.push_back(_data[_pos]);
