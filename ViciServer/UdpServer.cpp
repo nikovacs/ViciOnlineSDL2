@@ -12,10 +12,17 @@ Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPl
 Networking::UdpServer::~UdpServer() {
 }
 
+[[deprecated("sendJson is inefficient, use sendSimplePacket instead")]]
 void Networking::UdpServer::sendJson(ENetPeer* peer, nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag) {
 	auto jsonString = prepareJsonForSending(json);
 	ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
 	enet_peer_send(peer, channel, packet);
+    enet_packet_destroy(packet);
+}
+
+void Networking::UdpServer::sendSimplePacket(ENetPeer* peer, SimplePacket& simplePacket, Networking::UdpChannels channel, ENetPacketFlag flag) {
+    ENetPacket* packet = simplePacket.createEnetPacket(channel, flag);
+    enet_peer_send(peer, channel, packet);
 }
 
 void Networking::UdpServer::doNetworkLoop(ENetHost* server) {

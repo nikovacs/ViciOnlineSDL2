@@ -183,6 +183,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptLoader.cpp" />
+    <ClCompile Include="SimplePacket.cpp" />
     <ClCompile Include="StandardFuncs.cpp" />
     <ClCompile Include="StandardFuncs.hpp" />
     <ClCompile Include="TryLockGuard.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Script.hpp" />
     <ClInclude Include="ScriptLoader.hpp" />
+    <ClInclude Include="SimplePacket.hpp" />
     <ClInclude Include="TryLockGuard.hpp" />
     <ClInclude Include="UdpChannels.hpp" />
     <ClInclude Include="UdpHost.hpp" />

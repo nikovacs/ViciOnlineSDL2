@@ -2,6 +2,7 @@
 
 #include "../ViciEngine/UdpHost.hpp"
 #include "../ViciEngine/UdpChannels.hpp"
+#include "../ViciEngine/SimplePacket.hpp"
 #include <enet/enet.h>
 #include <string>
 #include "nlohmann/json.hpp"
@@ -14,6 +15,7 @@ namespace Networking {
 		void doNetworkLoop(ENetHost* client) override;
 		ENetPeer* getGameServer();
 		static void sendJson(nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag);
+		static void sendSimplePacket(SimplePacket& simplePacket, Networking::UdpChannels channel, ENetPacketFlag flag);
 	private:
 		ENetPeer* _gameServer;
 	};
