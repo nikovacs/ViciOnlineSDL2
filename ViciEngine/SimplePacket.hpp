@@ -65,7 +65,7 @@ namespace Networking {
 			// data is always stored as big endian in the packet
 			if constexpr (std::endian::native == std::endian::little) {
 				// bytes must be read in reverse order
-				char bytes[sizeof(T)];
+				char bytes[sizeof(T)]{};
 				for (int i{ sizeof(T) - 1 }; i >= 0; i--) {
 					bytes[sizeof(T) - 1 - i] = _data[_pos + i];
 				}
