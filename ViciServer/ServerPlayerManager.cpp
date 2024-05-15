@@ -94,6 +94,11 @@ namespace Networking {
 	void ServerPlayerManager::onPlayerDisconnect(uint32_t id) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 
+		if (!_players.contains(id)) {
+			// player never fully initialized
+			return;
+		}
+
 		nlohmann::json playerData{};
 		playerData["id"] = id;
 
@@ -144,18 +149,19 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::updatePlayerDir(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerDir(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-
-		_players.at(id)->setDir(json["dir"]);
-		json["id"] = id;
+		int dir = packet.get<int>();
+		std::cout << "player id " << id << "'s dir is being updated to " << dir << std::endl;
+		_players.at(id)->setDir(dir);
+		packet.add(id);
 		
 		std::string_view level{ _players.at(id)->getLevel() };
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(level) };
 		for (uint32_t pId : players) {
 			if (pId == id) continue;
-			UdpServer::sendJson(_peers.at(pId), json, UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
+			UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 

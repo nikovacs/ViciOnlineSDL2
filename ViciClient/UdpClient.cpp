@@ -31,8 +31,10 @@ namespace Networking {
     void UdpClient::sendJson(nlohmann::json& json, UdpChannels channel, ENetPacketFlag flag) {
         auto jsonString = prepareJsonForSending(json);
         ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
-        enet_peer_send(static_cast<UdpClient*>(UdpClient::instance)->getGameServer(), channel, packet);
-        enet_packet_destroy(packet);
+        int code = enet_peer_send(static_cast<UdpClient*>(UdpClient::instance)->getGameServer(), channel, packet);
+        if (code != 0) {
+			enet_packet_destroy(packet);
+		}
     }
 
     void UdpClient::sendSimplePacket(SimplePacket& simplePacket, UdpChannels channel, ENetPacketFlag flag) {
@@ -47,9 +49,10 @@ namespace Networking {
             switch (event.type)
             {
             case ENET_EVENT_TYPE_CONNECT:
-                std::cout << "A new client connected from " << event.peer->address.host << ":" << event.peer->address.port << '\n';
+                std::cout << "Connected to Server " << event.peer->address.host << ":" << event.peer->address.port << '\n';
                 /* Store any relevant client information here. */
                 //event.peer->data = "Client information";
+                enet_packet_destroy(event.packet);
                 break;
             case ENET_EVENT_TYPE_RECEIVE:
                 switch (event.channelID) {
@@ -59,6 +62,7 @@ namespace Networking {
                 case UdpChannels::Level:
                 case UdpChannels::String:
                     AssetManager::onReceived(event);
+                    enet_packet_destroy(event.packet);
                     break;
                 case UdpChannels::handshake:
                 {
@@ -66,6 +70,7 @@ namespace Networking {
                     handshake["usr"] = PlayerInfo::username;
                     handshake["id"] = PlayerInfo::playerId;
                     sendJson(handshake, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
+                    enet_packet_destroy(event.packet);
                 }
                 break;
                 case UdpChannels::initialPlayerData:
@@ -73,47 +78,52 @@ namespace Networking {
                     auto jsonInitPlayerData = getJsonFromPacket(event.packet);
                     reinterpret_cast<Scenes::GameScene*>(&Scenes::SceneManager::instance->getScene("Game"))->loadInitPlayerData(jsonInitPlayerData);
                     Scenes::SceneManager::instance->setScene("Game");
+                    enet_packet_destroy(event.packet);
                 }
                 break;
                 case UdpChannels::SpawnPlayer:
                 {
                     auto jsonSpawnPlayer = getJsonFromPacket(event.packet);
                     ClientPlayerManager::spawnPlayer(jsonSpawnPlayer);
+                    enet_packet_destroy(event.packet);
                 }
                 break;
                 case UdpChannels::DespawnPlayer:
                 {
                     auto jsonDespawnPlayer = getJsonFromPacket(event.packet);
                     ClientPlayerManager::despawnPlayer(jsonDespawnPlayer);
+                    enet_packet_destroy(event.packet);
                 }
                 break;
                 case UdpChannels::UpdatePlayerPos:
                 {
                     auto jsonPlayerPos = getJsonFromPacket(event.packet);
                     ClientPlayerManager::updatePlayerPos(jsonPlayerPos);
+                    enet_packet_destroy(event.packet);
                 }
                 break;
                 case UdpChannels::UpdatePlayerDir:
                 {
-                    auto jsonPlayerDir = getJsonFromPacket(event.packet);
-                    ClientPlayerManager::updatePlayerDir(jsonPlayerDir);
+                    SimplePacket packet{ event.packet };
+                    ClientPlayerManager::updatePlayerDir(packet);
                 }
                 break;
                 case UdpChannels::UpdatePlayerAni:
                 {
                     auto jsonPlayerAni = getJsonFromPacket(event.packet);
                     ClientPlayerManager::updatePlayerAni(jsonPlayerAni);
+                    enet_packet_destroy(event.packet);
                 }
+                break;
                 }
-
-
-                enet_packet_destroy(event.packet);
                 break;
             case ENET_EVENT_TYPE_DISCONNECT:
                 std::cout << event.peer->data << " disconnected." << std::endl;
                 /* Reset the peer's client information. */
                 event.peer->data = NULL;
+                enet_packet_destroy(event.packet);
             default:
+                enet_packet_destroy(event.packet);
                 break;
             }
             enet_host_flush(getHost());

@@ -1,5 +1,6 @@
 #include "ClientPlayer.hpp"
 #include "nlohmann/json.hpp"
+#include "../ViciEngine/SimplePacket.hpp"
 #include "enet/enet.h"
 #include "UdpClient.hpp"
 #include <iostream>
@@ -18,9 +19,9 @@ namespace Entities {
 	void ClientPlayer::setDir(int dir) {
 		if (dir == _dir) return;
 		Entity::setDir(dir);
-		nlohmann::json json{};
-		json["dir"] = dir;
-		Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
+		Networking::SimplePacket packet{};
+		packet.add(_dir);
+		Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
 	}
 
 	void ClientPlayer::setAniHard(std::string_view aniName) {

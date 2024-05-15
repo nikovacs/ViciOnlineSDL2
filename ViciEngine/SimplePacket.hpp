@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include <enet/enet.h>
 #include "UdpChannels.hpp"
 
@@ -32,8 +33,18 @@ namespace Networking {
 
 		template <typename T>
 		void add(T& value) {
-			for (size_t i{ 0 }; i < sizeof(T); i++) {
-				_data.push_back((value >> (i * 8)) & 0xFF);
+			if constexpr (std::endian::native == std::endian::little) {
+				for (int i{ sizeof(T) - 1 }; i >= 0; i--) {
+					_data.push_back((value >> (i * 8)) & 0xFF);
+				}
+			}
+			else if constexpr (std::endian::native == std::endian::big) {
+				for (size_t i{ 0 }; i < sizeof(T); i++) {
+					_data.push_back((value >> (i * 8)) & 0xFF);
+				}
+			}
+			else {
+				throw std::runtime_error("Endianness of this machine is not supported");
 			}
 			_pos += sizeof(T);
 			_packetNeedsRecreation = true;
@@ -51,12 +62,28 @@ namespace Networking {
 		template <typename T>
 		inline T get() {
 			T value{ 0 };
-			for (size_t i{ 0 }; i < sizeof(T); i++) {
-				value |= static_cast<T>(_data[_pos + i]) << (i * 8);
+			// data is always stored as big endian in the packet
+			if constexpr (std::endian::native == std::endian::little) {
+				// bytes must be read in reverse order
+				char bytes[sizeof(T)];
+				for (int i{ sizeof(T) - 1 }; i >= 0; i--) {
+					bytes[sizeof(T) - 1 - i] = _data[_pos + i];
+				}
+				value = *reinterpret_cast<T*>(bytes);
 			}
+			else if constexpr (std::endian::native == std::endian::big) {
+				// bytes can be read in the same order they were written
+				for (size_t i{ 0 }; i < sizeof(T); i++) {
+					value = *reinterpret_cast<T*>(_data.data() + _pos);
+				}
+			}
+			else {
+				throw std::runtime_error("Endianness of this machine is not supported");
+			}
+
 			_pos += sizeof(T);
 			return value;
-		}
+			}
 
 		inline std::string getString() {
 			std::string str{};
@@ -79,6 +106,7 @@ namespace Networking {
 	private:
 		ENetPacket* createEnetPacket(Networking::UdpChannels channel, ENetPacketFlag flag);
 		void loadFromPacket(ENetPacket* packet);
+		void abandonPacket();
 
 		std::vector<char> _data{};
 		size_t _pos{ 0 };

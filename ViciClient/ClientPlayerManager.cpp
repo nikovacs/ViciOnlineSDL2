@@ -66,9 +66,12 @@ namespace Networking {
 		_players[id]->setAniHard(animation);
 	}
 
-	void ClientPlayerManager::updatePlayerDir(nlohmann::json& json) {
-		uint32_t id = json["id"];
-		int dir = json["dir"];
+	void ClientPlayerManager::updatePlayerDir(SimplePacket& json) {
+		int dir = json.get<int>();
+		uint32_t id = json.get<uint32_t>();
+
+		std::cout << "Updating playerid " << id << "to dir " << dir << std::endl;
+
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_players[id]->setDir(dir);

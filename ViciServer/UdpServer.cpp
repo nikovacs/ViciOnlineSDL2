@@ -12,12 +12,13 @@ Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPl
 Networking::UdpServer::~UdpServer() {
 }
 
-[[deprecated("sendJson is inefficient, use sendSimplePacket instead")]]
 void Networking::UdpServer::sendJson(ENetPeer* peer, nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag) {
 	auto jsonString = prepareJsonForSending(json);
 	ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
-	enet_peer_send(peer, channel, packet);
-    enet_packet_destroy(packet);
+	int code = enet_peer_send(peer, channel, packet);
+    if (code != 0) {
+        enet_packet_destroy(packet);
+	}
 }
 
 void Networking::UdpServer::sendSimplePacket(ENetPeer* peer, SimplePacket& simplePacket, Networking::UdpChannels channel, ENetPacketFlag flag) {
@@ -38,6 +39,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             peerToPlayerId.emplace(event.peer, event.peer->connectID);
             nlohmann::json json{};
             sendJson(event.peer, json, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
+            enet_packet_destroy(event.packet);
             break;
         }
         case ENET_EVENT_TYPE_RECEIVE:
@@ -48,62 +50,71 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Level:
             case UdpChannels::String:
                 AssetBroker::sendFile(event);
+                enet_packet_destroy(event.packet);
                 break;
             case UdpChannels::handshake:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::sendInitialPlayerData(event.peer, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::UpdatePlayerPos:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::UpdatePlayerAni:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::UpdatePlayerCameraZoom:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::updatePlayerCameraZoom(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
+                break;
             }
             case UdpChannels::UpdatePlayerDir:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, json);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::UpdatePlayerLevel:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
 				Networking::ServerPlayerManager::updatePlayerLevel(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::StartWatchingLevel:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::startWatchingLevel(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::StopWatchingLevel:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
                 Networking::ServerPlayerManager::stopWatchingLevel(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
                 break;
             }
             case UdpChannels::UpdateClientW:
             {
                 nlohmann::json json{ getJsonFromPacket(event.packet) };
 				Networking::ServerPlayerManager::updatePlayerClientW(event.peer->connectID, json);
+                enet_packet_destroy(event.packet);
 				break;
             }
             }
-            enet_packet_destroy(event.packet);
             break;
         case ENET_EVENT_TYPE_DISCONNECT:
 			std::cout << "disconnect\n";
@@ -111,8 +122,10 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
 			Networking::ServerPlayerManager::onPlayerDisconnect(peerToPlayerId.at(event.peer));
 			peerToPlayerId.erase(event.peer);
             event.peer->data = NULL;
+            enet_packet_destroy(event.packet);
             break;
         default:
+            enet_packet_destroy(event.packet);
             break;
         }
         enet_host_flush(server);
