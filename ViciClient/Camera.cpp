@@ -93,9 +93,9 @@ namespace Client {
 		SDL_RenderSetScale(ViciClient::instance->getRenderer(), scale, scale);
 		_scale = scale;
 		if (notifyServer) {
-			nlohmann::json json{};
-			json["cameraZoom"] = scale;
-			Networking::UdpClient::sendJson(json, Networking::UdpChannels::UpdatePlayerCameraZoom, ENET_PACKET_FLAG_RELIABLE);
+			Networking::SimplePacket packet{};
+			packet.add(scale);
+			Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerCameraZoom, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 

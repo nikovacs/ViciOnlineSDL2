@@ -12,6 +12,14 @@ Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPl
 Networking::UdpServer::~UdpServer() {
 }
 
+void Networking::UdpServer::sendEmpty(ENetPeer* peer, Networking::UdpChannels channel, ENetPacketFlag flag) {
+    ENetPacket* packet = enet_packet_create(NULL, 0, flag);
+	int code = enet_peer_send(peer, channel, packet);
+	if (code != 0) {
+	    enet_packet_destroy(packet);
+	}
+}
+
 void Networking::UdpServer::sendJson(ENetPeer* peer, nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag) {
 	auto jsonString = prepareJsonForSending(json);
 	ENetPacket* packet = enet_packet_create(jsonString.c_str(), jsonString.length() + 1, flag);
@@ -37,9 +45,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         case ENET_EVENT_TYPE_CONNECT:
         {
             peerToPlayerId.emplace(event.peer, event.peer->connectID);
-            nlohmann::json json{};
-            sendJson(event.peer, json, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
-            enet_packet_destroy(event.packet);
+            sendEmpty(event.peer, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
             break;
         }
         case ENET_EVENT_TYPE_RECEIVE:
@@ -49,14 +55,15 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             case UdpChannels::Script:
             case UdpChannels::Level:
             case UdpChannels::String:
-                AssetBroker::sendFile(event);
-                enet_packet_destroy(event.packet);
+            {
+                SimplePacket packet{ event.packet };
+                AssetBroker::sendFile(event.peer, static_cast<UdpChannels>(event.channelID), packet);
                 break;
+            }
             case UdpChannels::handshake:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::sendInitialPlayerData(event.peer, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::sendInitialPlayerData(event.peer, packet);
                 break;
             }
             case UdpChannels::UpdatePlayerPos:
@@ -73,9 +80,8 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             }
             case UdpChannels::UpdatePlayerCameraZoom:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::updatePlayerCameraZoom(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::updatePlayerCameraZoom(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::UpdatePlayerDir:
@@ -92,16 +98,14 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             }
             case UdpChannels::StartWatchingLevel:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::startWatchingLevel(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::startWatchingLevel(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::StopWatchingLevel:
             {
-                nlohmann::json json{ getJsonFromPacket(event.packet) };
-                Networking::ServerPlayerManager::stopWatchingLevel(event.peer->connectID, json);
-                enet_packet_destroy(event.packet);
+                SimplePacket packet{ event.packet };
+                Networking::ServerPlayerManager::stopWatchingLevel(event.peer->connectID, packet);
                 break;
             }
             case UdpChannels::UpdateClientW:

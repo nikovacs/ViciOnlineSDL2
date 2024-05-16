@@ -61,16 +61,17 @@ namespace Networking {
                 case UdpChannels::Script:
                 case UdpChannels::Level:
                 case UdpChannels::String:
-                    AssetManager::onReceived(event);
-                    enet_packet_destroy(event.packet);
-                    break;
+                {
+                    SimplePacket packet{ event.packet };
+                    AssetManager::onReceived(packet, static_cast<UdpChannels>(event.channelID));
+                }
+                break;
                 case UdpChannels::handshake:
                 {
-                    nlohmann::json handshake{};
-                    handshake["usr"] = PlayerInfo::username;
-                    handshake["id"] = PlayerInfo::playerId;
-                    sendJson(handshake, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
-                    enet_packet_destroy(event.packet);
+                    SimplePacket handshakePacket{};
+                    handshakePacket.add(PlayerInfo::username);
+                    handshakePacket.add(PlayerInfo::playerId);
+                    sendSimplePacket(handshakePacket, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
                 }
                 break;
                 case UdpChannels::initialPlayerData:
@@ -90,9 +91,8 @@ namespace Networking {
                 break;
                 case UdpChannels::DespawnPlayer:
                 {
-                    auto jsonDespawnPlayer = getJsonFromPacket(event.packet);
-                    ClientPlayerManager::despawnPlayer(jsonDespawnPlayer);
-                    enet_packet_destroy(event.packet);
+                    SimplePacket packet{ event.packet };
+                    ClientPlayerManager::despawnPlayer(packet);
                 }
                 break;
                 case UdpChannels::UpdatePlayerPos:

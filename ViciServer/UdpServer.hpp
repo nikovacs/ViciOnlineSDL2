@@ -12,6 +12,7 @@ namespace Networking {
 		UdpServer(int port, int maxPlayers);
 		virtual ~UdpServer();
 		void doNetworkLoop(ENetHost* server) override;
+		static void sendEmpty(ENetPeer* peer, Networking::UdpChannels channel, ENetPacketFlag flag);
 		static void sendJson(ENetPeer* peer, nlohmann::json& json, Networking::UdpChannels channel, ENetPacketFlag flag);
 		static void sendSimplePacket(ENetPeer* peer, SimplePacket& packet, Networking::UdpChannels channel, ENetPacketFlag flag);
 	};

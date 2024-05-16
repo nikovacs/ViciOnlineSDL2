@@ -12,7 +12,7 @@ namespace Networking {
 	class ServerPlayerManager {
 	public:
 		ServerPlayerManager() = delete;
-		static void sendInitialPlayerData(ENetPeer* peer, nlohmann::json& json);
+		static void sendInitialPlayerData(ENetPeer* peer, SimplePacket& packet);
 		static void spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId);
 		static void despawnPlayer(uint32_t idToDespawn, uint32_t despawnForId);
 		static void onPlayerDisconnect(uint32_t id);
@@ -21,11 +21,11 @@ namespace Networking {
 		static void updatePlayerDir(uint32_t id, SimplePacket& packet);
 		static void addToLevel(uint32_t id, std::string_view levelName);
 		static void removeFromLevel(uint32_t id, std::string_view levelName);
-		static void startWatchingLevel(uint32_t id, nlohmann::json& json);
-		static void stopWatchingLevel(uint32_t id, nlohmann::json& json);
+		static void startWatchingLevel(uint32_t id, SimplePacket& packet);
+		static void stopWatchingLevel(uint32_t id, SimplePacket& packet);
 		static void updatePlayerLevel(uint32_t id, SimplePacket& packet);
 		static void updatePlayerClientW(uint32_t id, nlohmann::json& json);
-		static void updatePlayerCameraZoom(uint32_t id, nlohmann::json& json);
+		static void updatePlayerCameraZoom(uint32_t id, SimplePacket& packet);
 		static inline std::vector<uint32_t> getPlayersOnLevel(std::string_view levelName) {
 			std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 			if (!_playersOnLevel.contains(levelName.data())) return {};

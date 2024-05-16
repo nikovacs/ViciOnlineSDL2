@@ -25,9 +25,9 @@ namespace Networking {
 			std::string fileData((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 			file.close();
 
-			return base64::to_base64(fileData);
+			return fileData;
 		}
-		static inline bool writeFile(std::string_view path, std::string_view file_data_b64) {
+		static inline bool writeFile(std::string_view path, std::string_view file_data) {
 			createFileStructure(path);
 			std::ofstream file(path.data(), std::ios::binary);
 
@@ -35,8 +35,6 @@ namespace Networking {
 				file.close();
 				return false;
 			}
-
-			std::string file_data{ base64::from_base64(file_data_b64.data()) };
 
 			file.write(file_data.data(), file_data.length());
 			file.close();

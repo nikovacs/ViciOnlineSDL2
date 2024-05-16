@@ -14,15 +14,15 @@ namespace Networking {
 	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersOnLevel{};
 	std::unordered_map<std::string, std::set<uint32_t>> ServerPlayerManager::_playersWatchingLevel{};
 
-	void ServerPlayerManager::sendInitialPlayerData(ENetPeer* peer, nlohmann::json& json) {
+	void ServerPlayerManager::sendInitialPlayerData(ENetPeer* peer, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 
 		_peers.emplace(peer->connectID, peer);
 		
 		nlohmann::json& serverOptions = ViciServer::instance->getServerOptions();
 		
-		std::string username = json["usr"];
-		std::string playerId = json["id"];
+		std::string username = packet.get<std::string>();
+		std::string playerId = packet.get<std::string>();
 		std::string fileName = "playerData/" + playerId + ".json";
 
 		// check if file exists
@@ -83,12 +83,11 @@ namespace Networking {
 	}
 	
 	void ServerPlayerManager::despawnPlayer(uint32_t idToDespawn, uint32_t despawnForId) {
-		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		
-		nlohmann::json playerData{};
-		playerData["id"] = idToDespawn;
+		SimplePacket playerDataPacket{};
+		playerDataPacket.add(idToDespawn);
 
-		UdpServer::sendJson(_peers.at(despawnForId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		UdpServer::sendSimplePacket(_peers.at(despawnForId), playerDataPacket, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 	}
 	
 	void ServerPlayerManager::onPlayerDisconnect(uint32_t id) {
@@ -99,12 +98,13 @@ namespace Networking {
 			return;
 		}
 
-		nlohmann::json playerData{};
-		playerData["id"] = id;
+		SimplePacket playerDataPacket{};
+		playerDataPacket.add(id);
 
+		// this could be replaced with despawnPlayer(id, id) but that would be less efficient
 		std::set<uint32_t>& players{ _getPlayersWatchingLevel(_players.at(id)->getLevel()) };
 		for (uint32_t pId : players) {
-			UdpServer::sendJson(_peers.at(pId), playerData, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
+			UdpServer::sendSimplePacket(_peers.at(pId), playerDataPacket, UdpChannels::DespawnPlayer, ENET_PACKET_FLAG_RELIABLE);
 		}
 
 		Entities::ServerPlayer& player = *_players.at(id);
@@ -185,9 +185,9 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::startWatchingLevel(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::startWatchingLevel(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		std::string_view levelName = json["lvl"];
+		std::string levelName = packet.get<std::string>();
 		if (!_playersWatchingLevel.contains(levelName.data())) {
 			_playersWatchingLevel.emplace(levelName, std::set<uint32_t>{});
 		}
@@ -202,9 +202,9 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::stopWatchingLevel(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::stopWatchingLevel(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-		std::string_view levelName = json["lvl"];
+		std::string levelName = packet.get<std::string>();
 		if (!_playersWatchingLevel.contains(levelName.data())) return;
 		std::set<uint32_t>& levelSet{ _playersWatchingLevel.at(levelName.data()) };
 		levelSet.erase(id);
@@ -276,10 +276,10 @@ namespace Networking {
 		}
 	}
 
-	void ServerPlayerManager::updatePlayerCameraZoom(uint32_t id, nlohmann::json& json) {
+	void ServerPlayerManager::updatePlayerCameraZoom(uint32_t id, SimplePacket& packet) {
 		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
-		_players.at(id)->setCameraZoom(json["cameraZoom"]);
+		_players.at(id)->setCameraZoom(packet.get<float>());
 	}
 
 	std::set<uint32_t>& ServerPlayerManager::_getPlayersOnLevel(std::string_view levelName) {

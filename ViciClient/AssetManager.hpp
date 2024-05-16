@@ -42,7 +42,7 @@ namespace Networking {
 		* 
 		* @param event the event containing the file response
 		*/
-		static void onReceived(ENetEvent& event);
+		static void onReceived(SimplePacket& packet, UdpChannels channel);
 
 		/**
 		* Clears the cache of all assets

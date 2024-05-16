@@ -60,36 +60,25 @@ void Networking::AssetManager::generatePermanentAssets() {
 }
 
 void Networking::AssetManager::requestFile(std::string_view fileName, int channelID) {
-	const uint8_t* buffer = reinterpret_cast<const uint8_t*>(fileName.data());
-	size_t bufferSize = fileName.length();
+	SimplePacket packet{};
+	packet.add<std::string>(fileName.data());
 
-	// Create an ENetPacket with the byte buffer
-	ENetPacket* packet = enet_packet_create(buffer, bufferSize, ENET_PACKET_FLAG_RELIABLE);
-
-	// Send the packet to the destination peer on the desired channel
-	int ret; 
-	// TODO: FIX BAD IMPLEMENTATION. AFTER SO MANY FAILED ATTEMPTS, THE CLIENT SHOULD TIME OUT AND DISCONNECT.
-	// TODO: IT IS POSSIBLE THAT THIS IS DUE TO VISUAL STUDIO STARTING THE SERVER ONLY IMMEDIATELY BEFORE THE CLIENT AND THE SERVER DOES NOT HAVE ENOUGH TIME TO START
-	do {
-		ret = enet_peer_send(static_cast<Networking::UdpClient*>(Networking::UdpClient::instance)->getGameServer(), channelID, packet);
-	} while (ret < 0);
+	Networking::UdpClient::sendSimplePacket(packet, static_cast<UdpChannels>(channelID), ENET_PACKET_FLAG_RELIABLE);
 }
 
-void Networking::AssetManager::onReceived(ENetEvent& event) {
-	auto json = Networking::UdpClient::getJsonFromPacket(event.packet);
-
+void Networking::AssetManager::onReceived(SimplePacket& packet, UdpChannels channel) {
 	std::string assetType{};
 
-	std::string fileName = json["fileName"];
-	std::string path = json["path"];
-	std::string fileData = json["data"];
+	std::string fileName = packet.get<std::string>();
+	std::string path = packet.get<std::string>();
+	std::string fileData = base64::from_base64(packet.get<std::string>());
 
 	std::cout << "Received " << fileName << std::endl;
 
 	writeFile(path, fileData);
 	_assetIndex.emplace(fileName, path);
 
-	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(event.channelID) };
+	std::string_view typeName{ Networking::UdpTypeChannelMap::getTypeFromChannel(channel) };
 
 	std::shared_ptr<void> assetInProgress{ nullptr };
 
@@ -97,32 +86,32 @@ void Networking::AssetManager::onReceived(ENetEvent& event) {
 	std::string extension{ fileName.substr(dotIndex + 1) };
 
 	if (typeName == "Texture") {
-		assetInProgress = std::make_shared<AssetTypes::Texture>(base64::from_base64(fileData));
+		assetInProgress = std::make_shared<AssetTypes::Texture>(fileData);
 		assetType = typeid(AssetTypes::Texture).name();
 	}
 	else if (typeName == "Script") {
-		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), base64::from_base64(fileData));
+		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), fileData);
 		assetType = typeid(JS::Script).name();
 	}
 	else if (typeName == "Animation") {
 		if (extension == "vani") {
-			assetInProgress = std::make_shared<Animations::Animation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Animation>(fileName, fileData);
 		}
 		else if (extension == "json") {
-			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, fileData);
 		}
 		assetType = typeid(Animations::IAnimation).name();
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")
-			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::SingleLevel>(fileName, fileData);
 		else if (extension == "vmap") {
-			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, base64::from_base64(fileData));
+			assetInProgress = std::make_shared<Levels::MapLevel>(fileName, fileData);
 		}
 		assetType = typeid(Levels::Level).name();
 	}
 	else if (typeName == "String") {
-		assetInProgress = std::make_shared<std::string>(base64::from_base64(fileData));
+		assetInProgress = std::make_shared<std::string>(fileData);
 		assetType = typeid(std::string).name();
 	}
 	else {

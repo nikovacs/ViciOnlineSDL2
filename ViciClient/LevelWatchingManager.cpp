@@ -26,18 +26,18 @@ namespace Networking {
 	}
 
 	void LevelWatchingManager::startWatching(std::set<std::string>& lvlNames) {
-		nlohmann::json json{};
 		for (auto& lvlName : lvlNames) {
-			json["lvl"] = lvlName;
-			UdpClient::sendJson(json, Networking::UdpChannels::StartWatchingLevel, ENET_PACKET_FLAG_RELIABLE);
+			SimplePacket packet{};
+			packet.add(lvlName);
+			UdpClient::sendSimplePacket(packet, Networking::UdpChannels::StartWatchingLevel, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 	
 	void LevelWatchingManager::stopWatching(std::set<std::string>& lvlNames) {
-		nlohmann::json json{};
 		for (auto& lvlName : lvlNames) {
-			json["lvl"] = lvlName;
-			UdpClient::sendJson(json, Networking::UdpChannels::StopWatchingLevel, ENET_PACKET_FLAG_RELIABLE);
+			SimplePacket packet{};
+			packet.add(lvlName);
+			UdpClient::sendSimplePacket(packet, Networking::UdpChannels::StopWatchingLevel, ENET_PACKET_FLAG_RELIABLE);
 		}
 	}
 }

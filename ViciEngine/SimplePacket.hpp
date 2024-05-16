@@ -49,6 +49,16 @@ namespace Networking {
 			_pos += sizeof(T);
 			_packetNeedsRecreation = true;
 		}
+	
+		template <>
+		void add(const float& value) {
+			add(*(reinterpret_cast<const uint32_t*>(&value)));
+		}
+		
+		template <>
+		void add(const double& value) {
+			add(*(reinterpret_cast<const uint64_t*>(&value)));
+		}
 
 		template <>
 		void add(const std::string& str) {
@@ -85,6 +95,18 @@ namespace Networking {
 			_pos += sizeof(T);
 			return value;
 			}
+
+		template <>
+		inline float get() {
+			uint32_t value = get<uint32_t>();
+			return *(reinterpret_cast<float*>(&value));
+		}
+
+		template <>
+		inline double get() {
+			uint64_t value = get<uint64_t>();
+			return *(reinterpret_cast<double*>(&value));
+		}
 
 		template <>
 		inline std::string get() {

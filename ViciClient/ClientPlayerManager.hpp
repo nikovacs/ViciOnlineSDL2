@@ -14,7 +14,7 @@ namespace Networking {
 		static void render(SDL_Renderer* renderer);
 
 		static void spawnPlayer(nlohmann::json& json);
-		static void despawnPlayer(nlohmann::json& json);
+		static void despawnPlayer(SimplePacket& packet);
 		static void updatePlayerPos(SimplePacket& packet);
 		static void updatePlayerAni(SimplePacket& packet);
 		static void updatePlayerDir(SimplePacket& packet);

@@ -41,8 +41,8 @@ namespace Networking {
 		_playerUsernamesToIds.emplace(username, id);
 	}
 
-	void ClientPlayerManager::despawnPlayer(nlohmann::json& json) {
-		uint32_t id = json["id"];
+	void ClientPlayerManager::despawnPlayer(SimplePacket& packet) {
+		uint32_t id = packet.get<uint32_t>();
 		std::lock_guard<std::mutex> lock(_playerMutex);
 		if (!_players.contains(id)) return;
 		_playerUsernamesToIds.erase(_players.at(id)->getUsername().data());
