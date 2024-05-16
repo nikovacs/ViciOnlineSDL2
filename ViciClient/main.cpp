@@ -5,12 +5,13 @@
 #include <iostream>
 
 int main() {
-	ViciClient client{ "Vici Online", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false };
+	ViciClient client{ "Vici Online", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, false };
 	client.start();
 	client.initialize();
 
 	SDL_DisplayMode displayMode;
 	SDL_GetCurrentDisplayMode(0, &displayMode);
+	SDL_SetWindowSize(client.getWindow(), displayMode.w, displayMode.h);
 	std::cout << "Display refresh rate: " << displayMode.refresh_rate << std::endl;
 
 	int FPS{ displayMode.refresh_rate };
