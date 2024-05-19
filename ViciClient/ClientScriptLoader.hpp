@@ -24,6 +24,7 @@ namespace JS {
 	private:
 		void attemptResolveInProgress();
 		virtual void setApiSetupFuncs(v8pp::context* ctx) override;
+		void exposeStandardFuncs(v8pp::context* ctx);
 		void exposeClientPlayer(v8pp::context* ctx);
 		void exposeKeyboardHandler(v8pp::context* ctx);
 		void exposeLocalAttrs(v8pp::context* ctx);

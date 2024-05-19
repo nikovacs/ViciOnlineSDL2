@@ -22,6 +22,7 @@ namespace JS {
 		void onPlayerDisconnect(int32_t playerId);
 	private:
 		virtual void setApiSetupFuncs(v8pp::context* ctx) override;
+		void setupStandardFuncs(v8pp::context* ctx);
 		void setupDatabaseApi(v8pp::context* ctx);
 		std::map<std::string, std::unique_ptr<JS::Script>> _globalScripts{};
 		std::map<int32_t, std::map<std::string, std::unique_ptr<JS::Script>>> _playerScripts{};

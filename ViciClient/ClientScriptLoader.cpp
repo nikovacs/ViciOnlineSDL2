@@ -102,13 +102,35 @@ void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 	if (!_clientPlayer) {
 		throw std::runtime_error{ "ClientScriptLoader::getApiSetupFuncs() called before ClientScriptLoader::setClientPlayer()!" };
 	}
-
+	exposeStandardFuncs(ctx);
 	exposeClientPlayer(ctx);
 	exposeKeyboardHandler(ctx);
 	exposeLocalAttrs(ctx);
 	exposeNetworkedPlayerClass(ctx);
 	exposeNetworkPlayerManagerFunctions(ctx);
 	exposeRmlUIFunctions(ctx);
+}
+
+void JS::ClientScriptLoader::exposeStandardFuncs(v8pp::context* ctx) {
+	ctx->function("print", [](const v8::FunctionCallbackInfo<v8::Value>& args) {
+		v8::Isolate* isolate = args.GetIsolate();
+		v8::HandleScope scope(isolate);
+
+		if (args.Length() < 1) {
+			std::cout << std::endl;
+			return;
+		}
+		for (int i = 0; i < args.Length(); i++) {
+			v8::String::Utf8Value str(isolate, args[i]);
+			std::cout << *str;
+
+			if (i < args.Length() - 1) {
+				std::cout << " ";
+			}
+		}
+
+		std::cout << std::endl;
+	});
 }
 
 void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context* ctx) {

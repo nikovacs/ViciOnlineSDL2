@@ -71,7 +71,7 @@ void Networking::AssetManager::onReceived(SimplePacket& packet, UdpChannels chan
 
 	std::string fileName = packet.get<std::string>();
 	std::string path = packet.get<std::string>();
-	std::string fileData = base64::from_base64(packet.get<std::string>());
+	std::string fileData = packet.get<std::string>();
 
 	std::cout << "Received " << fileName << std::endl;
 

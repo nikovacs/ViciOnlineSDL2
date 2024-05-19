@@ -184,8 +184,6 @@
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ScriptLoader.cpp" />
     <ClCompile Include="SimplePacket.cpp" />
-    <ClCompile Include="StandardFuncs.cpp" />
-    <ClCompile Include="StandardFuncs.hpp" />
     <ClCompile Include="TryLockGuard.cpp" />
     <ClCompile Include="UdpHost.cpp" />
   </ItemGroup>

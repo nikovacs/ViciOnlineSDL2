@@ -60,12 +60,6 @@
     <ClCompile Include="Script.cpp">
       <Filter>Source Files\JSRuntime</Filter>
     </ClCompile>
-    <ClCompile Include="StandardFuncs.hpp">
-      <Filter>Header Files\JSRuntime</Filter>
-    </ClCompile>
-    <ClCompile Include="StandardFuncs.cpp">
-      <Filter>Source Files\JSRuntime</Filter>
-    </ClCompile>
     <ClCompile Include="Attributes.cpp">
       <Filter>Source Files\Attributes</Filter>
     </ClCompile>

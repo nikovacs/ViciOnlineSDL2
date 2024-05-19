@@ -120,6 +120,28 @@ namespace JS {
 		setupDatabaseApi(ctx);
 	}
 
+	void ServerScriptLoader::setupStandardFuncs(v8pp::context* ctx) {
+		ctx->function("print", [](const v8::FunctionCallbackInfo<v8::Value>& args) {
+			v8::Isolate* isolate = args.GetIsolate();
+			v8::HandleScope scope(isolate);
+
+			if (args.Length() < 1) {
+				std::cout << std::endl;
+				return;
+			}
+			for (int i = 0; i < args.Length(); i++) {
+				v8::String::Utf8Value str(isolate, args[i]);
+				std::cout << *str;
+
+				if (i < args.Length() - 1) {
+					std::cout << " ";
+				}
+			}
+
+			std::cout << std::endl;
+			});
+	}
+
 	void ServerScriptLoader::setupDatabaseApi(v8pp::context* ctx) {
 		static v8pp::class_<Vici::DbResultsJSWrapper> dbResultsJSWrapper{ _isolate };
 		dbResultsJSWrapper

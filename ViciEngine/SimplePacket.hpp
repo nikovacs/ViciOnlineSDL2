@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <enet/enet.h>
 #include "UdpChannels.hpp"
+#include <bit>
 
 namespace Networking {
 	/**
@@ -62,11 +63,11 @@ namespace Networking {
 
 		template <>
 		void add(const std::string& str) {
+			add(str.size());
 			for (const char& c : str) {
 				_data.push_back(c);
 			}
-			_data.push_back('\0');
-			_pos += str.size() + 1;
+			_pos += str.size();
 			_packetNeedsRecreation = true;
 		}
 
@@ -110,13 +111,19 @@ namespace Networking {
 
 		template <>
 		inline std::string get() {
-			std::string str{};
+			size_t size = get<size_t>();
+			std::string str{ _data.data() + _pos, size };
+			_pos += size;
+			return str;
+
+
+			/*std::string str{};
 			while (_data[_pos] != '\0') {
 				str.push_back(_data[_pos]);
 				_pos++;
 			}
 			_pos++;
-			return str;
+			return str;*/
 		}
 
 		void reset();

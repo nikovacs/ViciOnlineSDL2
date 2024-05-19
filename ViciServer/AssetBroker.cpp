@@ -18,7 +18,7 @@ void Networking::AssetBroker::sendFile(ENetPeer* peer, UdpChannels channel, Simp
 		SimplePacket packet{};
 		packet.add<std::string>(fileName);
 		packet.add<std::string>(path);
-		packet.add<std::string>(base64::to_base64(fileData));
+		packet.add<std::string>(fileData);
 		std::cout << "sending " << fileName << std::endl;
 
 		Networking::UdpServer::sendSimplePacket(peer, packet, channel, ENET_PACKET_FLAG_RELIABLE);

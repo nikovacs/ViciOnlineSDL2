@@ -3,7 +3,6 @@
 #include "UdpChannelMap.hpp"
 #include <string>
 #include <unordered_map>
-#include <unordered_map>
 #include <unordered_set>
 #include <enet/enet.h>
 #include <memory>
@@ -11,9 +10,7 @@
 #include "../ViciEngine/AssetTransfer.hpp"
 #include "../ViciEngine/AssetCache.hpp"
 #include <mutex>
-//#include "NetworkAsset.hpp"
 
-//class NetworkAsset;
 // forward declaration to avoid circular dependency
 template <typename T>
 class NetworkAsset {
