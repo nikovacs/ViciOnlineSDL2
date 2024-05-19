@@ -63,7 +63,7 @@ namespace Networking {
 
 		template <>
 		void add(const std::string& str) {
-			add(str.size());
+			add(static_cast<uint32_t>(str.size()));
 			for (const char& c : str) {
 				_data.push_back(c);
 			}
@@ -111,7 +111,7 @@ namespace Networking {
 
 		template <>
 		inline std::string get() {
-			size_t size = get<size_t>();
+			uint32_t size = get<uint32_t>();
 			std::string str{ _data.data() + _pos, size };
 			_pos += size;
 			return str;
