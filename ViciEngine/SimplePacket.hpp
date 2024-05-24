@@ -115,15 +115,6 @@ namespace Networking {
 			std::string str{ _data.data() + _pos, size };
 			_pos += size;
 			return str;
-
-
-			/*std::string str{};
-			while (_data[_pos] != '\0') {
-				str.push_back(_data[_pos]);
-				_pos++;
-			}
-			_pos++;
-			return str;*/
 		}
 
 		void reset();

@@ -13,7 +13,7 @@ private:
 	std::unique_ptr<Vici::DbAsyncQueryRunner> _dbAsyncQueryRunner;
 	std::unique_ptr<std::thread> _networkThread;
 	std::unique_ptr<Networking::UdpServer> _udpServer;
-	JS::ServerScriptLoader _scriptLoader{};
+	std::unique_ptr<JS::ServerScriptLoader> _scriptLoader{ nullptr };
 	static const int TICKS_PER_SECOND{ 20 };
 	bool _running;
 	void _loadServerOptions();
@@ -27,5 +27,6 @@ public:
 	void serverLoop();
 	nlohmann::json& getServerOptions();
 	Vici::DbAsyncQueryRunner& getDbAsyncQueryRunner();
+	JS::ServerScriptLoader& getScriptLoader();
 	v8::Isolate* getIsolate();
 };

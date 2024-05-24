@@ -38,6 +38,7 @@ namespace Networking {
 			auto playerSet = _playersWatchingLevel.at(levelName.data());
 			return { playerSet.begin(), playerSet.end() };
 		}
+		static Entities::ServerPlayer* getPlayer(uint32_t playerId);
 	private:
 		static std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> _players;
 		static std::unordered_map<uint32_t, ENetPeer*> _peers;

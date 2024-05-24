@@ -30,18 +30,3 @@ void JS::Script::run() {
     _script.Get(_isolate)->Run(_context->impl()).ToLocalChecked();
 }
 
-void JS::Script::trigger(std::string_view functionName) {
-    v8::Isolate::Scope isolateScope(_isolate);
-    v8::HandleScope handle_scope(_isolate);
-
-    v8::Context::Scope context_scope(_context->impl());
-    
-    v8::Local<v8::Value> func_value;
-	v8::Local<v8::String> foo_property = v8::String::NewFromUtf8(_isolate, functionName.data()).ToLocalChecked();
-    if (_context->global()->Get(_context->impl(), foo_property).ToLocal(&func_value) && func_value->IsFunction()) {
-        v8::Local<v8::Function> func_function = v8::Local<v8::Function>::Cast(func_value);
-
-        // Call the function with zero arguments
-        func_function->Call(_context->impl(), _context->global(), 0, nullptr);
-    }
-}

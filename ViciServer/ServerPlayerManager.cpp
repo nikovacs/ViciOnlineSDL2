@@ -4,7 +4,6 @@
 #include "../ViciEngine/UdpChannels.hpp"
 #include "enet/enet.h"
 #include <memory>
-#include "ServerScriptLoader.hpp"
 
 namespace Networking {
 	std::unordered_map<uint32_t, std::unique_ptr<Entities::ServerPlayer>> ServerPlayerManager::_players{};
@@ -53,7 +52,7 @@ namespace Networking {
 
 		// takes ownership of clientW and clientR pointers
 		_players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(
-			username, playerId, peer->connectID, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], clientW, clientR
+			username, playerId, peer, playerData["animation"], playerData["world"], playerData["dir"], playerData["x"], playerData["y"], playerData["cameraZoom"], clientW, clientR
 		));
 		Entities::ServerPlayer& player = *_players.at(peer->connectID).get();
 		player.setWidth(playerData["w"]);
@@ -296,5 +295,13 @@ namespace Networking {
 		}
 		static std::set<uint32_t> emptySet{};
 		return emptySet;
+	}
+
+	Entities::ServerPlayer* ServerPlayerManager::getPlayer(uint32_t playerId) {
+		std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+		if (_players.contains(playerId)) {
+			return _players.at(playerId).get();
+		}
+		return nullptr;
 	}
 }

@@ -2,7 +2,6 @@
 #include "UdpServer.hpp"
 #include <string>
 #include <nlohmann/json.hpp>
-#include "../ViciEngine/base64.hpp"
 
 namespace fs = std::filesystem;
 

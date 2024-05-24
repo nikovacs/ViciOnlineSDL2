@@ -49,11 +49,11 @@ namespace Networking {
             switch (event.type)
             {
             case ENET_EVENT_TYPE_CONNECT:
+            {
                 std::cout << "Connected to Server " << event.peer->address.host << ":" << event.peer->address.port << '\n';
-                /* Store any relevant client information here. */
-                //event.peer->data = "Client information";
                 enet_packet_destroy(event.packet);
                 break;
+            }
             case ENET_EVENT_TYPE_RECEIVE:
                 switch (event.channelID) {
                 case UdpChannels::Animation:
@@ -64,55 +64,71 @@ namespace Networking {
                 {
                     SimplePacket packet{ event.packet };
                     AssetManager::onReceived(packet, static_cast<UdpChannels>(event.channelID));
+                    break;
                 }
-                break;
                 case UdpChannels::handshake:
                 {
                     SimplePacket handshakePacket{};
                     handshakePacket.add(PlayerInfo::username);
                     handshakePacket.add(PlayerInfo::playerId);
                     sendSimplePacket(handshakePacket, UdpChannels::handshake, ENET_PACKET_FLAG_RELIABLE);
+                    break;
                 }
-                break;
                 case UdpChannels::initialPlayerData:
                 {
                     auto jsonInitPlayerData = getJsonFromPacket(event.packet);
                     reinterpret_cast<Scenes::GameScene*>(&Scenes::SceneManager::instance->getScene("Game"))->loadInitPlayerData(jsonInitPlayerData);
                     Scenes::SceneManager::instance->setScene("Game");
                     enet_packet_destroy(event.packet);
+
+                    SimplePacket emptyPacket{};
+                    UdpClient::sendSimplePacket(emptyPacket, UdpChannels::connectionAccepted, ENET_PACKET_FLAG_RELIABLE);
+
+                    break;
                 }
-                break;
                 case UdpChannels::SpawnPlayer:
                 {
                     auto jsonSpawnPlayer = getJsonFromPacket(event.packet);
                     ClientPlayerManager::spawnPlayer(jsonSpawnPlayer);
                     enet_packet_destroy(event.packet);
+                    break;
                 }
-                break;
                 case UdpChannels::DespawnPlayer:
                 {
                     SimplePacket packet{ event.packet };
                     ClientPlayerManager::despawnPlayer(packet);
+                    break;
                 }
-                break;
                 case UdpChannels::UpdatePlayerPos:
                 {
                     SimplePacket packet{ event.packet };
                     ClientPlayerManager::updatePlayerPos(packet);
+                    break;
                 }
-                break;
                 case UdpChannels::UpdatePlayerDir:
                 {
                     SimplePacket packet{ event.packet };
                     ClientPlayerManager::updatePlayerDir(packet);
+                    break;
                 }
-                break;
                 case UdpChannels::UpdatePlayerAni:
                 {
                     SimplePacket packet{ event.packet };
                     ClientPlayerManager::updatePlayerAni(packet);
+                    break;
                 }
-                break;
+                case UdpChannels::LoadScriptForPlayer:
+                {
+                    SimplePacket packet{ event.packet };
+                    Scenes::GameScene::instance->getScriptLoader().onLoadScript(packet.get<std::string>());
+                    break;
+                }
+                case UdpChannels::UnloadScriptForPlayer:
+                {
+                    SimplePacket packet{ event.packet };
+                    Scenes::GameScene::instance->getScriptLoader().onUnloadScript(packet.get<std::string>());
+                    break;
+                }
                 }
                 break;
             case ENET_EVENT_TYPE_DISCONNECT:
