@@ -178,6 +178,7 @@
     <ClCompile Include="DbConnectionPool.cpp" />
     <ClCompile Include="DbJSWrapper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ServerPlayerJSWrapper.cpp" />
     <ClCompile Include="ServerPlayerManager.cpp" />
     <ClCompile Include="ServerPlayer.cpp" />
     <ClCompile Include="ServerScriptLoader.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="DbAsyncQueryRunner.hpp" />
     <ClInclude Include="DbConnectionPool.hpp" />
     <ClInclude Include="DbJSWrapper.hpp" />
+    <ClInclude Include="ServerPlayerJSWrapper.hpp" />
     <ClInclude Include="ServerPlayerManager.hpp" />
     <ClInclude Include="ServerPlayer.hpp" />
     <ClInclude Include="ServerScriptLoader.hpp" />

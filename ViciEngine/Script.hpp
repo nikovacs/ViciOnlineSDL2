@@ -7,6 +7,7 @@
 #include <vector>
 #include <functional>
 #include <v8pp/context.hpp>
+#include <v8pp/call_v8.hpp>
 
 namespace JS {
 	class Script {
@@ -15,7 +16,20 @@ namespace JS {
 		virtual ~Script();
 		void initialize(std::function<void(v8pp::context* ctx)> apiSetupFunc);
 		void run();
-		void trigger(std::string_view functionName);
+
+		template <typename... Args>
+		void trigger(std::string_view functionName, Args&&... args) {
+			v8::Isolate::Scope isolateScope(_isolate);
+			v8::HandleScope handle_scope(_isolate);
+			v8::Context::Scope context_scope(_context->impl());
+
+			v8::Local<v8::Value> func_value;
+			_context->global();
+			if (_context->global()->Get(_context->impl(), v8pp::to_v8(_context->isolate(), functionName)).ToLocal(&func_value) && func_value->IsFunction()) {
+				v8::Local<v8::Function> function = v8::Local<v8::Function>::Cast(func_value);
+				v8pp::call_v8(_isolate, function, _context->impl()->Global(), std::forward<Args>(args)...);
+			}
+		}
 	protected:
 		v8::Isolate* _isolate;
 		std::string _fileName;

@@ -10,6 +10,8 @@ namespace Networking {
 
 		handshake,
 		initialPlayerData,
+		connectionAccepted,
+
 		SpawnPlayer,
 		DespawnPlayer,
 		UpdatePlayerCameraZoom,
@@ -24,6 +26,9 @@ namespace Networking {
 
 		UpdateClientW,
 		UpdateClientR,
+
+		LoadScriptForPlayer,
+		UnloadScriptForPlayer,
 		
 		MAX_CHANNELS
 	};

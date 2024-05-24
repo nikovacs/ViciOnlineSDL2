@@ -10,12 +10,12 @@
 ViciServer* ViciServer::instance = nullptr;
 
 ViciServer::ViciServer() {
+	instance = this;
 	_loadServerOptions();
 	_initDb();
 	_running = false;
-	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]); 
-	instance = this;
-	_scriptLoader.loadScript("testdb.js");
+	_udpServer = std::make_unique<Networking::UdpServer>(_serverOptions["port"], _serverOptions["maxPlayers"]);
+	_scriptLoader = std::make_unique<JS::ServerScriptLoader>();
 }
 
 ViciServer::~ViciServer() {
@@ -68,6 +68,7 @@ void ViciServer::serverLoop() {
 	while (_running) {
 		// do stuff
 		_dbAsyncQueryRunner->processInProgress();
+		_scriptLoader->update();
 		//std::cout << "server loop\n";
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000 / TICKS_PER_SECOND));
 	}
@@ -77,6 +78,10 @@ Vici::DbAsyncQueryRunner& ViciServer::getDbAsyncQueryRunner() {
 	return *_dbAsyncQueryRunner;
 }
 
+JS::ServerScriptLoader& ViciServer::getScriptLoader() {
+	return *_scriptLoader;
+}
+
 v8::Isolate* ViciServer::getIsolate() {
-	return _scriptLoader.getIsolate();
+	return _scriptLoader->getIsolate();
 }

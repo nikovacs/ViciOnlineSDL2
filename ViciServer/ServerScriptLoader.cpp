@@ -4,9 +4,15 @@
 #include <v8pp/class.hpp>
 #include "DbJSWrapper.hpp"
 #include "ViciServer.hpp"
+#include "ServerPlayerManager.hpp"
+#include "ServerPlayerJSWrapper.hpp"
 
 namespace JS {
-	ServerScriptLoader::ServerScriptLoader() {};
+	ServerScriptLoader::ServerScriptLoader() {
+		nlohmann::json& serverOpts = ViciServer::instance->getServerOptions();
+		std::string rootScript = serverOpts["rootScript"];
+		loadScript(rootScript);
+	};
 
 	ServerScriptLoader::~ServerScriptLoader() {
 		for (auto& [fileName, script] : _globalScripts) {
@@ -37,20 +43,19 @@ namespace JS {
 		}
 	};
 
-	void ServerScriptLoader::trigger(std::string_view functionName, std::string_view fileName) {
-		if (fileName.empty()) {
-			for (auto& [fileName, script] : _globalScripts) {
-				script->trigger(functionName);
-			}
-		}
-		else {
-			if (_globalScripts.contains(fileName.data())) {
-				_globalScripts.at(fileName.data())->trigger(functionName);
-			}
-		}
-	};
-
 	void ServerScriptLoader::update() {
+		nlohmann::json& serverOpts = ViciServer::instance->getServerOptions();
+		if (serverOpts.contains("rootScript")) {
+			std::string rootScript{ serverOpts["rootScript"] };
+			std::lock_guard<std::mutex> lock{ _playerIdsConnectedMutex };
+			for (uint32_t playerId : _playerIdsConnected) {
+				Entities::ServerPlayer* pl = Networking::ServerPlayerManager::getPlayer(playerId);
+				if (pl == nullptr) continue;
+				trigger("onPlayerLogin", rootScript, JS::ServerPlayerJSWrapper{ pl });
+			}
+			_playerIdsConnected.clear();
+		}
+
 		for (auto& [fileName, script] : _globalScripts) {
 			script->trigger("onUpdate");
 		}
@@ -78,7 +83,7 @@ namespace JS {
 		}
 	};
 
-	void ServerScriptLoader::loadScriptForPlayer(int32_t playerId, std::string_view fileName) {
+	void ServerScriptLoader::loadScriptForPlayer(uint32_t playerId, std::string_view fileName) {
 		std::string contents{ Networking::AssetBroker::getFile(fileName) };
 		if (contents.empty()) return;
 
@@ -89,14 +94,14 @@ namespace JS {
 		script->trigger("onLoad");
 	};
 
-	void ServerScriptLoader::unloadScriptForPlayer(int32_t playerId, std::string_view fileName) {
+	void ServerScriptLoader::unloadScriptForPlayer(uint32_t playerId, std::string_view fileName) {
 		if (!_playerScripts.contains(playerId)) return;
 		if (!_playerScripts.at(playerId).contains(fileName.data())) return;
 		_playerScripts.at(playerId).at(fileName.data())->trigger("onUnload");
 		_playerScripts.at(playerId).erase(fileName.data());
 	};
 
-	void ServerScriptLoader::triggerForPlayer(int32_t playerId, std::string_view functionName, std::string_view fileName) {
+	void ServerScriptLoader::triggerForPlayer(uint32_t playerId, std::string_view functionName, std::string_view fileName) {
 		if (!_playerScripts.contains(playerId)) return;
 		if (fileName.empty()) {
 			for (auto& [fileName, script] : _playerScripts.at(playerId)) {
@@ -110,13 +115,20 @@ namespace JS {
 		}
 	};
 
-	void ServerScriptLoader::onPlayerDisconnect(int32_t playerId) {
+	void ServerScriptLoader::onPlayerDisconnect(uint32_t playerId) {
 		std::lock_guard lock{ _playersToRemoveMutex };
 		_playerIdsToRemove.insert(playerId);
 	};
 
+	void ServerScriptLoader::onPlayerConnect(uint32_t playerId) {
+		std::lock_guard<std::mutex> lock{ _playerIdsConnectedMutex };
+		_playerIdsConnected.insert(playerId);
+	};
+
 	void ServerScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {
 		std::cout << "Setting up server API" << std::endl;
+		setupStandardFuncs(ctx);
+		setupServerPlayerApi(ctx);
 		setupDatabaseApi(ctx);
 	}
 
@@ -140,6 +152,17 @@ namespace JS {
 
 			std::cout << std::endl;
 			});
+	}
+
+	void ServerScriptLoader::setupServerPlayerApi(v8pp::context* ctx) {
+		static v8pp::class_<JS::ServerPlayerJSWrapper> serverPlayerJSWrapper{ _isolate };
+		serverPlayerJSWrapper
+			.auto_wrap_objects(true)
+			.function("addScript", &JS::ServerPlayerJSWrapper::addScript)
+			.function("removeScript", &JS::ServerPlayerJSWrapper::removeScript)
+			;
+
+		ctx->class_("ServerPlayer", serverPlayerJSWrapper);
 	}
 
 	void ServerScriptLoader::setupDatabaseApi(v8pp::context* ctx) {

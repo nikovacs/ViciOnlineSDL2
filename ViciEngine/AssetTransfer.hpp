@@ -41,8 +41,14 @@ namespace Networking {
 
 			return true;
 		}
+
+		static bool fileExists(std::string_view fileName);
+
 	protected:
 		static std::unordered_map<std::string, std::string> _assetIndex;
 		static void createFileStructure(std::string_view path);
+		static std::string toLower(const std::string& str);
+		static std::string normalizePath(const std::string& path);
+		static void addScriptToIndex(const std::filesystem::path& path);
 	};
 }

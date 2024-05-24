@@ -21,6 +21,7 @@ namespace Scenes {
 		void render(SDL_Renderer* renderer) override;
 		void loadInitPlayerData(nlohmann::json& json);
 		Client::Camera& getCamera();
+		JS::ClientScriptLoader& getScriptLoader();
 		static GameScene* instance;
 	private:
 		std::unique_ptr<Entities::ClientPlayer> _clientPlayer{ nullptr };

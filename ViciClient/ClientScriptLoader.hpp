@@ -18,9 +18,29 @@ namespace JS {
 		virtual ~ClientScriptLoader() override;
 		virtual void loadScript(std::string_view fileName) override;
 		virtual void unloadScript(std::string_view fileName) override;
-		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv) override;
+		template <typename... Args>
+		void trigger(std::string_view functionName, std::string_view fileName, Args&&... args) {
+			if (fileName.empty()) {
+				for (auto& script : _scripts) {
+					auto scriptPtr = script.second->getValue();
+					if (scriptPtr) {
+						scriptPtr->trigger(functionName);
+					}
+				}
+			}
+			else {
+				if (_scripts.count(fileName.data()) > 0) {
+					auto scriptPtr = _scripts[fileName.data()]->getValue();
+					if (scriptPtr) {
+						scriptPtr->trigger(functionName);
+					}
+				}
+			}
+		}
 		void update();
 		void setClientPlayer(Entities::ClientPlayer* pl);
+		void onLoadScript(std::string_view fileName);
+		void onUnloadScript(std::string_view fileName);
 	private:
 		void attemptResolveInProgress();
 		virtual void setApiSetupFuncs(v8pp::context* ctx) override;
@@ -34,5 +54,11 @@ namespace JS {
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scripts{};
 		std::map<std::string, std::unique_ptr<Networking::NetworkAsset<Script>>> _scriptsInProgress{};
 		Entities::ClientPlayer* _clientPlayer{ nullptr };
+
+		std::mutex _scriptsToLoadMutex{};
+		std::set<std::string> _scriptsToLoad{};
+
+		std::mutex _scriptsToUnloadMutex{};
+		std::set<std::string> _scriptsToUnload{};
 	};
 }

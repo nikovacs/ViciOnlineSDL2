@@ -36,7 +36,24 @@ JS::ClientScriptLoader::~ClientScriptLoader() {
 }
 
 void JS::ClientScriptLoader::update() {
+	{
+		std::lock_guard<std::mutex> lock{ _scriptsToLoadMutex };
+		for (const std::string& script : _scriptsToLoad) {
+			loadScript(script);
+		}
+		_scriptsToLoad.clear();
+	}
+
+	{
+		std::lock_guard<std::mutex> lock{ _scriptsToUnloadMutex };
+		for (const std::string& script : _scriptsToUnload) {
+			unloadScript(script);
+		}
+		_scriptsToUnload.clear();
+	}
+
 	attemptResolveInProgress();
+
 	for (auto& script : _scripts) {
 		script.second->getValue()->trigger("onUpdate");
 	}
@@ -46,11 +63,11 @@ void JS::ClientScriptLoader::attemptResolveInProgress() {
 	if (_scriptsInProgress.size() == 0) return;
 	
 	std::vector<std::string> toRemove{};
-	for (auto& script : _scriptsInProgress) {
-		auto scriptPtr = script.second->getValue();
+	for (auto& [name, script] : _scriptsInProgress) {
+		JS::Script* scriptPtr = script->getValue();
 		if (scriptPtr) {
-			_scripts[script.first] = std::move(script.second);
-			toRemove.push_back(script.first);
+			_scripts[name] = std::move(script);
+			toRemove.push_back(name);
 			scriptPtr->initialize([this](v8pp::context* ctx)->void { setApiSetupFuncs(ctx); });
 			scriptPtr->run();
 			scriptPtr->trigger("onLoad");
@@ -75,27 +92,18 @@ void JS::ClientScriptLoader::unloadScript(std::string_view fileName) {
 	_scripts.erase(fileName.data());
 }
 
-void JS::ClientScriptLoader::trigger(std::string_view functionName, std::string_view fileName) {
-	if (fileName.empty()) {
-		for (auto& script : _scripts) {
-			auto scriptPtr = script.second->getValue();
-			if (scriptPtr) {
-				scriptPtr->trigger(functionName);
-			}
-		}
-	}
-	else {
-		if (_scripts.count(fileName.data()) > 0) {
-			auto scriptPtr = _scripts[fileName.data()]->getValue();
-			if (scriptPtr) {
-				scriptPtr->trigger(functionName);
-			}
-		}
-	}
-}
-
 void JS::ClientScriptLoader::setClientPlayer(Entities::ClientPlayer* pl) {
 	_clientPlayer = pl;
+}
+
+void JS::ClientScriptLoader::onLoadScript(std::string_view fileName) {
+	std::lock_guard<std::mutex> lock{ _scriptsToLoadMutex };
+	_scriptsToLoad.insert(fileName.data());
+}
+
+void JS::ClientScriptLoader::onUnloadScript(std::string_view fileName) {
+	std::lock_guard<std::mutex> lock{ _scriptsToUnloadMutex };
+	_scriptsToUnload.insert(fileName.data());
 }
 
 void JS::ClientScriptLoader::setApiSetupFuncs(v8pp::context* ctx) {

@@ -16,7 +16,10 @@ namespace JS {
 		virtual ~ScriptLoader();
 		virtual void loadScript(std::string_view fileName) = 0;
 		virtual void unloadScript(std::string_view fileName) = 0;
-		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv) = 0;
+
+		/*template <typename... Args>
+		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv, Args... args) = 0;
+		virtual void trigger(std::string_view functionName, std::string_view fileName = ""sv) = 0;*/
 		v8::Isolate* getIsolate();
 		static ScriptLoader* instance;
 	protected:

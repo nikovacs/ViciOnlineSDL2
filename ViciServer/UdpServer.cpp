@@ -4,6 +4,8 @@
 #include <enet/enet.h>
 #include <iostream>
 #include "ServerPlayerManager.hpp"
+#include "ViciServer.hpp"
+#include "ServerPlayerJSWrapper.hpp"
 
 Networking::UdpServer::UdpServer(int port, int maxPlayers) : UdpHost(true, maxPlayers, port, UdpChannels::MAX_CHANNELS) {
 	AssetBroker::initializeIndex();
@@ -64,6 +66,12 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
             {
                 SimplePacket packet{ event.packet };
                 Networking::ServerPlayerManager::sendInitialPlayerData(event.peer, packet);
+                break;
+            }
+            case UdpChannels::connectionAccepted:
+            {
+                SimplePacket packet{ event.packet };
+                ViciServer::instance->getScriptLoader().onPlayerConnect(event.peer->connectID);
                 break;
             }
             case UdpChannels::UpdatePlayerPos:

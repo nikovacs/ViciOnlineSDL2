@@ -5,11 +5,12 @@
 #include <string>
 #include <mutex>
 #include <set>
+#include <enet/enet.h>
 
 namespace Entities {
 	class ServerPlayer : public Entity {
 	public:
-		ServerPlayer(std::string_view username, std::string_view playerId, uint32_t id, std::string_view animation, std::string_view _world,
+		ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer* peer, std::string_view animation, std::string_view _world,
 			int dir, int x, int y, float zoom, nlohmann::json* clientW, nlohmann::json* clientR);
 		virtual ~ServerPlayer();
 		void setLevel(std::string_view level);
@@ -24,8 +25,10 @@ namespace Entities {
 		const std::set<std::string>& getLevelsWatching();
 		void stopWatchingLevel(std::string_view lvl);
 		std::string_view getUsername();
+		void addScript(std::string_view script);
+		void removeScript(std::string_view script);
 	private:
-		uint32_t _connectionId{};
+		ENetPeer* _peer{ nullptr };
 		std::string _animation{};
 		std::string _world{};
 		std::string _level{};
