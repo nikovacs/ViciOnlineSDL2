@@ -26,8 +26,21 @@ if (WIN32)
     add_compile_definitions(WIN32) #v8pp uses this to determine if it's on Windows
     set(LIBCXX_PATH "${CMAKE_CURRENT_LIST_DIR}/third_party/libcxx")
     set(LIBCXX_INCLUDES "-I\"${LIBCXX_PATH}/include\" -I\"${LIBCXX_PATH}/include.19\"")
-    
     set(LIBCXX_FLAGS "${LIBCXX_INCLUDES} -fuse-ld=lld /clang:-fexceptions /EHsc /Zc:dllexportInlines- -msse2 -D${libcpp_hardening}")
+
+    set(REMOVE_WARNINGS
+        /clang:-Wno-ignored-pragma-intrinsic
+        /clang:-Wno-pragma-pack
+        /clang:-Wno-unknown-pragmas
+        /clang:-Wno-unused-parameter
+        /clang:-Wno-unused-function
+        /clang:-Wno-unused-result
+        /clang:-Wno-ignored-attributes
+        /clang:-Wno-macro-redefined
+        /clang:-Wno-extra-tokens
+        -Wno-unused-command-line-argument
+    )
+    add_compile_options(${REMOVE_WARNINGS})
 
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(LIBCXX_FLAGS "${LIBCXX_FLAGS} -DV8_ENABLE_CHECKS")
@@ -123,7 +136,6 @@ target_compile_definitions(
 )
 target_link_libraries(ViciCore PUBLIC nlohmann_json::nlohmann_json)
 target_link_libraries(ViciCore PUBLIC v8 v8_libbase v8_libplatform)
-
 
 add_executable(
     ViciServer
