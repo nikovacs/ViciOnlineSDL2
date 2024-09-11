@@ -1,0 +1,6 @@
+Copyright 2024 Vici Online. All rights reserved.
+
+This software and associated documentation files (the "Software") are the
+exclusive property of Vici Online. Use, reproduction, distribution, or
+modification of the Software, in whole or in part, is strictly prohibited
+without the express written permission of Vici Online.
