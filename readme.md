@@ -1,6 +1,7 @@
 # Requirements to build
 ## Windows
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or Build Tools
+  - Set your `VSINSTALLDIR` env variable
   - Install C++ Desktop Tools
   - Install Cmake Tools
   - Install Windows SDK
@@ -14,6 +15,8 @@
 - [homebrew](https://brew.sh/)
 ## All platforms
 - [Python3](https://www.python.org/downloads/)
+- [Vcpkg](https://vcpkg.io/en/)
+  - Set your `VCPKG_ROOT` env variable
 
 # Instructions to build
 ## Prerequisites
