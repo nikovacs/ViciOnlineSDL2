@@ -1,10 +1,6 @@
 [submodule "ViciServer/Assets"]
 	path = ViciServer/Assets
 	url = https://github.com/nikovacs/ViciDefaultAssets.git
-[submodule "XPlatCppSdk"]
-	path = XPlatCppSdk
-	url = https://github.com/PlayFab/XPlatCppSdk
-	branch = 784bec91040d9063f8e022843a42fefc45493c5c
 [submodule "RmlUi"]
 	path = RmlUi
 	url = https://github.com/mikke89/RmlUi.git
@@ -13,3 +9,6 @@
 	path = v8pp
 	url = https://github.com/nikovacs/v8pp.git
 	branch = 06MAR2024
+[submodule "third_party/XPlatCppSdk"]
+	path = third_party/XPlatCppSdk
+	url = https://github.com/PlayFab/XPlatCppSdk.git

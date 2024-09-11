@@ -1,0 +1,163 @@
+cmake_minimum_required(VERSION 3.29.6)
+
+project(XPlatCppSdk
+    DESCRIPTION "XPlatCppSdk"
+    LANGUAGES CXX
+)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_library(
+    XPlatCppSdkWindows STATIC
+    ../../code/include/playfab/PlayFabAddonApi.h
+    ../../code/include/playfab/PlayFabAddonDataModels.h
+    ../../code/include/playfab/PlayFabAddonInstanceApi.h
+    ../../code/include/playfab/PlayFabAdminApi.h
+    ../../code/include/playfab/PlayFabAdminDataModels.h
+    ../../code/include/playfab/PlayFabAdminInstanceApi.h
+    # ../../code/include/playfab/PlayFabAndroidHttpPlugin.h
+    ../../code/include/playfab/PlayFabApiSettings.h
+    ../../code/include/playfab/PlayFabAuthenticationApi.h
+    ../../code/include/playfab/PlayFabAuthenticationContext.h
+    ../../code/include/playfab/PlayFabAuthenticationDataModels.h
+    ../../code/include/playfab/PlayFabAuthenticationInstanceApi.h
+    ../../code/include/playfab/PlayFabBaseModel.h
+    ../../code/include/playfab/PlayFabCallRequestContainer.h
+    ../../code/include/playfab/PlayFabCallRequestContainerBase.h
+    ../../code/include/playfab/PlayFabClientApi.h
+    ../../code/include/playfab/PlayFabClientDataModels.h
+    ../../code/include/playfab/PlayFabClientInstanceApi.h
+    ../../code/include/playfab/PlayFabCloudScriptApi.h
+    ../../code/include/playfab/PlayFabCloudScriptDataModels.h
+    ../../code/include/playfab/PlayFabCloudScriptInstanceApi.h
+    # ../../code/include/playfab/PlayFabCurlHttpPlugin.h
+    ../../code/include/playfab/PlayFabDataApi.h
+    ../../code/include/playfab/PlayFabDataDataModels.h
+    ../../code/include/playfab/PlayFabDataInstanceApi.h
+    ../../code/include/playfab/PlayFabEconomyApi.h
+    ../../code/include/playfab/PlayFabEconomyDataModels.h
+    ../../code/include/playfab/PlayFabEconomyInstanceApi.h
+    ../../code/include/playfab/PlayFabError.h
+    ../../code/include/playfab/PlayFabEvent.h
+    ../../code/include/playfab/PlayFabEventApi.h
+    ../../code/include/playfab/PlayFabEventBuffer.h
+    ../../code/include/playfab/PlayFabEventPipeline.h
+    ../../code/include/playfab/PlayFabEventRouter.h
+    ../../code/include/playfab/PlayFabEventsApi.h
+    ../../code/include/playfab/PlayFabEventsDataModels.h
+    ../../code/include/playfab/PlayFabEventsInstanceApi.h
+    ../../code/include/playfab/PlayFabExperimentationApi.h
+    ../../code/include/playfab/PlayFabExperimentationDataModels.h
+    ../../code/include/playfab/PlayFabExperimentationInstanceApi.h
+    ../../code/include/playfab/PlayFabGroupsApi.h
+    ../../code/include/playfab/PlayFabGroupsDataModels.h
+    ../../code/include/playfab/PlayFabGroupsInstanceApi.h
+    ../../code/include/playfab/PlayFabInsightsApi.h
+    ../../code/include/playfab/PlayFabInsightsDataModels.h
+    ../../code/include/playfab/PlayFabInsightsInstanceApi.h
+    ../../code/include/playfab/PlayFabIOSHttpPlugin.h
+    ../../code/include/playfab/PlayFabIXHR2HttpPlugin.h
+    ../../code/include/playfab/PlayFabIXHR2HttpRequest.h
+    ../../code/include/playfab/PlayFabJsonHeaders.h
+    ../../code/include/playfab/PlayFabLocalizationApi.h
+    ../../code/include/playfab/PlayFabLocalizationDataModels.h
+    ../../code/include/playfab/PlayFabLocalizationInstanceApi.h
+    ../../code/include/playfab/PlayFabMatchmakerApi.h
+    ../../code/include/playfab/PlayFabMatchmakerDataModels.h
+    ../../code/include/playfab/PlayFabMatchmakerInstanceApi.h
+    ../../code/include/playfab/PlayFabMultiplayerApi.h
+    ../../code/include/playfab/PlayFabMultiplayerDataModels.h
+    ../../code/include/playfab/PlayFabMultiplayerInstanceApi.h
+    ../../code/include/playfab/PlayFabPlatformMacros.h
+    ../../code/include/playfab/PlayFabPlatformTypes.h
+    ../../code/include/playfab/PlayFabPlatformUtils.h
+    ../../code/include/playfab/PlayFabPluginManager.h
+    ../../code/include/playfab/PlayFabProfilesApi.h
+    ../../code/include/playfab/PlayFabProfilesDataModels.h
+    ../../code/include/playfab/PlayFabProfilesInstanceApi.h
+    ../../code/include/playfab/PlayFabProgressionApi.h
+    ../../code/include/playfab/PlayFabProgressionDataModels.h
+    ../../code/include/playfab/PlayFabProgressionInstanceApi.h
+    ../../code/include/playfab/PlayFabServerApi.h
+    ../../code/include/playfab/PlayFabServerDataModels.h
+    ../../code/include/playfab/PlayFabServerInstanceApi.h
+    ../../code/include/playfab/PlayFabSettings.h
+    ../../code/include/playfab/PlayFabSpinLock.h
+    ../../code/include/playfab/PlayFabTransportHeaders.h
+    ../../code/include/playfab/PlayFabWinHttpPlugin.h
+    ../../code/include/playfab/QoS/PingResult.h
+    ../../code/include/playfab/QoS/PlayFabQoSApi.h
+    ../../code/include/playfab/QoS/QoS.h
+    ../../code/include/playfab/QoS/QoSResult.h
+    ../../code/include/playfab/QoS/QoSSocket.h
+    ../../code/include/playfab/QoS/RegionResult.h
+    ../../code/include/playfab/QoS/XPlatSocket.h
+    ../../code/source/playfab/PlayFabAddonApi.cpp
+    ../../code/source/playfab/PlayFabAddonInstanceApi.cpp
+    ../../code/source/playfab/PlayFabAdminApi.cpp
+    ../../code/source/playfab/PlayFabAdminInstanceApi.cpp
+    # ../../code/source/playfab/PlayFabAndroidHttpPlugin.cpp
+    ../../code/source/playfab/PlayFabApiSettings.cpp
+    ../../code/source/playfab/PlayFabAuthenticationApi.cpp
+    ../../code/source/playfab/PlayFabAuthenticationContext.cpp
+    ../../code/source/playfab/PlayFabAuthenticationInstanceApi.cpp
+    ../../code/source/playfab/PlayFabCallRequestContainer.cpp
+    ../../code/source/playfab/PlayFabCallRequestContainerBase.cpp
+    ../../code/source/playfab/PlayFabClientApi.cpp
+    ../../code/source/playfab/PlayFabClientInstanceApi.cpp
+    ../../code/source/playfab/PlayFabCloudScriptApi.cpp
+    ../../code/source/playfab/PlayFabCloudScriptInstanceApi.cpp
+    # ../../code/source/playfab/PlayFabCurlHttpPlugin.cpp
+    ../../code/source/playfab/PlayFabDataApi.cpp
+    ../../code/source/playfab/PlayFabDataInstanceApi.cpp
+    ../../code/source/playfab/PlayFabEconomyApi.cpp
+    ../../code/source/playfab/PlayFabEconomyInstanceApi.cpp
+    ../../code/source/playfab/PlayFabError.cpp
+    ../../code/source/playfab/PlayFabEvent.cpp
+    ../../code/source/playfab/PlayFabEventApi.cpp
+    ../../code/source/playfab/PlayFabEventBuffer.cpp
+    ../../code/source/playfab/PlayFabEventPipeline.cpp
+    ../../code/source/playfab/PlayFabEventRouter.cpp
+    ../../code/source/playfab/PlayFabEventsApi.cpp
+    ../../code/source/playfab/PlayFabEventsInstanceApi.cpp
+    ../../code/source/playfab/PlayFabExperimentationApi.cpp
+    ../../code/source/playfab/PlayFabExperimentationInstanceApi.cpp
+    ../../code/source/playfab/PlayFabGroupsApi.cpp
+    ../../code/source/playfab/PlayFabGroupsInstanceApi.cpp
+    ../../code/source/playfab/PlayFabInsightsApi.cpp
+    ../../code/source/playfab/PlayFabInsightsInstanceApi.cpp
+    ../../code/source/playfab/PlayFabIXHR2HttpPlugin.cpp
+    ../../code/source/playfab/PlayFabIXHR2HttpRequest.cpp
+    ../../code/source/playfab/PlayFabLocalizationApi.cpp
+    ../../code/source/playfab/PlayFabLocalizationInstanceApi.cpp
+    ../../code/source/playfab/PlayFabMatchmakerApi.cpp
+    ../../code/source/playfab/PlayFabMatchmakerInstanceApi.cpp
+    ../../code/source/playfab/PlayFabMultiplayerApi.cpp
+    ../../code/source/playfab/PlayFabMultiplayerInstanceApi.cpp
+    ../../code/source/playfab/PlayFabPluginManager.cpp
+    ../../code/source/playfab/PlayFabProfilesApi.cpp
+    ../../code/source/playfab/PlayFabProfilesInstanceApi.cpp
+    ../../code/source/playfab/PlayFabProgressionApi.cpp
+    ../../code/source/playfab/PlayFabProgressionInstanceApi.cpp
+    ../../code/source/playfab/PlayFabServerApi.cpp
+    ../../code/source/playfab/PlayFabServerInstanceApi.cpp
+    ../../code/source/playfab/PlayFabSettings.cpp
+    ../../code/source/playfab/PlayFabSpinLock.cpp
+    ../../code/source/playfab/PlayFabWinHttpPlugin.cpp
+    ../../code/source/playfab/QoS/PlayFabQoSApi.cpp
+    ../../code/source/playfab/QoS/QoSSocket.cpp
+    ../../code/source/playfab/QoS/RegionResult.cpp
+    ../../code/source/playfab/QoS/XPlatSocket.cpp
+    ../../code/stdafx.cpp
+    ../../code/stdafx.h
+)
+target_include_directories(XPlatCppSdkWindows PUBLIC
+    ../../code
+    ../../code/include
+    ../../external/jsoncpp/include
+)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../external/jsoncpp
+                 ${CMAKE_CURRENT_BINARY_DIR}/../jsoncpp)
+target_link_libraries(XPlatCppSdkWindows PUBLIC winhttp ${CMAKE_CURRENT_BINARY_DIR}/../jsoncpp/src/lib_json/jsoncpp_static.lib)

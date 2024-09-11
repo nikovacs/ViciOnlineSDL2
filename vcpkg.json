@@ -1,0 +1,15 @@
+{
+  "name": "vicionline",
+  "version": "0.0.1",
+  "dependencies": [
+    "boost-algorithm",
+    "enet",
+    "zlib",
+    "freetype",
+    "nlohmann-json",
+    "sdl2",
+    "sdl2-image",
+    "libpqxx"
+  ],
+  "builtin-baseline": "34771b62f36be65332087146afd0f762dbea6fac"
+}
