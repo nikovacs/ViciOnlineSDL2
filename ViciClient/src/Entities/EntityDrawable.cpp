@@ -1,5 +1,5 @@
 #include "ViciClient/include/Entities/EntityDrawable.hpp"
 
 namespace Entities {
-	EntityDrawable::EntityDrawable(nlohmann::json* clientW, nlohmann::json* clientR) : Entity(clientW, clientR) {}
-}
+EntityDrawable::EntityDrawable(std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR) : Entity(std::move(clientW), std::move(clientR)) {}
+} // namespace Entities

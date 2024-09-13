@@ -4,10 +4,11 @@
       "name": "Win32",
       "includePath": [
         "${workspaceFolder}/**",
-        "${VCPKG_ROOT}/installed/x64-windows-clang/include"
+        "${VCPKG_ROOT}/installed/x64-windows-clang/include",
+        "${VCPKG_ROOT}/packages/**/include"
       ],
-      "defines": ["WIN32", "_DEBUG", "UNICODE", "_UNICODE"],
-      "compilerPath": "${workspaceFolder}/third_party/clang/clang-cl.exe",
+      // "defines": ["WIN32", "_DEBUG", "UNICODE", "_UNICODE"],
+      // "compilerPath": "${workspaceFolder}/third_party/clang/clang-cl.exe",
       "cStandard": "c17",
       "cppStandard": "c++20",
       "intelliSenseMode": "${default}"
