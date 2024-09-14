@@ -12,3 +12,6 @@
 [submodule "third_party/XPlatCppSdk"]
 	path = third_party/XPlatCppSdk
 	url = https://github.com/PlayFab/XPlatCppSdk.git
+[submodule "third_party/gottanis-cpp-runtime"]
+	path = third_party/gottanis-cpp-runtime
+	url = https://github.com/visgotti/gottanis-cpp-runtime.git
