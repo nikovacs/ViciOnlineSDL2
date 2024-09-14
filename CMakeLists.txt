@@ -267,6 +267,8 @@ target_link_libraries(
     PRIVATE 
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
+add_subdirectory(third_party/gottanis-cpp-runtime)
+target_link_libraries(ViciClient PRIVATE gottanis)
 add_subdirectory(RmlUi)
 target_compile_options(RmlCore PRIVATE -w)
 target_compile_options(RmlDebugger PRIVATE -w)
