@@ -11,8 +11,6 @@
 - [Ninja](https://github.com/ninja-build/ninja/releases)
   - Possibly comes with visual studio installation
   - Ensure Ninja is on your `$PATH`
-## Other
-- [homebrew](https://brew.sh/)
 ## All platforms
 - [Python3](https://www.python.org/downloads/)
 - [Vcpkg](https://vcpkg.io/en/)

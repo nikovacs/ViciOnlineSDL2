@@ -4,76 +4,31 @@ import platform
 import argparse
 import shutil
 import zipfile
-import re
-import glob
 
 env = os.environ.copy()
 
-def _generate_clangd(args):
-    """
-    Generate the .clangd file from .clangd.in required for vscode intellisense and code navigation
-    """
-    target_arch = get_target_arch(args.arch)
-    debug_or_release = "Debug" if args.debug else "Release"
-
-    if (os.path.exists(".clangd")):
-        return
-    
-    workspace_folder = os.path.dirname(os.path.realpath(__file__))
+def _prep_binary_deps(target_arch):
     platform = detect_platform()
-    vcpkg_triplet = f"{target_arch}-windows-clang" if ("Windows" in platform) else f"{target_arch}-osx" # TODO update for Linux
-
-    with open(".clangd.in", "r") as f:
-        content = f.read()
-
-    content = content.replace("{workspace_folder}", workspace_folder)
-    content = content.replace("{platform}", platform)
-    content = content.replace("{target_arch}", target_arch)
-    content = content.replace("{debug_or_release}", debug_or_release)
-    content = content.replace("{triplet}", vcpkg_triplet)
-    content = content.replace("{msvc_include_dir}", _find_newest_msvc_include_dir())
-    content = content.replace("\\", "/")
-
-    with open(".clangd", "w") as f:
-        f.write(content)
-
-def _find_newest_msvc_include_dir():
-    # Get the Visual Studio installation directory
-    vs_install_dir = os.environ.get('VSINSTALLDIR')
-
-    if not vs_install_dir:
-        print("VSINSTALLDIR environment variable not found.")
-        return "/dummy/include"
-
-    # Construct the path to the MSVC directory
-    msvc_dir = os.path.join(vs_install_dir, 'VC', 'Tools', 'MSVC')
-
-    # Find all version directories
-    version_dirs = glob.glob(os.path.join(msvc_dir, '*'))
-
-    # Sort the directories by version number
-    sorted_dirs = sorted(version_dirs, key=lambda x: [int(v) for v in re.findall(r'\d+', os.path.basename(x))], reverse=True)
-
-    if sorted_dirs:
-        newest_msvc_dir = sorted_dirs[0]
-        include_dir = os.path.join(newest_msvc_dir, 'include')
-        return include_dir
-    else:
-        raise Exception("No MSVC include directory found.")
-
-
-def _prep_binary_deps_windows(target_arch):
-    if target_arch == "arm64":
+    if target_arch == "arm64" and platform == "Windows":
         print("v8 prebuilt arm64 binaries are not available for windows")
         exit(1)
 
     # TODO: Update the URLs to nexus.vicionline.com once the DNS records are established
     # In the meantime, build while connected to the VPN
-    urls = {
-        "libcxx": "http://192.168.8.69:8081/repository/vici-dep-binaries/libcxx/Windows/x64/19.0.0/libcxx.zip",
-        "v8": "http://192.168.8.69:8081/repository/vici-dep-binaries/v8/Windows/x64/12.7.224.18/v8.zip",
-        "clang": "http://192.168.8.69:8081/repository/vici-dep-binaries/clang/Windows/x64/19.0.0/clang.zip"
+    win_urls = {
+        "libcxx": f"http://192.168.8.69:8081/repository/vici-dep-binaries/libcxx/Windows/{target_arch}/19.0.0/libcxx.zip",
+        "v8": f"http://192.168.8.69:8081/repository/vici-dep-binaries/v8/Windows/{target_arch}/12.7.224.18/v8.zip",
+        "clang": f"http://192.168.8.69:8081/repository/vici-dep-binaries/clang/Windows/{target_arch}/19.0.0/clang.zip"
     }
+    darwin_urls = {
+        "v8": f"http://192.168.8.69:8081/repository/vici-dep-binaries/v8/Darwin/Sonoma/{target_arch}/12.7.224.16/v8.zip"
+    }
+
+    if (platform == "Windows"):
+        urls = win_urls
+    elif (platform == "Darwin"):
+        urls = darwin_urls
+
     
     script_location = get_script_location()
 
@@ -110,49 +65,6 @@ def _prep_binary_deps_windows(target_arch):
             # add a file containing the url so we can check if the file is up to date  
             with open(f"{script_location}/third_party/{dep}/url.txt", "w") as f:
                 f.write(url)
-
-def _brew_fetch_v8(bottle_tag):
-    """
-    Fetch v8 with brew
-    """
-    script_loc = get_script_location()
-    os.chdir(script_loc)
-
-    v8_version = "12.7"
-    v8_formula_version = "12.1" # Used for MacOS and Linux
-    v8_identifier = f"v8 version: {v8_version}, v8 formula version: {v8_formula_version}, v8 bottle tag: {bottle_tag}"
-
-    fetch_cmd = f"brew fetch v8@{v8_formula_version} --bottle-tag={bottle_tag}"
-    fetch_output = os.popen(fetch_cmd).read()
-
-    tar_regex = r"\S+\.tar\.gz"
-    tar_file_path = re.search(tar_regex, fetch_output).group(0)
-
-    def _clean_v8():
-        if os.path.exists(f"{script_loc}/third_party/v8"):
-            shutil.rmtree(f"{script_loc}/third_party/v8")
-
-    if os.path.exists(f"{script_loc}/third_party/v8/version.txt"):
-        with open("third_party/v8/version.txt", "r") as f:
-            v8_version_content = f.read().strip()
-        if v8_version_content == v8_identifier:
-            return
-        _clean_v8()
-    else:
-        _clean_v8()
-
-    os.chdir(f"{script_loc}/third_party")
-    os.system(f"tar -xvf {tar_file_path}")
-    os.system(f"mv v8/{v8_version}*/* v8/")
-    os.system(f"rm -r v8/{v8_version}*")
-    os.system("rm -rf v8/include && mv v8/libexec/include v8/include")
-    os.system("rm v8/libexec/d8")
-    os.system("rm -rf v8/lib")
-    os.system("mv v8/libexec v8/lib")
-    os.chdir(script_loc)
-
-    with open(f"{script_loc}/third_party/v8/version.txt", "w") as f:
-        f.write(v8_identifier)
 
 def _prep_playfab():
     def _prep_playfab_windows():
@@ -218,12 +130,6 @@ def _run_cmake_generation(args):
     platform = detect_platform()
     build_cmd = f'cmake --build "{generate_build_dir(args)}" --config {"Release" if args.release else "Debug"}'
 
-    if platform == "Windows":
-        _prep_binary_deps_windows(get_target_arch(args.arch))
-    elif platform == "Darwin":
-        darwin_os = "sonoma"
-        bottle_tag = darwin_os if get_target_arch(args.arch) == "x64" else f"arm64_{darwin_os}"
-        _brew_fetch_v8(bottle_tag)
     _generate_vicigen_headers(platform)
 
     cmd = f'cmake -S "{get_script_location()}" -B "{generate_build_dir(args)}" -G{args.generator}'
@@ -310,7 +216,7 @@ def _build(args):
     if args.clean:
         _clean()
     os.system("git submodule update --init --recursive")
-    _generate_clangd(args)
+    _prep_binary_deps(get_target_arch(args.arch))
     _prep_playfab()
     _run_cmake_generation(args)
 
