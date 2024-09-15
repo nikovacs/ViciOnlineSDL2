@@ -302,6 +302,18 @@ void ServerPlayerManager::updatePlayerCameraZoom(uint32_t id, SimplePacket &pack
     _players.at(id)->setCameraZoom(packet.get<float>());
 }
 
+std::vector<uint32_t> ServerPlayerManager::getPlayersOnLevel(std::string_view levelName) {
+    std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+    std::set<uint32_t> &players = _getPlayersOnLevel(levelName);
+    return {players.begin(), players.end()};
+}
+
+std::vector<uint32_t> ServerPlayerManager::getPlayersWatchingLevel(std::string_view levelName) {
+    std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+    std::set<uint32_t> &players = _getPlayersWatchingLevel(levelName);
+    return {players.begin(), players.end()};
+}
+
 std::set<uint32_t> &ServerPlayerManager::_getPlayersOnLevel(std::string_view levelName) {
     if (_playersOnLevel.contains(levelName.data())) {
         return _playersOnLevel.at(levelName.data());
