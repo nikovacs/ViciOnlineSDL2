@@ -3,6 +3,9 @@
 #include "header_wrappers/sdl_wrapper.h"
 #include <memory>
 #include <thread>
+#include <gottanis/include/Animator.h>
+#include "ViciClient/include/Animations/GottanisFileLoader.hpp"
+#include "ViciClient/include/Animations/GottanisSDL2Renderer.hpp"
 #include "ViciCore/include/Attributes/Attributes.hpp"
 #include "ViciClient/include/Camera.hpp"
 #include "ViciClient/include/Scenes/Scene.hpp"
@@ -31,5 +34,8 @@ namespace Scenes {
 		Networking::UdpClient _udpClient;
 		std::unique_ptr<std::thread> _networkThread{ nullptr };
 		JS::ClientScriptLoader _scriptLoader{};
+		Animations::GottanisFileLoader _gottanisFileLoader{};
+		Animations::GottanisSDL2Renderer _gottanisRenderer;
+		gottanis::Animator& _animator;
 	};
 }

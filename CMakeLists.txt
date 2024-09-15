@@ -169,15 +169,6 @@ add_executable(
     "ViciClient/include/PlayerInfo.hpp"
     "ViciClient/src/PlayerInfo.cpp"
     "ViciClient/include/TimeManager.hpp"
-    "ViciClient/include/Animations/Animation.hpp"
-    "ViciClient/src/Animations/Animation.cpp"
-    "ViciClient/include/Animations/Frame.hpp"
-    "ViciClient/src/Animations/Frame.cpp"
-    "ViciClient/include/Animations/FrameDirection.hpp"
-    "ViciClient/src/Animations/FrameDirection.cpp"
-    "ViciClient/include/Animations/Gottimation.hpp"
-    "ViciClient/src/Animations/Gottimation.cpp"
-    "ViciClient/include/Animations/IAnimation.hpp"
     "ViciClient/include/AssetTypes/Texture.hpp"
     "ViciClient/src/AssetTypes/Texture.cpp"
     "ViciClient/include/Comparators/CaseInsensitiveComparator.hpp"
@@ -250,6 +241,10 @@ add_executable(
     "ViciClient/src/Scenes/Scene.cpp"
     "ViciClient/include/Scenes/SceneManager.hpp"
     "ViciClient/src/Scenes/SceneManager.cpp"
+    "ViciClient/include/Animations/GottanisFileLoader.hpp"
+    "ViciClient/src/Animations/GottanisFileLoader.cpp"
+    "ViciClient/include/Animations/GottanisSDL2Renderer.hpp"
+    "ViciClient/src/Animations/GottanisSDL2Renderer.cpp"
 )
 target_link_libraries(ViciClient PRIVATE ViciCore)
 target_link_libraries(ViciClient PRIVATE v8pp)

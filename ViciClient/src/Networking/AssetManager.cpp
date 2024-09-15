@@ -13,8 +13,6 @@
 #include "ViciClient/include/Networking/AssetManager.hpp"
 #include "ViciClient/include/Networking/UdpClient.hpp"
 #include "ViciClient/include/Networking/UdpChannelMap.hpp"
-#include "ViciClient/include/Animations/Animation.hpp"
-#include "ViciClient/include/Animations/Gottimation.hpp"
 #include "ViciClient/include/JSRuntime/ClientScriptLoader.hpp"
 
 // Embedding assets
@@ -92,14 +90,9 @@ void Networking::AssetManager::onReceived(SimplePacket& packet, UdpChannels chan
 		assetInProgress = std::make_shared<JS::Script>(JS::ClientScriptLoader::instance->getIsolate(), fileData);
 		assetType = typeid(JS::Script).name();
 	}
-	else if (typeName == "Animation") {
-		if (extension == "vani") {
-			assetInProgress = std::make_shared<Animations::Animation>(fileName, fileData);
-		}
-		else if (extension == "json") {
-			assetInProgress = std::make_shared<Animations::Gottimation>(fileName, fileData);
-		}
-		assetType = typeid(Animations::IAnimation).name();
+	else if (typeName == "Json") {
+		assetInProgress = std::make_shared<nlohmann::json>(nlohmann::json::parse(fileData));
+		assetType = typeid(nlohmann::json).name();
 	}
 	else if (typeName == "Level") {
 		if (extension == "vlvl")

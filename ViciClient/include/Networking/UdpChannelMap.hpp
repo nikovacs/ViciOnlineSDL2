@@ -3,9 +3,9 @@
 #include <map>
 #include <typeindex>
 #include <string>
+#include <nlohmann/json.hpp>
 #include "ViciCore/include/JSRuntime/Script.hpp"
 #include "ViciCore/include/Networking/UdpChannels.hpp"
-#include "ViciClient/include/Animations/Animation.hpp"
 #include "ViciClient/include/AssetTypes/Texture.hpp"
 #include "ViciClient/include/Levels/Level.hpp"
 
@@ -15,7 +15,7 @@ namespace Networking {
 		static inline const std::map<std::type_index, int> _typeToNumberMap{
 			{ std::type_index(typeid(AssetTypes::Texture)), Texture },
 			{ std::type_index(typeid(JS::Script)), Script },
-			{ std::type_index(typeid(Animations::IAnimation)), Animation },
+			{ std::type_index(typeid(nlohmann::json)), Json },
 			{ std::type_index(typeid(Levels::Level)), Level },
 			{ std::type_index(typeid(std::string)), String }
 			
@@ -23,7 +23,7 @@ namespace Networking {
 		static inline const std::map<int, std::string> _numberToNameMap{
 			{ Texture, "Texture" },
 			{ Script, "Script" },
-			{ Animation, "Animation" },
+			{ Json, "json" },
 			{ Level, "Level" },
 			{ String, "String" }
 		};

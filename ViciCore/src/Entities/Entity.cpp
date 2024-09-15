@@ -32,13 +32,14 @@ void Entities::Entity::setHeight(int h) {
     _height = h;
 }
 
-void Entities::Entity::setDir(int dir) {
-    if (dir < 0 || dir > 3)
-        return;
-    _dir = dir;
+void Entities::Entity::setDir(std::string_view dir) {
+    // if (dir < 0 || dir > 3)
+    //     return;
+    // _dir = dir;
+    _dir = dir.data();
 }
 
-int Entities::Entity::getDir() {
+std::string_view Entities::Entity::getDir() {
     return _dir;
 }
 

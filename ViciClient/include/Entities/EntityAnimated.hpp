@@ -1,8 +1,7 @@
 #pragma once
 
-#include "ViciClient/include/Animations/IAnimation.hpp"
+#include <gottanis/include/Skeleton.h>
 #include "ViciClient/include/Entities/EntityDrawable.hpp"
-#include "ViciClient/include/Networking/NetworkAsset.hpp"
 #include <memory>
 #include <string>
 #include <string_view>
@@ -19,6 +18,6 @@ public:
 
 protected:
     std::string _animationName{};
-    std::unique_ptr<Networking::NetworkAsset<Animations::IAnimation>> _animation{};
+    std::unique_ptr<gottanis::Skeleton> _skeleton{ nullptr };
 };
 } // namespace Entities

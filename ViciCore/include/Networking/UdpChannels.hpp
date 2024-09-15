@@ -3,7 +3,7 @@
 namespace Networking {
 	enum UdpChannels {
 		Texture,
-		Animation,
+		Json,
 		Level,
 		Script,
 		String,
