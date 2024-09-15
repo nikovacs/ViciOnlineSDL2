@@ -142,24 +142,26 @@ void JS::ClientScriptLoader::exposeStandardFuncs(v8pp::context *ctx) {
 
 void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context *ctx) {
 
-    static v8pp::class_<JS::ClientPlayerJSWrapper> clientPlayerClass{_isolate};
-    clientPlayerClass
-        .auto_wrap_objects(true)
-        .property("username", &JS::ClientPlayerJSWrapper::getUsername)
-        .property("dir", &JS::ClientPlayerJSWrapper::getDir, &JS::ClientPlayerJSWrapper::setDir)
-        .property("ani", &JS::ClientPlayerJSWrapper::getAni, &JS::ClientPlayerJSWrapper::setAni)
-        .property("width", &JS::ClientPlayerJSWrapper::getWidth, &JS::ClientPlayerJSWrapper::setWidth)
-        .property("height", &JS::ClientPlayerJSWrapper::getHeight, &JS::ClientPlayerJSWrapper::setHeight)
-        .property("x", &JS::ClientPlayerJSWrapper::getX, &JS::ClientPlayerJSWrapper::setX)
-        .property("y", &JS::ClientPlayerJSWrapper::getY, &JS::ClientPlayerJSWrapper::setY)
-        .property(
-            "pos",
-            [this]() -> std::vector<int> { return {_clientPlayer->getX(), _clientPlayer->getY()}; },
-            [this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); })
-        .property("clientW", &JS::ClientPlayerJSWrapper::getClientW)
-        .property("clientR", &JS::ClientPlayerJSWrapper::getClientR);
-    // create a global clientPlayer object for the context
-    (void)ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), v8pp::to_v8(_isolate, ClientPlayerJSWrapper(_clientPlayer, ctx)));
+	static v8pp::class_<JS::ClientPlayerJSWrapper> clientPlayerClass{ _isolate };
+	clientPlayerClass
+		.auto_wrap_objects(true)
+		// .property("username", &JS::ClientPlayerJSWrapper::getUsername)
+		// .property("dir", &JS::ClientPlayerJSWrapper::getDir, &JS::ClientPlayerJSWrapper::setDir)
+		// .property("ani", &JS::ClientPlayerJSWrapper::getAni, &JS::ClientPlayerJSWrapper::setAni)
+		// .property("width", &JS::ClientPlayerJSWrapper::getWidth, &JS::ClientPlayerJSWrapper::setWidth)
+		// .property("height", &JS::ClientPlayerJSWrapper::getHeight, &JS::ClientPlayerJSWrapper::setHeight)
+		// .property("x", &JS::ClientPlayerJSWrapper::getX, &JS::ClientPlayerJSWrapper::setX)
+		// .property("y", &JS::ClientPlayerJSWrapper::getY, &JS::ClientPlayerJSWrapper::setY)
+		// .property(
+			// "pos",
+			// [this]() -> std::vector<int> { return { _clientPlayer->getX(), _clientPlayer->getY() }; },
+			// [this](std::vector<int> pos) { _clientPlayer->setPosition(pos[0], pos[1]); }
+			// )
+		// .property("clientW", &JS::ClientPlayerJSWrapper::getClientW)
+		// .property("clientR", &JS::ClientPlayerJSWrapper::getClientR)
+		;
+	// create a global clientPlayer object for the context
+	(void)ctx->global()->Set(ctx->isolate()->GetCurrentContext(), v8pp::to_v8(_isolate, "clientPlayer"), v8pp::to_v8(_isolate, ClientPlayerJSWrapper(_clientPlayer, ctx)));
 }
 
 void JS::ClientScriptLoader::exposeKeyboardHandler([[maybe_unused]] v8pp::context *ctx) {

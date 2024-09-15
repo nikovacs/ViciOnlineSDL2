@@ -112,7 +112,8 @@
     "__bit_reference": "cpp",
     "__split_buffer": "cpp",
     "__verbose_abort": "cpp",
-    "__threading_support": "cpp"
+    "__threading_support": "cpp",
+    "__availability": "cpp"
   },
   "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Attach, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4 }",
     "[c]": {

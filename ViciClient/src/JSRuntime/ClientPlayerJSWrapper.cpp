@@ -28,20 +28,12 @@ namespace JS {
 		_player->setPosition(_player->getX(), y);
 	}
 
-	int ClientPlayerJSWrapper::getDir() {
-		return _player->getDir();
+	std::string ClientPlayerJSWrapper::getDir() {
+		return _player->getSkeleton()->getDirection();
 	}
 
-	void ClientPlayerJSWrapper::setDir(int dir) {
-		_player->setDir(dir);
-	}
-
-	std::string_view ClientPlayerJSWrapper::getAni() {
-		return _player->getAni();
-	}
-
-	void ClientPlayerJSWrapper::setAni(std::string_view ani) {
-		_player->setAniHard(ani);
+	void ClientPlayerJSWrapper::setDir(std::string dir) {
+		_player->getSkeleton()->setDirection(dir);
 	}
 
 	int ClientPlayerJSWrapper::getWidth() {

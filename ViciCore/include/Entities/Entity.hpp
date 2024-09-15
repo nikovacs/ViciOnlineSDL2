@@ -16,14 +16,11 @@ public:
     void setWidth(int w);
     int getHeight();
     void setHeight(int w);
-    virtual void setDir(std::string_view dir); // do we even want to keep this? Now it should exist inside gottanis::Skeleton
-    std::string_view getDir();
     Attributes &getClientW();
     Attributes &getClientR();
 
 protected:
     int _x{}, _y{};
-    std::string _dir{};
     int _width{};
     int _height{};
     Attributes _clientW{};

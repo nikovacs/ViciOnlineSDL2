@@ -16,10 +16,9 @@ namespace JS {
 		void setX(int x);
 		int getY();
 		void setY(int y);
-		int getDir();
-		void setDir(int dir);
-		std::string_view getAni();
-		void setAni(std::string_view ani);
+		std::string getDir();
+		void setDir(std::string dir);
+		void setSkeleton(std::string skeletonName);
 		int getWidth();
 		void setWidth(int w);
 		int getHeight();

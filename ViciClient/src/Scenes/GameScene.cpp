@@ -1,4 +1,5 @@
 #include "header_wrappers/sdl_wrapper.h"
+#include "ViciClient/include/TimeManager.hpp"
 #include "ViciClient/include/Scenes/GameScene.hpp"
 #include "ViciClient/include/Camera.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/ViciAsyncDocumentLoader.hpp"
@@ -40,6 +41,8 @@ void GameScene::update() {
     if (_clientPlayer) {
         _clientPlayer->update();
     }
+
+	_animator.update(TimeManager::getDeltaSeconds());
 
     Networking::ClientPlayerManager::update();
     JS::ViciAsyncDocumentLoader::attemptResolve();

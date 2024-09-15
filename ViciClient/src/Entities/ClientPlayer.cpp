@@ -7,7 +7,7 @@
 
 namespace Entities {
 ClientPlayer::ClientPlayer(nlohmann::json &json)
-    : EntityAnimated(json["animation"].get<std::string>(), json["x"].get<int>(), json["y"].get<int>(), json["dir"].get<int>(),
+    : EntityAnimated(json["skelName"].get<std::string>(), json["dir"].get<std::string>(), json["x"].get<int>(), json["y"].get<int>(),
                      std::make_unique<nlohmann::json>(json["clientW"]), std::make_unique<nlohmann::json>(json["clientR"])) {
     _clientW.setOnSetAttribCallback([this](std::string_view key) {
         nlohmann::json json{};
@@ -18,22 +18,22 @@ ClientPlayer::ClientPlayer(nlohmann::json &json)
     });
 };
 
-void ClientPlayer::setDir(int dir) {
-    if (dir == _dir)
-        return;
-    Entity::setDir(dir);
-    Networking::SimplePacket packet{};
-    packet.add(_dir);
-    Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
-}
+// void ClientPlayer::setDir(int dir) {
+//     if (dir == _dir)
+//         return;
+//     Entity::setDir(dir);
+//     Networking::SimplePacket packet{};
+//     packet.add(_dir);
+//     Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
+// }
 
-void ClientPlayer::setAniHard(std::string_view aniName) {
-    EntityAnimated::setAniHard(aniName);
+// void ClientPlayer::setAniHard(std::string_view aniName) {
+//     EntityAnimated::setAniHard(aniName);
 
-    Networking::SimplePacket packet{};
-    packet.add<std::string>(aniName.data());
-    Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
-}
+//     Networking::SimplePacket packet{};
+//     packet.add<std::string>(aniName.data());
+//     Networking::UdpClient::sendSimplePacket(packet, Networking::UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
+// }
 
 void ClientPlayer::setPosition(int x, int y) {
     EntityAnimated::setPosition(x, y);

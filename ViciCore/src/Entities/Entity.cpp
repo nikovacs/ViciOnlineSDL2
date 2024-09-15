@@ -1,7 +1,7 @@
 #include "ViciCore/include/Entities/Entity.hpp"
 
 Entities::Entity::Entity(std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR)
-    : _clientW(std::move(clientW)), _clientR(std::move(clientR)) {}
+: _clientW(std::move(clientW)), _clientR(std::move(clientR)) {}
 
 void Entities::Entity::setPosition(int x, int y) {
     _x = x;
@@ -30,17 +30,6 @@ int Entities::Entity::getHeight() {
 
 void Entities::Entity::setHeight(int h) {
     _height = h;
-}
-
-void Entities::Entity::setDir(std::string_view dir) {
-    // if (dir < 0 || dir > 3)
-    //     return;
-    // _dir = dir;
-    _dir = dir.data();
-}
-
-std::string_view Entities::Entity::getDir() {
-    return _dir;
 }
 
 Attributes &Entities::Entity::getClientW() {
