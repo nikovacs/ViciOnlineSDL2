@@ -49,7 +49,7 @@ def _prep_binary_deps_windows(target_arch):
     # download the files if they do not exist
     for dep, url in urls.items():
         if not os.path.exists(f"{script_location}/third_party/{dep}_{target_arch}.zip"):
-            os.system(f"curl -L {url} -o {script_location}/third_party/{dep}_{target_arch}.zip")
+            os.system(f"curl -L {url} -o \"{script_location}/third_party/{dep}_{target_arch}.zip\"")
         if not os.path.exists(f"{script_location}/third_party/{dep}"):
             with zipfile.ZipFile(f"{script_location}/third_party/{dep}_{target_arch}.zip", 'r') as zip_ref:
                 zip_ref.extractall(f"{script_location}/third_party/{dep}") 
