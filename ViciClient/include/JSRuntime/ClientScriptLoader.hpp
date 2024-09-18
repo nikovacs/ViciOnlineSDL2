@@ -4,7 +4,7 @@
 #include <set>
 #include <string>
 #include <memory>
-#include <v8pp/context.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciCore/include/JSRuntime/ScriptLoader.hpp"
 #include "ViciClient/include/Networking/NetworkAsset.hpp"
 #include "ViciClient/include/Entities/ClientPlayer.hpp"
@@ -19,7 +19,8 @@ namespace JS {
 		virtual void loadScript(std::string_view fileName) override;
 		virtual void unloadScript(std::string_view fileName) override;
 		template <typename... Args>
-		void trigger(std::string_view functionName, std::string_view fileName, Args&&... args) {
+		void trigger(std::string_view functionName, std::string_view fileName, [[maybe_unused]] Args&&... args) {
+				// TODO remove [[maybe_unused]] when we support arg passing
 			if (fileName.empty()) {
 				for (auto& script : _scripts) {
 					auto scriptPtr = script.second->getValue();

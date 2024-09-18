@@ -1,9 +1,9 @@
 #pragma once
 
-#include <RmlUi/Core.h>
 #include <string>
 #include <unordered_map>
-#include <v8.h>
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/rmlui_wrapper.h"
 
 namespace JS {
 	class RmlDocumentJSWrapper; // get around circular include

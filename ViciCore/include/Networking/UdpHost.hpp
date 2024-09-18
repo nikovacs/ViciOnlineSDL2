@@ -1,6 +1,6 @@
 #pragma once
 
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <atomic>
 #include <nlohmann/json.hpp>
 #include <string>

@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <memory>
 #include <RmlUi/Debugger.h>
 #include "ViciClient/include/ViciClient.hpp"

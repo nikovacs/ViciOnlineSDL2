@@ -1,8 +1,8 @@
 #define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
-#include "../../ViciClient/include/ViciClient.hpp"
-#include "../../ViciClient/include/TimeManager.hpp"
+#include "ViciClient/include/ViciClient.hpp"
+#include "ViciClient/include/TimeManager.hpp"
 
 int main() {
 	ViciClient client{ "Vici Online", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, false };

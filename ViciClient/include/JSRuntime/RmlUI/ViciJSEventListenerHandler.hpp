@@ -1,11 +1,11 @@
 #pragma once
 
-#include <RmlUi/Core.h>
-#include <v8.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/v8_wrapper.h"
 #include <unordered_map>
 #include <vector>
 #include <string_view>
-#include <v8pp/context.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 
 namespace JS {
 	class ViciInternalEventListener : public Rml::EventListener {

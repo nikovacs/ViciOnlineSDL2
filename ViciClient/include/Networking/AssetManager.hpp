@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <memory>
 #include <iostream>
 #include <mutex>

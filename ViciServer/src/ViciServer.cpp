@@ -1,11 +1,11 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
-#include "../../ViciServer/include/ViciServer.hpp"
-#include "../../ViciServer/include/Networking/UdpServer.hpp"
+#include "ViciServer/include/ViciServer.hpp"
+#include "ViciServer/include/Networking/UdpServer.hpp"
 
 ViciServer* ViciServer::instance = nullptr;
 

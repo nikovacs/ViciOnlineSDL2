@@ -189,7 +189,6 @@ def _run_cmake_generation(args):
         if args.build:
             sp_args.append(f'"{build_cmd}"')
         sp.run(" ".join(sp_args), shell=True, env=env)
-        # sp.run(f'{get_script_location()}/_build.bat "{get_script_location()}" "{cmd}"', shell=True, env=env)
         return
     elif platform == "Darwin":
         print(cmd)

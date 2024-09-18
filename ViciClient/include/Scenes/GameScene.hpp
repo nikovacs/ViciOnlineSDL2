@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <memory>
 #include <thread>
 #include "ViciCore/include/Attributes/Attributes.hpp"

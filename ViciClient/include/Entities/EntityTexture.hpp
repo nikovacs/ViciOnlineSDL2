@@ -3,7 +3,7 @@
 #include "ViciClient/include/AssetTypes/Texture.hpp"
 #include "ViciClient/include/Entities/EntityDrawable.hpp"
 #include "ViciClient/include/Networking/NetworkAsset.hpp"
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string_view>

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
+#include "header_wrappers/enet_wrapper.h"
 #include <string>
 #include <string_view>
 #include <nlohmann/json.hpp>
-#include <enet/enet.h>
 #include <set>
 #include "ViciCore/include/Utility/base64.hpp"
 #include "ViciCore/include/Networking/UdpChannels.hpp"

@@ -8,7 +8,7 @@
 #include <set>
 #include <unordered_set>
 #include <iostream>
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciCore/include/JSRuntime/ScriptLoader.hpp"
 
 namespace JS {

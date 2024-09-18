@@ -1,9 +1,8 @@
 #pragma once
 
-#include <RmlUi/Core.h>
-#include <v8.h>
-#include <v8pp/convert.hpp>
-#include <v8pp/context.hpp>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include <string_view>
 #include <unordered_map>
 #include <string>

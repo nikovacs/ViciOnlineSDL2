@@ -5,9 +5,9 @@
 #include <future>
 #include <pqxx/pqxx>
 #include <mutex>
-#include <v8.h>
+#include "header_wrappers/v8_wrapper.h"
 #include <memory>
-#include <v8pp/context.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciServer/include/Database/DbConnectionPool.hpp"
 
 namespace Vici {

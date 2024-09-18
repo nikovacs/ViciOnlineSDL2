@@ -9,7 +9,7 @@ namespace Networking {
 	template <typename T>
 	class NetworkAsset {
 	public:
-		NetworkAsset(std::string_view assetName) : _fileName{assetName}, _value { nullptr } {
+		NetworkAsset(std::string_view assetName) : _value { nullptr }, _fileName{assetName} {
 			std::transform(_fileName.begin(), _fileName.end(), _fileName.begin(), ::tolower);
 
 			AssetManager::registerNetworkAsset<T>(_fileName, this);

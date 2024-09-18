@@ -3,7 +3,7 @@
 #include "ViciServer/include/Networking/AssetBroker.hpp"
 #include "ViciServer/include/Networking/UdpServer.hpp"
 #include "ViciServer/include/ViciServer.hpp"
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -11,8 +11,8 @@ namespace fs = std::filesystem;
 namespace Entities {
 ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer *peer, std::string_view animation, std::string_view world,
                            int dir, int x, int y, float zoom, std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR)
-    : _username{username}, _playerId{playerId}, _peer{peer}, _animation{animation}, _world{world}, _cameraZoom{zoom},
-      Entity(std::move(clientW), std::move(clientR)) {
+    : Entity(std::move(clientW), std::move(clientR)), _peer{peer}, _username{username}, _playerId{playerId}, _animation{animation},
+      _world{world}, _cameraZoom{zoom} {
     setPosition(x, y);
     _dir = dir;
 }

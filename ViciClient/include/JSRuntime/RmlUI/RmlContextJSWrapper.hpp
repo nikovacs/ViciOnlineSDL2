@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RmlUi/Core.h>
+#include "header_wrappers/rmlui_wrapper.h"
 #include <string>
 #include <vector>
 #include "ViciClient/include/JSRuntime/RmlUI/RmlDocumentJSWrapper.hpp"

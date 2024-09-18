@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include <memory>
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <mutex>
 #include "ViciCore/include/Networking/SimplePacket.hpp"
 #include "ViciServer/include/Entities/ServerPlayer.hpp"

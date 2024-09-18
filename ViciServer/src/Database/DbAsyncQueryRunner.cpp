@@ -1,6 +1,4 @@
-#include <v8pp/convert.hpp>
-#include <v8pp/class.hpp>
-#include <v8pp/throw_ex.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include <functional>
 #include "ViciServer/include/Database/DbAsyncQueryRunner.hpp"
 #include "ViciServer/include/ViciServer.hpp"
@@ -30,12 +28,12 @@ namespace Vici {
 			pqxx::result result;
 			try {
 				result = future->get();
-				resolver->Resolve(ctx, v8pp::to_v8(isolate, DbResultsJSWrapper{ result }));
+				(void)resolver->Resolve(ctx, v8pp::to_v8(isolate, DbResultsJSWrapper{ result }));
 			}
 			catch (const std::exception& e) {
 				v8::Local<v8::String> v8ErrorText = v8pp::to_v8(isolate, e.what());
 				v8::Local<v8::Value> v8Error = v8::Exception::Error(v8ErrorText);
-				resolver->Reject(ctx, v8Error);
+				(void)resolver->Reject(ctx, v8Error);
 			}
 		}
 

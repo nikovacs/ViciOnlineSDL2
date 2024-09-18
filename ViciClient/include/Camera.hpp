@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include "ViciCore/include/Entities/Entity.hpp"
 #include "ViciClient/include/Levels/Level.hpp"
 

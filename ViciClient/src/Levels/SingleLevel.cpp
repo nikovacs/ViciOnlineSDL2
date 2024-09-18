@@ -1,9 +1,8 @@
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <string_view>
 #include <string>
 #include <istream>
 #include <boost/algorithm/string.hpp>
-#include <SDL2/SDL.h>
 #include "ViciClient/include/Levels/SingleLevel.hpp"
 #include "ViciClient/include/Scenes/GameScene.hpp"
 
@@ -54,7 +53,7 @@ namespace Levels {
 	}
 
 	void SingleLevel::renderWithOffsets(SDL_Renderer* renderer, int xOffset, int yOffset) {
-		for (int layerNum{ 0 }; layerNum < _tileRects.size(); layerNum++) {
+		for (size_t layerNum{ 0 }; layerNum < _tileRects.size(); layerNum++) {
 			auto& tilesetTexture = _layerTilesetMap[layerNum];
 			if (!tilesetTexture->getValue()) continue;
 

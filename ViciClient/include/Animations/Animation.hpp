@@ -3,7 +3,7 @@
 #include <string_view>
 #include <string>
 #include <unordered_map>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <vector>
 #include <memory>
 #include "ViciClient/include/Animations/IAnimation.hpp"

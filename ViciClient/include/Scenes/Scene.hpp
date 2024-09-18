@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string_view>
-#include <SDL2/SDL.h>
-#include <RmlUi/Core.h>
+#include "header_wrappers/sdl_wrapper.h"
+#include "header_wrappers/rmlui_wrapper.h"
 #include <string>
 
 namespace Scenes {

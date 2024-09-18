@@ -1,5 +1,5 @@
 #pragma once
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <memory>
 #include <thread>
 #include <nlohmann/json.hpp>

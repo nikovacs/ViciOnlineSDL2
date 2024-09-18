@@ -1,6 +1,5 @@
-#include <v8.h>
-#include <v8pp/convert.hpp>
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include <iostream>
 #include "ViciClient/include/JSRuntime/RmlUI/ViciJSEventListenerHandler.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlEventJSWrapper.hpp"
@@ -8,7 +7,7 @@
 // include rpcrt4.lib for UuidCreate if windows
 #ifdef _WIN32
 #pragma comment(lib, "rpcrt4.lib")
-#include <windows.h>
+#include "header_wrappers/windows_wrapper.h"
 #endif
 
 #ifdef __APPLE__
@@ -162,7 +161,7 @@ namespace JS {
 		v8::Local<v8::Value> args[1];
 		args[0] = v8pp::to_v8(_isolate, RmlEventJSWrapper(ev));
 		for (const v8::Global<v8::Function>& func : elementMap.at(ev.GetType())) {
-			func.Get(_isolate)->Call(localContext, v8::Undefined(_isolate), 1, args);
+			(void)func.Get(_isolate)->Call(localContext, v8::Undefined(_isolate), 1, args);
 		}
 
 		_isolate->Exit();

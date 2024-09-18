@@ -29,9 +29,9 @@
 #ifndef RMLUI_BACKENDS_RENDERER_SDL_H
 #define RMLUI_BACKENDS_RENDERER_SDL_H
 
-#include <RmlUi/Core/RenderInterface.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+// #include <RmlUi/Core/RenderInterface.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/sdl_wrapper.h"
 #include <unordered_map>
 #include <memory>
 #include "ViciClient/include/Networking/NetworkAsset.hpp"

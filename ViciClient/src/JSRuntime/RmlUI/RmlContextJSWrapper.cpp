@@ -1,7 +1,7 @@
-#include <RmlUi/Core.h>
 #include <string>
 #include <vector>
-#include <v8pp/context.hpp>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlContextJSWrapper.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlDocumentJSWrapper.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/ViciAsyncDocumentLoader.hpp"

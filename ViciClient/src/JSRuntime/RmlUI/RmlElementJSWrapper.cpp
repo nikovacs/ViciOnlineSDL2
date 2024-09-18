@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
-#include <RmlUi/Core.h>
-#include <v8.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/v8_wrapper.h"
 #include <iostream>
 #include "ViciClient/include/JSRuntime/RmlUI/ViciJSEventListenerHandler.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlElementJSWrapper.hpp"

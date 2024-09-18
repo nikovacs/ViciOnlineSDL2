@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include "ViciCore/include/Entities/Entity.hpp"
 
 namespace Entities {

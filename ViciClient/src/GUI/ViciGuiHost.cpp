@@ -1,7 +1,6 @@
-#include <RmlUi/Core/Context.h>
-#include <RmlUi/Core/Core.h>
+#include "header_wrappers/rmlui_wrapper.h"
 #include <RmlUi/Debugger.h>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
 #include "ViciClient/include/GUI/ViciGuiHost.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlElementDeletionListenerPlugin.hpp"

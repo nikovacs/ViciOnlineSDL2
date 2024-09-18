@@ -1,4 +1,4 @@
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciClient/include/JSRuntime/RmlUI/ViciAsyncDocumentLoader.hpp"
 #include "ViciClient/include/JSRuntime/RmlUI/RmlDocumentJSWrapper.hpp"
 
@@ -51,10 +51,10 @@ namespace JS {
 				Rml::ElementDocument* doc{ Rml::GetContext("GameScene")->LoadDocument(fileName)};
 				_isolate->Enter();
 				if (doc) {
-					resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
+					(void)resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
 				}
 				else {
-					resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
+					(void)resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
 				}
 				_isolate->Exit();
 				toRemove.push_back(i);
@@ -88,10 +88,10 @@ namespace JS {
 				Rml::ElementDocument* doc{ Rml::GetContext("GameScene")->LoadDocumentFromMemory(source, name) };
 				_isolate->Enter();
 				if (doc) {
-					resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
+					(void)resolver->Resolve(ctx, v8pp::to_v8(_isolate, RmlDocumentJSWrapper(doc)));
 				}
 				else {
-					resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
+					(void)resolver->Reject(ctx, v8pp::to_v8(_isolate, "Failed to load document"));
 				}
 				_isolate->Exit();
 				toRemove.push_back(i);

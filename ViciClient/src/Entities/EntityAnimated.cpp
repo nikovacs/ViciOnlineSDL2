@@ -4,8 +4,7 @@
 Entities::EntityAnimated::EntityAnimated(std::string_view aniName, int x, int y, int direction,
                                          std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR)
     : EntityDrawable(std::move(clientW), std::move(clientR)),
-      _animation{std::make_unique<Networking::NetworkAsset<Animations::IAnimation>>(aniName)},
-      _animationName{aniName} {
+      _animationName{aniName}, _animation{std::make_unique<Networking::NetworkAsset<Animations::IAnimation>>(aniName)} {
     _x = x;
     _y = y;
     _dir = direction;

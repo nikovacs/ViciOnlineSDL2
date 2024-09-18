@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <boost/algorithm/string.hpp>
 #include "ViciClient/include/TimeManager.hpp"
 #include "ViciClient/include/Animations/Animation.hpp"
@@ -19,7 +19,7 @@ Animations::Animation::Animation(std::string_view name, std::string_view source)
 Animations::Animation::~Animation() {}
 
 void Animations::Animation::update() {
-	if (_currentFrameIndex >= 0 && _frames.size() <= _currentFrameIndex) return;
+	if (_currentFrameIndex >= 0 && _frames.size() <= static_cast<size_t>(_currentFrameIndex)) return;
 	
 	if (_currentFrameIndex == -1) {
 		++_currentFrameIndex;
@@ -29,7 +29,7 @@ void Animations::Animation::update() {
 	
 	_secondsRemainingTilNextFrame -= TimeManager::getDeltaSeconds();
 	if (_secondsRemainingTilNextFrame <= 0) { // if time to change frame
-		if (_currentFrameIndex == _frames.size() - 1) { // if is last frame
+		if (static_cast<size_t>(_currentFrameIndex) == _frames.size() - 1) { // if is last frame
 			if (_continuous) {
 				_secondsRemainingTilNextFrame = _frames[_currentFrameIndex].getDuration(); // set time so it does not approach negative infinity
 			}
@@ -48,14 +48,14 @@ void Animations::Animation::update() {
 void Animations::Animation::render(SDL_Renderer* renderer, int x, int y, int direction) {
 	if (_currentFrameIndex == -1) return;
 	if (direction < 0 || direction > 3) return;
-	if (_currentFrameIndex >= 0 && _frames.size() <= _currentFrameIndex) return;
+	if (_currentFrameIndex >= 0 && _frames.size() <= static_cast<size_t>(_currentFrameIndex)) return;
 	
 	Frame& frame{ _frames[_currentFrameIndex] };
 	std::vector<int>& spriteIndices{ frame.getSpriteIndicies(direction) };
 	std::vector<int>& spriteXs{ frame.getSpriteXs(direction) };
 	std::vector<int>& spriteYs{ frame.getSpriteYs(direction) };
 
-	for (int i{ 0 }; i < spriteIndices.size(); i++) {
+	for (size_t i{ 0 }; i < spriteIndices.size(); i++) {
 		int spriteIndex = spriteIndices[i];
 		std::string& textureFile{ _spriteIndexTextureFileMap[spriteIndex] };
 
@@ -163,7 +163,7 @@ void Animations::Animation::parseSetting(std::string& line) {
 	}
 }
 
-void Animations::Animation::parseEffect(std::string& line) {}
+void Animations::Animation::parseEffect([[maybe_unused]] std::string& line) {}
 
 void Animations::Animation::parseAniFragment(std::string& line) {
 	if (line.starts_with('d') || line.starts_with('a')) {

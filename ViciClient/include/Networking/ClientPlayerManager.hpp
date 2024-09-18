@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include <memory>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <mutex>
 #include "ViciClient/include/Entities/NetworkedPlayer.hpp"
 

@@ -4,7 +4,7 @@
 #include "ViciClient/include/GUI/RmlUi_Platform_SDL.h"
 
 namespace Scenes {
-	Scene::Scene(std::string_view name) : _contextName{ name }, _rmlContext { GUI::ViciGuiHost::getContext(name) } {}
+	Scene::Scene(std::string_view name) : _rmlContext { GUI::ViciGuiHost::getContext(name) }, _contextName{ name } {}
 
 	Scene::~Scene(){
 		GUI::ViciGuiHost::destroyContext(_contextName);
@@ -14,7 +14,7 @@ namespace Scenes {
 		_rmlContext.Update();
 	}
 
-	void Scene::render(SDL_Renderer* renderer) {
+	void Scene::render([[maybe_unused]] SDL_Renderer* renderer) {
 		_rmlContext.Render();
 	}
 

@@ -4,14 +4,13 @@
 #include "ViciClient/include/Networking/AssetManager.hpp"
 #include "ViciClient/include/Networking/UdpClient.hpp"
 #include "ViciClient/include/Scenes/Scene.hpp"
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
-#include <playfab/PlayFabApiSettings.h>
-#include <playfab/PlayFabSettings.h>
+#include "header_wrappers/playfab_wrapper.h"
 #include <thread>
 
 ViciClient::ViciClient(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
-    : _isRunning{false}, _window{nullptr}, _renderer{nullptr}, _sceneManager{std::make_unique<Scenes::SceneManager>()} {
+    : _sceneManager{std::make_unique<Scenes::SceneManager>()}, _isRunning{false}, _window{nullptr}, _renderer{nullptr} {
     instance = this;
 
     int flags{0};

@@ -28,20 +28,6 @@ if (WIN32)
     set(LIBCXX_INCLUDES "-I\"${LIBCXX_PATH}/include\" -I\"${LIBCXX_PATH}/include.19\"")
     set(LIBCXX_FLAGS "${LIBCXX_INCLUDES} -fuse-ld=lld /clang:-fexceptions /EHsc /Zc:dllexportInlines- -msse2 -D${libcpp_hardening}")
 
-    set(REMOVE_WARNINGS
-        /clang:-Wno-ignored-pragma-intrinsic
-        /clang:-Wno-pragma-pack
-        /clang:-Wno-unknown-pragmas
-        /clang:-Wno-unused-parameter
-        /clang:-Wno-unused-function
-        /clang:-Wno-unused-result
-        /clang:-Wno-ignored-attributes
-        /clang:-Wno-macro-redefined
-        /clang:-Wno-extra-tokens
-        -Wno-unused-command-line-argument
-    )
-    add_compile_options(${REMOVE_WARNINGS})
-
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(LIBCXX_FLAGS "${LIBCXX_FLAGS} -DV8_ENABLE_CHECKS")
     endif()
@@ -55,6 +41,8 @@ if (WIN32)
     set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} ${LIBCXX_LINK_FLAGS}")
     add_definitions(-DNOMINMAX) #v8pp uses std::min and std::max which are mistakened for macros in Windows
 endif()
+
+add_compile_options(-Wno-unused-command-line-argument)
 
 # Set the C++ standard to C++20
 set(CMAKE_CXX_STANDARD 20)
@@ -124,7 +112,6 @@ add_library(
 target_include_directories(
     ViciCore PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}"
-    # "${CMAKE_CURRENT_SOURCE_DIR}/third_party/v8/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/v8pp"
 )
 # To match the build settings of the V8 project
@@ -287,16 +274,14 @@ target_include_directories(ViciClient PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/RmlUi
 target_link_libraries(ViciClient PRIVATE
     RmlCore
     RmlDebugger
-    # brotlicommon
-    # brotlidec
-    # $<IF:$<CONFIG:Debug>,bz2d,bz2>
-    # $<IF:$<CONFIG:Debug>,freetyped,freetype>
 )
 target_include_directories(ViciClient PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/third_party/XPlatCppSdk/external/jsoncpp/include")
 target_include_directories(ViciClient PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/third_party/XPlatCppSdk/code/include")
 if (WIN32)
     add_subdirectory(third_party/XPlatCppSdk/build/windows XPlatCppSdk)
     target_compile_options(XPlatCppSdkWindows PRIVATE -w)
+    target_compile_options(jsoncpp_lib PRIVATE -w)
+    target_compile_options(jsoncpp_lib_static PRIVATE -w)
     target_link_libraries(ViciClient PRIVATE XPlatCppSdkWindows)
 elseif (APPLE)
     add_custom_target(

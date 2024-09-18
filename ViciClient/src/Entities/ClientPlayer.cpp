@@ -1,7 +1,7 @@
 #include "ViciClient/include/Entities/ClientPlayer.hpp"
 #include "ViciClient/include/Networking/UdpClient.hpp"
 #include "ViciCore/include/Networking/SimplePacket.hpp"
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 

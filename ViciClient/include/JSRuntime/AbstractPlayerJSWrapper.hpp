@@ -1,7 +1,7 @@
 #pragma once
 
-#include <v8.h>
-#include <v8pp/context.hpp>
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciCore/include/Attributes/Attributes.hpp"
 #include "ViciCore/include/Entities/Entity.hpp"
 

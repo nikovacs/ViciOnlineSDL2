@@ -29,10 +29,11 @@
 #ifndef RMLUI_BACKENDS_PLATFORM_SDL_H
 #define RMLUI_BACKENDS_PLATFORM_SDL_H
 
-#include <RmlUi/Core/Input.h>
-#include <RmlUi/Core/SystemInterface.h>
-#include <RmlUi/Core/Types.h>
-#include <SDL2/SDL.h>
+// #include <RmlUi/Core/Input.h>
+// #include <RmlUi/Core/SystemInterface.h>
+// #include <RmlUi/Core/Types.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/sdl_wrapper.h"
 namespace Rml {
 	class SystemInterface_SDL : public Rml::SystemInterface {
 	public:

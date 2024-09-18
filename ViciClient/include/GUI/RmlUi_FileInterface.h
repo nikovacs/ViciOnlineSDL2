@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RmlUi/Core.h>
+#include "header_wrappers/rmlui_wrapper.h"
 #include <unordered_map>
 #include <memory>
 #include "ViciClient/include/Networking/NetworkAsset.hpp"

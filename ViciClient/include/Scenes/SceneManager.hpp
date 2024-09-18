@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <string_view>
 #include <map>
 #include <mutex>

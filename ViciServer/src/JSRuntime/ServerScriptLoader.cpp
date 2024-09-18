@@ -1,5 +1,4 @@
-#include <v8pp/module.hpp>
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include "ViciServer/include/ViciServer.hpp"
 #include "ViciServer/include/JSRuntime/ServerScriptLoader.hpp"
 #include "ViciServer/include/JSRuntime/DbJSWrapper.hpp"

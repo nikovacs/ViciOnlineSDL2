@@ -1,8 +1,8 @@
 #include <map>
 #include <memory>
-#include <v8.h>
+#include "header_wrappers/v8_wrapper.h"
 #include <libplatform/libplatform.h>
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include <iostream>
 #include <stdexcept>
 #include "ViciCore/include/JSRuntime/ScriptLoader.hpp"

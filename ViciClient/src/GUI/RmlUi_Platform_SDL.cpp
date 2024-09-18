@@ -26,11 +26,8 @@
  *
  */
 
-#include <RmlUi/Core/Context.h>
-#include <RmlUi/Core/Input.h>
-#include <RmlUi/Core/StringUtilities.h>
-#include <RmlUi/Core/SystemInterface.h>
-#include <SDL2/SDL.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/sdl_wrapper.h"
 #include "ViciClient/include/GUI/RmlUi_Platform_SDL.h"
 
 namespace Rml {

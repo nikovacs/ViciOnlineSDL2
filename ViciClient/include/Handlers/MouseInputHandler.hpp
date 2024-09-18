@@ -2,7 +2,7 @@
 
 #include <string>
 #include <set>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 
 namespace Handlers {
 	class MouseInputHandler {

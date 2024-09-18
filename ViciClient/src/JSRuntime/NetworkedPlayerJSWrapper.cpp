@@ -1,5 +1,4 @@
-#include <v8pp/context.hpp>
-#include <v8pp/class.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 #include <iostream>
 #include "ViciClient/include/JSRuntime/NetworkedPlayerJSWrapper.hpp"
 

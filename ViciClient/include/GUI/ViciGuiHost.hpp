@@ -1,7 +1,7 @@
 #pragma once
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
+#include "header_wrappers/rmlui_wrapper.h"
 #include <map>
-#include <RmlUi/Core/Context.h>
 #include <string>
 #include "ViciClient/include/GUI/RmlUi_Renderer_SDL.h"
 #include "ViciClient/include/GUI/RmlUi_Platform_SDL.h"

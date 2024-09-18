@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string_view>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <vector>
 #include <string>
 #include <unordered_map>

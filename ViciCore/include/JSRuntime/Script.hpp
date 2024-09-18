@@ -1,13 +1,12 @@
 #pragma once
 #include <string_view>
 #include <string>
-#include <v8.h>
+#include "header_wrappers/v8_wrapper.h"
 #include <memory>
 #include <map>
 #include <vector>
 #include <functional>
-#include <v8pp/context.hpp>
-#include <v8pp/call_v8.hpp>
+#include "header_wrappers/v8pp_wrapper.h"
 
 namespace JS {
 	class Script {

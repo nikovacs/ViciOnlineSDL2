@@ -1,4 +1,4 @@
-#include <SDL2/SDL_image.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <string>
 #include "ViciClient/include/ViciClient.hpp"
 #include "ViciClient/include/AssetTypes/Texture.hpp"

@@ -1,5 +1,5 @@
 #include "ViciClient/include/Networking/ClientPlayerManager.hpp"
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
 
 namespace Networking {

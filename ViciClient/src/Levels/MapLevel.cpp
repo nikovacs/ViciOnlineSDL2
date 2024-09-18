@@ -1,5 +1,5 @@
 #include <string_view>
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <istream>
 #include <boost/algorithm/string.hpp>
 #include <memory>

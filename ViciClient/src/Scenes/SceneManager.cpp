@@ -1,7 +1,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
-#include <SDL2/sdl.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include "ViciClient/include/ViciClient.hpp"

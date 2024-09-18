@@ -1,10 +1,9 @@
 #include <string_view>
 #include <string>
-#include <v8.h>
-#include <v8pp/module.hpp>
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include <iostream>
 #include <functional>
-#include <v8pp/class.hpp>
 #include "ViciCore/include/JSRuntime/Script.hpp"
 
 JS::Script::Script(v8::Isolate* isolate, std::string_view source) : _isolate{ isolate }, _source{ source } {}

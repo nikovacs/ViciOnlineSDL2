@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 
 namespace Animations {
 	class IAnimation {

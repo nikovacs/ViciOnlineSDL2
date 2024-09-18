@@ -26,11 +26,8 @@
  *
  */
 
-#include <RmlUi/Core/Core.h>
-#include <RmlUi/Core/FileInterface.h>
-#include <RmlUi/Core/Types.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "header_wrappers/rmlui_wrapper.h"
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
 #include "ViciClient/include/GUI/RmlUi_Renderer_SDL.h"
 

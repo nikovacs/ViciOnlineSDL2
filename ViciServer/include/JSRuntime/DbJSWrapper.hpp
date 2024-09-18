@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include <v8.h>
-#include <v8pp/json.hpp>
+#include "header_wrappers/v8_wrapper.h"
+#include "header_wrappers/v8pp_wrapper.h"
 #include <pqxx/pqxx>
-#include <v8pp/convert.hpp>
 #include <memory>
 #include <optional>
 #include <iostream>
@@ -50,10 +49,10 @@ namespace Vici {
 					continue;
 				}
 				if (pair.first == pqxx::array_parser::juncture::null_value) {
-					v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8::Null(v8::Isolate::GetCurrent()));
+					(void)v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8::Null(v8::Isolate::GetCurrent()));
 					continue;
 				}
-				v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8pp::to_v8(v8::Isolate::GetCurrent(), convertFromString<T>(pair.second)));
+				(void)v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8pp::to_v8(v8::Isolate::GetCurrent(), convertFromString<T>(pair.second)));
 			}
 
 			return scope.Escape(v8Arr);
@@ -67,7 +66,7 @@ namespace Vici {
 			}
 			pqxx::array_parser arr = opt.value().as_array();
 			std::vector<int64_t> vec;
-			for (uint32_t i = 0;; i++) {
+			for ([[maybe_unused]] uint32_t i = 0;; i++) {
 				std::pair<pqxx::array_parser::juncture, std::string> pair{ arr.get_next() };
 				if (pair.first == pqxx::array_parser::juncture::done) {
 					break;
@@ -89,7 +88,7 @@ namespace Vici {
 			v8::Local<v8::BigInt64Array> v8Arr = v8::BigInt64Array::New(buffer, static_cast<size_t>(0), vec.size());
 
 			for (uint32_t i = 0; i < vec.size(); i++) {
-				v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8::BigInt::New(v8::Isolate::GetCurrent(), vec.at(i)));
+				(void)v8Arr->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), i, v8::BigInt::New(v8::Isolate::GetCurrent(), vec.at(i)));
 			}
 			return scope.Escape(v8Arr);
 		}

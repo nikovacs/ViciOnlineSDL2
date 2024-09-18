@@ -8,6 +8,7 @@ class NetworkedPlayer : public EntityAnimated {
 public:
     NetworkedPlayer(std::string_view username, std::string_view aniName, int x, int y, int direction,
                     std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR);
+    virtual ~NetworkedPlayer() = default;
     std::string_view getUsername();
 
 private:

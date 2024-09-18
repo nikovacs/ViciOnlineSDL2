@@ -1,6 +1,6 @@
 #pragma once
 
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <string>
 #include <nlohmann/json.hpp>
 #include "ViciCore/include/Networking/UdpHost.hpp"

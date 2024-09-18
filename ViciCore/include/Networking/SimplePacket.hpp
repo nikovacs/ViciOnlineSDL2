@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <bit>
 #include "ViciCore/include/Networking/UdpChannels.hpp"
 

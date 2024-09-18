@@ -2,7 +2,7 @@
 
 #include "ViciCore/include/Attributes/Attributes.hpp"
 #include "ViciCore/include/Entities/Entity.hpp"
-#include <enet/enet.h>
+#include "header_wrappers/enet_wrapper.h"
 #include <memory>
 #include <mutex>
 #include <set>
@@ -31,12 +31,12 @@ public:
 
 private:
     ENetPeer *_peer{nullptr};
+    std::string _username{};
+    std::string _playerId{};
     std::string _animation{};
     std::string _world{};
     std::string _level{};
     float _cameraZoom{1.0f};
     std::set<std::string> _levelsWatching{};
-    std::string _username{};
-    std::string _playerId{};
 };
 } // namespace Entities

@@ -1,7 +1,7 @@
-#include <SDL2/SDL.h>
+#include "header_wrappers/sdl_wrapper.h"
 #include <iostream>
-#include "../../ViciClient/include/ViciClient.hpp"
-#include "../../ViciClient/include/Camera.hpp"
+#include "ViciClient/include/ViciClient.hpp"
+#include "ViciClient/include/Camera.hpp"
 
 namespace Client {
 	Camera* Camera::instance = nullptr;
@@ -22,7 +22,7 @@ namespace Client {
 		_focusX = _target->getX() + _target->getWidth() / 2;
 		_focusY = _target->getY() + _target->getHeight() / 2;
 		
-		int renderDistance{ level.getRenderDistance() };
+		// int renderDistance{ level.getRenderDistance() };
 		int tileSize{ level.getTileSize() };
 		int levelWidth{ level.getLevelWidth() };
 		int levelHeight{ level.getLevelHeight() };
