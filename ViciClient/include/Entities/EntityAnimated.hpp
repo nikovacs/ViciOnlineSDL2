@@ -3,6 +3,7 @@
 #include "ViciClient/include/Entities/EntityDrawable.hpp"
 #include <gottanis/include/Skeleton.h>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
 
@@ -13,8 +14,9 @@ public:
     virtual void setPosition(int x, int y) override;
     void render(SDL_Renderer *renderer) override;
     void update();
-    void setSkeleton(std::string_view skeletonName, std::string_view dir = "");
+    void setSkeleton(std::string_view skeletonName, nlohmann::json *createOpts = nullptr);
     gottanis::Skeleton *getSkeleton();
+
 protected:
     gottanis::Skeleton *_skeleton{nullptr}; // Skeletons are owned by the gottanis::Animator
 };

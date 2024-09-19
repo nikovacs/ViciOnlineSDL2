@@ -52,9 +52,9 @@ void ServerPlayerManager::sendInitialPlayerData(ENetPeer *peer, SimplePacket &pa
     // takes ownership of clientW and clientR pointers
     _players.emplace(peer->connectID, std::make_unique<Entities::ServerPlayer>(
                                           username, playerId, peer,
-                                          playerData["animation"].get<std::string>(),
+                                        //   playerData["animation"].get<std::string>(),
                                           playerData["world"].get<std::string>(),
-                                          playerData["dir"].get<int>(),
+                                        //   playerData["dir"].get<int>(),
                                           playerData["x"].get<int>(), playerData["y"].get<int>(),
                                           playerData["cameraZoom"].get<float>(),
                                           std::move(clientW), std::move(clientR)));
@@ -77,8 +77,8 @@ void ServerPlayerManager::spawnPlayer(uint32_t idToSpawn, uint32_t spawnForId) {
     playerData["y"] = playerToSpawn->getY();
     playerData["w"] = playerToSpawn->getWidth();
     playerData["h"] = playerToSpawn->getHeight();
-    playerData["dir"] = playerToSpawn->getDir();
-    playerData["animation"] = playerToSpawn->getAni();
+    // playerData["dir"] = playerToSpawn->getDir();
+    // playerData["animation"] = playerToSpawn->getAni();
     playerData["clientW"] = *(playerToSpawn->getClientW().getUnderlyingJson());
     playerData["clientR"] = *(playerToSpawn->getClientR().getUnderlyingJson());
 
@@ -139,41 +139,41 @@ void ServerPlayerManager::updatePlayerPos(uint32_t id, SimplePacket &packet) {
     }
 }
 
-void ServerPlayerManager::updatePlayerAni(uint32_t id, SimplePacket &packet) {
-    std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-    if (!_players.contains(id))
-        return;
+// void ServerPlayerManager::updatePlayerAni(uint32_t id, SimplePacket &packet) {
+//     std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+//     if (!_players.contains(id))
+//         return;
 
-    std::string newAni = packet.get<std::string>();
-    _players.at(id)->setAni(newAni);
-    packet.add(id);
+//     std::string newAni = packet.get<std::string>();
+//     _players.at(id)->setAni(newAni);
+//     packet.add(id);
 
-    std::string_view level{_players.at(id)->getLevel()};
-    std::set<uint32_t> &players{_getPlayersWatchingLevel(level)};
-    for (uint32_t pId : players) {
-        if (pId == id)
-            continue;
-        UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
-    }
-}
+//     std::string_view level{_players.at(id)->getLevel()};
+//     std::set<uint32_t> &players{_getPlayersWatchingLevel(level)};
+//     for (uint32_t pId : players) {
+//         if (pId == id)
+//             continue;
+//         UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerAni, ENET_PACKET_FLAG_RELIABLE);
+//     }
+// }
 
-void ServerPlayerManager::updatePlayerDir(uint32_t id, SimplePacket &packet) {
-    std::lock_guard<std::recursive_mutex> lock(_playerMutex);
-    if (!_players.contains(id))
-        return;
-    int dir = packet.get<int>();
-    std::cout << "player id " << id << "'s dir is being updated to " << dir << std::endl;
-    _players.at(id)->setDir(dir);
-    packet.add(id);
+// void ServerPlayerManager::updatePlayerDir(uint32_t id, SimplePacket &packet) {
+//     std::lock_guard<std::recursive_mutex> lock(_playerMutex);
+//     if (!_players.contains(id))
+//         return;
+//     int dir = packet.get<int>();
+//     std::cout << "player id " << id << "'s dir is being updated to " << dir << std::endl;
+//     _players.at(id)->setDir(dir);
+//     packet.add(id);
 
-    std::string_view level{_players.at(id)->getLevel()};
-    std::set<uint32_t> &players{_getPlayersWatchingLevel(level)};
-    for (uint32_t pId : players) {
-        if (pId == id)
-            continue;
-        UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
-    }
-}
+//     std::string_view level{_players.at(id)->getLevel()};
+//     std::set<uint32_t> &players{_getPlayersWatchingLevel(level)};
+//     for (uint32_t pId : players) {
+//         if (pId == id)
+//             continue;
+//         UdpServer::sendSimplePacket(_peers.at(pId), packet, UdpChannels::UpdatePlayerDir, ENET_PACKET_FLAG_RELIABLE);
+//     }
+// }
 
 void ServerPlayerManager::addToLevel(uint32_t id, std::string_view levelName) {
     std::lock_guard<std::recursive_mutex> lock(_playerMutex);

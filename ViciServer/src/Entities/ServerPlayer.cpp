@@ -9,12 +9,11 @@
 namespace fs = std::filesystem;
 
 namespace Entities {
-ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer *peer, std::string_view animation, std::string_view world,
-                           int dir, int x, int y, float zoom, std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR)
-    : Entity(std::move(clientW), std::move(clientR)), _peer{peer}, _username{username}, _playerId{playerId}, _animation{animation},
-      _world{world}, _cameraZoom{zoom} {
+ServerPlayer::ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer *peer, std::string_view world,
+                           int x, int y, float zoom, std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR)
+    : Entity(std::move(clientW), std::move(clientR)), _peer{peer}, _username{username}, _playerId{playerId}, _world{world}, _cameraZoom{zoom} {
     setPosition(x, y);
-    _dir = dir;
+    // _dir = dir;
 }
 
 ServerPlayer::~ServerPlayer() {
@@ -23,8 +22,6 @@ ServerPlayer::~ServerPlayer() {
     playerData["y"] = _y;
     playerData["w"] = _width;
     playerData["h"] = _height;
-    playerData["dir"] = _dir;
-    playerData["animation"] = _animation;
     playerData["world"] = _world;
     playerData["cameraZoom"] = _cameraZoom;
     playerData["clientW"] = *_clientW.getUnderlyingJson();
@@ -56,13 +53,13 @@ float ServerPlayer::getCameraZoom() {
     return _cameraZoom;
 }
 
-void ServerPlayer::setAni(std::string_view animation) {
-    _animation = animation;
-}
+// void ServerPlayer::setAni(std::string_view animation) {
+//     _animation = animation;
+// }
 
-std::string_view ServerPlayer::getAni() {
-    return _animation;
-}
+// std::string_view ServerPlayer::getAni() {
+//     return _animation;
+// }
 
 void ServerPlayer::setWorld(std::string_view world) {
     _world = world;

@@ -1,35 +1,35 @@
 #pragma once
 
 namespace Networking {
-	enum UdpChannels {
-		Texture,
-		Json,
-		Level,
-		Script,
-		String,
+enum UdpChannels {
+    Texture,
+    Json,
+    Level,
+    Script,
+    String,
 
-		handshake,
-		initialPlayerData,
-		connectionAccepted,
+    handshake,
+    initialPlayerData,
+    connectionAccepted,
 
-		SpawnPlayer,
-		DespawnPlayer,
-		UpdatePlayerCameraZoom,
-		UpdatePlayerPos,
-		UpdatePlayerAni,
-		UpdatePlayerDir,
-		UpdatePlayerLevel,
-		UpdatePlayerWorld,
+    SpawnPlayer,
+    DespawnPlayer,
+    UpdatePlayerCameraZoom,
+    UpdatePlayerPos,
+    // UpdatePlayerAni,
+    // UpdatePlayerDir,
+    UpdatePlayerLevel,
+    UpdatePlayerWorld,
 
-		StartWatchingLevel,
-		StopWatchingLevel,
+    StartWatchingLevel,
+    StopWatchingLevel,
 
-		UpdateClientW,
-		UpdateClientR,
+    UpdateClientW,
+    UpdateClientR,
 
-		LoadScriptForPlayer,
-		UnloadScriptForPlayer,
-		
-		MAX_CHANNELS
-	};
+    LoadScriptForPlayer,
+    UnloadScriptForPlayer,
+
+    MAX_CHANNELS
+};
 }

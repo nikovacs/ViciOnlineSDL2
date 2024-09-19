@@ -105,18 +105,18 @@ namespace Networking {
                     ClientPlayerManager::updatePlayerPos(packet);
                     break;
                 }
-                case UdpChannels::UpdatePlayerDir:
-                {
-                    SimplePacket packet{ event.packet };
-                    ClientPlayerManager::updatePlayerDir(packet);
-                    break;
-                }
-                case UdpChannels::UpdatePlayerAni:
-                {
-                    SimplePacket packet{ event.packet };
-                    ClientPlayerManager::updatePlayerAni(packet);
-                    break;
-                }
+                // case UdpChannels::UpdatePlayerDir:
+                // {
+                //     SimplePacket packet{ event.packet };
+                //     ClientPlayerManager::updatePlayerDir(packet);
+                //     break;
+                // }
+                // case UdpChannels::UpdatePlayerAni:
+                // {
+                //     SimplePacket packet{ event.packet };
+                //     ClientPlayerManager::updatePlayerAni(packet);
+                //     break;
+                // }
                 case UdpChannels::LoadScriptForPlayer:
                 {
                     SimplePacket packet{ event.packet };

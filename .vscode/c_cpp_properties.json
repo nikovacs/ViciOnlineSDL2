@@ -8,7 +8,7 @@
         "${VCPKG_ROOT}/packages/**/include"
       ],
       // "defines": ["WIN32", "_DEBUG", "UNICODE", "_UNICODE"],
-      // "compilerPath": "${workspaceFolder}/third_party/clang/clang-cl.exe",
+      "compilerPath": "${workspaceFolder}/third_party/clang/clang-cl.exe",
       "cStandard": "c17",
       "cppStandard": "c++20",
       "intelliSenseMode": "${default}"

@@ -52,7 +52,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         }
         case ENET_EVENT_TYPE_RECEIVE:
             switch (static_cast<int>(event.channelID)) {
-            case UdpChannels::Animation:
+            case UdpChannels::Json:
             case UdpChannels::Texture:
             case UdpChannels::Script:
             case UdpChannels::Level:
@@ -80,24 +80,24 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
                 Networking::ServerPlayerManager::updatePlayerPos(event.peer->connectID, packet);
                 break;
             }
-            case UdpChannels::UpdatePlayerAni:
-            {
-                SimplePacket packet{ event.packet };
-                Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, packet);
-                break;
-            }
+            // case UdpChannels::UpdatePlayerAni:
+            // {
+            //     SimplePacket packet{ event.packet };
+            //     Networking::ServerPlayerManager::updatePlayerAni(event.peer->connectID, packet);
+            //     break;
+            // }
             case UdpChannels::UpdatePlayerCameraZoom:
             {
                 SimplePacket packet{ event.packet };
                 Networking::ServerPlayerManager::updatePlayerCameraZoom(event.peer->connectID, packet);
                 break;
             }
-            case UdpChannels::UpdatePlayerDir:
-            {
-                SimplePacket packet{ event.packet };
-                Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, packet);
-                break;
-            }
+            // case UdpChannels::UpdatePlayerDir:
+            // {
+            //     SimplePacket packet{ event.packet };
+            //     Networking::ServerPlayerManager::updatePlayerDir(event.peer->connectID, packet);
+            //     break;
+            // }
             case UdpChannels::UpdatePlayerLevel:
             {
                 SimplePacket packet{ event.packet };

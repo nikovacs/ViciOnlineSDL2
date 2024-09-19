@@ -11,15 +11,15 @@
 namespace Entities {
 class ServerPlayer : public Entity {
 public:
-    ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer *peer, std::string_view animation, std::string_view _world,
-                 int dir, int x, int y, float zoom, std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR);
+    ServerPlayer(std::string_view username, std::string_view playerId, ENetPeer *peer, std::string_view _world,
+                 int x, int y, float zoom, std::unique_ptr<nlohmann::json> clientW, std::unique_ptr<nlohmann::json> clientR);
     virtual ~ServerPlayer();
     void setLevel(std::string_view level);
     std::string_view getLevel();
     void setCameraZoom(float zoom);
     float getCameraZoom();
-    void setAni(std::string_view animation);
-    std::string_view getAni();
+    // void setAni(std::string_view animation);
+    // std::string_view getAni();
     void setWorld(std::string_view world);
     std::string_view getWorld();
     void startWatchingLevel(std::string_view lvl);
@@ -33,7 +33,7 @@ private:
     ENetPeer *_peer{nullptr};
     std::string _username{};
     std::string _playerId{};
-    std::string _animation{};
+    // std::string _animation{};
     std::string _world{};
     std::string _level{};
     float _cameraZoom{1.0f};

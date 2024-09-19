@@ -263,6 +263,8 @@ target_link_libraries(
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
 add_subdirectory(third_party/gottanis-cpp-runtime)
+target_compile_options(gottanis PRIVATE -w) # consider removing later
+target_include_directories(ViciClient PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/third_party/gottanis-cpp-runtime")
 target_link_libraries(ViciClient PRIVATE gottanis)
 add_subdirectory(RmlUi)
 target_compile_options(RmlCore PRIVATE -w)

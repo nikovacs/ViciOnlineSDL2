@@ -145,6 +145,9 @@ void JS::ClientScriptLoader::exposeClientPlayer(v8pp::context *ctx) {
 	static v8pp::class_<JS::ClientPlayerJSWrapper> clientPlayerClass{ _isolate };
 	clientPlayerClass
 		.auto_wrap_objects(true)
+        .function("getUsername", &JS::ClientPlayerJSWrapper::getUsername)
+        .function("getSkeleton", &JS::ClientPlayerJSWrapper::getSkeleton)
+        .function("setSkeleton", &JS::ClientPlayerJSWrapper::setSkeleton)
 		// .property("username", &JS::ClientPlayerJSWrapper::getUsername)
 		// .property("dir", &JS::ClientPlayerJSWrapper::getDir, &JS::ClientPlayerJSWrapper::setDir)
 		// .property("ani", &JS::ClientPlayerJSWrapper::getAni, &JS::ClientPlayerJSWrapper::setAni)
