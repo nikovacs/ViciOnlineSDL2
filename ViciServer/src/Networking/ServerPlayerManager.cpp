@@ -39,7 +39,7 @@ void ServerPlayerManager::sendInitialPlayerData(ENetPeer *peer, SimplePacket &pa
         playerData["w"] = serverOptions["defaultWidth"];
         playerData["h"] = serverOptions["defaultHeight"];
         playerData["dir"] = serverOptions["defaultDir"];
-        playerData["animation"] = serverOptions["defaultAni"];
+        playerData["skel"] = serverOptions["defaultSkeleton"];
         playerData["world"] = serverOptions["defaultWorld"];
         playerData["cameraZoom"] = serverOptions["defaultZoom"];
         playerData["clientW"] = serverOptions["defaultClientW"];

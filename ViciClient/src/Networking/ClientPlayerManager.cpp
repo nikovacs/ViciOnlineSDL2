@@ -28,7 +28,8 @@ void ClientPlayerManager::spawnPlayer(nlohmann::json &json) {
     int y = json["y"];
     int w = json["w"];
     int h = json["h"];
-    std::string dir = json["dir"];
+    // std::string dir = json["dir"];
+    std::string dir = "south";
     auto clientW = std::make_unique<nlohmann::json>(json["clientW"]);
     auto clientR = std::make_unique<nlohmann::json>(json["clientR"]);
     std::string animation = json["animation"];

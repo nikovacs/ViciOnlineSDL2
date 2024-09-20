@@ -36,6 +36,7 @@ void EntityAnimated::setSkeleton(std::string_view skeletonName, nlohmann::json *
     } else {
         _skeleton = gottanis::Animator::getInstance().createSkeleton(skeletonName);
     }
+    _skeleton->setPosition(_x, _y);
 }
 
 gottanis::Skeleton *EntityAnimated::getSkeleton() {

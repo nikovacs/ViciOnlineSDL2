@@ -4,8 +4,8 @@
 	"port": 8424,
 	"maxPlayers": 1000,
 	
-	"defaultAni": "player_idle.vani",
-	"defaultDir": 0,
+	"defaultSkeleton": "player.json",
+	"defaultDir": "south",
 	"defaultWorld": "firstmap.vmap",
 	"defaultX": 30,
 	"defaultY": 30,

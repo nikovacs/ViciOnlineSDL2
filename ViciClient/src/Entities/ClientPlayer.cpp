@@ -7,7 +7,7 @@
 
 namespace Entities {
 ClientPlayer::ClientPlayer(nlohmann::json &json)
-    : EntityAnimated(json["skelName"].get<std::string>(), json["dir"].get<std::string>(), json["x"].get<int>(), json["y"].get<int>(),
+    : EntityAnimated(json["skel"].get<std::string>(), json["dir"].get<std::string>(), json["x"].get<int>(), json["y"].get<int>(),
                      std::make_unique<nlohmann::json>(json["clientW"]), std::make_unique<nlohmann::json>(json["clientR"])) {
     _clientW.setOnSetAttribCallback([this](std::string_view key) {
         nlohmann::json json{};
