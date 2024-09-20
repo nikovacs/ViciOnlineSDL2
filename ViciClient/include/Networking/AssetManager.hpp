@@ -11,15 +11,18 @@
 #include "ViciCore/include/Utility/AssetCache.hpp"
 #include "ViciClient/include/Networking/UdpChannelMap.hpp"
 
+// namespace Networking {
+// 	// forward declaration to avoid circular dependency
+// 	template <typename T>
+// 	class NetworkAsset {
+// 	public:
+// 		void resolve(std::shared_ptr<T> value);
+// 	};
+// }
+
+#include "ViciClient/include/Networking/NetworkAsset.hpp"
+
 namespace Networking {
-	// forward declaration to avoid circular dependency
-	// template <typename T>
-	// class NetworkAsset {
-	// public:
-	// 	void resolve(std::shared_ptr<T> value);
-	// };
-
-
 	class AssetManager : public AssetTransfer {
 	public:
 		/**
@@ -118,10 +121,10 @@ namespace Networking {
 		* @param networkAsset the NetworkAsset to register
 		*/
 		template <typename T>
-		static void registerNetworkAsset(std::string_view fileName, NetworkAsset<T>* networkAsset) {
+		static void registerNetworkAsset(std::string_view fileName, Networking::NetworkAsset<T>* networkAsset) {
 			std::string assetType{ typeid(T).name() };
 			std::lock_guard<std::mutex> lock(_networkAssetMutex);
-			_networkAssets[assetType][fileName.data()].push_back(reinterpret_cast<NetworkAsset<void>*>(networkAsset));
+			_networkAssets[assetType][fileName.data()].push_back(reinterpret_cast<Networking::NetworkAsset<void>*>(networkAsset));
 		}
 
 		/**
@@ -133,11 +136,11 @@ namespace Networking {
 		* @param networkAsset the NetworkAsset to unregister
 		*/
 		template <typename T>
-		static void unregisterNetworkAsset(std::string_view fileName, NetworkAsset<T>* networkAsset) {
+		static void unregisterNetworkAsset(std::string_view fileName, Networking::NetworkAsset<T>* networkAsset) {
 			std::string assetType{ typeid(T).name() };
 			std::lock_guard<std::mutex> lock(_networkAssetMutex);
 			auto& assets = _networkAssets[assetType][fileName.data()];
-			assets.erase(std::remove(assets.begin(), assets.end(), reinterpret_cast<NetworkAsset<void>*>(networkAsset)), assets.end());
+			assets.erase(std::remove(assets.begin(), assets.end(), reinterpret_cast<Networking::NetworkAsset<void>*>(networkAsset)), assets.end());
 
 			if (assets.empty()) {
 				_networkAssets[assetType].erase(fileName.data());
@@ -169,6 +172,6 @@ namespace Networking {
 		static std::unordered_map<std::string, std::shared_ptr<void>> _permanentAssets; // <assetName, asset_ptr>
 
 		static std::mutex _networkAssetMutex;
-		static std::unordered_map<std::string, std::unordered_map<std::string, std::vector<NetworkAsset<void>*>>> _networkAssets; // <assetType, <assetName, NetworkAsset&>>
+		static std::unordered_map<std::string, std::unordered_map<std::string, std::vector<Networking::NetworkAsset<void>*>>> _networkAssets; // <assetType, <assetName, NetworkAsset&>>
 	};
 }

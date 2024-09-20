@@ -14,9 +14,9 @@ std::string ClientPlayerJSWrapper::getUsername() {
 
 void ClientPlayerJSWrapper::setSkeleton(std::string skelName, v8::Local<v8::Value> createOpts) {
     if (!createOpts->IsNullOrUndefined()) {
-        std::string createOpts = v8pp::json_str(v8::Isolate::GetCurrent(), createOpts);
-        nlohmann::json opts = nlohmann::json::parse(createOpts);
-        _player->setSkeleton(skelName, opts);
+        std::string createOptsStr = v8pp::json_str(v8::Isolate::GetCurrent(), createOpts);
+        nlohmann::json createOptsJson = nlohmann::json::parse(createOptsStr);
+        _player->setSkeleton(skelName, &createOptsJson);
     } else {
         _player->setSkeleton(skelName);
     }

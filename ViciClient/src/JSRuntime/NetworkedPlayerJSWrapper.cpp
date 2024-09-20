@@ -18,12 +18,12 @@ namespace JS {
 	int NetworkedPlayerJSWrapper::getY() {
 		return _player->getY();
 	}
-	int NetworkedPlayerJSWrapper::getDir() {
-		return _player->getDir();
-	}
-	std::string_view NetworkedPlayerJSWrapper::getAni() {
-		return _player->getAni();
-	}
+	// int NetworkedPlayerJSWrapper::getDir() {
+	// 	return _player->getDir();
+	// }
+	// std::string_view NetworkedPlayerJSWrapper::getAni() {
+	// 	return _player->getAni();
+	// }
 	int NetworkedPlayerJSWrapper::getWidth() {
 		return _player->getWidth();
 	}

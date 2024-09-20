@@ -56,7 +56,8 @@ namespace Networking {
             }
             case ENET_EVENT_TYPE_RECEIVE:
                 switch (event.channelID) {
-                case UdpChannels::Animation:
+                // case UdpChannels::Animation:
+                case UdpChannels::Json:
                 case UdpChannels::Texture:
                 case UdpChannels::Script:
                 case UdpChannels::Level:

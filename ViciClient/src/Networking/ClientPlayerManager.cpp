@@ -28,7 +28,7 @@ void ClientPlayerManager::spawnPlayer(nlohmann::json &json) {
     int y = json["y"];
     int w = json["w"];
     int h = json["h"];
-    int dir = json["dir"];
+    std::string dir = json["dir"];
     auto clientW = std::make_unique<nlohmann::json>(json["clientW"]);
     auto clientR = std::make_unique<nlohmann::json>(json["clientR"]);
     std::string animation = json["animation"];
@@ -36,7 +36,7 @@ void ClientPlayerManager::spawnPlayer(nlohmann::json &json) {
     if (_players.contains(id))
         return;
     // NetworkedPlayer takes ownership of the clientW and clientR pointers
-    _players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, x, y, dir, std::move(clientW), std::move(clientR)));
+    _players.emplace(id, std::make_unique<Entities::NetworkedPlayer>(username, animation, dir, x, y, std::move(clientW), std::move(clientR)));
     _players.at(id)->setHeight(h);
     _players.at(id)->setWidth(w);
     _playerUsernamesToIds.emplace(username, id);
@@ -62,27 +62,27 @@ void ClientPlayerManager::updatePlayerPos(SimplePacket &packet) {
     _players[id]->setPosition(x, y);
 }
 
-void ClientPlayerManager::updatePlayerAni(SimplePacket &packet) {
-    std::string animation{packet.get<std::string>()};
-    uint32_t id = packet.get<uint32_t>();
+// void ClientPlayerManager::updatePlayerAni(SimplePacket &packet) {
+//     std::string animation{packet.get<std::string>()};
+//     uint32_t id = packet.get<uint32_t>();
 
-    std::lock_guard<std::mutex> lock(_playerMutex);
-    if (!_players.contains(id))
-        return;
-    _players[id]->setAniHard(animation);
-}
+//     std::lock_guard<std::mutex> lock(_playerMutex);
+//     if (!_players.contains(id))
+//         return;
+//     _players[id]->setAniHard(animation);
+// }
 
-void ClientPlayerManager::updatePlayerDir(SimplePacket &json) {
-    int dir = json.get<int>();
-    uint32_t id = json.get<uint32_t>();
+// void ClientPlayerManager::updatePlayerDir(SimplePacket &json) {
+//     int dir = json.get<int>();
+//     uint32_t id = json.get<uint32_t>();
 
-    std::cout << "Updating playerid " << id << "to dir " << dir << std::endl;
+//     std::cout << "Updating playerid " << id << "to dir " << dir << std::endl;
 
-    std::lock_guard<std::mutex> lock(_playerMutex);
-    if (!_players.contains(id))
-        return;
-    _players[id]->setDir(dir);
-}
+//     std::lock_guard<std::mutex> lock(_playerMutex);
+//     if (!_players.contains(id))
+//         return;
+//     _players[id]->setDir(dir);
+// }
 
 Entities::NetworkedPlayer *ClientPlayerManager::getPlayer(std::string_view username) {
     std::lock_guard<std::mutex> lock(_playerMutex);

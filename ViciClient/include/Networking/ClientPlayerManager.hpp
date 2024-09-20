@@ -4,6 +4,7 @@
 #include <memory>
 #include "header_wrappers/sdl_wrapper.h"
 #include <mutex>
+#include "ViciCore/include/Networking/SimplePacket.hpp"
 #include "ViciClient/include/Entities/NetworkedPlayer.hpp"
 
 namespace Networking {

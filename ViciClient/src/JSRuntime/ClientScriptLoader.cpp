@@ -244,8 +244,8 @@ void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context *ctx) {
     networkedPlayerClass
         .auto_wrap_objects(true)
         .property("username", &JS::NetworkedPlayerJSWrapper::getUsername)
-        .property("dir", &JS::NetworkedPlayerJSWrapper::getDir)
-        .property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
+        // .property("dir", &JS::NetworkedPlayerJSWrapper::getDir)
+        // .property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
         .property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
         .property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
         .property("clientW", &JS::NetworkedPlayerJSWrapper::getClientW)

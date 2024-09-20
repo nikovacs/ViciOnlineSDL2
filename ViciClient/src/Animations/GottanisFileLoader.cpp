@@ -1,10 +1,10 @@
-#include <iostream>
 #include "ViciClient/include/Animations/GottanisFileLoader.hpp"
+#include <iostream>
 
 namespace Animations {
 nlohmann::json *GottanisFileLoader::loadJson(std::string_view fileName) {
     std::cout << "Gottanis requesting JSON file: " << fileName << std::endl;
-    nlohmann::json* asset = nullptr;
+    nlohmann::json *asset = nullptr;
     if (_jsonAssets.contains(fileName.data())) {
         auto networkAsset = _jsonAssets[fileName.data()].get();
         asset = networkAsset->getValue();
@@ -21,11 +21,12 @@ nlohmann::json *GottanisFileLoader::loadJson(std::string_view fileName) {
 }
 
 void GottanisFileLoader::update() {
-    for (const auto& fileName : _pendingFiles) {
+    for (const auto &fileName : _pendingFiles) {
         auto asset = _jsonAssets[fileName]->getValue();
         if (asset) {
             _pendingFiles.erase(fileName);
         }
         // tell gottanis to load the file
     }
+}
 } // namespace Animations
