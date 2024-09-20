@@ -5,7 +5,7 @@ vcpkg-manifest-install.log
 CMakeCache.txt
 CMakeFiles/
 vicigen/
-v8*
+third_party/v8*
 libcxx*
 third_party/clang*
 build/
