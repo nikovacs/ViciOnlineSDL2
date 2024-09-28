@@ -1,0 +1,12 @@
+CompileFlags:
+  Add: 
+    - "-I{workspace_folder}"
+    - "-I{workspace_folder}/RmlUi/Include"
+    - "-I{workspace_folder}/v8pp/"
+    - "-I{workspace_folder}/third_party/v8/include"
+    - "-I{workspace_folder}/third_party/libcxx/include"
+    - "-I{workspace_folder}/third_party/libcxx/include.19"
+    - "-I{workspace_folder}/third_party/XPlatCppSdk/code/include"
+    - "-I{workspace_folder}/third_party/XPlatCppSdk/external/jsoncpp/include"
+    - "-I{workspace_folder}/out/{platform}/{target_arch}/{has_debug_or_release_folder}/vcpkg_installed/{triplet}/include"
+    - "-std=c++20"

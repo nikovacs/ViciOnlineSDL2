@@ -8,6 +8,34 @@ import re
 
 env = os.environ.copy()
 
+def _generate_clangd(args):
+    """
+    Generate the .clangd file from .clangd.in required for vscode intellisense and code navigation
+    """
+    target_arch = get_target_arch(args.arch)
+    debug_or_release = "Debug" if args.debug else "Release"
+
+    if (os.path.exists(".clangd")):
+        return
+    
+    workspace_folder = os.path.dirname(os.path.realpath(__file__))
+    platform = detect_platform()
+    vcpkg_triplet = f"{target_arch}-windows" if ("Windows" in platform) else f"{target_arch}-osx" # TODO update for Linux
+    has_debug_or_release_folder = "" if ("Windows" in platform) else debug_or_release
+
+    with open(".clangd.in", "r") as f:
+        content = f.read()
+
+    content = content.replace("{workspace_folder}", workspace_folder)
+    content = content.replace("{platform}", platform)
+    content = content.replace("{target_arch}", target_arch)
+    content = content.replace("{has_debug_or_release_folder}", has_debug_or_release_folder)
+    content = content.replace("{triplet}", vcpkg_triplet)
+    content = content.replace("\\", "/")
+
+    with open(".clangd", "w") as f:
+        f.write(content)
+
 def _prep_binary_deps_windows(target_arch):
     if target_arch == "arm64":
         print("v8 prebuilt arm64 binaries are not available for windows")
@@ -256,6 +284,7 @@ def _build(args):
     if args.clean:
         _clean()
     os.system("git submodule update --init --recursive")
+    _generate_clangd(args)
     _prep_playfab()
     _run_cmake_generation(args)
 
