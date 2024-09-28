@@ -21,7 +21,6 @@ def _generate_clangd(args):
     workspace_folder = os.path.dirname(os.path.realpath(__file__))
     platform = detect_platform()
     vcpkg_triplet = f"{target_arch}-windows" if ("Windows" in platform) else f"{target_arch}-osx" # TODO update for Linux
-    has_debug_or_release_folder = "" if ("Windows" in platform) else debug_or_release
 
     with open(".clangd.in", "r") as f:
         content = f.read()
@@ -29,7 +28,7 @@ def _generate_clangd(args):
     content = content.replace("{workspace_folder}", workspace_folder)
     content = content.replace("{platform}", platform)
     content = content.replace("{target_arch}", target_arch)
-    content = content.replace("{has_debug_or_release_folder}", has_debug_or_release_folder)
+    content = content.replace("{debug_or_release}", debug_or_release)
     content = content.replace("{triplet}", vcpkg_triplet)
     content = content.replace("\\", "/")
 
