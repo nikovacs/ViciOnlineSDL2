@@ -5,6 +5,7 @@ import argparse
 import shutil
 import zipfile
 import re
+import glob
 
 env = os.environ.copy()
 
@@ -20,7 +21,7 @@ def _generate_clangd(args):
     
     workspace_folder = os.path.dirname(os.path.realpath(__file__))
     platform = detect_platform()
-    vcpkg_triplet = f"{target_arch}-windows" if ("Windows" in platform) else f"{target_arch}-osx" # TODO update for Linux
+    vcpkg_triplet = f"{target_arch}-windows-clang" if ("Windows" in platform) else f"{target_arch}-osx" # TODO update for Linux
 
     with open(".clangd.in", "r") as f:
         content = f.read()
@@ -30,10 +31,37 @@ def _generate_clangd(args):
     content = content.replace("{target_arch}", target_arch)
     content = content.replace("{debug_or_release}", debug_or_release)
     content = content.replace("{triplet}", vcpkg_triplet)
+    content = content.replace("{msvc_include_dir}", _find_newest_msvc_include_dir())
     content = content.replace("\\", "/")
 
     with open(".clangd", "w") as f:
         f.write(content)
+
+def _find_newest_msvc_include_dir():
+    # Get the Visual Studio installation directory
+    vs_install_dir = os.environ.get('VSINSTALLDIR')
+
+    if not vs_install_dir:
+        print("VSINSTALLDIR environment variable not found.")
+        exit(1)
+
+    # Construct the path to the MSVC directory
+    msvc_dir = os.path.join(vs_install_dir, 'VC', 'Tools', 'MSVC')
+
+    # Find all version directories
+    version_dirs = glob.glob(os.path.join(msvc_dir, '*'))
+
+    # Sort the directories by version number
+    sorted_dirs = sorted(version_dirs, key=lambda x: [int(v) for v in re.findall(r'\d+', os.path.basename(x))], reverse=True)
+
+    if sorted_dirs:
+        newest_msvc_dir = sorted_dirs[0]
+        include_dir = os.path.join(newest_msvc_dir, 'include')
+        return include_dir
+    else:
+        # return a dummy directory (for when on non-windows os)
+        return "C:/dummy/include"
+
 
 def _prep_binary_deps_windows(target_arch):
     if target_arch == "arm64":

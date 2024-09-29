@@ -9,5 +9,7 @@ CompileFlags:
     - "-I{workspace_folder}/third_party/XPlatCppSdk/code/include"
     - "-I{workspace_folder}/third_party/XPlatCppSdk/external/jsoncpp/include"
     - "-I{workspace_folder}/out/{platform}/{target_arch}/{debug_or_release}/vcpkg_installed/{triplet}/include"
+    - "-I{msvc_include_dir}"
+    - "-DNOMINMAX"
     - "-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG" # Value does not matter, just for sake of intellisense
     - "-std=c++20"
