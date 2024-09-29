@@ -43,7 +43,7 @@ def _find_newest_msvc_include_dir():
 
     if not vs_install_dir:
         print("VSINSTALLDIR environment variable not found.")
-        exit(1)
+        return "/dummy/include"
 
     # Construct the path to the MSVC directory
     msvc_dir = os.path.join(vs_install_dir, 'VC', 'Tools', 'MSVC')
@@ -59,8 +59,7 @@ def _find_newest_msvc_include_dir():
         include_dir = os.path.join(newest_msvc_dir, 'include')
         return include_dir
     else:
-        # return a dummy directory (for when on non-windows os)
-        return "C:/dummy/include"
+        raise Exception("No MSVC include directory found.")
 
 
 def _prep_binary_deps_windows(target_arch):
