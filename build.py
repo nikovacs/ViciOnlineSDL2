@@ -4,8 +4,50 @@ import platform
 import argparse
 import shutil
 import zipfile
+import glob
+import re
 
 env = os.environ.copy()
+
+def _generate_clangd(args):
+    """
+    Generate the .clangd file from .clangd.in required for vscode intellisense and code navigation
+    """
+    script_loc = get_script_location()
+
+    with open(f"{script_loc}/.clangd.in", "r") as f:
+        content = f.read()
+
+    content = content.replace("{msvc_include_dir}", _find_newest_msvc_include_dir())
+    content = content.replace("\\", "/")
+
+    with open(f"{script_loc}/.clangd", "w") as f:
+        f.write(content)
+
+def _find_newest_msvc_include_dir():
+    # Get the Visual Studio installation directory
+    vs_install_dir = os.environ.get('VSINSTALLDIR')
+
+    if not vs_install_dir:
+        print("VSINSTALLDIR environment variable not found.")
+        return "/dummy/include"
+
+    # Construct the path to the MSVC directory
+    msvc_dir = os.path.join(vs_install_dir, 'VC', 'Tools', 'MSVC')
+
+    # Find all version directories
+    version_dirs = glob.glob(os.path.join(msvc_dir, '*'))
+
+    # Sort the directories by version number
+    sorted_dirs = sorted(version_dirs, key=lambda x: [int(v) for v in re.findall(r'\d+', os.path.basename(x))], reverse=True)
+
+    if sorted_dirs:
+        newest_msvc_dir = sorted_dirs[0]
+        include_dir = os.path.join(newest_msvc_dir, 'include')
+        return include_dir
+    else:
+        raise Exception("No MSVC include directory found.")
+    
 
 def _grab_and_update_commpile_commands_json():
     """
@@ -242,6 +284,7 @@ def _build(args):
     _prep_playfab()
     _run_cmake_generation(args)
     _grab_and_update_commpile_commands_json()
+    _generate_clangd(args)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build script for the project.")
