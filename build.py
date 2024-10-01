@@ -7,6 +7,28 @@ import zipfile
 
 env = os.environ.copy()
 
+def _grab_and_update_commpile_commands_json():
+    """
+    Grab the compile_commands.json file and remove the libcxx include directories
+    for sake of intellisense. Consider removing this in the future if we can get
+    intellisense to work with libcxx on windows.
+    """
+    script_loc = get_script_location()
+    build_dir = generate_build_dir(args)
+    compile_commands_json = f"{build_dir}/compile_commands.json"
+    if not os.path.exists(compile_commands_json):
+        print("compile_commands.json not found.")
+        return
+    
+    with open(compile_commands_json, "r") as f:
+        content = f.read()
+
+    content = content.replace(f'-I\\"{script_loc}/third_party/libcxx/include\\"', '')
+    content = content.replace(f'-I\\"{script_loc}/third_party/libcxx/include.19\\"', '')
+
+    with open(f"{script_loc}/compile_commands.json", "w") as f:
+        f.write(content)
+
 def _prep_binary_deps(target_arch):
     platform = detect_platform()
     if target_arch == "arm64" and platform == "Windows":
@@ -132,7 +154,7 @@ def _run_cmake_generation(args):
 
     _generate_vicigen_headers(platform)
 
-    cmd = f'cmake -S "{get_script_location()}" -B "{generate_build_dir(args)}" -G{args.generator}'
+    cmd = f'cmake -S "{get_script_location()}" -B "{generate_build_dir(args)}" -G{args.generator} -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
     cmd += f' -DCMAKE_BUILD_TYPE={"Release" if args.release else "Debug"}'
     
     if platform == "Windows":
@@ -219,6 +241,7 @@ def _build(args):
     _prep_binary_deps(get_target_arch(args.arch))
     _prep_playfab()
     _run_cmake_generation(args)
+    _grab_and_update_commpile_commands_json()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build script for the project.")
