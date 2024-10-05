@@ -93,7 +93,8 @@ void ServerPlayer::addScript(std::string_view script) {
     std::string clientSideScript = "cs/" + std::string(script);
 
     if (Networking::AssetBroker::fileExists(serverSideScript)) {
-        ViciServer::instance->getScriptLoader().loadScriptForPlayer(_peer->connectID, script);
+        std::cout << "Loading script for player: " << script << std::endl;
+        ViciServer::instance->getScriptLoader().loadScriptForPlayer(_peer->connectID, serverSideScript);
     }
 
     if (Networking::AssetBroker::fileExists(clientSideScript)) {

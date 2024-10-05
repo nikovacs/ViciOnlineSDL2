@@ -1,22 +1,22 @@
 {
-	"name": "Vici Modern",
-	
-	"port": 8424,
-	"maxPlayers": 1000,
-	
-	"defaultAni": "player_idle.vani",
-	"defaultDir": 0,
-	"defaultWorld": "firstmap.vmap",
-	"defaultX": 30,
-	"defaultY": 30,
-	"defaultWidth": 13,
-	"defaultHeight": 23,
-	"defaultZoom": 1,
-	"defaultClientW": {},
-	"defaultClientR": {},
-	"rootScript": "ss/rootScript.js",
-	"db": {
-		"url": "postgresql://vicidb_owner:AEKSXDBI0xR3@ep-ancient-heart-a4polhjz.us-east-1.aws.neon.tech/vicidb?sslmode=require&options=-cclient_encoding%3DUTF8",
-		"minConnections": 1
-	}
+  "name": "Vici Modern",
+
+  "port": 8424,
+  "maxPlayers": 1000,
+
+  "defaultAni": "player_idle.vani",
+  "defaultDir": 0,
+  "defaultWorld": "firstmap.vmap",
+  "defaultX": 30,
+  "defaultY": 30,
+  "defaultWidth": 13,
+  "defaultHeight": 23,
+  "defaultZoom": 1,
+  "defaultClientW": {},
+  "defaultClientR": {},
+  "rootScripts": ["ss/rootScript.js"],
+  "db": {
+    "url": "postgresql://vicidb_owner:AEKSXDBI0xR3@ep-ancient-heart-a4polhjz.us-east-1.aws.neon.tech/vicidb?sslmode=require&options=-cclient_encoding%3DUTF8",
+    "minConnections": 1
+  }
 }

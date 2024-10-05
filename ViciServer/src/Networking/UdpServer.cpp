@@ -128,6 +128,7 @@ void Networking::UdpServer::doNetworkLoop(ENetHost* server) {
         case ENET_EVENT_TYPE_DISCONNECT:
 			std::cout << "disconnect\n";
             if (!peerToPlayerId.contains(event.peer)) break;
+            ViciServer::instance->getScriptLoader().onPlayerDisconnect(peerToPlayerId.at(event.peer));
 			Networking::ServerPlayerManager::onPlayerDisconnect(peerToPlayerId.at(event.peer));
 			peerToPlayerId.erase(event.peer);
             event.peer->data = NULL;

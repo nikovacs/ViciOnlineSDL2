@@ -13,11 +13,14 @@ namespace Networking {
 	public:
 		static void sendFile(ENetPeer* peer, UdpChannels channel, SimplePacket& packet);
 		static inline std::string getFile(std::string_view fileName) {
+			std::cout << "fetching file: " << fileName << std::endl;
 			std::string lowerFileName = toLower(fileName.data());
 			if (_assetIndex.contains(lowerFileName)) {
 				std::string path = _assetIndex[lowerFileName];
+				std::cout << "File found: " << fileName << std::endl;
 				return readFile(path);
 			}
+			std::cout << "File not found: " << fileName << std::endl;
 			return "";
 		}
 	};

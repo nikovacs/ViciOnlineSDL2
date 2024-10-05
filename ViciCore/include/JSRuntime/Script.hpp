@@ -4,6 +4,7 @@
 #include "header_wrappers/v8_wrapper.h"
 #include <memory>
 #include <map>
+#include <v8-context.h>
 #include <vector>
 #include <functional>
 #include "header_wrappers/v8pp_wrapper.h"
@@ -19,8 +20,7 @@ namespace JS {
 		template <typename... Args>
 		void trigger(std::string_view functionName, Args&&... args) {
 			v8::Isolate::Scope isolateScope(_isolate);
-			v8::HandleScope handle_scope(_isolate);
-			v8::Context::Scope context_scope(_context->impl());
+			v8::HandleScope handleScope(_isolate);
 
 			v8::Local<v8::Value> func_value;
 			_context->global();

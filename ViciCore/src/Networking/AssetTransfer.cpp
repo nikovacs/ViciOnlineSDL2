@@ -12,6 +12,7 @@ std::unordered_map<std::string, std::string> Networking::AssetTransfer::_assetIn
 void Networking::AssetTransfer::initializeIndex() {
 	if (!fs::exists("assets"))
 		return;
+
 	for (const auto& entry : fs::recursive_directory_iterator("assets")) {
 		const std::filesystem::path& path = entry.path();
 		std::filesystem::path normalizedPath = normalizePath(path.string());

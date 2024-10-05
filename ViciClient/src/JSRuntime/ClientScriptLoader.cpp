@@ -236,16 +236,21 @@ void JS::ClientScriptLoader::exposeLocalAttrs([[maybe_unused]] v8pp::context *ct
 
 void JS::ClientScriptLoader::exposeNetworkedPlayerClass(v8pp::context *ctx) {
     static v8pp::class_<JS::NetworkedPlayerJSWrapper> networkedPlayerClass{_isolate};
+    static bool first_time = true;
+    if (first_time) {
     networkedPlayerClass
-        .auto_wrap_objects(true)
-        .property("username", &JS::NetworkedPlayerJSWrapper::getUsername)
-        .property("dir", &JS::NetworkedPlayerJSWrapper::getDir)
-        .property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
-        .property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
-        .property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
-        .property("clientW", &JS::NetworkedPlayerJSWrapper::getClientW)
-        .property("clientR", &JS::NetworkedPlayerJSWrapper::getClientR);
-    ctx->class_("networkedPlayer", networkedPlayerClass);
+            .js_name("NetworkedPlayer")
+            .auto_wrap_objects(true)
+            .property("username", &JS::NetworkedPlayerJSWrapper::getUsername)
+            .property("dir", &JS::NetworkedPlayerJSWrapper::getDir)
+            .property("ani", &JS::NetworkedPlayerJSWrapper::getAni)
+            .property("width", &JS::NetworkedPlayerJSWrapper::getWidth)
+            .property("height", &JS::NetworkedPlayerJSWrapper::getHeight)
+            .property("clientW", &JS::NetworkedPlayerJSWrapper::getClientW)
+            .property("clientR", &JS::NetworkedPlayerJSWrapper::getClientR);
+            first_time = false;
+    }
+    ctx->class_(networkedPlayerClass);
 
     ctx->function("getPlayer", [this, ctx](std::string_view username) -> v8::Local<v8::Value> {
         if (PlayerInfo::username == username) {
