@@ -291,7 +291,7 @@ elseif (APPLE)
         COMMAND xcodebuild
         -project ${CMAKE_CURRENT_SOURCE_DIR}/third_party/XPlatCppSdk/external/jsoncpp-ios-build/lib_json.xcodeproj
         -configuration ${CMAKE_BUILD_TYPE}
-        SDKROOT=macosx14.5
+        SDKROOT=macosx15.0
         BUILD_DIR=${CMAKE_CURRENT_BINARY_DIR}/playfab
         ONLY_ACTIVE_ARCH=NO
         -arch x86_64 -arch arm64
@@ -348,7 +348,7 @@ if(APPLE)
         add_custom_command(
             TARGET ViciClient POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_BINARY_DIR}/RmlUi/${CMAKE_BUILD_TYPE}/${dylib}
+            ${CMAKE_CURRENT_BINARY_DIR}/RmlUi/${dylib}
             $<TARGET_FILE_DIR:ViciClient>
         )
     endforeach()

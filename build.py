@@ -29,7 +29,6 @@ def _find_newest_msvc_include_dir():
     vs_install_dir = os.environ.get('VSINSTALLDIR')
 
     if not vs_install_dir:
-        print("VSINSTALLDIR environment variable not found.")
         return "/dummy/include"
 
     # Construct the path to the MSVC directory
@@ -292,7 +291,7 @@ if __name__ == "__main__":
     if detect_platform() == "Windows":
         default_generator = "Ninja"
     elif detect_platform() == "Darwin":
-        default_generator = "Xcode"
+        default_generator = "\"Unix Makefiles\""
     else:
         default_generator = "Ninja"
 
